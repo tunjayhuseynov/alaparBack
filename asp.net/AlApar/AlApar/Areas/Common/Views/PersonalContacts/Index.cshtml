@@ -1,0 +1,60 @@
+﻿@model IEnumerable<AlApar.Models.PersonalContacts>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Common/Views/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Yenisini Yarat</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsCall)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsWp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ad)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsCall)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsWp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ad.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Düzəlt</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detallar</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Sil</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

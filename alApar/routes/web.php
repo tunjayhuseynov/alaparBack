@@ -2,13 +2,24 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'admin'], function () {
+
+
+Route::group(['prefix' => 'adminHome'], function () {
+    $homeAP = "homeAP";
+    Route::get('/', $homeAP."@index");
+    Route::get('/elanlar/{id}', $homeAP."@elanlar");
+    Route::get('/yanDb/{db}', $homeAP."@yanDb");
+    Route::get('/elanElaveEt', $homeAP."@elanElaveEt");
+
+
+    Route::post("/elanElaveEt", $homeAP.'@elanElaveEtPost');
+
+
+    // ADD
+    Route::post('/yanDb/{db}', $homeAP."@yanDbAdd");
+    // DELETE
+    Route::delete('/yanDb/{db}/{id}', $homeAP."@yanDbDelete");
+    // Update COLUMN
+    Route::post('/yanDb/{db}/{id}/{column}', $homeAP."@yanDbColumnUpdate");
     
-    Route::get('/', "ap@index");
-    Route::get('/yanDb/{db}', "ap@yanDb");
-
-
-    Route::post('/yanDb/{db}', "ap@yanDbAdd");
-    Route::delete('/yanDb/{db}/{id}', "ap@yanDbDelete");
-
 });

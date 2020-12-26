@@ -1,0 +1,198 @@
+﻿@model IEnumerable<AlApar.Models.BinaAdsPersonal>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Bina/Views/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FromDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TillDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AreaSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Longitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Latitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.About)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasLicense)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasMortgage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FloorAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Floor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Viewed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdPackage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Currency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LandAppointment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Metro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalContact)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Region)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentPaymentType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SellType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Village)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FromDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TillDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AreaSize)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Longitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Latitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.About)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasLicense)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasMortgage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RoomAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FloorAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Floor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Viewed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdPackage.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdStatus.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Currency.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LandAppointment.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Metro.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalContact.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Region.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentPaymentType.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SellType.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Village.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
