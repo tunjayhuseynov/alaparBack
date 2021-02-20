@@ -18,6 +18,7 @@ namespace AlApar.Models
         public virtual DbSet<AdPackages> AdPackages { get; set; }
         public virtual DbSet<AdStatuses> AdStatuses { get; set; }
         public virtual DbSet<BinaAdsPersonal> BinaAdsPersonal { get; set; }
+        public virtual DbSet<BinaAdsPersonalInfos> BinaAdsPersonalInfos { get; set; }
         public virtual DbSet<BinaCategories> BinaCategories { get; set; }
         public virtual DbSet<BinaLandAppointments> BinaLandAppointments { get; set; }
         public virtual DbSet<BinaPersonalPhotos> BinaPersonalPhotos { get; set; }
@@ -30,15 +31,6 @@ namespace AlApar.Models
         public virtual DbSet<SellTypes> SellTypes { get; set; }
         public virtual DbSet<Villages> Villages { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder
-                    .UseSqlServer("Server=DESKTOP-F4JJ5HS;Database=alApar;Trusted_Connection=True;");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -64,11 +56,32 @@ namespace AlApar.Models
                     .HasMaxLength(255);
             });
 
+            modelBuilder.Entity<BinaAdsPersonalInfos>(entity =>
+            {
+
+                entity.ToTable("bina_ads_personal_infos");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreatedDate).HasColumnName("createdDate").HasColumnType("datetime"); ;
+
+                entity.Property(e => e.ModifiedDate).HasColumnName("modifiedDate").HasColumnType("datetime"); ;
+
+                entity.Property(e => e.FromDate).HasColumnName("fromDate").HasColumnType("datetime"); ;
+
+                entity.Property(e => e.TillDate).HasColumnName("tillDate").HasColumnType("datetime"); ;
+
+            });
+
             modelBuilder.Entity<BinaAdsPersonal>(entity =>
             {
                 entity.ToTable("bina_ads_personal");
 
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.privateId).HasColumnName("privateId");
+
+                entity.Property(e => e.InfoId).HasColumnName("infoId");
 
                 entity.Property(e => e.About)
                     .HasColumnName("about")
@@ -88,19 +101,13 @@ namespace AlApar.Models
 
                 entity.Property(e => e.CityId).HasColumnName("cityId");
 
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnName("createdDate")
-                    .HasColumnType("datetime");
 
                 entity.Property(e => e.CurrencyId).HasColumnName("currencyId");
 
                 entity.Property(e => e.Floor).HasColumnName("floor");
 
-                entity.Property(e => e.FloorAmount).HasColumnName("floorAmount");
+                entity.Property(e => e.BuildingFloor).HasColumnName("buildingFloor");
 
-                entity.Property(e => e.FromDate)
-                    .HasColumnName("fromDate")
-                    .HasColumnType("datetime");
 
                 entity.Property(e => e.HasLicense).HasColumnName("hasLicense");
 
@@ -114,9 +121,6 @@ namespace AlApar.Models
 
                 entity.Property(e => e.MetroId).HasColumnName("metroId");
 
-                entity.Property(e => e.ModifiedDate)
-                    .HasColumnName("modifiedDate")
-                    .HasColumnType("datetime");
 
                 entity.Property(e => e.PersonalContactId).HasColumnName("personalContactId");
 
@@ -130,13 +134,17 @@ namespace AlApar.Models
 
                 entity.Property(e => e.SellTypeId).HasColumnName("sellTypeId");
 
-                entity.Property(e => e.TillDate)
-                    .HasColumnName("tillDate")
-                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Viewed).HasColumnName("viewed");
 
                 entity.Property(e => e.VillageId).HasColumnName("villageId");
+
+                entity.Property(e => e.Barter).HasColumnName("barter");
+
+                entity.HasOne(d => d.Infos)
+                    .WithMany(p => p.BinaAdsPersonal)
+                    .HasForeignKey(d => d.InfoId)
+                    .HasConstraintName("FK_bina_ads_personal_Info");
 
                 entity.HasOne(d => d.AdPackage)
                     .WithMany(p => p.BinaAdsPersonal)
@@ -197,6 +205,12 @@ namespace AlApar.Models
                     .WithMany(p => p.BinaAdsPersonal)
                     .HasForeignKey(d => d.VillageId)
                     .HasConstraintName("FK__ads__villageId__3E52440B");
+
+                entity.Property(w => w.HasIcare)
+                .HasColumnName("hasIcare");
+
+                entity.Property(w => w.HasBelediyye)
+                .HasColumnName("hasBelediyye");
             });
 
             modelBuilder.Entity<BinaCategories>(entity =>
@@ -212,14 +226,52 @@ namespace AlApar.Models
                 entity.Property(w => w.RoomAmount)
                     .HasColumnName("roomAmount");
 
-                entity.Property(w => w.FloorAmount)
-                    .HasColumnName("floorAmount");
+                entity.Property(w => w.BuildingFloor)
+                    .HasColumnName("buildingFloor");
 
                 entity.Property(w => w.Floor)
                     .HasColumnName("floor");
 
                 entity.Property(w => w.LandAppointment)
                     .HasColumnName("landAppointment");
+
+                entity.Property(w => w.Icare)
+                    .HasColumnName("icare");
+
+                entity.Property(w => w.Belediyye)
+                    .HasColumnName("belediyye");
+
+                entity.Property(w => w.Hamam)
+                    .HasColumnName("hamam");
+
+                entity.Property(w => w.Eyvan)
+                    .HasColumnName("eyvan");
+
+                entity.Property(w => w.Lift)
+                    .HasColumnName("lift");
+
+                entity.Property(w => w.Mebel)
+                    .HasColumnName("mebel");
+
+                entity.Property(w => w.Temir)
+                    .HasColumnName("temir");
+
+                entity.Property(w => w.Hovuz)
+                    .HasColumnName("hovuz");
+
+                entity.Property(w => w.Qaz)
+                    .HasColumnName("qaz");
+
+                entity.Property(w => w.Su)
+                    .HasColumnName("su");
+
+                entity.Property(w => w.Isig)
+                    .HasColumnName("isig");
+
+                entity.Property(w => w.Kanalizasiya)
+                    .HasColumnName("kanalizasiya");
+
+                entity.Property(w => w.Barter).HasColumnName("barter");
             });
 
             modelBuilder.Entity<BinaLandAppointments>(entity =>
@@ -240,6 +292,8 @@ namespace AlApar.Models
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.AdId).HasColumnName("adId");
+
+                entity.Property(e => e.PrimaryImage).HasColumnName("primaryImage");
 
                 entity.Property(e => e.ImagePath)
                     .HasColumnName("imagePath")
@@ -316,6 +370,10 @@ namespace AlApar.Models
                 entity.Property(e => e.ContactNumber)
                     .HasColumnName("contactNumber")
                     .HasMaxLength(255);
+
+                entity.Property(e => e.Name)
+                .HasColumnName("name")
+                .HasMaxLength(50);
 
                 entity.Property(e => e.Email)
                     .HasColumnName("email")

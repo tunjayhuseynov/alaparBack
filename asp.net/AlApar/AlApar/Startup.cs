@@ -1,10 +1,17 @@
+using AlApar.Classes;
 using AlApar.Middleware;
+using AlApar.Models;
+using AlApar.Repositories;
+using AlApar.Repositories.Bina;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.IO;
 
 namespace AlApar
 {
@@ -21,6 +28,13 @@ namespace AlApar
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDistributedMemoryCache();
+
+            services.AddScoped<IUtility, Utility>();
+            services.AddScoped<IBinaFilter, BinaFilter>();
+            services.AddScoped<IBinaCrud,BinaCrud>();
+
+            services.AddDbContext<alAparContext>(options => options.UseSqlServer("Server=DESKTOP-F4JJ5HS;Database=alApar;Trusted_Connection=True;"));
+            
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -83,9 +97,6 @@ namespace AlApar
 
                 
             });
-
-
-
 
         }
     }
