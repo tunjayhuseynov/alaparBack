@@ -32,6 +32,12 @@ namespace AlApar.Repositories.Bina
 
             var landAppointment = await db.BinaLandAppointments.AsNoTracking().ToListAsync();
 
+            var rentals = await db.BinaRentalPros.AsNoTracking().ToListAsync();
+
+            var currencies = await db.Currency.AsNoTracking().ToListAsync();
+
+            var metroWays = await db.MetroWays.AsNoTracking().ToListAsync();
+
             var result = new
             {
                 Categories = categories,
@@ -55,8 +61,11 @@ namespace AlApar.Repositories.Bina
                 SellTypes = sellType.Select(w => new { Id = w.Id, Name = w.Name, Rent = durationRentType.Where(s => s.RentId == w.Id) }),
                 Price = true,
                 Area = true,
+                Currency = currencies,
                 Ipoteka = true,
-                License = true
+                License = true,
+                Rentals = rentals,
+                MetroWays = metroWays,
             };
 
             return result;

@@ -15,32 +15,31 @@ namespace AlApar.Repositories.Bina
 
         public async Task<object> Get(alAparContext db)
         {
-            var categories = await db.BinaCategories.ToListAsync();
+            var categories = await db.BinaCategories.AsNoTracking().ToListAsync();
 
-            var metros = await db.Metros.ToListAsync();
+            var metros = await db.Metros.AsNoTracking().ToListAsync();
 
-            var cities = await db.Cities.ToListAsync();
+            var cities = await db.Cities.AsNoTracking().ToListAsync();
 
-            var regions = await db.Regions.ToListAsync();
+            var regions = await db.Regions.AsNoTracking().ToListAsync();
 
-            var villages = await db.Villages.ToListAsync();
+            var villages = await db.Villages.AsNoTracking().ToListAsync();
 
-            var sellType = await db.SellTypes.ToListAsync();
+            var sellType = await db.SellTypes.AsNoTracking().ToListAsync();
 
-            var durationRentType = await db.BinaRentPaymentTypes.ToListAsync();
+            var durationRentType = await db.BinaRentPaymentTypes.AsNoTracking().ToListAsync();
 
-            var landAppointment = await db.BinaLandAppointments.ToListAsync();
+            var landAppointment = await db.BinaLandAppointments.AsNoTracking().ToListAsync();
+
+            var rentals = await db.BinaRentalPros.AsNoTracking().ToListAsync();
+
+            var currencies = await db.Currency.AsNoTracking().ToListAsync();
+
+            var metroWays = await db.MetroWays.AsNoTracking().ToListAsync();
 
             var result = new
             {
-                Categories = categories.Select(w => new {
-                    Id = w.Id,
-                    Name = w.Name,
-                    RoomAmount = w.RoomAmount,
-                    BuildingFloor = w.BuildingFloor,
-                    Floor = w.Floor,
-                    LandAppointment = w.LandAppointment
-                }),
+                Categories = categories,
 
                 LandAppointment = landAppointment,
 
@@ -50,20 +49,22 @@ namespace AlApar.Repositories.Bina
                     w.Name,
                     Metros = metros.Where(b => b.cityId == w.Id),
                     Regions = regions.Where(s => s.cityId == w.Id)
-                .Select(a => new {
-                    Id = a.Id,
-                    Name = a.Name,
-                    Villages = villages.Where(x => x.RegionId == a.Id)
-                .Select(r => new { Id = r.Id, Name = r.Name })
-
-                })
+                                     .Select(a => new {
+                                         Id = a.Id,
+                                         Name = a.Name,
+                                         Villages = villages.Where(x => x.RegionId == a.Id)
+                                                                          .Select(r => new { Id = r.Id, Name = r.Name })
+                                     })
                 }),
 
                 SellTypes = sellType.Select(w => new { Id = w.Id, Name = w.Name, Rent = durationRentType.Where(s => s.RentId == w.Id) }),
                 Price = true,
                 Area = true,
+                Currency = currencies,
                 Ipoteka = true,
-                License = true
+                License = true,
+                Rentals = rentals,
+                MetroWays = metroWays,
             };
 
             return result;

@@ -87,7 +87,7 @@ namespace AlApar.Classes.Bina
         public double? Longitude { get; set; }
 
         [JsonProperty("hamam")]
-        public bool? Hamam { get; set; }
+        public int? Hamam { get; set; }
 
         [JsonProperty("eyvan")]
         public bool? Eyvan { get; set; }
@@ -119,5 +119,52 @@ namespace AlApar.Classes.Bina
         [JsonProperty("barter")]
         public bool? Barter { get; set; }
 
+        [JsonProperty("owner")]
+        public bool? Owner { get; set; }
+
+        [JsonProperty("metbex")]
+        public bool? MetbexM { get; set; }
+
+        [JsonProperty("qab")]
+        public bool? QabY { get; set; }
+
+        [JsonProperty("paltar")]
+        public bool? PaltarY { get; set; }
+
+        [JsonProperty("soyuducu")]
+        public bool? Soyuducu { get; set; }
+
+        [JsonProperty("tv")]
+        public bool? Tv { get; set; }
+
+        [JsonProperty("kondicionser")]
+        public bool? Kondicioner { get; set; }
+
+        [JsonProperty("internet")]
+        public bool? Internet { get; set; }
+
+        [JsonProperty("telefon")]
+        public bool? Telefon { get; set; }
+
+        [JsonProperty("usag")]
+        public bool? Usag { get; set; }
+
+        [JsonProperty("heyvan")]
+        public bool? Heyvan { get; set; }
+
+        [JsonProperty("otagordaire")]
+        public bool? Otagordaire { get; set; }
+
+        [JsonProperty("currency")]
+        public int? CurrencyId { get; set; }
+
+        [JsonProperty("metroWay")]
+        public int? MetroWayId { get; set; }
+
+        [JsonProperty("metroDuration")]
+        public int? MetroDuration { get; set; }
+
+        [JsonProperty("secondAreaSize")]
+        public int? SecondAreaSize { get; set; }
     }
 }

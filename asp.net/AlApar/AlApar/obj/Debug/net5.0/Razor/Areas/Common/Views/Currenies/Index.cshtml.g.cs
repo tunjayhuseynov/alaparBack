@@ -28,7 +28,7 @@ using AlApar.Models;
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"a20746ac2f726869ce1ad8d982d2c1880e51bd89", @"/Areas/Common/Views/Currenies/Index.cshtml")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"a6df741ecb402a02c9d79d04daa0fbc2f91183bf", @"/Areas/Common/Views/_ViewImports.cshtml")]
-    public class Areas_Common_Views_Currenies_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<AlApar.Models.Curreny>>
+    public class Areas_Common_Views_Currenies_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<AlApar.Models.Currency>>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "Create", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_1 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "Edit", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -221,7 +221,7 @@ using AlApar.Models;
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
         public global::Microsoft.AspNetCore.Mvc.Rendering.IJsonHelper Json { get; private set; }
         [global::Microsoft.AspNetCore.Mvc.Razor.Internal.RazorInjectAttribute]
-        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<IEnumerable<AlApar.Models.Curreny>> Html { get; private set; }
+        public global::Microsoft.AspNetCore.Mvc.Rendering.IHtmlHelper<IEnumerable<AlApar.Models.Currency>> Html { get; private set; }
     }
 }
 #pragma warning restore 1591

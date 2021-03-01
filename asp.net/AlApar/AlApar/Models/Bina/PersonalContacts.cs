@@ -17,6 +17,7 @@ namespace AlApar.Models
         public bool? IsWp { get; set; }
         public string Email { get; set; }
         public int? AdId { get; set; }
+        public bool? Owner { get; set; }
 
         public virtual BinaAdsPersonal Ad { get; set; }
         public virtual ICollection<BinaAdsPersonal> BinaAdsPersonal { get; set; }

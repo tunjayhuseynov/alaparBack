@@ -29,7 +29,12 @@ namespace AlApar.Models
         public bool Isig { get; set; }
         public bool Kanalizasiya { get; set; }
         public bool Barter { get; set; }
+        public int? RentalProİd { get; set; }
+        public string AreaUnit { get; set; }
+        public string Subname { get; set; }
+        public bool? SecondArea { get; set; }
 
         public virtual ICollection<BinaAdsPersonal> BinaAdsPersonal { get; set; }
+        public virtual BinaRentalProps RentalPros { get; set; }
     }
 }

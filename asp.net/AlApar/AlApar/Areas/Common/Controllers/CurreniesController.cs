@@ -22,7 +22,7 @@ namespace AlApar.Areas.Common.Controllers
         // GET: Common/Currenies
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Curreny.ToListAsync());
+            return View(await _context.Currency.ToListAsync());
         }
 
         // GET: Common/Currenies/Details/5
@@ -33,7 +33,7 @@ namespace AlApar.Areas.Common.Controllers
                 return NotFound();
             }
 
-            var curreny = await _context.Curreny
+            var curreny = await _context.Currency
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (curreny == null)
             {
@@ -54,7 +54,7 @@ namespace AlApar.Areas.Common.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Curreny curreny)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Currency curreny)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace AlApar.Areas.Common.Controllers
                 return NotFound();
             }
 
-            var curreny = await _context.Curreny.FindAsync(id);
+            var curreny = await _context.Currency.FindAsync(id);
             if (curreny == null)
             {
                 return NotFound();
@@ -86,7 +86,7 @@ namespace AlApar.Areas.Common.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Curreny curreny)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Currency curreny)
         {
             if (id != curreny.Id)
             {
@@ -124,7 +124,7 @@ namespace AlApar.Areas.Common.Controllers
                 return NotFound();
             }
 
-            var curreny = await _context.Curreny
+            var curreny = await _context.Currency
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (curreny == null)
             {
@@ -139,15 +139,15 @@ namespace AlApar.Areas.Common.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var curreny = await _context.Curreny.FindAsync(id);
-            _context.Curreny.Remove(curreny);
+            var curreny = await _context.Currency.FindAsync(id);
+            _context.Currency.Remove(curreny);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CurrenyExists(int id)
         {
-            return _context.Curreny.Any(e => e.Id == id);
+            return _context.Currency.Any(e => e.Id == id);
         }
     }
 }

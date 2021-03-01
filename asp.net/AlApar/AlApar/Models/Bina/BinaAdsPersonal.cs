@@ -9,6 +9,7 @@ namespace AlApar.Models
         {
             BinaPersonalPhotos = new HashSet<BinaPersonalPhotos>();
             PersonalContacts = new HashSet<PersonalContacts>();
+
         }
 
         public int Id { get; set; }
@@ -40,7 +41,7 @@ namespace AlApar.Models
         public int? Floor { get; set; }
         public bool? HasIcare { get; set; }
         public bool? HasBelediyye { get; set; }
-        public bool? Hamam { get; set; }
+        public int? Hamam { get; set; }
         public bool? Eyvan { get; set; }
         public bool? Lift { get; set; }
         public bool? Mebel { get; set; }
@@ -51,15 +52,31 @@ namespace AlApar.Models
         public bool? Isig { get; set; }
         public bool? Kanalizasiya { get; set; }
         public bool? Barter { get; set; }
+        public bool? MetbexM { get; set; }
+        public bool? QabY { get; set; }
+        public bool? PaltarY { get; set; }
+        public bool? Soyuducu { get; set; }
+        public bool? Tv { get; set; }
+        public bool? Kondicioner { get; set; }
+        public bool? Internet { get; set; }
+        public bool? Telefon { get; set; }
+        public bool? Usag { get; set; }
+        public bool? Heyvan { get; set; }
+        public bool? Otagordaire { get; set; }
+        public int? MetroDuration { get; set; }
+        public int? MetroWayId { get; set; }
+        public int? SecondAreaSize { get; set; }
+
 
         public virtual BinaAdsPersonalInfos Infos { get; set; }
+        public virtual MetroWays MetroWay { get; set; }
         public virtual AdPackages AdPackage { get; set; }
         public virtual AdStatuses AdStatus { get; set; }
         public virtual BinaCategories Category { get; set; }
         public virtual Cities City { get; set; }
         public virtual Regions Region { get; set; }
         public virtual Villages Village { get; set; }
-        public virtual Curreny Currency { get; set; }
+        public virtual Currency Currency { get; set; }
         public virtual BinaLandAppointments LandAppointment { get; set; }
         public virtual Metros Metro { get; set; }
         public virtual PersonalContacts PersonalContact { get; set; }
