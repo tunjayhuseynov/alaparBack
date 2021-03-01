@@ -1,0 +1,50 @@
+.searchbox.container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0 20px;
+  position: relative;
+  display: flex;
+  align-items: stretch; }
+  .searchbox.container > .leftSide {
+    display: inline-block;
+    width: 22%;
+    position: relative;
+    left: 0; }
+    .searchbox.container > .leftSide .box {
+      box-shadow: 0px 0px 20px -13px black; }
+  .searchbox.container .split {
+    position: relative;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px; }
+  .searchbox.container > .rightSide {
+    display: flex;
+    width: 78%;
+    right: 0;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 25px;
+    justify-content: center; }
+    .searchbox.container > .rightSide .col {
+      flex-basis: 25%;
+      height: 250px; }
+
+.filter {
+  width: 100%;
+  height: 100%; }
+  .filter .containerFilter {
+    width: 100%;
+    padding: 15px 20px; }
+  .filter .selectInput {
+    padding: 5px 0; }
+    .filter .selectInput .item {
+      display: block; }
+  .filter .checkInput {
+    padding: 5px 0; }
+  .filter .priceInput {
+    padding: 5px 0; }
+    .filter .priceInput .item {
+      display: block; }
+
+/*# sourceMappingURL=search.css.map */

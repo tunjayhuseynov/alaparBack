@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { GiCombinationLock } from 'react-icons/gi';\nimport { combineReducers } from 'redux';\nimport { saveFilterReducer } from './save_filter';\nexport default combineReducers({\n  redux: saveFilterReducer\n});","map":null,"metadata":{},"sourceType":"module"}
