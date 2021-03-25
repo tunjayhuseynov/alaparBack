@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AlApar.Models
+namespace AlApar.Models.Bina
 {
     public class BinaRentalProps
     {

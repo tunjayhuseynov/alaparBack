@@ -2,6 +2,7 @@ import { Component } from 'react'
 import * as types from '../../store/types'
 import { connect } from 'react-redux';
 import Utilities from '@/utilities'
+import Callbacks from '@/callbacks';
 
 const mapStateToProps = (state) => {
     return {
@@ -15,6 +16,7 @@ class Filter extends Component {
         super(props)
 
         this.utility = new Utilities(this);
+        this.callbacks = new Callbacks(this);
 
         this.state = {
             ...this.utility.getImageState,
@@ -55,7 +57,7 @@ class Filter extends Component {
                 isig: null,
                 kanalizasiya: null,
                 barter: null,
-                owner: true,
+                owner: null,
                 metbex: null,
                 qab: null,
                 paltar: null,
@@ -70,11 +72,33 @@ class Filter extends Component {
                 currency: 1,
                 metroWay: 1,
                 metroDuration: null,
+                secondAreaSize: null,
+                customAdress: null,
+                //For Filter Side
+                minRoom: null,
+                maxRoom: null,
+                minApartmentFloor: null,
+                maxApartmentFloor: null,
+                minBuildingFloor: null,
+                maxBuildingFloor: null,
+                minPrice: null,
+                maxPrice: null,
+                minArea: null,
+                maxArea: null,
+                minMetroDuration: null,
+                maxMetroDuration: null,
+                minLandArea: null,
+                maxLandArea: null,
+                sharedDate: null,
+                bottomfloor: null,
+                middlefloor: null,
+                upperfloor: null,
             },
             areaUnit: null,
             sellingTypeBoxVisibility: true,
             rentingTypeBoxVisibility: false,
             mapVisible: false,
+            extraVisible: false,
             sellTypeList: null,
             categoryList: null,
             cityList: null,
@@ -94,6 +118,7 @@ class Filter extends Component {
             lng: 49.867092,
             activeKey: "1",
             nometro: false,
+            sharedDate: null,
             addition: {
                 roomAmount: false,
                 floor: false,
@@ -108,7 +133,7 @@ class Filter extends Component {
 
         if (this.props.filter) {
             this.state.categoryList = this.props.filter.categories;
-            this.state.subCategory = [...new Set(this.props.filter.categories.map((w) => w.subname))].map((w, i) => { return { name: w, category: this.props.filter.categories.filter(d => d.subname == w) } })
+            this.state.subCategory = this.utility.convertCategory2Sub(this.props.filter.categories, "subname")
             this.state.metroWayList = this.props.filter.metroWays;
             this.state.currencyList = this.props.filter.currency
             this.state.cityList = this.props.filter.cities
@@ -117,15 +142,15 @@ class Filter extends Component {
             this.state.selected = {
                 ...this.state.selected,
                 sellType: this.props.filter.sellTypes[0].id
-            }
+            },
+                this.state.sharedDate = this.props.filter.sharedDate
         }
 
     }
 
     componentDidUpdate = async (prevProps, prevState) => {
         if (prevState.selected !== this.state.selected) {
-            console.log(this.state.selected)
-            let conn = await fetch("http://192.168.1.107:5566/api/bina/search", {
+            let conn = await fetch(`http://192.168.1.107:5566/api/bina/search?s=${0}&t=${20}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -140,165 +165,155 @@ class Filter extends Component {
 
     }
 
+    extras = () => {
+
+        let sellingBox = <div className={'sellingTypeBox radioGroup'} style={{ textAlign: '' }}>
+
+            {this.utility.checkBoxGenerator("Cixaris", this.callbacks.checkboxCallback, "licence", this.state.license)}
+
+            {this.utility.checkBoxGenerator("Barter", this.callbacks.checkboxCallback, "barter", this.state.addition.barter)}
+
+            {this.utility.checkBoxGenerator("Ipoteka", this.callbacks.checkboxCallback, "ipoteka", this.state.ipoteka)}
+
+            {this.utility.checkBoxGenerator("Cixaris (Icare)", this.callbacks.checkboxCallback, "icare", this.state.addition.icare)}
+
+            {this.utility.checkBoxGenerator("Belediyye", this.callbacks.checkboxCallback, "belediyye", this.state.addition.belediyye)}
+
+        </div>
+
+        let rentingBox = <div className={'rentingBox radioGroup'} style={{ textAlign: '' }}>
+
+            {this.utility.checkBoxGenerator("Mətbəx Mebeli", this.callbacks.checkboxCallback, "metbex", this.state.rentalAddition.metbexM)}
+
+            {this.utility.checkBoxGenerator("Qabyuyan", this.callbacks.checkboxCallback, "qab", this.state.rentalAddition.qabY)}
+
+            {this.utility.checkBoxGenerator("Paltaryuyan", this.callbacks.checkboxCallback, "paltar", this.state.rentalAddition.paltarY)}
+
+            {this.utility.checkBoxGenerator("Soyuducu", this.callbacks.checkboxCallback, "soyuducu", this.state.rentalAddition.soyuducu)}
+
+            {this.utility.checkBoxGenerator("TV", this.callbacks.checkboxCallback, "tv", this.state.rentalAddition.tv)}
+
+            {this.utility.checkBoxGenerator("Kondicioner", this.callbacks.checkboxCallback, "kondicioner", this.state.rentalAddition.kondicioner)}
+
+            {this.utility.checkBoxGenerator("Internet", this.callbacks.checkboxCallback, "internet", this.state.rentalAddition.internet)}
+
+            {this.utility.checkBoxGenerator("Telefon", this.callbacks.checkboxCallback, "telefon", this.state.rentalAddition.telefon)}
+
+            {this.utility.checkBoxGenerator("Usag ilə", this.callbacks.checkboxCallback, "usag", this.state.rentalAddition.usag)}
+
+            {this.utility.checkBoxGenerator("Heyvan ilə", this.callbacks.checkboxCallback, "heyvan", this.state.rentalAddition.heyvan)}
+
+        </div>
+
+        return (
+            <div>
+                {this.utility.radioGenerator("Əlaqədar Şəxsin Statusu:", [
+                    {
+                        id: 2,
+                        name: "Hamısı"
+                    },
+                    {
+                        id: 1,
+                        name: "Sahibi"
+                    },
+                    {
+                        id: 0,
+                        name: "Vastəçi"
+                    },
+                ], 2, this.callbacks.ownerCallback, "owner")}
+
+
+                {this.utility.rangeİnputGenerator("Menzil Mertebesi:", "minApartmentFloor", "maxApartmentFloor", this.callbacks.numberCallback, this.state.addition.floor)}
+
+
+                {this.utility.rangeİnputGenerator("Bina Mertebesi:", "minBuildingFloor", "maxBuildingFloor", this.callbacks.numberCallback, this.state.addition.buildingFloor)}
+
+                {this.utility.rangeİnputGenerator("Metroya olan müddət:", "minMetroDuration", "maxMetroDuration", this.callbacks.numberCallback, this.state.selected.metro,
+                    { addonAfterList: this.state.metroWayList, addonAfterCallback: this.callbacks.commonCallback, addonName: "metroWay", addonValue: this.state.selected.metroWay })}
+
+
+                {this.utility.rangeİnputGenerator("Hamam Sayı", "minBath", "maxBath", this.callbacks.numberCallback, this.state.addition.hamam)}
+
+                {this.utility.checkBoxGenerator("Eyvan", this.callbacks.checkboxCallback, "eyvan", this.state.addition.eyvan)}
+                {this.utility.checkBoxGenerator("Lift", this.callbacks.checkboxCallback, "lift", this.state.addition.lift)}
+                {this.utility.checkBoxGenerator("Mebel", this.callbacks.checkboxCallback, "mebel", this.state.addition.mebel)}
+                {this.utility.checkBoxGenerator("Temir", this.callbacks.checkboxCallback, "temir", this.state.addition.temir)}
+                {this.utility.checkBoxGenerator("Hovuz", this.callbacks.checkboxCallback, "hovuz", this.state.addition.hovuz)}
+                {this.utility.checkBoxGenerator("Qaz", this.callbacks.checkboxCallback, "qaz", this.state.addition.qaz)}
+                {this.utility.checkBoxGenerator("Su", this.callbacks.checkboxCallback, "su", this.state.addition.su)}
+                {this.utility.checkBoxGenerator("Isig", this.callbacks.checkboxCallback, "isig", this.state.addition.isig)}
+                {this.utility.checkBoxGenerator("Kanalizasiya", this.callbacks.checkboxCallback, "kanalizasiya", this.state.addition.kanalizasiya)}
+
+
+                {this.state.rentingTypeBoxVisibility ? rentingBox : null}
+                {this.state.sellingTypeBoxVisibility ? sellingBox : null}
+
+            </div>
+        );
+    }
+
     render(h) {
 
         return (
             <div className={'filter'}>
                 <div className={'containerFilter'}>
-                    {this.utility.radioGenerator("Əmlak:", this.state.sellTypeList, 1, this.sellTypeCallback, "sellType")}
+                    {this.utility.radioGenerator("Əmlak:", this.state.sellTypeList, 1, this.callbacks.sellTypeCallback, "sellType")}
 
-                    {this.utility.selectGenerator("Kategoriya:", this.state.categoryList, "category", this.state.selected.category, this.categoryCallback, false, false, this.state.subCategory)}
+                    {this.utility.selectGenerator("Kategoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.categoryCallback, { subname: this.state.subCategory })}
 
-                    {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.cityCallback, true, false)}
+                    {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.cityCallback, { sort: true, swapItem: [5] })}
 
-                    {this.utility.selectGenerator("Rayon:", this.state.regionList, "region", this.state.selected.region, this.regionCallback, true, false)}
+                    {this.utility.selectGenerator("Rayon:", this.state.regionList, "region", this.state.selected.region, this.callbacks.regionCallback, { sort: true })}
 
-                    {this.utility.selectGenerator("Qəsəbə:", this.state.villageList, "village", this.state.selected.village, this.commonCallback, true, false)}
+                    {this.utility.selectGenerator("Qəsəbə:", this.state.villageList, "village", this.state.selected.village, this.callbacks.commonCallback, { sort: true })}
 
-                    {this.utility.selectGenerator("Metro:", this.state.metroList, "metro", this.state.selected.metro, this.commonCallback, true, false)}
+                    {this.utility.selectGenerator("Metro:", this.state.metroList, "metro", this.state.selected.metro, this.callbacks.commonCallback, { sort: true })}
 
-                    {this.utility.numberGenerator("Metroya olan dəqiqə müddəti:", "Daxil Edin", this.numberCallback, "metroDuration", this.state.selected.metro, 1, 120,
-                        { addonAfterList: this.state.metroWayList, addonAfterCallback: this.commonCallback, addonName: "metroWay", addonValue: this.state.selected.metroWay })}
 
-                    {this.utility.selectGenerator("Kirayə müddəti:", this.state.rentDurationList, "rentDuration", this.state.selected.rentDuration, this.commonCallback, true, false)}
+                    {this.utility.selectGenerator("Kirayə müddəti:", this.state.rentDurationList, "rentDuration", this.state.selected.rentDuration, this.callbacks.commonCallback, { sort: true })}
 
-                    {this.utility.numberGenerator("Qiymət:", "Daxil Edin", this.numberCallback, "price", true, 1, Number.MAX_VALUE, { addonAfterList: this.state.currencyList, addonAfterCallback: this.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}
 
-                    {this.utility.numberGenerator("Sahə:", "Daxil Edin", this.numberCallback, "areaSize", true, 1, Number.MAX_VALUE, { addonAfterOnlyText: this.state.areaUnit })}
+                    {this.utility.rangeİnputGenerator("Qiymət:", "minPrice", "maxPrice", this.callbacks.numberCallback, this.state.selected.category, { addonAfterList: this.state.currencyList, addonAfterCallback: this.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}
 
+                    {this.utility.rangeİnputGenerator("Sahə:", "minArea", "maxArea", this.callbacks.numberCallback, this.state.selected.category, { addonAfterOnlyText: this.state.areaUnit ?? "m²" })}
+
+                    {this.utility.rangeİnputGenerator("Torpaq Sahəsi:", "minLandArea", "maxLandArea", this.callbacks.numberCallback, this.state.addition.secondArea, { addonAfterOnlyText: "sot" })}
+
+                    {this.utility.rangeİnputGenerator("Otag", "minRoom", "maxRoom", this.callbacks.numberCallback, this.state.addition.roomAmount)}
+
+                    {this.utility.selectGenerator("Torpag Teyinati:", this.state.addition.landAppointment ? this.state.landAppointmentList : false, "landAppointment", this.state.selected.landAppointment, this.callbacks.commonCallback, { selectAll: true })}
+
+
+                    {this.utility.checkBoxGenerator("Mərtəbə:", this.callbacks.checkboxCallback, null, this.state.addition.roomAmount, {
+                        multiple: [
+                            {
+                                name: "bottomfloor",
+                                title: "Ən Alt"
+                            },
+                            {
+                                name: "middlefloor",
+                                title: "Ortalar"
+                            },
+                            {
+                                name: "upperfloor",
+                                title: "Ən Yuxarı"
+                            },
+                        ]
+                    })}
+
+                    {this.utility.selectGenerator("Paylaşma Tarixi:", this.state.sharedDate, "sharedDate", this.state.selected.sharedDate, this.callbacks.commonCallback, { selectAll: true })}
+
+                    {this.utility.generateModal(this.extras(), this.state.extraVisible, "extraVisible", { title: "Əlavələr" })}
+
+                    <div className={'extraBtnParent'}>
+                        <button className={'extraBtn'} onClick={() => { this.setState({ extraVisible: true }) }}>Əlavələr</button>
+                    </div>
                 </div>
             </div>
         )
     }
 
-    ownerCallback = (value) => {
-        this.setState({
-            ...this.state,
-            selected: {
-                ...this.state.selected,
-                owner: value.target.value ? true : false
-            }
-        })
-    }
-
-    rentTypeCallback = (value) => {
-        this.setState({
-            ...this.state,
-            selected: {
-                ...this.state.selected,
-                otagordaire: value.target.value ? true : false
-            }
-        })
-    }
-
-    sellTypeCallback = (value) => {
-        let rent = this.state.sellTypeList.find(w => w.id == value.target.value).rent
-        this.setState({
-            ...this.state,
-            selected: {
-                ...this.state.selected,
-                category: null,
-                sellType: value.target.value,
-                rentDuration: rent.length > 0 ? this.state.selected.rentDuration : null
-            },
-            rentDurationList: rent.length > 0 ? rent : null,
-            sellingTypeBoxVisibility: rent.length > 0 ? false : true,
-            rentingTypeBoxVisibility: rent.length > 0 ? true : false,
-            rentalAddition: rent.length > 0 ? this.state.rentalAddition : {},
-
-        })
-    }
-
-    categoryCallback = (value) => {
-        this.setState({
-            ...this.state,
-            areaUnit: this.props.filter.categories.find(w => w.id == value).areaUnit,
-            selected: {
-                ...this.state.selected,
-                category: value,
-            },
-            addition: {
-                ...this.props.filter.categories.find(w => w.id == value)
-            },
-            rentalAddition: this.props.filter.rentals.find(w => w.id == this.props.filter.categories.find(w => w.id == value).rentalProİd) || {}
-        })
-    }
-
-    cityCallback = (value) => {
-        let regions = this.state.cityList.find(w => w.id == value).regions;
-        let metros = this.state.cityList.find(w => w.id == value).metros;
-        this.setState({
-            selected: {
-                ...this.state.selected,
-                city: value,
-                region: null,
-                village: null,
-                metro: null,
-            },
-            metroList: !metros.length ? null : metros,
-            nometro: !metros.length ? false : true,
-            regionList: !regions.length ? null : regions,
-            villageList: null
-        })
-    }
-
-    regionCallback = (value) => {
-        if (!value) {
-            this.setState({
-                selected: {
-                    ...this.state.selected,
-                    region: 0,
-                    village: null,
-                },
-                villageList: null
-            })
-
-            return;
-        }
-        let villages = this.state.regionList.find(w => w.id == value).villages;
-        this.setState({
-            selected: {
-                ...this.state.selected,
-                region: value,
-                village: null
-            },
-            villageList: !villages.length ? null : villages
-        })
-    }
-
-    checkboxCallback = (e) => {
-        let value = e.target.checked
-        this.setState({
-            selected: {
-                ...this.state.selected,
-                [e.target.state]: value
-            }
-        })
-    }
-
-    numberCallback = (value) => {
-        this.setState({
-            selected: {
-                ...this.state.selected,
-                [value.target.name]: +value.target.defaultValue.replace(/[^\d]/g, '')
-            }
-        })
-    }
-
-    commonCallback = (value, option) => {
-        this.setState({
-            selected: {
-                ...this.state.selected,
-                [option.state]: value
-            }
-        })
-
-    }
 }
-
-
-
-
 
 
 export default connect(mapStateToProps)(Filter);

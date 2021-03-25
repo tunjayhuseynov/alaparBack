@@ -1,7 +1,8 @@
-﻿using System;
+﻿using AlApar.Models.Bina.Views;
+using System;
 using System.Collections.Generic;
 
-namespace AlApar.Models
+namespace AlApar.Models.Bina
 {
     public partial class BinaPersonalPhotos
     {
@@ -9,6 +10,8 @@ namespace AlApar.Models
         public string ImagePath { get; set; }
         public int? AdId { get; set; }
         public int? PrimaryImage { get; set; }
+        public string Thumbnail { get; set; }
         public virtual BinaAdsPersonal Ad { get; set; }
+        public virtual ViewBinaPersonalGeneral ViewAd { get; set; }
     }
 }

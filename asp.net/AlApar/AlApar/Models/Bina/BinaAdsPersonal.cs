@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AlApar.Models
+namespace AlApar.Models.Bina
 {
     public partial class BinaAdsPersonal
     {
         public BinaAdsPersonal()
         {
-            BinaPersonalPhotos = new HashSet<BinaPersonalPhotos>();
-            PersonalContacts = new HashSet<PersonalContacts>();
+            Images = new HashSet<BinaPersonalPhotos>();
 
         }
 
@@ -66,9 +65,10 @@ namespace AlApar.Models
         public int? MetroDuration { get; set; }
         public int? MetroWayId { get; set; }
         public int? SecondAreaSize { get; set; }
+        public string CustomAdress { get; set; }
 
 
-        public virtual BinaAdsPersonalInfos Infos { get; set; }
+        public virtual BinaAdsPersonalLogs Infos { get; set; }
         public virtual MetroWays MetroWay { get; set; }
         public virtual AdPackages AdPackage { get; set; }
         public virtual AdStatuses AdStatus { get; set; }
@@ -79,10 +79,9 @@ namespace AlApar.Models
         public virtual Currency Currency { get; set; }
         public virtual BinaLandAppointments LandAppointment { get; set; }
         public virtual Metros Metro { get; set; }
-        public virtual PersonalContacts PersonalContact { get; set; }
+        public virtual BinaPersonalContacts PersonalContact { get; set; }
         public virtual BinaRentPaymentTypes RentPaymentType { get; set; }
         public virtual SellTypes SellType { get; set; }
-        public virtual ICollection<BinaPersonalPhotos> BinaPersonalPhotos { get; set; }
-        public virtual ICollection<PersonalContacts> PersonalContacts { get; set; }
+        public virtual ICollection<BinaPersonalPhotos> Images { get; set; }
     }
 }

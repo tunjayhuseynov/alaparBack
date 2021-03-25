@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import 'antd/dist/antd.css'
+import "react-image-gallery/styles/css/image-gallery.css"
 import '../styles/main.css'
 import { useRouter } from 'next/router'
 import {useEffect} from 'react'

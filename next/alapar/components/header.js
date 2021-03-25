@@ -39,6 +39,8 @@ class Header extends Component {
         return (
             <div className={'header'}>
                 <Navbar></Navbar>
+{/*
+
                 <div className={'title'}><span className={'underline'}>ALAPAR.AZ</span></div>
                 <SearchBar></SearchBar>
                 <div className={'premium'}>
@@ -47,6 +49,8 @@ class Header extends Component {
                         {arr}
                     </Carousel>
                 </div>
+
+*/}
 
             </div>
         );

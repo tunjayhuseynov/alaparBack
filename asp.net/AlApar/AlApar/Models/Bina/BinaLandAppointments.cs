@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AlApar.Models
+namespace AlApar.Models.Bina
 {
     public partial class BinaLandAppointments
     {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AlApar.Models.Auto;
+using AlApar.Models.Bina;
+using System;
 using System.Collections.Generic;
 
 namespace AlApar.Models
@@ -8,6 +10,7 @@ namespace AlApar.Models
         public Cities()
         {
             BinaAdsPersonal = new HashSet<BinaAdsPersonal>();
+            AutoContacts = new HashSet<AutoContacts>();
         }
 
         public int Id { get; set; }
@@ -17,5 +20,8 @@ namespace AlApar.Models
 
         public virtual ICollection<Regions> Regions { get; set; }
         public virtual ICollection<Metros> Metros { get; set; }
+
+        //Auto
+        public virtual ICollection<AutoContacts> AutoContacts { get; set; }
     }
 }

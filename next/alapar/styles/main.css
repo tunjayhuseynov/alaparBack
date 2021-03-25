@@ -21,55 +21,6 @@
 .leftSide .ant-select-single {
   width: 100% !important; }
 
-.searchbox.container {
-  width: 100%;
-  min-height: 100vh;
-  padding: 0 20px;
-  position: relative;
-  display: flex;
-  align-items: stretch; }
-  .searchbox.container > .leftSide {
-    display: inline-block;
-    width: 22%;
-    position: relative;
-    left: 0; }
-    .searchbox.container > .leftSide .box {
-      box-shadow: 0px 0px 20px -13px black; }
-  .searchbox.container .split {
-    position: relative;
-    z-index: 1;
-    top: 0;
-    overflow-x: hidden;
-    padding-top: 20px; }
-  .searchbox.container > .rightSide {
-    display: flex;
-    width: 78%;
-    right: 0;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    gap: 25px;
-    justify-content: center; }
-    .searchbox.container > .rightSide .col {
-      flex-basis: 25%;
-      height: 250px; }
-
-.filter {
-  width: 100%;
-  height: 100%; }
-  .filter .containerFilter {
-    width: 100%;
-    padding: 15px 20px; }
-  .filter .selectInput {
-    padding: 5px 0; }
-    .filter .selectInput .item {
-      display: block; }
-  .filter .checkInput {
-    padding: 5px 0; }
-  .filter .priceInput {
-    padding: 5px 0; }
-    .filter .priceInput .item {
-      display: block; }
-
 @font-face {
   font-family: 'Main';
   src: url(/fonts/Alegreya-Regular.ttf); }
@@ -88,6 +39,36 @@
     margin-right: .25em; }
   .separator:not(:empty)::after {
     margin-left: .25em; }
+
+#elanSection {
+  background-color: #e6e6e6; }
+  #elanSection .container {
+    padding: 10px 20px; }
+    #elanSection .container .row {
+      display: flex;
+      gap: 10px; }
+      #elanSection .container .row > .item {
+        flex: 50%;
+        background-color: white;
+        padding: 5px;
+        border-radius: 5px; }
+        #elanSection .container .row > .item .imageGallery .imageInGallery img {
+          max-height: 50vh; }
+        #elanSection .container .row > .item .imageGallery .fullscreen .image-gallery-slide img {
+          max-height: calc(100vh - 80px); }
+        #elanSection .container .row > .item .feature {
+          padding: 15px 0;
+          display: flex; }
+          #elanSection .container .row > .item .feature > .item {
+            flex: 1 1; }
+            #elanSection .container .row > .item .feature > .item:last-child {
+              flex: 2 1; }
+            #elanSection .container .row > .item .feature > .item .mainFeatures {
+              display: flex;
+              flex-direction: column; }
+              #elanSection .container .row > .item .feature > .item .mainFeatures .top {
+                display: flex;
+                gap: 5px; }
 
 .nav-bar {
   height: 45px;
@@ -109,7 +90,7 @@
         font-weight: 600; }
 
 .header {
-  height: 100vh;
+  height: 45px;
   background: linear-gradient(90deg, #ffc0c0 0%, #b0d1ff 52%, #b9ffcd 100%) no-repeat;
   background-size: 100% 2px;
   background-position-y: bottom;
@@ -497,6 +478,72 @@
       height: 300px;
       width: 25%;
       padding: 10px; }
+
+.searchbox.container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0 20px;
+  position: relative;
+  display: flex;
+  align-items: stretch; }
+  .searchbox.container > .leftSide {
+    display: inline-block;
+    width: 25%;
+    position: relative;
+    left: 0; }
+    .searchbox.container > .leftSide .box {
+      box-shadow: 0px 0px 20px -13px black; }
+  .searchbox.container .split {
+    position: relative;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px; }
+  .searchbox.container > .rightSide {
+    display: flex;
+    width: 75%;
+    right: 0;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 25px;
+    justify-content: center; }
+    .searchbox.container > .rightSide .col {
+      flex-basis: 25%;
+      height: 250px; }
+
+.filter {
+  width: 100%;
+  height: 100%; }
+  .filter .containerFilter {
+    width: 100%;
+    padding: 15px 20px; }
+  .filter .selectInput {
+    padding: 5px 0; }
+    .filter .selectInput .item {
+      display: block; }
+  .filter .checkInput {
+    padding: 5px 0; }
+  .filter .rangeInput {
+    padding: 5px 0; }
+    .filter .rangeInput .item:last-child {
+      display: flex; }
+      .filter .rangeInput .item:last-child > div {
+        flex-grow: 1; }
+        .filter .rangeInput .item:last-child > div:nth-child(3) {
+          flex-grow: 2; }
+  .filter .ant-input-group-addon {
+    width: 20%; }
+  .filter .extraBtnParent {
+    text-align: center;
+    padding: 15px 0; }
+    .filter .extraBtnParent .extraBtn {
+      border: none;
+      background-color: #000;
+      cursor: pointer;
+      color: white;
+      padding: 5px 15px;
+      outline: none;
+      border-radius: 5px; }
 
 .fixed {
   position: fixed;

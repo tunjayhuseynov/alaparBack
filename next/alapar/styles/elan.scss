@@ -1,0 +1,58 @@
+@mixin elan() {
+
+    #elanSection {
+        background-color: #e6e6e6;
+
+        .container {
+            padding: 10px 20px;
+
+            .row {
+                display: flex;
+                gap: 10px;
+
+                >.item {
+                    flex: 50%;
+                    background-color: white;
+                    padding: 5px;
+                    border-radius: 5px;
+
+                    .imageGallery {
+                        .imageInGallery {
+                            img {
+                                max-height: 50vh;
+                            }
+                        }
+
+                        .fullscreen .image-gallery-slide img {
+                            max-height: calc(100vh - 80px);
+                        }
+                    }
+
+                    .feature {
+                        padding: 15px 0;
+                        display: flex;
+
+                        >.item {
+                            flex: 1 1;
+
+                            &:last-child {
+                                flex: 2 1;
+                            }
+
+                            .mainFeatures{
+                                display: flex;
+                                flex-direction: column;
+
+                                .top{
+                                    display: flex;
+                                    gap: 5px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}

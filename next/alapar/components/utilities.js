@@ -2,6 +2,7 @@ import { message, Tabs, Button, Upload, Modal, Select, Radio, Checkbox, InputNum
 import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import React from 'react'
+import { PlusOutlined } from '@ant-design/icons';
 import {
     withScriptjs,
     withGoogleMap,
@@ -10,11 +11,9 @@ import {
 } from "react-google-maps";
 import { v4 as uuidv4 } from 'uuid'
 
-const { TabPane } = Tabs;
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 
-import { PlusOutlined } from '@ant-design/icons';
 
 
 
@@ -27,15 +26,42 @@ function getBase64(file) {
     });
 }
 
-
-function onChange(a, b, c) {
-    console.log(a, b, c);
-}
-
 class Utilities {
 
     constructor(th) {
         this.th = th;
+    }
+
+    header = (title, classname) => {
+        return (
+            <div>
+                <h3 className={classname}>{title}</h3>
+            </div>
+
+        )
+    }
+    range = (start, end, step = 1) => {
+        const allNumbers = [start, end, step].every(Number.isFinite);
+
+        if (!allNumbers) {
+            throw new TypeError('range() expects only finite numbers as arguments.');
+        }
+
+        if (step <= 0) {
+            throw new Error('step must be a number greater than 0.');
+        }
+
+        if (start > end) {
+            step = -step;
+        }
+
+        const length = Math.floor(Math.abs((end - start) / step)) + 1;
+
+        return Array.from(Array(length), (x, index) => start + index * step);
+    }
+
+    convertCategory2Sub = (list, keyName) => {
+        return [...new Set(list.filter(w => w[keyName]).map((w) => w[keyName]))].map((w, i) => { return { name: w, category: list.filter(d => d[keyName] == w) } })
     }
 
     divider = (text, side = "left") => {
@@ -45,34 +71,36 @@ class Utilities {
             <div className={'separator'}>{text}</div>)
     }
 
+    generateModal = (htmlElements, visible, visibleName, { title = "" } = {}) => {
+        let handleOk = () => {
+            this.th.setState({ [visibleName]: false });
+        };
+
+        let handleCancel = () => {
+            this.th.setState({ [visibleName]: false });
+        };
+
+        return (
+            <Modal
+                visible={visible}
+                title={title}
+                onOk={this.handleOk}
+                onCancel={handleCancel}
+                footer={[
+                    <Button key="submit" type="primary" onClick={handleOk}>
+                        Tamam
+              </Button>,
+                ]}>
+                {htmlElements}
+            </Modal>
+
+        )
+    }
+
     showError = (text) => {
         message.error(text)
     }
 
-    tabGenerator = (tabs, ...items) => {
-        return (
-            <Tabs
-                onTabClick={(key, event) => this.th.setState({ activeKey: key })}
-                activeKey={this.th.state.activeKey}
-                centered
-                tabPosition={'top'}
-                animated
-            >
-                {items.map((w, k) => {
-                    return (
-                        <TabPane forceRender={true} tab={tabs[k]} key={`${k + 1}`}>
-                            {w}
-                            {k != items.length - 1 ?
-                                <div className={'tabBtn'}>
-                                    <a className={'btn'} onClick={() => this.th.setState({ activeKey: `${k + 2}` })}>Sonraki</a>
-                                </div>
-                                : null}
-                        </TabPane>
-                    )
-                })}
-            </Tabs>
-        );
-    }
 
     inputGenerator = (title, placeholder, callback, state) => {
         return (
@@ -123,7 +151,7 @@ class Utilities {
                     }
                     {!addonAfterOnlyText ? null :
                         <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
-                         {addonAfterOnlyText}
+                            {addonAfterOnlyText}
                         </div>
                     }
                 </div>
@@ -151,7 +179,7 @@ class Utilities {
         )
     }
 
-    priceİnputGenerator = (title, minName, maxName, min, step, Callback, visibility) => {
+    rangeİnputGenerator = (title, minName, maxName, Callback, visibility, { min = null, step = null, addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null } = {}) => {
         if (!visibility) {
 
             this.th.state.selected[minName] = null
@@ -160,32 +188,44 @@ class Utilities {
             return null
         }
         return (
-            <div className={'subitem priceInput'} validatename={minName} displayname={title.replace(":", "")}>
-                <div className={'item'} validatename={maxName}><label>{title}</label></div>
+            <div className={'subitem rangeInput'} displayname={title.replace(":", "")}>
+                <div className={'item'} ><label>{title}</label></div>
                 <div className={'item'}>
                     <InputNumber
+                        style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
                         placeholder={"Min."}
-                        onBlur={Callback}
-                        onInput={Callback}
+                        onKeyUp={Callback}
                         min={min} step={step} name={minName}
                         formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         parser={value => value.replace(/\$\s?|(,*)/g, '')}
                     />
                 -
                 <InputNumber
+                        style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
                         placeholder={"Max."}
-                        onBlur={Callback}
-                        onInput={Callback}
+                        onKeyUp={Callback}
                         min={min} step={step} name={maxName}
                         formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         parser={value => value.replace(/\$\s?|(,*)/g, '')}
                     />
+                    {!addonAfterList ? null :
+                        <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
+                            <Select style={{ width: 120 }} value={addonValue} onSelect={addonAfterCallback} name={addonName}>
+                                {addonAfterList.map((w, i) => <Option state={addonName} value={w.id}>{w.name}</Option>)}
+                            </Select>
+                        </div>
+                    }
+                    {!addonAfterOnlyText ? null :
+                        <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
+                            {addonAfterOnlyText}
+                        </div>
+                    }
                 </div>
             </div>
         )
     }
 
-    selectGenerator = (title, options, name, selected, callback, sort, selectAll, subname = null) => {
+    selectGenerator = (title, options, name, selected, callback, { search = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null } = {}) => {
         if (!options || options.length < 1) {
 
             this.th.state.selected[name] = null
@@ -202,19 +242,25 @@ class Utilities {
                 return 0
             })
         }
+        if (swapItem) {
+            swapItem.reverse().forEach((e) => {
+                options.unshift(options.find(w => w.id == e))
+                options.splice(options.lastIndexOf(options.find(w => w.id == e)), 1)
+            })
+        }
+
 
         if (subname) {
-            console.log(subname)
             return (
                 <div className={'subitem selectInput'}>
                     <div className={'item'}><label>{title}</label></div>
                     <div className={'item'} validatename={name} displayname={title.replace(":", "")}>
-                        <Select virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'width'}>
-                            {selectAll ? <Option state={name} value={0}>Hamısı</Option> : null}
+                        <Select filterOption={(input, option) => option?.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'width'}>
+                            {selectAll ? <Option state={name} value={null}>Hamısı</Option> : null}
+                            {options.filter(w => !(w[subnameTitle])).map((w, i) => <Option state={name} key={new Date().getTime() + i} value={w.id}>{w.name}</Option>)}
                             {subname.map((w, i) => <OptGroup key={uuidv4()} label={w.name}>
 
                                 {w.category.map((d, q) => <Option state={name} key={uuidv4()} value={d.id}>{d.name}</Option>)}
-
 
                             </OptGroup>)}
                         </Select>
@@ -227,19 +273,40 @@ class Utilities {
         return (<div className={'subitem selectInput'}>
             <div className={'item'}><label>{title}</label></div>
             <div className={'item'} validatename={name} displayname={title.replace(":", "")}>
-                <Select virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'width'}>
-                    {selectAll ? <Option state={name} value={0}>Hamısı</Option> : null}
+                <Select filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'width'}>
+                    {selectAll ? <Option state={name} value={null}>Hamısı</Option> : null}
                     {options.map((w, i) => <Option state={name} key={new Date().getTime() + i} value={w.id}>{w.name}</Option>)}
                 </Select>
             </div>
         </div>)
     }
 
-    checkBoxGenerator = (title, callback, name, visible) => {
+    checkBoxGenerator = (title, callback, name, visible, { multiple = null } = {}) => {
         if (!visible) {
+            if (multiple) {
+                multiple.forEach(w => {
+                    this.th.state.selected[w.name] = null
+                })
+
+                return null
+            }
+
             this.th.state.selected[name] = null
             return null
         }
+
+        if (multiple) {
+            return (
+                <div className={'subitem checkInput'} displayname={title.replace(":", "")}>
+                    <div className={'item'}><label>{title}</label></div>
+                    <div className={'item'}>
+                        {multiple.map(w => <Checkbox key={uuidv4()} checked={this.th.state.selected[w.name]} state={w.name} name={w.name} onChange={callback}>{w.title}</Checkbox>
+                        )}
+                    </div>
+                </div>
+            )
+        }
+
         return (
             <div className={'subitem checkInput'} displayname={title.replace(":", "")}>
                 <Checkbox state={name} name={name} onChange={callback}>{title}</Checkbox>
@@ -328,18 +395,19 @@ class Utilities {
 
     manager = createDndContext(HTML5Backend);
 
-    imageUploadGenerator = (fileList, previewVisible, previewTitle, previewImage) => {
+    imageUploadGenerator = (fileList, previewVisible, previewTitle, previewImage, url) => {
         return (
             <div className={"subitem"}>
                 <DndProvider manager={this.manager.dragDropManager}>
                     <Upload
-                        action="http://192.168.1.107:5566/api/bina/image"
+                        action={url}
                         name={"images"}
                         multiple={true}
                         listType="picture-card"
                         fileList={fileList}
                         onPreview={this.handlePreview}
                         onChange={this.handleChange}
+                        onRemove={this.handleRemove}
                         itemRender={(originNode, file, currFileList) => (
                             <this.DragableUploadListItem
                                 originNode={originNode}
@@ -400,6 +468,19 @@ class Utilities {
             }
         })
     };
+
+    handleRemove = async (file) => {
+        let req = await fetch(this.th.state.url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            mode: 'cors',
+            body: JSON.stringify({ name: file.response.fileName })
+        })
+
+        if (req.ok) console.log(`${file.response.fileName} Deleted`)
+    }
 
     /*
     END

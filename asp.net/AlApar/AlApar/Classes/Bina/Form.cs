@@ -166,5 +166,67 @@ namespace AlApar.Classes.Bina
 
         [JsonProperty("secondAreaSize")]
         public int? SecondAreaSize { get; set; }
+
+        [JsonProperty("customAdress")]
+        public string CustomAdress { get; set; }
+
+        //Filter Side
+        //Filter Side
+        //Filter Side
+
+        [JsonProperty("minApartmentFloor")]
+        public int? MinApartmentFloor { get; set; }
+
+        [JsonProperty("maxApartmentFloor")]
+        public int? MaxApartmentFloor { get; set; }
+
+        [JsonProperty("minBuildingFloor")]
+        public int? MinBuildingFloor { get; set; }
+
+        [JsonProperty("maxBuildingFloor")]
+        public int? MaxBuildingFloor { get; set; }
+
+        [JsonProperty("minPrice")]
+        public int? MinPrice { get; set; }
+
+        [JsonProperty("maxPrice")]
+        public int? MaxPrice { get; set; }
+
+        [JsonProperty("minArea")]
+        public int? MinArea { get; set; }
+
+        [JsonProperty("maxArea")]
+        public int? MaxArea { get; set; }
+
+        [JsonProperty("minMetroDuration")]
+        public int? MinMetroDuration { get; set; } 
+
+        [JsonProperty("maxMetroDuration")]
+        public int? MaxMetroDuration { get; set; } 
+
+        [JsonProperty("minLandArea")]
+        public int? MinLandArea { get; set; } 
+
+        [JsonProperty("maxLandArea")]
+        public int? MaxLandArea { get; set; } 
+
+        [JsonProperty("sharedDate")]
+        public int? SharedDate { get; set; }
+
+        [JsonProperty("bottomfloor")]
+        public bool? Bottomfloor { get; set; } 
+
+        [JsonProperty("middlefloor")]
+        public bool? Middlefloor { get; set; } 
+
+        [JsonProperty("upperfloor")]
+        public bool? Upperfloor { get; set; } 
+
+        [JsonProperty("minRoom")]
+        public int? MinRoom { get; set; }
+
+        [JsonProperty("maxRoom")]
+        public int? MaxRoom { get; set; }
+
     }
 }

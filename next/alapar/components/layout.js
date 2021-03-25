@@ -12,7 +12,7 @@ class Layout extends Component {
     }
     render(h) {
         return (
-            <> <Head>
+            <div> <Head>
                 <link rel="stylesheet" href={'https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css'} />
             </Head>
                 <Header></Header>
@@ -24,7 +24,7 @@ class Layout extends Component {
                         </Tooltip>
                     </Link>
                 </div>
-            </>
+            </div>
         );
     }
 
