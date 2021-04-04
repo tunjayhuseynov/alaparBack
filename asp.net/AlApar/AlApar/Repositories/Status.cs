@@ -21,5 +21,11 @@ namespace AlApar.Repositories
             VIP = 2,
             Premium = 3
         }
+
+        public enum TypeEnum
+        {
+            Min = 1,
+            Max = 2
+        }
     }
 }

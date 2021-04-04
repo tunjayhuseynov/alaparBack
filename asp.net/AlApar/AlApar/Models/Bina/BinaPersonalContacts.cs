@@ -17,7 +17,7 @@ namespace AlApar.Models.Bina
         public bool? IsWp { get; set; }
         public string Email { get; set; }
         public bool? Owner { get; set; }
-        public DateTime Timespan { get; set; }
+        public DateTime Timespan { get; set; } = DateTime.UtcNow;
 
         public virtual ICollection<BinaAdsPersonal> BinaAdsPersonal { get; set; }
     }

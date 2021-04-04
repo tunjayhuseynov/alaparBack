@@ -12,13 +12,15 @@ using AlApar.Classes;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using AlApar.Models.Bina.Views;
+using AlApar.Repositories.Common;
+using AlApar.Classes.Common;
 
 namespace AlApar.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]
     [Consumes("application/json")]
-    public class BinaController : ControllerBase
+    public class BinaController : ControllerBase, ICommonController<ViewBinaPersonalGeneral, Form, Name>
     {
         private readonly BinaContext db;
 
@@ -52,8 +54,8 @@ namespace AlApar.Controllers
             return await db.ViewBinaPersonalGenerals.ToListAsync();
         }
 
-        [Route("get/{id}")]
-        public async Task<ViewBinaPersonalGeneral> get(int id)
+        [Route("personal/{id}")]
+        public async Task<ViewBinaPersonalGeneral> getOne(int id)
         {
             return await _crud.getPersonalAd(id,db);
         }
@@ -75,19 +77,11 @@ namespace AlApar.Controllers
             return filter;
         }
 
-
         [Route("Form")]
         [HttpGet]
         public async Task<object> getForm()
         {
             return await _crud.getForm(db);
-        }
-
-        [Route("personal/{id}")]
-        [HttpGet]
-        public async Task<object> getPersonalAd(int id)
-        {
-            return await _crud.getPersonalAd(id, db);
         }
 
 
@@ -97,7 +91,6 @@ namespace AlApar.Controllers
 
         [Route("Image")]
         [HttpPost]
-        [Produces("application/json")]
         [Consumes("multipart/form-data")]
         public async Task<object> getImage(IFormFile images)
         {
@@ -108,14 +101,9 @@ namespace AlApar.Controllers
         [HttpDelete]
         public async Task<OkResult> getImage([FromBody]Name name)
         {
-            await _crud.deleteTempImage(name.name, _webHostEnvironment);
+            await _crud.deleteTempImage(name.name, _utility, _webHostEnvironment);
 
             return Ok();
-        }
-
-        public class Name
-        {
-            public string name { get; set; }
         }
 
          
@@ -123,17 +111,20 @@ namespace AlApar.Controllers
         [HttpPost]
         public async Task<object> postFilter([FromBody] Form res, [FromQuery] int s, [FromQuery] int t)
         {
-            return await _crud.PostFilter(res,db, s, t);
+            return await _crud.PostFilter(res,db, s, t, _utility);
         }
 
         [Route("Add")]
         [HttpPost]
         public async Task<IActionResult> addToDb([FromBody] Form form)
         {
-            await _crud.addToDb(form, db, _webHostEnvironment);
+            await _crud.addToDb(form, db, _utility, _webHostEnvironment);
 
             return Ok();
         }
 
+
     }
+
+
 }

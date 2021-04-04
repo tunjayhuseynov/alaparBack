@@ -32,8 +32,8 @@ namespace AlApar
             services.AddDistributedMemoryCache();
 
             services.AddMemoryCache();
-            services.AddScoped<IUtility, Utility>();
             services.AddScoped<IBinaCrud,BinaCrud>();
+            services.AddScoped<IUtility,Utility>();
             services.AddScoped<IAutoCrud, AutoCrud>();
 
             services.AddDbContext<BinaContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:AlApar")));

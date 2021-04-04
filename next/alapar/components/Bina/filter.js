@@ -143,7 +143,7 @@ class Filter extends Component {
                 ...this.state.selected,
                 sellType: this.props.filter.sellTypes[0].id
             },
-                this.state.sharedDate = this.props.filter.sharedDate
+            this.state.sharedDate = this.props.filter.sharedDate
         }
 
     }
@@ -255,7 +255,7 @@ class Filter extends Component {
     render(h) {
 
         return (
-            <div className={'filter'}>
+            <div id={'filter'}>
                 <div className={'containerFilter'}>
                     {this.utility.radioGenerator("Əmlak:", this.state.sellTypeList, 1, this.callbacks.sellTypeCallback, "sellType")}
 
@@ -273,7 +273,7 @@ class Filter extends Component {
                     {this.utility.selectGenerator("Kirayə müddəti:", this.state.rentDurationList, "rentDuration", this.state.selected.rentDuration, this.callbacks.commonCallback, { sort: true })}
 
 
-                    {this.utility.rangeİnputGenerator("Qiymət:", "minPrice", "maxPrice", this.callbacks.numberCallback, this.state.selected.category, { addonAfterList: this.state.currencyList, addonAfterCallback: this.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}
+                    {this.utility.rangeİnputGenerator("Qiymət:", "minPrice", "maxPrice", this.callbacks.numberCallback, this.state.selected.category, { addonAfterList: this.state.currencyList, addonAfterCallback: this.callbacks.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}
 
                     {this.utility.rangeİnputGenerator("Sahə:", "minArea", "maxArea", this.callbacks.numberCallback, this.state.selected.category, { addonAfterOnlyText: this.state.areaUnit ?? "m²" })}
 

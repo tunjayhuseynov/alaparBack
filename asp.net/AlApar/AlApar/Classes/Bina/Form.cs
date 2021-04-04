@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static AlApar.Repositories.Status;
 
 namespace AlApar.Classes.Bina
 {
     public class Form
     {
         [JsonProperty("images")]
-        public List<string> images { get; set; }
+        public List<string> ImageList { get; set; }
 
         [JsonProperty("category")]
         public int? CategoryId { get; set; }
@@ -175,40 +176,60 @@ namespace AlApar.Classes.Bina
         //Filter Side
 
         [JsonProperty("minApartmentFloor")]
+        [FilterCheck(TypeEnum.Min, "Floor")]
         public int? MinApartmentFloor { get; set; }
 
         [JsonProperty("maxApartmentFloor")]
+        [FilterCheck(TypeEnum.Max, "Floor")]
         public int? MaxApartmentFloor { get; set; }
 
         [JsonProperty("minBuildingFloor")]
+        [FilterCheck(TypeEnum.Min, "BuildingFloor")]
         public int? MinBuildingFloor { get; set; }
 
         [JsonProperty("maxBuildingFloor")]
+        [FilterCheck(TypeEnum.Max, "BuildingFloor")]
         public int? MaxBuildingFloor { get; set; }
 
         [JsonProperty("minPrice")]
+        [FilterCheck(TypeEnum.Min, "Price")]
         public int? MinPrice { get; set; }
 
         [JsonProperty("maxPrice")]
+        [FilterCheck(TypeEnum.Max, "Price")]
         public int? MaxPrice { get; set; }
 
         [JsonProperty("minArea")]
+        [FilterCheck(TypeEnum.Min, "AreaSize")]
         public int? MinArea { get; set; }
 
         [JsonProperty("maxArea")]
+        [FilterCheck(TypeEnum.Max, "AreaSize")]
         public int? MaxArea { get; set; }
 
         [JsonProperty("minMetroDuration")]
+        [FilterCheck(TypeEnum.Min, "MetroDuration")]
         public int? MinMetroDuration { get; set; } 
 
         [JsonProperty("maxMetroDuration")]
+        [FilterCheck(TypeEnum.Max, "MetroDuration")]
         public int? MaxMetroDuration { get; set; } 
 
         [JsonProperty("minLandArea")]
+        [FilterCheck(TypeEnum.Min, "SecondAreaSize")]
         public int? MinLandArea { get; set; } 
 
         [JsonProperty("maxLandArea")]
-        public int? MaxLandArea { get; set; } 
+        [FilterCheck(TypeEnum.Max, "SecondAreaSize")]
+        public int? MaxLandArea { get; set; }
+
+        [JsonProperty("minRoom")]
+        [FilterCheck(TypeEnum.Min, "roomAmount")]
+        public int? MinRoom { get; set; }
+
+        [JsonProperty("maxRoom")]
+        [FilterCheck(TypeEnum.Max, "roomAmount")]
+        public int? MaxRoom { get; set; }
 
         [JsonProperty("sharedDate")]
         public int? SharedDate { get; set; }
@@ -222,11 +243,7 @@ namespace AlApar.Classes.Bina
         [JsonProperty("upperfloor")]
         public bool? Upperfloor { get; set; } 
 
-        [JsonProperty("minRoom")]
-        public int? MinRoom { get; set; }
 
-        [JsonProperty("maxRoom")]
-        public int? MaxRoom { get; set; }
 
     }
 }

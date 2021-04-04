@@ -13,6 +13,9 @@ namespace AlApar.Models.Auto
         }
 
         public int Id { get; set; }
+        public string PrivateId { get; set; }
+        public int? Viewed { get; set; }
+        public string Title { get; set; }
         public int? LogId { get; set; } // +
         public int? StatusId { get; set; } // +
         public int? PackageId { get; set; } // +
@@ -44,7 +47,7 @@ namespace AlApar.Models.Auto
         public bool? Kondisioner { get; set; }
         public bool? OturacaqIsitme { get; set; }
         public bool? DeriSalon { get; set; }
-        public bool? YanPerdeAbs { get; set; }
+        public bool? YanPerde { get; set; }
         public bool? OturacaqVentilyasiya { get; set; }
         public bool? KsenonLampa { get; set; }
         public bool? ArxaKamera { get; set; }

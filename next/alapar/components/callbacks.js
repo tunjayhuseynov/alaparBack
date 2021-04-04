@@ -166,7 +166,7 @@ class Callbacks {
         this.setState({
             selected: {
                 ...this.state.selected,
-                [value.target.name]: +value.target.defaultValue.replace(/[^\d]/g, '')
+                [value.target.name]: +value.target.defaultValue.replace(/[^\d]/g, '')||null
             }
         })
     }
@@ -176,7 +176,7 @@ class Callbacks {
         this.setState({
             selected: {
                 ...this.state.selected,
-                [e.target.state]: value
+                [e.target.state]: value || null
             }
         })
     }

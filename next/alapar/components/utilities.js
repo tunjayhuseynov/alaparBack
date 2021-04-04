@@ -281,7 +281,7 @@ class Utilities {
         </div>)
     }
 
-    checkBoxGenerator = (title, callback, name, visible, { multiple = null } = {}) => {
+    checkBoxGenerator = (title, callback, name, visible, { multiple = null, makeBlock = null } = {}) => {
         if (!visible) {
             if (multiple) {
                 multiple.forEach(w => {
@@ -297,7 +297,7 @@ class Utilities {
 
         if (multiple) {
             return (
-                <div className={'subitem checkInput'} displayname={title.replace(":", "")}>
+                <div className={`subitem checkInput ${makeBlock?'makeBlock':''}`} displayname={title.replace(":", "")}>
                     <div className={'item'}><label>{title}</label></div>
                     <div className={'item'}>
                         {multiple.map(w => <Checkbox key={uuidv4()} checked={this.th.state.selected[w.name]} state={w.name} name={w.name} onChange={callback}>{w.title}</Checkbox>
@@ -308,7 +308,7 @@ class Utilities {
         }
 
         return (
-            <div className={'subitem checkInput'} displayname={title.replace(":", "")}>
+            <div className={`subitem checkInput ${makeBlock?'makeBlock':''}`} displayname={title.replace(":", "")}>
                 <Checkbox state={name} name={name} onChange={callback}>{title}</Checkbox>
             </div>
         )
@@ -327,6 +327,58 @@ class Utilities {
                 </Radio.Group>
             </div>
         )
+    }
+
+    //Validation 
+
+    validation = (id) => {
+        let inputs = document.querySelectorAll(`#${id} [validatename]`);
+
+        let hasError = false
+
+        for (let index = 0; index < inputs.length; index++) {
+            if (!this.th.state.selected[inputs[index].getAttribute("validatename")]) {
+                if (!hasError) { hasError = !hasError; }
+
+                let text = `Məlumat Doldurulmayıb: ${inputs[index].getAttribute("displayname")}`
+                this.showError(text)
+
+                let ele = inputs[index].querySelector(".ant-select-selector") || inputs[index].querySelector("textarea") || inputs[index].querySelector("input");
+                if (ele) {
+                    ele.classList.add("errorBorder");
+                    ele.onclick = (e) => { ele.classList.remove("errorBorder") }
+                }
+            }
+        }
+
+        if (this.th.state.selected.images == null || this.th.state.selected.images.length == 0) {
+            let text = `Məlumat Doldurulmayıb: Şəkillər`
+            this.showError(text)
+            return false;
+        }
+
+        return hasError
+
+    }
+
+    // Submit 
+
+    submitClick = async (e) => {
+        if (this.validation(e.target.getAttribute("valId"))) return
+
+        let header = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(this.th.state.selected)
+        }
+
+        let res = await fetch(e.target.getAttribute("link"), header);
+        if (res.status == 200) {
+            alert("Done")
+        }
     }
 
     /*

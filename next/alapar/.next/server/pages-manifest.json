@@ -2,6 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/auto/add": "pages/auto/add.js",
-  "/dasinmaz/add": "pages/dasinmaz/add.js"
+  "/auto/search": "pages/auto/search.js",
+  "/dasinmaz/search": "pages/dasinmaz/search.js"
 }

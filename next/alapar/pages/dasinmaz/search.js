@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import Filter from '@/subcomponents/filter'
+import Filter from '@/Bina/filter'
 import { connect } from "react-redux";
 import Card from '@/subcomponents/card'
 
@@ -32,7 +32,7 @@ class Search extends Component {
                 <div className={'split rightSide'}>
 
                     {posts.map(w => <div className={'col'}>
-                        <Card size={'45'} price={w.price} loc={w.adress.split(',')[0]} premium={true}>
+                        <Card size={'45'} price={w.price} loc={w.adress?.split(',')[0]} premium={true}>
                             {w.images.map(s=><img src={"http://localhost:5566"+s.thumbnail} />)}
                         </Card>
                     </div>)}

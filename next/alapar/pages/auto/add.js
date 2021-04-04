@@ -13,6 +13,7 @@ class Add extends Component {
         this.state = {
             ...this.utility.getImageState,
             url: "http://192.168.1.107:5566/api/auto/image",
+            submitUrl: "http://192.168.1.107:5566/api/auto/Add",
             selected: {
                 mark: null,
                 model: null,
@@ -31,6 +32,29 @@ class Add extends Component {
                 year: null,
                 mileage: null,
                 city: null,
+                name: null,
+                isCall: null,
+                isWp: null,
+                email: null,
+                phone: null,
+                //Chechboxs
+                abs: null,
+                yungulLehimDisk: null,
+                lyuk: null,
+                yagisSensor: null,
+                merkeziQapanma: null,
+                parkRadar: null,
+                kondisioner: null,
+                oturacaqIsitme: null,
+                deriSalon: null,
+                yanPerde: null,
+                oturacaqVentilyasiya: null,
+                ksenonLampa: null,
+                arxaKamera: null,
+                bortKomputer: null,
+                esp: null,
+                kruizKontrol: null,
+                startStopSistemi: null,
             },
             markList: null,
             modelList: null,
@@ -51,6 +75,25 @@ class Add extends Component {
             year: true,
             mileage: true,
             modelSubList: null,
+            checkboxList: [
+                { title: "ABS", name: "abs" },
+                { title: "Yüngül Lehmli Disklər", name: "yungulLehimDisk" },
+                { title: "Lyuk", name: "lyuk" },
+                { title: "Yağış Sensoru", name: "yagisSensor" },
+                { title: "Mərkəzi Qapanma", name: "merkeziQapanma" },
+                { title: "Park Radarl", name: "parkRadar" },
+                { title: "Kondisioner", name: "kondisioner" },
+                { title: "Oturacaqların İsidilməsi", name: "oturacaqIsitme" },
+                { title: "Dəri Salon", name: "deriSalon" },
+                { title: "Yan Pərdə", name: "yanPerde" },
+                { title: "Oturacaqların Ventilyasiyası", name: "oturacaqVentilyasiya" },
+                { title: "Ksenon Lampalar", name: "ksenonLampa" },
+                { title: "Arxa Görüntü Kamerasi", name: "arxaKamera" },
+                { title: "Bort Komputer", name: "bortKomputer" },
+                { title: "ESP", name: "esp" },
+                { title: "Kruiz Kontrol", name: "kruizKontrol" },
+                { title: "Start-Stop Sistemi", name: "startStopSistemi" },
+            ]
 
         }
 
@@ -64,10 +107,10 @@ class Add extends Component {
             this.state.transmitterList = this.props.filter.transmitters
             this.state.transmissionBoxList = this.props.filter.transmissionBoxs
             this.state.capacityList = [
-                ...this.utility.range(50,500,50).map(w=>{return {id: w, name: w}}),
-                ...this.utility.range(600, 6500, 100).map(w=>{return {id: w, name: w}}),
-                ...this.utility.range(7000, 10000, 500).map(w=>{return {id: w, name: w}}),
-                ...this.utility.range(11000, 16000, 1000).map(w=>{return {id: w, name: w}}),
+                ...this.utility.range(50, 500, 50).map(w => { return { id: w, name: w } }),
+                ...this.utility.range(600, 6500, 100).map(w => { return { id: w, name: w } }),
+                ...this.utility.range(7000, 10000, 500).map(w => { return { id: w, name: w } }),
+                ...this.utility.range(11000, 16000, 1000).map(w => { return { id: w, name: w } }),
             ]
         }
 
@@ -106,8 +149,25 @@ class Add extends Component {
                                     {this.utility.selectGenerator("Rəng:", this.state.colorList, "color", this.state.selected.color, this.callbacks.commonCallback)}
                                 </div>
                                 <div className="part">
-                                    {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.commonCallback, {sort: true, swapItem:[5]})}
+                                    {this.utility.header("Təchizatlar", "basliq")}
+                                    <div className={'radioGroup'} style={{ display: 'block!important', paddingBottom: '5px' }}>
+                                        {this.state.checkboxList.map(w => this.utility.checkBoxGenerator(w.title, this.callbacks.checkboxCallback, w.name, true, { makeBlock: true }))}
+                                    </div>
+                                </div>
+                                <div className="part">
+                                    {this.utility.header("Əlaqə", "basliq")}
+                                    {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.commonCallback, { sort: true, swapItem: [5] })}
+                                    {this.utility.inputGenerator("Adınız:", "Daxil Edin", this.callbacks.textAreaCallback, "name")}
+                                    {this.utility.inputGenerator("E-mail:", "Daxil Edin", this.callbacks.textAreaCallback, "email")}
+                                    {this.utility.inputGenerator("Telefon:", "Daxil Edin", this.callbacks.textAreaCallback, "phone")}
+                                    <div className="radioGroup">
+                                        {this.utility.checkBoxGenerator("Zəng üçün", this.callbacks.checkboxCallback, "isCall", true)}
+                                        {this.utility.checkBoxGenerator("Wp üçün", this.callbacks.checkboxCallback, "isWp", true)}
 
+                                    </div>
+                                    <div className={"button"}>
+                                        <a onClick={this.utility.submitClick} valId="addSection" link={this.state.submitUrl}>Elave et</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

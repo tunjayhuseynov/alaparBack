@@ -18,6 +18,7 @@ namespace AlApar.Models.Auto
         public string PhoneNumber { get; set; }
         public bool? IsWp { get; set; }
         public bool? isCall { get; set; }
+        public DateTime? Timespan { get; set; } = DateTime.UtcNow;
 
         public virtual ICollection<AutoAds> AutoAds { get; set; }
         public virtual Cities City { get; set; }

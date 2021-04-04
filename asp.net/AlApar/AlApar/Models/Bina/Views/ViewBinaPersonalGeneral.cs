@@ -10,8 +10,8 @@ namespace AlApar.Models.Bina.Views
         public int Id { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public string Adress { get; set; } //Manual
-        public int? AdStatusId { get; set; } //Manual
-        public int? AdPackageId { get; set; } //Manual
+        public int? StatusId { get; set; } //Manual
+        public int? PackageId { get; set; } //Manual
         public int? CategoryId { get; set; }
         public int? CityId { get; set; }
         public int? RegionId { get; set; }

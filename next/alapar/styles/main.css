@@ -511,32 +511,47 @@
       flex-basis: 25%;
       height: 250px; }
 
-.filter {
+.extraModel {
+  display: flex;
+  width: 100%; }
+  .extraModel .extraFlex {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column; }
+    .extraModel .extraFlex > div {
+      flex-grow: 1; }
+      .extraModel .extraFlex > div .width {
+        width: 75%; }
+  .extraModel .radioGroup {
+    flex-grow: 1; }
+
+#filter {
   width: 100%;
   height: 100%; }
-  .filter .containerFilter {
+  #filter .containerFilter {
     width: 100%;
     padding: 15px 20px; }
-  .filter .selectInput {
+  #filter .selectInput {
     padding: 5px 0; }
-    .filter .selectInput .item {
+    #filter .selectInput .item {
       display: block; }
-  .filter .checkInput {
+  #filter .checkInput {
     padding: 5px 0; }
-  .filter .rangeInput {
+  #filter .rangeInput {
     padding: 5px 0; }
-    .filter .rangeInput .item:last-child {
+    #filter .rangeInput .item:last-child {
       display: flex; }
-      .filter .rangeInput .item:last-child > div {
+      #filter .rangeInput .item:last-child > div {
         flex-grow: 1; }
-        .filter .rangeInput .item:last-child > div:nth-child(3) {
+        #filter .rangeInput .item:last-child > div:nth-child(3) {
           flex-grow: 2; }
-  .filter .ant-input-group-addon {
+  #filter .ant-input-group-addon {
     width: 20%; }
-  .filter .extraBtnParent {
+  #filter .extraBtnParent {
     text-align: center;
     padding: 15px 0; }
-    .filter .extraBtnParent .extraBtn {
+    #filter .extraBtnParent .extraBtn {
       border: none;
       background-color: #000;
       cursor: pointer;
@@ -581,5 +596,9 @@
 
 .white {
   color: white; }
+
+.makeBlock {
+  display: block !important;
+  padding-bottom: 15px; }
 
 /*# sourceMappingURL=main.css.map */

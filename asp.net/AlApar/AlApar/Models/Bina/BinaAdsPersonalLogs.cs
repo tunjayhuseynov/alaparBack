@@ -12,10 +12,10 @@ namespace AlApar.Models.Bina
             BinaAdsPersonal = new HashSet<BinaAdsPersonal>();
         }
         public int Id { get; set; }
-        public DateTime? CreatedDate { get; set; } //Manual
-        public DateTime? ModifiedDate { get; set; } //Manual
-        public DateTime? FromDate { get; set; } //Manual
-        public DateTime? TillDate { get; set; } //Manual
+        public DateTime? CreatedDate { get; set; } = DateTime.UtcNow; //Manual
+        public DateTime? ModifiedDate { get; set; } = DateTime.UtcNow; //Manual
+        public DateTime? FromDate { get; set; } = DateTime.UtcNow; //Manual
+        public DateTime? TillDate { get; set; } = DateTime.UtcNow.AddMonths(1);  //Manual
 
         public virtual ICollection<BinaAdsPersonal> BinaAdsPersonal { get; set; }
 

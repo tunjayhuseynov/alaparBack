@@ -20,7 +20,7 @@ namespace AlApar.Models
         public virtual DbSet<AdPackages> AdPackages { get; set; }
         public virtual DbSet<AdStatuses> AdStatuses { get; set; }
         public virtual DbSet<BinaAdsPersonal> BinaAdsPersonal { get; set; }
-        public virtual DbSet<BinaAdsPersonalLogs> BinaAdsPersonalInfos { get; set; }
+        public virtual DbSet<BinaAdsPersonalLogs> BinaAdsPersonalLogs { get; set; }
         public virtual DbSet<BinaCategories> BinaCategories { get; set; }
         public virtual DbSet<BinaLandAppointments> BinaLandAppointments { get; set; }
         public virtual DbSet<BinaPersonalPhotos> BinaPersonalPhotos { get; set; }
@@ -45,9 +45,9 @@ namespace AlApar.Models
 
                 entity.Property(e=>e.ModifiedDate).HasColumnName("modifiedDate");
 
-                entity.Property(e => e.AdPackageId).HasColumnName("adPackageId");
+                entity.Property(e => e.PackageId).HasColumnName("packageId");
 
-                entity.Property(e => e.AdStatusId).HasColumnName("adStatusId");
+                entity.Property(e => e.StatusId).HasColumnName("statusId");
 
                 entity.Property(e => e.Adress)
                     .HasColumnName("adress")
@@ -206,17 +206,17 @@ namespace AlApar.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.privateId).HasColumnName("privateId");
+                entity.Property(e => e.PrivateId).HasColumnName("privateId");
 
-                entity.Property(e => e.InfoId).HasColumnName("infoId");
+                entity.Property(e => e.LogId).HasColumnName("logId");
 
                 entity.Property(e => e.About)
                     .HasColumnName("about")
                     .HasColumnType("text");
 
-                entity.Property(e => e.AdPackageId).HasColumnName("adPackageId");
+                entity.Property(e => e.PackageId).HasColumnName("packageId");
 
-                entity.Property(e => e.AdStatusId).HasColumnName("adStatusId");
+                entity.Property(e => e.StatusId).HasColumnName("statusId");
 
                 entity.Property(e => e.Adress)
                     .HasColumnName("adress")
@@ -293,17 +293,17 @@ namespace AlApar.Models
 
                 entity.HasOne(d => d.Infos)
                     .WithMany(p => p.BinaAdsPersonal)
-                    .HasForeignKey(d => d.InfoId)
+                    .HasForeignKey(d => d.LogId)
                     .HasConstraintName("FK_bina_ads_personal_Info");
 
                 entity.HasOne(d => d.AdPackage)
                     .WithMany(p => p.BinaAdsPersonal)
-                    .HasForeignKey(d => d.AdPackageId)
+                    .HasForeignKey(d => d.PackageId)
                     .HasConstraintName("Adpack");
 
                 entity.HasOne(d => d.AdStatus)
                     .WithMany(p => p.BinaAdsPersonal)
-                    .HasForeignKey(d => d.AdStatusId)
+                    .HasForeignKey(d => d.StatusId)
                     .HasConstraintName("AdStatus");
 
                 entity.HasOne(d => d.Category)

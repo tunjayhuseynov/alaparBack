@@ -13,6 +13,7 @@ class Add extends Component {
         this.state = {
             ...this.utility.getImageState,
             url: "http://192.168.1.107:5566/api/bina/image",
+            submitUrl: "http://192.168.1.107:5566/api/bina/Add",
             selected: {
                 images: null, //list<string>
                 category: null, //int
@@ -275,19 +276,12 @@ class Add extends Component {
 
                 </div>
                 <div className={"button"}>
-                    <a onClick={this.submitClick}>Elave et</a>
+                    <a onClick={this.utility.submitClick} valId="addSection" link={this.state.submitUrl}>Elave et</a>
                 </div>
             </div>
         )
     }
 
-    elave = () => {
-        return (
-            <div>
-
-            </div>
-        )
-    }
 
     render(h) {
         return (
@@ -310,54 +304,6 @@ class Add extends Component {
                 </div>
             </div>
         )
-    }
-
-    validation = () => {
-        let inputs = document.querySelectorAll("#addSection [validatename]");
-
-        let hasError = false
-
-        for (let index = 0; index < inputs.length; index++) {
-            if (!this.state.selected[inputs[index].getAttribute("validatename")]) {
-                if (!hasError) { hasError = !hasError; }
-
-                let text = `Məlumat Doldurulmayıb: ${inputs[index].getAttribute("displayname")}`
-                this.utility.showError(text)
-
-                let ele = inputs[index].querySelector(".ant-select-selector") || inputs[index].querySelector("textarea") || inputs[index].querySelector("input");
-                if (ele) {
-                    ele.classList.add("errorBorder");
-                    ele.onclick = (e) => { ele.classList.remove("errorBorder") }
-                }
-            }
-        }
-
-        if (this.state.selected.images == null || this.state.selected.images.length == 0) {
-            let text = `Məlumat Doldurulmayıb: Şəkillər`
-            this.utility.showError(text)
-            return false;
-        }
-
-        return hasError
-
-    }
-
-    submitClick = async (e) => {
-        if (this.validation()) return
-
-        let header = {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            mode: 'cors',
-            body: JSON.stringify(this.state.selected)
-        }
-
-        let res = await fetch("http://192.168.1.107:5566/api/bina/Add", header);
-        if (res.status == 200) {
-            alert("Done")
-        }
     }
 
 }

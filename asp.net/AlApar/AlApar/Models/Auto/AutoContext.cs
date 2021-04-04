@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AlApar.Models.Auto.View;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace AlApar.Models.Auto
 
         }
 
+        public virtual DbSet<ViewAutoAds> ViewAutoAds { get; set; }
         public virtual DbSet<AutoAdLogs> AutoAdLogs { get; set; }
         public virtual DbSet<AutoAds> AutoAds { get; set; }
         public virtual DbSet<AutoBanTypes> AutoBanTypes { get; set; }
@@ -31,9 +33,17 @@ namespace AlApar.Models.Auto
         public virtual DbSet<AutoTransmitters> AutoTransmitters { get; set; }
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
+        public virtual DbSet<LastSharedTimes> LastSharedTimes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<LastSharedTimes>(entity =>
+            {
+                entity.ToTable("last_shared_times");
+                entity.Property(w => w.Id).HasColumnName("id");
+                entity.Property(w => w.Name).HasColumnName("name");
+            });
+
             modelBuilder.Entity<AutoAdLogs>(entity => {
 
                 entity.ToTable("auto_ad_logs");
@@ -118,6 +128,9 @@ namespace AlApar.Models.Auto
                 entity.HasOne(w => w.AutoAd).WithMany(w => w.AutoPhotos)
                       .HasForeignKey(w => w.AdId).HasConstraintName("auto_ad_photo");
 
+                entity.HasOne(w => w.ViewAutoAd).WithMany(w => w.Images)
+                      .HasForeignKey(w => w.AdId);
+
             });
 
 
@@ -131,6 +144,7 @@ namespace AlApar.Models.Auto
                 entity.Property(w => w.PhoneNumber).HasColumnName("phoneNumber");
                 entity.Property(w => w.IsWp).HasColumnName("isWp");
                 entity.Property(w => w.isCall).HasColumnName("isCall");
+                entity.Property(w => w.Timespan).HasColumnName("timespan");
 
                 entity.HasOne(w => w.City).WithMany(w => w.AutoContacts)
                       .HasForeignKey(w=>w.CityId).HasConstraintName("auto_ad_contact");
@@ -174,6 +188,9 @@ namespace AlApar.Models.Auto
 
                 entity.ToTable("auto_ads");
                 entity.Property(w => w.Id).HasColumnName("id");
+                entity.Property(w => w.PrivateId).HasColumnName("privateId");
+                entity.Property(w => w.Viewed).HasColumnName("viewed");
+                entity.Property(w => w.Title).HasColumnName("title");
                 entity.Property(w => w.LogId).HasColumnName("logId");
                 entity.Property(w => w.StatusId).HasColumnName("statusId");
                 entity.Property(w => w.PackageId).HasColumnName("packageId");
@@ -204,7 +221,7 @@ namespace AlApar.Models.Auto
                 entity.Property(w => w.Kondisioner).HasColumnName("kondisioner");
                 entity.Property(w => w.OturacaqIsitme).HasColumnName("oturacaqIsitme");
                 entity.Property(w => w.DeriSalon).HasColumnName("deriSalon");
-                entity.Property(w => w.YanPerdeAbs).HasColumnName("yanPerdeAbs");
+                entity.Property(w => w.YanPerde).HasColumnName("yanPerde");
                 entity.Property(w => w.OturacaqVentilyasiya).HasColumnName("oturacaqVentilyasiya");
                 entity.Property(w => w.KsenonLampa).HasColumnName("ksenonLampa");
                 entity.Property(w => w.ArxaKamera).HasColumnName("arxaKamera");
@@ -249,6 +266,72 @@ namespace AlApar.Models.Auto
 
                 entity.HasOne(w => w.Transmitter).WithMany(w => w.AutoAds)
                       .HasForeignKey(w => w.TransmitterId).HasConstraintName("auto_ad_transmitter");
+
+            });
+
+
+            modelBuilder.Entity<ViewAutoAds>(entity=> {
+
+                entity.ToView("View_Auto_Ads");
+
+                entity.Property(w => w.Id).HasColumnName("id");
+                entity.Property(w => w.Viewed).HasColumnName("viewed");
+                entity.Property(w => w.Title).HasColumnName("title");
+                entity.Property(w => w.StatusId).HasColumnName("statusId");
+                entity.Property(w => w.PackageId).HasColumnName("packageId");
+                entity.Property(w => w.MarkId).HasColumnName("markId");
+                entity.Property(w => w.ModelId).HasColumnName("modelId");
+                entity.Property(w => w.BanTypeId).HasColumnName("banTypeId");
+                entity.Property(w => w.CurrencyId).HasColumnName("currencyId");
+                entity.Property(w => w.ColorId).HasColumnName("colorId");
+                entity.Property(w => w.FuelId).HasColumnName("fuelId");
+                entity.Property(w => w.TransmitterId).HasColumnName("transmitterId");
+                entity.Property(w => w.TransmissionBoxId).HasColumnName("transmissionBoxId");
+                entity.Property(w => w.CarYear).HasColumnName("carYear");
+                entity.Property(w => w.Mileage).HasColumnName("mileage");
+                entity.Property(w => w.Price).HasColumnName("price");
+                entity.Property(w => w.MotorPower).HasColumnName("motorPower");
+                entity.Property(w => w.MotorCapacity).HasColumnName("motorCapacity");
+                entity.Property(w => w.About).HasColumnName("about");
+                entity.Property(w => w.Kredit).HasColumnName("kredit");
+                entity.Property(w => w.Barter).HasColumnName("barter");
+
+
+                entity.Property(w => w.Mark).HasColumnName("Mark");
+                entity.Property(w => w.Model).HasColumnName("Model");
+                entity.Property(w => w.ModelTitle).HasColumnName("ModelTitle");
+                entity.Property(w => w.BanType).HasColumnName("BanType");
+                entity.Property(w => w.Color).HasColumnName("Color");
+                entity.Property(w => w.Fuel).HasColumnName("Fuel");
+                entity.Property(w => w.Transmitter).HasColumnName("Transmitter");
+
+                entity.Property(w => w.Name).HasColumnName("name");
+                entity.Property(w => w.Email).HasColumnName("email");
+                entity.Property(w => w.PhoneNumber).HasColumnName("phoneNumber");
+                entity.Property(w => w.IsWp).HasColumnName("isWp");
+                entity.Property(w => w.IsCall).HasColumnName("isCall");
+
+                entity.Property(w => w.City).HasColumnName("City");
+                entity.Property(w => w.CityId).HasColumnName("CityId");
+                entity.Property(w => w.ModifiedDate).HasColumnName("modifiedDate");
+
+                entity.Property(w => w.Abs).HasColumnName("abs");
+                entity.Property(w => w.YungulDisk).HasColumnName("yungulDisk");
+                entity.Property(w => w.Lyuk).HasColumnName("lyuk");
+                entity.Property(w => w.YagisSensor).HasColumnName("yagisSensor");
+                entity.Property(w => w.MerkeziQapanma).HasColumnName("merkeziQapanma");
+                entity.Property(w => w.ParkRadar).HasColumnName("parkRadar");
+                entity.Property(w => w.Kondisioner).HasColumnName("kondisioner");
+                entity.Property(w => w.OturacaqIsitme).HasColumnName("oturacaqIsitme");
+                entity.Property(w => w.DeriSalon).HasColumnName("deriSalon");
+                entity.Property(w => w.YanPerde).HasColumnName("yanPerde");
+                entity.Property(w => w.OturacaqVentilyasiya).HasColumnName("oturacaqVentilyasiya");
+                entity.Property(w => w.KsenonLampa).HasColumnName("ksenonLampa");
+                entity.Property(w => w.ArxaKamera).HasColumnName("arxaKamera");
+                entity.Property(w => w.BortKomputer).HasColumnName("bortKomputer");
+                entity.Property(w => w.Esp).HasColumnName("esp");
+                entity.Property(w => w.KruizKontrol).HasColumnName("kruizKontrol");
+                entity.Property(w => w.StartStopSistem).HasColumnName("startStopSistem");
 
             });
 

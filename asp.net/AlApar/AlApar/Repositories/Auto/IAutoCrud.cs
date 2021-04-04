@@ -1,4 +1,10 @@
-﻿using AlApar.Models.Auto;
+﻿using AlApar.Classes;
+using AlApar.Classes.Auto;
+using AlApar.Models.Auto;
+using AlApar.Models.Auto.View;
+using AlApar.Repositories.Common;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +12,9 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Auto
 {
-    public interface IAutoCrud
+    public interface IAutoCrud : ICommon<ViewAutoAds, AutoContext, Form>
     {
-        public Task<object> getForm(AutoContext db);
+
+
     }
 }

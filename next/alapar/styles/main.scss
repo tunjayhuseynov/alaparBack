@@ -57,6 +57,8 @@ $category-item-height: 300px;
 
 @include utility();
 @include elan();
+
+
 // Nav-Bar Section
 .nav-bar {
     height: $nav-bar-height;
@@ -422,4 +424,9 @@ $category-item-height: 300px;
 
 .white {
     color: white;
+} 
+
+.makeBlock{
+    display: block!important;
+    padding-bottom: 15px;
 }
