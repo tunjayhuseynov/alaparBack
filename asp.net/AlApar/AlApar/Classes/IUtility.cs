@@ -28,11 +28,11 @@ namespace AlApar.Classes
            where P : class, new(); // Images
 
         /// <summary>
-        /// F is Form class, C is Contact MC, V is View of the MC, A is Ad MC
+        /// F is Form class, C is DB, V is View of the MC, A is Ad MC
         /// </summary>
         public Task<object> PostFilter<F, C, V, A>(F res, C db, string firstSearchBy, int skip, int take, Func<C, int?, int, int, IAsyncEnumerable<V>> query, Func<V, bool> extra = null)
            where F : class, new()
-           where C : class, new()
+           where C : DbContext
            where V : class, new()
            where A : class, new();
 

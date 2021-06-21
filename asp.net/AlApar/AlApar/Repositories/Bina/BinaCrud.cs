@@ -1,31 +1,25 @@
-﻿using AlApar.Classes;
-using AlApar.Classes.Bina;
+﻿using AlApar.Classes.Bina;
 using AlApar.Models;
 using AlApar.Models.Bina;
 using AlApar.Models.Bina.Views;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using AlApar.Repositories.Common;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 
 namespace AlApar.Repositories.Bina
 {
-    public class BinaCrud : IBinaCrud
+    public class BinaCrud : Common<ViewBinaPersonalGeneral, BinaContext, Form, BinaAdsPersonal, BinaAdsPersonalLogs, BinaPersonalContacts, BinaPersonalPhotos>, IBinaCrud
     {
 
-        public string TempFolder => "images/bina/temporarily";
-        public string MainFolder => "images/bina/personal";
+        public override string TempFolder => "images/bina/temporarily";
+        public override string MainFolder => "images/bina/personal";
 
 
         //GET
-        public async Task<object> getForm(BinaContext db)
+        public override async Task<object> getForm(BinaContext db)
         {
             var categories = await db.BinaCategories.AsNoTracking().ToListAsync();
 
@@ -88,64 +82,14 @@ namespace AlApar.Repositories.Bina
             return result;
         }
 
-        public async Task<object> saveTempImage(IFormFile image, IUtility _utility, IWebHostEnvironment _webHostEnvironment)
-        {
-            return await _utility.SaveTempImage(image, TempFolder, _webHostEnvironment);
-        }
 
-        public async Task<ViewBinaPersonalGeneral> getPersonalAd(int id, BinaContext db)
+        public override async Task<ViewBinaPersonalGeneral> getPersonalAd(int id, BinaContext db)
         {
             var json = await db.ViewBinaPersonalGenerals.Include(w => w.Images).AsNoTracking().FirstOrDefaultAsync(w => w.Id == id);
 
             return json;
         }
 
-        //POST
-        public async Task addToDb(Form form, BinaContext db, IUtility utility, IWebHostEnvironment _webHostEnvironment)
-        {
-            Func<BinaAdsPersonal, BinaPersonalContacts, BinaAdsPersonalLogs, Form, Task> action = async (ad, contact, logs, form) => {
-
-                if (form.VillageId != null)
-                {
-                    ad.Adress = $"{(await db.Villages.FindAsync(form.VillageId)).Name.TrimEnd()}, {(await db.Regions.FindAsync(form.RegionId)).Name.TrimEnd()}";
-                }
-                else if (form.RegionId != null)
-                {
-                    ad.Adress = $"{(await db.Regions.FindAsync(form.RegionId)).Name.TrimEnd()}, {(await db.Cities.FindAsync(form.CityId)).Name.TrimEnd()}";
-                }
-                else
-                {
-                    ad.Adress = $"{(await db.Cities.FindAsync(form.CityId)).Name.TrimEnd()}";
-                }
-
-            };
-            await utility.add2Db<BinaAdsPersonal, BinaPersonalContacts, BinaAdsPersonalLogs, BinaContext, Form, BinaPersonalPhotos>
-                (db, form, "PersonalContactId", TempFolder, MainFolder, _webHostEnvironment, action);
-
-        }
-
-
-        private Func<BinaContext, int?, int, int, IAsyncEnumerable<ViewBinaPersonalGeneral>> query = EF.CompileAsyncQuery((BinaContext db, int? id, int skip, int take) => db.ViewBinaPersonalGenerals.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
-
-        public async Task<object> PostFilter(Form res, BinaContext db, int skip, int take, IUtility utility)
-        {
-            Func<ViewBinaPersonalGeneral, bool> extra = (item) =>
-            {
-                int placement = FloorPlace(item);
-
-                if (res.Bottomfloor == true || res.Middlefloor == true || res.Upperfloor == true)
-                {
-                    if (res.Bottomfloor != true && placement == -1) return false;
-                    if (res.Middlefloor != true && placement == 0) return false;
-                    if (res.Upperfloor != true && placement == 1) return false;
-                }
-
-                return true;
-            };
-
-            return await utility.PostFilter<Form, BinaContext, ViewBinaPersonalGeneral, BinaAdsPersonal>
-                (res, db, "CategoryId", skip, take, query, extra);
-        }
 
         public int FloorPlace(ViewBinaPersonalGeneral ad)
         {
@@ -155,9 +99,5 @@ namespace AlApar.Repositories.Bina
             return -1;
         }
 
-        public async Task deleteTempImage(string name, IUtility utility, IWebHostEnvironment _webHostEnvironment)
-        {
-           await utility.deleteTempImage(name, TempFolder, _webHostEnvironment);
-        }
     }
 }

@@ -11,14 +11,20 @@ using OkResult = Microsoft.AspNetCore.Mvc.OkResult;
 
 namespace AlApar.Repositories.Common
 {
-    interface ICommonController<V,F, M>
+    /// <summary>
+    /// V is View, F is Form, M is Name class for image
+    /// </summary>
+    /// <typeparam name="V"></typeparam>
+    /// <typeparam name="F"></typeparam>
+    /// <typeparam name="M"></typeparam>
+    interface ICommonController<V, F, M>
     {
         public Task<IEnumerable<V>> getAll();
         public Task<V> getOne(int id);
         public Task<object> getFilter();
         public Task<object> getForm();
         public Task<object> getImage(IFormFile images);
-        public Task<OkResult> getImage([FromBody] M name);
+        public Task<OkResult> deleteImage([FromBody] M name);
         public Task<object> postFilter([FromBody] F res, [FromQuery] int s, [FromQuery] int t);
         public Task<IActionResult> addToDb([FromBody] F form);
     }

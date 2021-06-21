@@ -14,6 +14,8 @@ using System;
 using AlApar.Models.Bina.Views;
 using AlApar.Repositories.Common;
 using AlApar.Classes.Common;
+using AlApar.Models.Bina;
+using System.Linq;
 
 namespace AlApar.Controllers
 {
@@ -99,26 +101,60 @@ namespace AlApar.Controllers
 
         [Route("Image")]
         [HttpDelete]
-        public async Task<OkResult> getImage([FromBody]Name name)
+        public async Task<OkResult> deleteImage([FromBody]Name name)
         {
             await _crud.deleteTempImage(name.name, _utility, _webHostEnvironment);
 
             return Ok();
         }
 
-         
+
+        private Func<BinaContext, int?, int, int, IAsyncEnumerable<ViewBinaPersonalGeneral>> query = EF.CompileAsyncQuery((BinaContext db, int? id, int skip, int take) => db.ViewBinaPersonalGenerals.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
+
+
         [Route("Search")]
         [HttpPost]
         public async Task<object> postFilter([FromBody] Form res, [FromQuery] int s, [FromQuery] int t)
         {
-            return await _crud.PostFilter(res,db, s, t, _utility);
+            Func<ViewBinaPersonalGeneral, bool> extra = (item) =>
+            {
+                int placement = _crud.FloorPlace(item);
+
+                if (res.Bottomfloor == true || res.Middlefloor == true || res.Upperfloor == true)
+                {
+                    if (res.Bottomfloor != true && placement == -1) return false;
+                    if (res.Middlefloor != true && placement == 0) return false;
+                    if (res.Upperfloor != true && placement == 1) return false;
+                }
+
+                return true;
+            };
+
+            return await _crud.PostFilter(res,db, "CategoryId" ,s, t, _utility, query, extra);
         }
 
         [Route("Add")]
         [HttpPost]
         public async Task<IActionResult> addToDb([FromBody] Form form)
         {
-            await _crud.addToDb(form, db, _utility, _webHostEnvironment);
+            Func<BinaAdsPersonal, BinaPersonalContacts, BinaAdsPersonalLogs, Form, Task> action = async (ad, contact, logs, form) => {
+
+                if (form.VillageId != null)
+                {
+                    ad.Adress = $"{(await db.Villages.FindAsync(form.VillageId)).Name.TrimEnd()}, {(await db.Regions.FindAsync(form.RegionId)).Name.TrimEnd()}";
+                }
+                else if (form.RegionId != null)
+                {
+                    ad.Adress = $"{(await db.Regions.FindAsync(form.RegionId)).Name.TrimEnd()}, {(await db.Cities.FindAsync(form.CityId)).Name.TrimEnd()}";
+                }
+                else
+                {
+                    ad.Adress = $"{(await db.Cities.FindAsync(form.CityId)).Name.TrimEnd()}";
+                }
+
+            };
+
+            await _crud.addToDb(form, db, _utility, _webHostEnvironment, action);
 
             return Ok();
         }

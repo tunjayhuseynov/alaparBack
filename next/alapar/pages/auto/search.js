@@ -2,6 +2,7 @@ import { Component } from 'react'
 import Filter from '@/Auto/filter'
 import { connect } from "react-redux";
 import Card from '@/subcomponents/card'
+import * as URL from '@/Layouts/const';
 
 
 const mapStateToProps = (state) => {
@@ -11,13 +12,10 @@ const mapStateToProps = (state) => {
 }
 
 
-
 class Search extends Component {
     constructor(props) {
         super(props)
-
     }
-
 
     render(h) {
         const posts = this.props.redux.searched ?? [];
@@ -33,7 +31,7 @@ class Search extends Component {
 
                     {posts.map(w => <div className={'col'}>
                         <Card size={'45'} price={w.price} loc={w.name??''} premium={true}>
-                            {w.images.map(s=><img src={"http://localhost:5566"+s.thumbnail} />)}
+                            {w.images.map(s=><img src={URL.base+s.thumbnail} />)}
                         </Card>
                     </div>)}
 
@@ -44,10 +42,8 @@ class Search extends Component {
     }
 }
 
-
-
 export async function getStaticProps() {
-    const res = await fetch('http://192.168.1.107:5566/api/auto/filter')
+    const res = await fetch(URL.AUTO_GET_FILTER)
     const filter = await res.json()
     return {
         props: {

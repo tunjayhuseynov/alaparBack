@@ -1,6 +1,7 @@
 ﻿using AlApar.Classes;
 using AlApar.Classes.Bina;
 using AlApar.Models;
+using AlApar.Models.Bina;
 using AlApar.Models.Bina.Views;
 using AlApar.Repositories.Common;
 using Microsoft.AspNetCore.Hosting;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Bina
 {
-    public interface IBinaCrud : ICommon<ViewBinaPersonalGeneral, BinaContext, Form>
+    public interface IBinaCrud : ICommon<ViewBinaPersonalGeneral, BinaContext, Form, BinaAdsPersonal, BinaPersonalContacts, BinaAdsPersonalLogs>
     {
         public int FloorPlace(ViewBinaPersonalGeneral ad);
     }

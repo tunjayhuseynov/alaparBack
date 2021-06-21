@@ -29,7 +29,7 @@ class Category extends Component {
                         Category Name
                     </div>
                     <div className={'extraTitle'}>
-                        <Link scroll={false} href="/search">Daha çox</Link>
+                        <Link scroll={false} href="/dasinmaz/add">Daha çox</Link>
                     </div>
                 </div>
                 <div className={'categoryList'}>

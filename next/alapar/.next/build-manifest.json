@@ -24,15 +24,10 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-    "/auto/search": [
+    "/dasinmaz/add": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/auto/search.js"
-    ],
-    "/dasinmaz/search": [
-      "static/chunks/main.js",
-      "static/chunks/webpack.js",
-      "static/chunks/pages/dasinmaz/search.js"
+      "static/chunks/pages/dasinmaz/add.js"
     ]
   },
   "ampFirstPages": []

@@ -27,8 +27,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\" />
+    <Folder Include="Areas\Electro\Data\" />
+    <Folder Include="Areas\Electro\Models\" />
     <Folder Include="wwwroot\images\temporarily\" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

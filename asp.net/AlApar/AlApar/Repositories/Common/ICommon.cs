@@ -8,19 +8,25 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Common
 {
-    public interface ICommon<T,C,F>
+    /// <summary>
+    /// T is View, C is Context, F is Form
+    /// </summary>
+    /// <typeparam name="View"></typeparam>
+    /// <typeparam name="Context"></typeparam>
+    /// <typeparam name="Form"></typeparam>
+    public interface ICommon<View,Context,Form,ModelAd,Contact, Log>
     {
         string TempFolder { get; }
         string MainFolder { get; }
         
         // GET 
-        public Task<object> getForm(C db);
-        public Task<T> getPersonalAd(int id, C db);
+        public Task<object> getForm(Context db);
+        public Task<View> getPersonalAd(int id, Context db);
 
         // POST
-        public Task<object> PostFilter(F res, C db, int skip, int take, IUtility utility);
+        public Task<object> PostFilter(Form res, Context db, string firstSearchBy, int skip, int take, IUtility utility, Func<Context, int?, int, int, IAsyncEnumerable<View>> query, Func<View, bool> extra = null);
         public Task<object> saveTempImage(IFormFile image, IUtility _utility, IWebHostEnvironment _webHostEnvironment);
-        public Task addToDb(F form, C db, IUtility utility, IWebHostEnvironment _webHostEnvironment);
+        public Task addToDb(Form form, Context db, IUtility utility, IWebHostEnvironment _webHostEnvironment, Func<ModelAd, Contact, Log, Form, Task> action = null);
 
         // DELETE
         public Task deleteTempImage(string name, IUtility utility, IWebHostEnvironment _webHostEnvironment);

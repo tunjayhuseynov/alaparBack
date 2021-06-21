@@ -1,69 +1,100 @@
-﻿using AlApar.Models;
-using AlApar.Models.Auto;
+﻿using AlApar.Classes;
+using AlApar.Classes.Common;
+using AlApar.Classes.Home;
+using AlApar.Models;
+using AlApar.Models.Electro;
+using AlApar.Models.Home;
+using AlApar.Models.Home.View;
+using AlApar.Repositories.Common;
+using AlApar.Repositories.Home;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace AlApar.Controllers
 {
-    public class HomeController : Controller
+    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
+    public class HomeController : ControllerBase, ICommonController<ViewHomeAd, Form, Name>
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly AutoContext _db;
-        public HomeController(ILogger<HomeController> logger, AutoContext db)
+        private readonly IHomeCrud _crud;
+        private readonly IUtility _utility;
+        private readonly HomeContext _db;
+
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public HomeController(IHomeCrud homeCrud, HomeContext _db, IUtility utility, IWebHostEnvironment webHostEnvironment)
         {
-            _logger = logger;
-            _db = db;
+            _crud = homeCrud;
+            _utility = utility;
+            this._db = _db;
+            _webHostEnvironment = webHostEnvironment;
+        }
+        [Route("Add")]
+        public async Task<IActionResult> addToDb([FromBody] Form form)
+        {
+            await _crud.addToDb(form, _db, _utility, _webHostEnvironment);
+
+            return Ok();
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IEnumerable<ViewHomeAd>> getAll()
         {
-            /*
-             using StreamReader r = new StreamReader(@"./marks.json");
-            string json = r.ReadToEnd();
-            List<Marks> arr = JsonConvert.DeserializeObject<List<Marks>>(json);
-
-            foreach (var item in arr)
-            {
-                string title = item.title;
-                string markName = item.name;
-
-                foreach (string name in item.values)
-                {
-                    AutoModels model = _db.AutoModels.Include(w=>w.Mark).Where(w => w.Name.Trim() == name.Trim() && w.Mark.Name == markName).FirstOrDefault();
-                    model.Title = title;
-                    _db.AutoModels.Update(model);
-                }
-            }
-
-            await _db.SaveChangesAsync();
-            */
-            return View();
+            return await _db.ViewHomeAds.AsNoTracking().ToListAsync();
         }
 
-        class Marks
+        [Route("Filter")]
+        public async Task<object> getFilter()
         {
-            public string title;
-            public string name;
-            public List<string> values;
+            return await _crud.getForm(_db);
         }
 
-        public IActionResult Privacy()
+        [Route("Form")]
+        public async Task<object> getForm()
         {
-            return View();
+            return await _crud.getForm(_db);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Route("Image")]
+        public async Task<object> getImage(IFormFile images)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return await _crud.saveTempImage(images, _utility, _webHostEnvironment);
+        }
+
+        [Route("Image")]
+        [HttpDelete]
+        public async Task<OkResult> deleteImage([FromBody] Name name)
+        {
+            await _crud.deleteTempImage(name.name, _utility, _webHostEnvironment);
+
+            return Ok();
+        }
+
+        [Route("get/{id}")]
+        public async Task<ViewHomeAd> getOne(int id)
+        {
+            return await _crud.getPersonalAd(id, _db);
+        }
+
+        private Func<HomeContext, int?, int, int, IAsyncEnumerable<ViewHomeAd>> query = EF.CompileAsyncQuery((HomeContext db, int? id, int skip, int take) => db.ViewHomeAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
+
+        [HttpPost]
+        [Route("Search")]
+        public async Task<object> postFilter([FromBody] Form res, [FromQuery] int s, [FromQuery] int t)
+        {
+            return await _crud.PostFilter(res, _db, "CateogryId", s, t, _utility, query);
         }
     }
 }

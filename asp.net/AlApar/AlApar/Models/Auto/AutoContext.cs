@@ -33,6 +33,8 @@ namespace AlApar.Models.Auto
         public virtual DbSet<AutoTransmitters> AutoTransmitters { get; set; }
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
+        public virtual DbSet<AdStatuses> AdStatuses { get; set; }
+        public virtual DbSet<AdPackages> AdPackages { get; set; }
         public virtual DbSet<LastSharedTimes> LastSharedTimes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -143,7 +145,7 @@ namespace AlApar.Models.Auto
                 entity.Property(w => w.Email).HasColumnName("email");
                 entity.Property(w => w.PhoneNumber).HasColumnName("phoneNumber");
                 entity.Property(w => w.IsWp).HasColumnName("isWp");
-                entity.Property(w => w.isCall).HasColumnName("isCall");
+                entity.Property(w => w.IsCall).HasColumnName("isCall");
                 entity.Property(w => w.Timespan).HasColumnName("timespan");
 
                 entity.HasOne(w => w.City).WithMany(w => w.AutoContacts)

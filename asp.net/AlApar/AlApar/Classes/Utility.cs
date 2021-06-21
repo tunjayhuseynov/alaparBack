@@ -1,5 +1,4 @@
-﻿using AlApar.Models.Auto;
-using AlApar.Repositories;
+﻿using AlApar.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -156,15 +155,6 @@ namespace AlApar.Classes
             return Task.CompletedTask;
         }
 
-        //public Task loadLog<T>(T model) where T : class
-        //{
-        //    model.GetType().GetProperty("CreatedDate").SetValue(model, DateTime.UtcNow);
-        //    model.GetType().GetProperty("ModifiedDate").SetValue(model, DateTime.UtcNow);
-        //    model.GetType().GetProperty("FromDate").SetValue(model, DateTime.UtcNow);
-        //    model.GetType().GetProperty("TillDate").SetValue(model, DateTime.UtcNow.AddMonths(1));
-
-        //    return Task.CompletedTask;
-        //}
 
         public Task loadAdInstance<T>(T adInstance, int logId, int contactId, string contactName) where T : class
         {
@@ -178,24 +168,24 @@ namespace AlApar.Classes
             return Task.CompletedTask;
         }
 
-        public async Task add2Db<A, C, L, D, F, P>(D db, F form, string contactIdName, string TempFolder, string MainFolder, IWebHostEnvironment _webHostEnvironment, Func<A, C, L, F, Task> extra = null)
-            where A : class, new() // Ad Instance
-            where C : class, new() // Contact
-            where L : class, new() // Logs
-            where D : DbContext
-            where F : class, new() // Form class
-            where P : class, new() // Images
+        public async Task add2Db<AdModel, Contact, Log, Context, Form, Photos>(Context db, Form form, string contactIdName, string TempFolder, string MainFolder, IWebHostEnvironment _webHostEnvironment, Func<AdModel, Contact, Log, Form, Task> extra = null)
+            where AdModel : class, new() // Ad Instance
+            where Contact : class, new() // Contact
+            where Log : class, new() // Logs
+            where Context : DbContext
+            where Form : class, new() // Form class
+            where Photos : class, new() // Images
         {
-            A adInstance = new A();
-            C contacts = new C();
-            L logs = new L();
+            AdModel adInstance = new AdModel();
+            Contact contacts = new Contact();
+            Log logs = new Log();
 
             //await loadLog(logs); because we use default values in MC
 
             string tempFolder = Path.Combine(_webHostEnvironment.WebRootPath, TempFolder);
             string mainFolder = Path.Combine(_webHostEnvironment.WebRootPath, MainFolder);
 
-            foreach (var item in new F().GetType().GetProperties())
+            foreach (var item in new Form().GetType().GetProperties())
             {
                 if (item.GetValue(form) != null && adInstance.GetType().GetProperty(item.Name) != null)
                 {
@@ -232,7 +222,7 @@ namespace AlApar.Classes
                 imageNames
                 .Select((w, i) =>
                 {
-                    var imageInstace = new P();
+                    var imageInstace = new Photos();
                     imageInstace.GetType().GetProperty("AdId").SetValue(imageInstace, adInstanceId);
                     imageInstace.GetType().GetProperty("ImagePath").SetValue(imageInstace, $"/{MainFolder}/{adInstanceId}/{w}");
                     imageInstace.GetType().GetProperty("PrimaryImage").SetValue(imageInstace, i);
@@ -247,7 +237,7 @@ namespace AlApar.Classes
 
         public async Task<object> PostFilter<F, C, V, A>(F res, C db, string firstSearchBy, int skip, int take, Func<C, int?, int, int, IAsyncEnumerable<V>> query, Func<V, bool> extra = null)
             where F : class, new()
-            where C : class, new()
+            where C : DbContext
             where V : class, new()
             where A : class, new()
         {

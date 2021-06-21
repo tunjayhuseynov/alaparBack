@@ -59,18 +59,22 @@ namespace AlApar.Controllers
 
         [Route("Image")]
         [HttpDelete]
-        public async Task<OkResult> getImage([FromBody] Name name)
+        public async Task<OkResult> deleteImage([FromBody] Name name)
         {
             await _crud.deleteTempImage(name.name, _utility, _webHostEnvironment);
 
             return Ok();
         }
 
+
         [Route("Add")]
         [HttpPost]
         public async Task<IActionResult> addToDb([FromBody] Form form)
         {
-            await _crud.addToDb(form, db, _utility, _webHostEnvironment);
+            Func<AutoAds, AutoContacts, AutoAdLogs, Form, Task> action = async (auto, contact, logs, form) =>
+                 auto.Title = $"{(await db.AutoMarks.FindAsync(form.MarkId)).Name} {(await db.AutoModels.FindAsync(form.ModelId)).Name}";
+
+            await _crud.addToDb(form, db, _utility, _webHostEnvironment, action);
 
             return Ok();
         }
@@ -78,7 +82,7 @@ namespace AlApar.Controllers
         [Route("getAll")]
         public async Task<IEnumerable<ViewAutoAds>> getAll()
         {
-            return await db.ViewAutoAds.ToListAsync();
+            return await db.ViewAutoAds.AsNoTracking().ToListAsync();
         }
 
         [Route("get/{id}")]
@@ -87,10 +91,12 @@ namespace AlApar.Controllers
             return await _crud.getPersonalAd(id, db);
         }
 
+        private Func<AutoContext, int?, int, int, IAsyncEnumerable<ViewAutoAds>> query = EF.CompileAsyncQuery((AutoContext db, int? id, int skip, int take) => db.ViewAutoAds.Include(w => w.Images).AsNoTracking().Where(w => w.MarkId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
+
         [Route("Search")]
         public async Task<object> postFilter([FromBody] Form res, [FromQuery] int s, [FromQuery] int t)
         {
-            return await _crud.PostFilter(res, db, s, t, _utility);
+            return await _crud.PostFilter(res, db, "MarkId", s, t, _utility, query);
         }
     }
 

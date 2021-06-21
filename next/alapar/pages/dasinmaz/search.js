@@ -2,7 +2,7 @@ import { Component } from 'react'
 import Filter from '@/Bina/filter'
 import { connect } from "react-redux";
 import Card from '@/subcomponents/card'
-
+import * as URL from '@/Layouts/const';
 
 const mapStateToProps = (state) => {
     return {
@@ -33,7 +33,7 @@ class Search extends Component {
 
                     {posts.map(w => <div className={'col'}>
                         <Card size={'45'} price={w.price} loc={w.adress?.split(',')[0]} premium={true}>
-                            {w.images.map(s=><img src={"http://localhost:5566"+s.thumbnail} />)}
+                            {w.images.map(s=><img src={URL.base+s.thumbnail} />)}
                         </Card>
                     </div>)}
 
@@ -47,7 +47,7 @@ class Search extends Component {
 
 
 export async function getStaticProps() {
-    const res = await fetch('http://192.168.1.107:5566/api/bina/filter')
+    const res = await fetch(URL.BINA_GET_FILTER)
     const filter = await res.json()
     return {
         props: {

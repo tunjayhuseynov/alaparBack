@@ -1,6 +1,8 @@
 import { Component } from 'react'
 import Utilities from '@/utilities';
 import Callbacks from '@/callbacks';
+import Form from '@/Layouts/form'
+import * as URL from '@/Layouts/const';
 
 class Add extends Component {
 
@@ -9,11 +11,11 @@ class Add extends Component {
 
         this.utility = new Utilities(this);
         this.callbacks = new Callbacks(this);
-   
+
         this.state = {
             ...this.utility.getImageState,
-            url: "http://192.168.1.107:5566/api/bina/image",
-            submitUrl: "http://192.168.1.107:5566/api/bina/Add",
+            url: URL.BINA_IMAGE,
+            submitUrl: URL.BINA_SUBMIT,
             selected: {
                 images: null, //list<string>
                 category: null, //int
@@ -107,6 +109,7 @@ class Add extends Component {
         }
 
         if (this.props.filter) {
+            this.state.rentals = this.props.filter.rentals;
             this.state.categoryList = this.props.filter.categories;
             this.state.subCategory = this.utility.convertCategory2Sub(this.props.filter.categories, "subname")
             this.state.metroWayList = this.props.filter.metroWays;
@@ -130,20 +133,20 @@ class Add extends Component {
 
                 {this.utility.radioGenerator("Əmlak:", this.state.sellTypeList, 1, this.callbacks.sellTypeCallback, "sellType")}
 
-                {this.utility.selectGenerator("Kategoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.categoryCallback, {subname: this.state.subCategory})}
+                {this.utility.selectGenerator("Kategoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.binaCategoryCallback, { subname: this.state.subCategory, subnameTitle: "subname" })}
 
-                {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.cityCallback, {sort: true, swapItem: [5]})}
+                {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.cityCallback, { sort: true, swapItem: [5] })}
 
-                {this.utility.selectGenerator("Rayon:", this.state.regionList, "region", this.state.selected.region, this.callbacks.regionCallback, {sort: true})}
+                {this.utility.selectGenerator("Rayon:", this.state.regionList, "region", this.state.selected.region, this.callbacks.regionCallback, { sort: true })}
 
-                {this.utility.selectGenerator("Qəsəbə:", this.state.villageList, "village", this.state.selected.village, this.callbacks.commonCallback, {sort: true})}
+                {this.utility.selectGenerator("Qəsəbə:", this.state.villageList, "village", this.state.selected.village, this.callbacks.commonCallback, { sort: true })}
 
                 {this.utility.inputGenerator("Ünvan (Küçə, Ev, Mənzil və s.):", "Daxil Edin", this.callbacks.textAreaCallback, "customAdress")}
 
-                {this.utility.selectGenerator("Metro:", this.state.metroList, "metro", this.state.selected.metro, this.callbacks.commonCallback, {sort: true})}
+                {this.utility.selectGenerator("Metro:", this.state.metroList, "metro", this.state.selected.metro, this.callbacks.commonCallback, { sort: true })}
 
-                {this.utility.numberGenerator("Metroya olan dəqiqə müddəti:", "Daxil Edin", this.callbacks.numberCallback, "metroDuration", this.state.selected.metro, 1, 120, 
-                {addonAfterList: this.state.metroWayList, addonAfterCallback: this.callbacks.commonCallback, addonName: "metroWay", addonValue: this.state.selected.metroWay})}
+                {this.utility.numberGenerator("Metroya olan dəqiqə müddəti:", "Daxil Edin", this.callbacks.numberCallback, "metroDuration", this.state.selected.metro, 1, 120,
+                    { addonAfterList: this.state.metroWayList, addonAfterCallback: this.callbacks.commonCallback, addonName: "metroWay", addonValue: this.state.selected.metroWay })}
 
                 <div className={'radioGroup'}>
                     {this.utility.checkBoxGenerator("Metro Yoxdur", this.callbacks.isMetroCallback, "nometro", this.state.nometro)}
@@ -198,19 +201,19 @@ class Add extends Component {
 
                 {this.utility.header("Əsas", "basliq")}
 
-                {this.utility.selectGenerator("Kirayə müddəti:", this.state.rentDurationList, "rentDuration", this.state.selected.rentDuration, this.callbacks.commonCallback, {sort: true})}
+                {this.utility.selectGenerator("Kirayə müddəti:", this.state.rentDurationList, "rentDuration", this.state.selected.rentDuration, this.callbacks.commonCallback, { sort: true })}
 
-                {this.state.rentingTypeBoxVisibility?this.utility.radioGenerator("Kirayə Tipi:", this.state.rentalAddition.otagordaire, 0, this.callbacks.rentTypeCallback, "otagordaire", [{ id: 0, name: "Bütün Yer" }, { id: 1, name: "Otag" }]):null}
+                {this.state.rentingTypeBoxVisibility ? this.utility.radioGenerator("Kirayə Tipi:", this.state.rentalAddition.otagordaire, 0, this.callbacks.rentTypeCallback, "otagordaire", [{ id: 0, name: "Bütün Yer" }, { id: 1, name: "Otag" }]) : null}
 
-                {this.utility.numberGenerator("Qiymət:", "Daxil Edin", this.callbacks.numberCallback, "price", true, 1, Number.MAX_VALUE, {addonAfterList: this.state.currencyList, addonAfterCallback: this.callbacks.commonCallback, addonName: "currency", addonValue: this.state.selected.currency})}
+                {this.utility.numberGenerator("Qiymət:", "Daxil Edin", this.callbacks.numberCallback, "price", true, 1, Number.MAX_VALUE, { addonAfterList: this.state.currencyList, addonAfterCallback: this.callbacks.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}
 
-                {this.utility.numberGenerator("Sahə:", "Daxil Edin", this.callbacks.numberCallback, "areaSize", true, 1, Number.MAX_VALUE, {addonAfterOnlyText: this.state.areaUnit})}
+                {this.utility.numberGenerator("Sahə:", "Daxil Edin", this.callbacks.numberCallback, "areaSize", true, 1, Number.MAX_VALUE, { addonAfterOnlyText: this.state.areaUnit })}
 
-                {this.utility.numberGenerator("Torpaq Sahəsi:", "Daxil Edin", this.callbacks.numberCallback, "secondAreaSize", this.state.addition.secondArea, 1, Number.MAX_VALUE, {addonAfterOnlyText: "sot"})}
+                {this.utility.numberGenerator("Torpaq Sahəsi:", "Daxil Edin", this.callbacks.numberCallback, "secondAreaSize", this.state.addition.secondArea, 1, Number.MAX_VALUE, { addonAfterOnlyText: "sot" })}
 
                 {this.utility.numberGenerator("Otag:", "Daxil Edin", this.callbacks.numberCallback, "roomAmount", this.state.addition.roomAmount)}
 
-                {this.utility.selectGenerator("Torpag Teyinati:", this.state.addition.landAppointment ? this.state.landAppointmentList : false, "landAppointment", this.state.selected.landAppointment, this.callbacks.commonCallback, {sort: true})}
+                {this.utility.selectGenerator("Torpag Teyinati:", this.state.addition.landAppointment ? this.state.landAppointmentList : false, "landAppointment", this.state.selected.landAppointment, this.callbacks.commonCallback, { sort: true })}
 
                 {this.utility.numberGenerator("Menzil Mertebesi:", "Daxil Edin", this.callbacks.numberCallback, "floor", this.state.addition.floor, 0)}
 
@@ -262,7 +265,7 @@ class Add extends Component {
 
                 {this.utility.inputGenerator("Ad:", "Daxil Edin", this.callbacks.textAreaCallback, "name")}
 
-                {this.utility.inputGenerator("Nömrə:", "Daxil Edin", this.callbacks.textAreaCallback, "phone")}
+                {this.utility.inputGenerator("Nömrə:", "Daxil Edin", this.callbacks.phoneNumberCallback, "phone", { phone: true })}
 
                 {this.utility.inputGenerator("E-mail:", "Daxil Edin", this.callbacks.textAreaCallback, "email")}
 
@@ -275,9 +278,6 @@ class Add extends Component {
                     {this.utility.checkBoxGenerator("Zəng", this.callbacks.checkboxCallback, "call", true)}
 
                 </div>
-                <div className={"button"}>
-                    <a onClick={this.utility.submitClick} valId="addSection" link={this.state.submitUrl}>Elave et</a>
-                </div>
             </div>
         )
     }
@@ -285,31 +285,18 @@ class Add extends Component {
 
     render(h) {
         return (
-            <div id={'addSection'}>
-                <div className={'container'}>
-                    <div className={'row'}>
-                        <div className={'col first'}>
-                            <div className={'customCol'}>
-                                {this.ilkin()}
-                                {this.esas()}
-                                {this.elaqe()}
-                            </div>
-                        </div>
-                        <div className={'col second'}>
-                            <div className={'customCol'}>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Form childstate={this}>
+                {this.ilkin()}
+                {this.esas()}
+                {this.elaqe()}
+            </Form>
         )
     }
 
 }
 
 export async function getStaticProps() {
-    const res = await fetch('http://192.168.1.107:5566/api/bina/Form')
+    const res = await fetch(URL.BINA_FORM)
     const filter = await res.json()
     return {
         props: {

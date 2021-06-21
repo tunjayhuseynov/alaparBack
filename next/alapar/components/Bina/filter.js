@@ -3,6 +3,8 @@ import * as types from '../../store/types'
 import { connect } from 'react-redux';
 import Utilities from '@/utilities'
 import Callbacks from '@/callbacks';
+import FilterLayout from '@/layouts/filter'
+import * as URL from '@/Layouts/const'
 
 const mapStateToProps = (state) => {
     return {
@@ -143,14 +145,14 @@ class Filter extends Component {
                 ...this.state.selected,
                 sellType: this.props.filter.sellTypes[0].id
             },
-            this.state.sharedDate = this.props.filter.sharedDate
+                this.state.sharedDate = this.props.filter.sharedDate
         }
 
     }
 
     componentDidUpdate = async (prevProps, prevState) => {
         if (prevState.selected !== this.state.selected) {
-            let conn = await fetch(`http://192.168.1.107:5566/api/bina/search?s=${0}&t=${20}`, {
+            let conn = await fetch(`${URL.BINA_SEARCH}?s=${0}&t=${20}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -255,61 +257,59 @@ class Filter extends Component {
     render(h) {
 
         return (
-            <div id={'filter'}>
-                <div className={'containerFilter'}>
-                    {this.utility.radioGenerator("Əmlak:", this.state.sellTypeList, 1, this.callbacks.sellTypeCallback, "sellType")}
+            <FilterLayout>
+                {this.utility.radioGenerator("Əmlak:", this.state.sellTypeList, 1, this.callbacks.sellTypeCallback, "sellType")}
 
-                    {this.utility.selectGenerator("Kategoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.categoryCallback, { subname: this.state.subCategory })}
+                {this.utility.selectGenerator("Kategoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.binaCategoryCallback, { subname: this.state.subCategory })}
 
-                    {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.cityCallback, { sort: true, swapItem: [5] })}
+                {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.cityCallback, { sort: true, swapItem: [5] })}
 
-                    {this.utility.selectGenerator("Rayon:", this.state.regionList, "region", this.state.selected.region, this.callbacks.regionCallback, { sort: true })}
+                {this.utility.selectGenerator("Rayon:", this.state.regionList, "region", this.state.selected.region, this.callbacks.regionCallback, { sort: true })}
 
-                    {this.utility.selectGenerator("Qəsəbə:", this.state.villageList, "village", this.state.selected.village, this.callbacks.commonCallback, { sort: true })}
+                {this.utility.selectGenerator("Qəsəbə:", this.state.villageList, "village", this.state.selected.village, this.callbacks.commonCallback, { sort: true })}
 
-                    {this.utility.selectGenerator("Metro:", this.state.metroList, "metro", this.state.selected.metro, this.callbacks.commonCallback, { sort: true })}
-
-
-                    {this.utility.selectGenerator("Kirayə müddəti:", this.state.rentDurationList, "rentDuration", this.state.selected.rentDuration, this.callbacks.commonCallback, { sort: true })}
+                {this.utility.selectGenerator("Metro:", this.state.metroList, "metro", this.state.selected.metro, this.callbacks.commonCallback, { sort: true })}
 
 
-                    {this.utility.rangeİnputGenerator("Qiymət:", "minPrice", "maxPrice", this.callbacks.numberCallback, this.state.selected.category, { addonAfterList: this.state.currencyList, addonAfterCallback: this.callbacks.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}
-
-                    {this.utility.rangeİnputGenerator("Sahə:", "minArea", "maxArea", this.callbacks.numberCallback, this.state.selected.category, { addonAfterOnlyText: this.state.areaUnit ?? "m²" })}
-
-                    {this.utility.rangeİnputGenerator("Torpaq Sahəsi:", "minLandArea", "maxLandArea", this.callbacks.numberCallback, this.state.addition.secondArea, { addonAfterOnlyText: "sot" })}
-
-                    {this.utility.rangeİnputGenerator("Otag", "minRoom", "maxRoom", this.callbacks.numberCallback, this.state.addition.roomAmount)}
-
-                    {this.utility.selectGenerator("Torpag Teyinati:", this.state.addition.landAppointment ? this.state.landAppointmentList : false, "landAppointment", this.state.selected.landAppointment, this.callbacks.commonCallback, { selectAll: true })}
+                {this.utility.selectGenerator("Kirayə müddəti:", this.state.rentDurationList, "rentDuration", this.state.selected.rentDuration, this.callbacks.commonCallback, { sort: true })}
 
 
-                    {this.utility.checkBoxGenerator("Mərtəbə:", this.callbacks.checkboxCallback, null, this.state.addition.roomAmount, {
-                        multiple: [
-                            {
-                                name: "bottomfloor",
-                                title: "Ən Alt"
-                            },
-                            {
-                                name: "middlefloor",
-                                title: "Ortalar"
-                            },
-                            {
-                                name: "upperfloor",
-                                title: "Ən Yuxarı"
-                            },
-                        ]
-                    })}
+                {this.utility.rangeİnputGenerator("Qiymət:", "minPrice", "maxPrice", this.callbacks.numberCallback, this.state.selected.category, { addonAfterList: this.state.currencyList, addonAfterCallback: this.callbacks.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}
 
-                    {this.utility.selectGenerator("Paylaşma Tarixi:", this.state.sharedDate, "sharedDate", this.state.selected.sharedDate, this.callbacks.commonCallback, { selectAll: true })}
+                {this.utility.rangeİnputGenerator("Sahə:", "minArea", "maxArea", this.callbacks.numberCallback, this.state.selected.category, { addonAfterOnlyText: this.state.areaUnit ?? "m²" })}
 
-                    {this.utility.generateModal(this.extras(), this.state.extraVisible, "extraVisible", { title: "Əlavələr" })}
+                {this.utility.rangeİnputGenerator("Torpaq Sahəsi:", "minLandArea", "maxLandArea", this.callbacks.numberCallback, this.state.addition.secondArea, { addonAfterOnlyText: "sot" })}
 
-                    <div className={'extraBtnParent'}>
-                        <button className={'extraBtn'} onClick={() => { this.setState({ extraVisible: true }) }}>Əlavələr</button>
-                    </div>
+                {this.utility.rangeİnputGenerator("Otag", "minRoom", "maxRoom", this.callbacks.numberCallback, this.state.addition.roomAmount)}
+
+                {this.utility.selectGenerator("Torpag Teyinati:", this.state.addition.landAppointment ? this.state.landAppointmentList : false, "landAppointment", this.state.selected.landAppointment, this.callbacks.commonCallback, { selectAll: true })}
+
+
+                {this.utility.checkBoxGenerator("Mərtəbə:", this.callbacks.checkboxCallback, null, this.state.addition.roomAmount, {
+                    multiple: [
+                        {
+                            name: "bottomfloor",
+                            title: "Ən Alt"
+                        },
+                        {
+                            name: "middlefloor",
+                            title: "Ortalar"
+                        },
+                        {
+                            name: "upperfloor",
+                            title: "Ən Yuxarı"
+                        },
+                    ]
+                })}
+
+                {this.utility.selectGenerator("Paylaşma Tarixi:", this.state.sharedDate, "sharedDate", this.state.selected.sharedDate, this.callbacks.commonCallback, { selectAll: true })}
+
+                {this.utility.generateModal(this.extras(), this.state.extraVisible, "extraVisible", { title: "Əlavələr" })}
+
+                <div className={'extraBtnParent'}>
+                    <button className={'extraBtn'} onClick={() => { this.setState({ extraVisible: true }) }}>Əlavələr</button>
                 </div>
-            </div>
+            </FilterLayout>
         )
     }
 

@@ -3,6 +3,8 @@ import * as types from '../../store/types'
 import { connect } from 'react-redux';
 import Utilities from '@/utilities'
 import Callbacks from '@/callbacks';
+import FilterLayout from '@/Layouts/filter'
+import * as URL from '@/Layouts/const'
 
 const mapStateToProps = (state) => {
     return {
@@ -19,8 +21,8 @@ class Filter extends Component {
 
         this.state = {
             ...this.utility.getImageState,
-            url: "http://192.168.1.107:5566/api/auto/image",
-            submitUrl: "http://192.168.1.107:5566/api/auto/Add",
+            url: URL.AUTO_IMAGE,
+            submitUrl: URL.AUTO_SUBMIT,
             selected: {
                 mark: null,
                 model: null,
@@ -135,7 +137,7 @@ class Filter extends Component {
 
     componentDidUpdate = async (prevProps, prevState) => {
         if (prevState.selected !== this.state.selected) {
-            let conn = await fetch(`http://192.168.1.107:5566/api/auto/search?s=${0}&t=${20}`, {
+            let conn = await fetch(`${URL.AUTO_SEARCH}?s=${0}&t=${20}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -162,7 +164,7 @@ class Filter extends Component {
                     <div>
                         {this.utility.selectGenerator("Rəng:", this.state.colorList, "color", this.state.selected.color, this.callbacks.commonCallback)}
                         {this.utility.selectGenerator("Mühərrikin həcmi (sm³):", this.state.capacityList, "capacity", this.state.selected.capacity, this.callbacks.commonCallback)}
-                        
+
                         {this.utility.rangeİnputGenerator("Mühərrikin gücü (a.g):", "minMotorPower", "maxMotorPower", this.callbacks.numberCallback, this.state.selected.mark)}
 
                     </div>
@@ -177,9 +179,8 @@ class Filter extends Component {
 
     render() {
         return (
-            <div id={'filter'}>
-                <div className={'containerFilter'}>
-                    {this.utility.selectGenerator("Marka:", this.state.markList, "mark", this.state.selected.mark, this.callbacks.markCallback, { search: true })}
+            <FilterLayout>
+                    {this.utility.selectGenerator("Marka:", this.state.markList, "mark", this.state.selected.mark, this.callbacks.autoMarkCallback, { search: true })}
                     {this.utility.selectGenerator("Model:", this.state.modelList, "model", this.state.selected.model, this.callbacks.commonCallback, { selectAll: true, search: true, subname: this.state.modelSubList, subnameTitle: "title" })}
                     {this.utility.selectGenerator("Ban növü:", this.state.banList, "ban", this.state.selected.ban, this.callbacks.commonCallback, { selectAll: true})}
                     {this.utility.rangeİnputGenerator("Qiymət:", "minPrice", "maxPrice", this.callbacks.numberCallback, this.state.selected.mark, { addonAfterList: this.state.currencyList, addonAfterCallback: this.callbacks.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}
@@ -200,8 +201,7 @@ class Filter extends Component {
                     <div className={'extraBtnParent'}>
                         <button className={'extraBtn'} onClick={() => { this.setState({ extraVisible: true }) }}>Əlavələr</button>
                     </div>
-                </div>
-            </div>)
+            </FilterLayout>)
     }
 }
 

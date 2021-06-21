@@ -12,8 +12,7 @@ namespace AlApar.Models
         {
         }
 
-        public BinaContext(DbContextOptions<BinaContext> options)
-            : base(options)
+        public BinaContext(DbContextOptions<BinaContext> options): base(options)
         {
         }
 

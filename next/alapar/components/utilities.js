@@ -102,13 +102,41 @@ class Utilities {
     }
 
 
-    inputGenerator = (title, placeholder, callback, state) => {
+    inputGenerator = (title, placeholder, callback, state, { visibility = null, phone = null, novalidation = null } = {}) => {
+        if ((Array.isArray(visibility) && visibility.length < 1) || visibility == false) {
+
+            this.th.state.selected[state] = null
+
+            return null
+        }
+        let val = {}
+        if(novalidation == null){
+            val.validatename = state;
+        }
+
+        let obj = {}
+        if(phone){
+            obj.onInput= (v)=>{
+                v.target.value = v.target.value.replace(/(?<=^.{15}).*/g, "").replace(/[^0-9]/g, '').split("").reduce((a, c, i) => {
+                    if (i == 0) a += '('
+                    if (i == 2) return a + c + ') '
+                    if (i == 5) return a + c + '-'
+                    if (i == 7) return a + c + '-'
+                    return a + c
+                }, '');
+                
+                v.target.value = v.target.value.replace(/[- \(\)]{1,2}$/g, "").split("").reduce((a,c)=>a+c,'')
+                
+            }
+        }
+
         return (
             <div className={'subitem simpleInput'}>
                 <div className={'item'}><label>{title}</label></div>
-                <div className={'item'} validatename={state} displayname={title.replace(":", "")}>
+                <div className={'item'} {...val} displayname={title.replace(":", "")}>
 
                     <Input
+                        {...obj}
                         className={'width'}
                         name={state}
                         placeholder={placeholder}
@@ -125,6 +153,11 @@ class Utilities {
 
             return null
         }
+
+        let formatter = value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        let parser = value => `${value}`.replace(/\$\s?|(,*)/g, '')
+
+
         return (
             <div className={'subitem numberInput'} validatename={name} displayname={title.replace(":", "")}>
                 <div className={'item'}>
@@ -138,8 +171,8 @@ class Utilities {
                         max={max}
                         className={'width inputnumber'}
                         placeholder={placeholder}
-                        formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        parser={value => `${value}`.replace(/\$\s?|(,*)/g, '')}
+                        formatter={formatter}
+                        parser={parser}
                         onKeyUp={callback}
                     />
                     {!addonAfterList ? null :
@@ -159,7 +192,13 @@ class Utilities {
         )
     }
 
-    textAreaGeneretor = (title, placeholder, callback, name) => {
+    textAreaGeneretor = (title, placeholder, callback, name, {visibility = null}={}) => {
+        if(visibility == false){
+            this.th.state.selected[name] = null
+
+            return null
+        }
+
         return (
             <div className={'subitem textAreaInput'}>
                 <div className={'item'}>
@@ -179,7 +218,7 @@ class Utilities {
         )
     }
 
-    rangeİnputGenerator = (title, minName, maxName, Callback, visibility, { min = null, step = null, addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null } = {}) => {
+    rangeİnputGenerator = (title, minName, maxName, Callback, visibility, { min = Number.MIN_VALUE, max=Number.MAX_VALUE, step = 1, addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null } = {}) => {
         if (!visibility) {
 
             this.th.state.selected[minName] = null
@@ -195,7 +234,7 @@ class Utilities {
                         style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
                         placeholder={"Min."}
                         onKeyUp={Callback}
-                        min={min} step={step} name={minName}
+                        min={min} max={max} step={step} name={minName}
                         formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         parser={value => value.replace(/\$\s?|(,*)/g, '')}
                     />
@@ -204,7 +243,7 @@ class Utilities {
                         style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
                         placeholder={"Max."}
                         onKeyUp={Callback}
-                        min={min} step={step} name={maxName}
+                        min={min} max={max} step={step} name={maxName}
                         formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         parser={value => value.replace(/\$\s?|(,*)/g, '')}
                     />
@@ -225,8 +264,8 @@ class Utilities {
         )
     }
 
-    selectGenerator = (title, options, name, selected, callback, { search = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null } = {}) => {
-        if (!options || options.length < 1) {
+    selectGenerator = (title, options, name, selected, callback, { visibility = false, loading = null, search = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null } = {}) => {
+        if ((!options || options.length < 1) && !visibility) {
 
             this.th.state.selected[name] = null
 
@@ -249,16 +288,20 @@ class Utilities {
             })
         }
 
+        let obj = {}
+        if(loading){
+            obj.loading = true
+        }
 
         if (subname) {
             return (
                 <div className={'subitem selectInput'}>
                     <div className={'item'}><label>{title}</label></div>
                     <div className={'item'} validatename={name} displayname={title.replace(":", "")}>
-                        <Select filterOption={(input, option) => option?.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'width'}>
+                        <Select {...obj} filterOption={(input, option) => option?.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'width'}>
                             {selectAll ? <Option state={name} value={null}>Hamısı</Option> : null}
-                            {options.filter(w => !(w[subnameTitle])).map((w, i) => <Option state={name} key={new Date().getTime() + i} value={w.id}>{w.name}</Option>)}
-                            {subname.map((w, i) => <OptGroup key={uuidv4()} label={w.name}>
+                            {options?.filter(w => !(w[subnameTitle]))?.map((w, i) => <Option state={name} key={new Date().getTime() + i} value={w.id}>{w.name}</Option>)}
+                            {subname?.map((w, i) => <OptGroup key={uuidv4()} label={w.name}>
 
                                 {w.category.map((d, q) => <Option state={name} key={uuidv4()} value={d.id}>{d.name}</Option>)}
 
@@ -273,9 +316,9 @@ class Utilities {
         return (<div className={'subitem selectInput'}>
             <div className={'item'}><label>{title}</label></div>
             <div className={'item'} validatename={name} displayname={title.replace(":", "")}>
-                <Select filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'width'}>
+                <Select {...obj} filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'width'}>
                     {selectAll ? <Option state={name} value={null}>Hamısı</Option> : null}
-                    {options.map((w, i) => <Option state={name} key={new Date().getTime() + i} value={w.id}>{w.name}</Option>)}
+                    {options?.map((w, i) => <Option state={name} key={new Date().getTime() + i} value={w.id}>{w.name}</Option>)}
                 </Select>
             </div>
         </div>)
@@ -297,7 +340,7 @@ class Utilities {
 
         if (multiple) {
             return (
-                <div className={`subitem checkInput ${makeBlock?'makeBlock':''}`} displayname={title.replace(":", "")}>
+                <div className={`subitem checkInput ${makeBlock ? 'makeBlock' : ''}`} displayname={title.replace(":", "")}>
                     <div className={'item'}><label>{title}</label></div>
                     <div className={'item'}>
                         {multiple.map(w => <Checkbox key={uuidv4()} checked={this.th.state.selected[w.name]} state={w.name} name={w.name} onChange={callback}>{w.title}</Checkbox>
@@ -308,7 +351,7 @@ class Utilities {
         }
 
         return (
-            <div className={`subitem checkInput ${makeBlock?'makeBlock':''}`} displayname={title.replace(":", "")}>
+            <div className={`subitem checkInput ${makeBlock ? 'makeBlock' : ''}`} displayname={title.replace(":", "")}>
                 <Checkbox state={name} name={name} onChange={callback}>{title}</Checkbox>
             </div>
         )
@@ -364,7 +407,7 @@ class Utilities {
     // Submit 
 
     submitClick = async (e) => {
-        if (this.validation(e.target.getAttribute("valId"))) return
+        if (this.validation(e.target.getAttribute("valid"))) return
 
         let header = {
             method: "POST",
