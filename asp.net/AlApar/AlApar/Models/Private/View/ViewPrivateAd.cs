@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
 
 namespace AlApar.Models.Private.View
 {
-    public partial class ViewPrivateAd
+    public partial class ViewPrivateAd : TView<PrivatePhoto>
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -28,6 +29,16 @@ namespace AlApar.Models.Private.View
         public string Title { get; set; }
         public bool? HasDelivery { get; set; }
         public bool? IsNew { get; set; }
+
+        public int? LogId { get; set; }
+        public int? StatusId { get; set; }
+        public int? PackageId { get; set; }
+        public int? CurrencyId { get; set; }
+        public int? CityId { get; set; }
+        public int? ContactId { get; set; }
+        public int? TypeId { get; set; }
+        public int? ClothesTypeId { get; set; }
+        public int? ClothesGenderId { get; set; }
 
         public virtual ICollection<PrivatePhoto> Images { get; set; }
 

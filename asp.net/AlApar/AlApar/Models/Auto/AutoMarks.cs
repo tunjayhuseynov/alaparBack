@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace AlApar.Models.Auto
 {
-    public class AutoMarks
+    public class AutoMarks : TCategory
     {
         public AutoMarks()
         {

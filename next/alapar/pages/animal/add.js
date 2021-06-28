@@ -2,8 +2,8 @@
 import { Component } from 'react'
 import Utilities from '@/utilities';
 import Callbacks from '@/callbacks';
-import * as URL from '@/Layouts/const';
-import Form from '@/Layouts/form';
+import * as URL from '@/Constructions/const';
+import Form from '@/Constructions/form';
 import {ANIMAL_FILTER_CONVERTER} from '@/Animal/object';
 import {Animal_State} from '@/Animal/state';
 

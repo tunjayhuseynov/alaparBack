@@ -10,14 +10,6 @@
 .ant-input-affix-wrapper:hover {
   border-color: gainsboro; }
 
-.ant-btn-primary {
-  background: #111;
-  border: none; }
-  .ant-btn-primary:hover {
-    background: linear-gradient(90deg, #ffc0c0 0%, #b0d1ff 52%, #b9ffcd 100%) no-repeat; }
-  .ant-btn-primary:focus {
-    background: linear-gradient(90deg, #ffc0c0 0%, #b0d1ff 52%, #b9ffcd 100%) no-repeat; }
-
 .leftSide .ant-select-single {
   width: 100% !important; }
 

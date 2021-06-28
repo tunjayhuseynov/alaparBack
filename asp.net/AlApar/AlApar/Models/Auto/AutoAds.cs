@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace AlApar.Models.Auto
         public int? LogId { get; set; } // +
         public int? StatusId { get; set; } // +
         public int? PackageId { get; set; } // +
-        public int? MarkId { get; set; } // +
+        public int? CategoryId { get; set; } // +
         public int? ModelId { get; set; } // +
         public int? BanTypeId { get; set; } // +
         public int? CurrencyId { get; set; } // +

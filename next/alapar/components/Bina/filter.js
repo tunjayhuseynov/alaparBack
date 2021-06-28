@@ -3,8 +3,8 @@ import * as types from '../../store/types'
 import { connect } from 'react-redux';
 import Utilities from '@/utilities'
 import Callbacks from '@/callbacks';
-import FilterLayout from '@/layouts/filter'
-import * as URL from '@/Layouts/const'
+import FilterLayout from '@/Constructions/filter'
+import * as URL from '@/Constructions/const'
 
 const mapStateToProps = (state) => {
     return {
@@ -134,6 +134,7 @@ class Filter extends Component {
         }
 
         if (this.props.filter) {
+            this.state.rentals = this.props.filter.rentals;
             this.state.categoryList = this.props.filter.categories;
             this.state.subCategory = this.utility.convertCategory2Sub(this.props.filter.categories, "subname")
             this.state.metroWayList = this.props.filter.metroWays;

@@ -1,9 +1,10 @@
-import Header from '@/header'
+import Header from '@/Layouts/header'
 import { Component } from 'react';
 import Head from "next/head"
 import { Button, Tooltip } from 'antd';
 import { BiPlusMedical } from 'react-icons/bi'
 import Link from 'next/link'
+import Navbar from '@/Layouts/navbar'
 
 
 class Layout extends Component {
@@ -12,9 +13,11 @@ class Layout extends Component {
     }
     render(h) {
         return (
-            <div> <Head>
-                <link rel="stylesheet" href={'https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css'} />
-            </Head>
+            <div>
+                <Head>
+                    <link rel="stylesheet" href={'https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css'} />
+                </Head>
+                <Navbar></Navbar>
                 <Header></Header>
                 {this.props.children}
                 <div className={'fixed fixRight fixBottom'}>

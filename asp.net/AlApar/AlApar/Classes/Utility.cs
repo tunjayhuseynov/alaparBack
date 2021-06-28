@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -33,7 +34,7 @@ namespace AlApar.Classes
         public Size GetThumbnailSize(Image original)
         {
             // Maximum size of any dimension.
-            const int maxPixels = 250;
+            const int maxPixels = 500;
 
             // Width and height.
             int originalWidth = original.Width;
@@ -121,15 +122,30 @@ namespace AlApar.Classes
             return (T)prop.GetCustomAttribute(typeof(T), true);
         }
 
-        public bool CheckFilterProperties<T, C>(FilterCheckAttribute attr, T form, C model) where T : class where C : class
+        public bool CheckFilterProperties<Form, View, Context, Currency>(FilterCheckAttribute attr, Form form, View view, Context db, List<Currency> currencyList) where Form : class where View : class where Context : DbContext where Currency : class, TCurrency, new()
         {
             object rawValue = form.GetType().GetProperty(attr.SelfName).GetValue(form);
-            object rawModelValue = model.GetType().GetProperty(attr.Target).GetValue(model);
+            object rawModelValue = view.GetType().GetProperty(attr.Target).GetValue(view);
+
+            CurrencyConverterAttribute currencyAttr = GetAttributes<CurrencyConverterAttribute>(form.GetType().GetProperty(attr.SelfName));
+
 
             if (rawValue != null && rawModelValue != null)
             {
-                double value = Convert.ToDouble(rawValue);
-                double modelValue = Convert.ToDouble(rawModelValue);
+                double? value = Convert.ToDouble(rawValue);
+                double? modelValue = Convert.ToDouble(rawModelValue);
+
+                if (currencyAttr != null)
+                {
+                    object currencyIdForm = form.GetType().GetProperty(currencyAttr.CurrencyFormPropertName).GetValue(form);
+                    object currencyIdView = view.GetType().GetProperty(currencyAttr.CurrencyRealPropertName).GetValue(view);
+
+                    if(currencyIdForm != null && currencyIdView != null)
+                    {
+                        value *= currencyList.Find(w => w.Id == Convert.ToInt32(currencyIdForm)).Rate;
+                        modelValue *= currencyList.Find(w => w.Id == Convert.ToInt32(currencyIdView)).Rate;
+                    }
+                }
 
                 if (attr.Type == TypeEnum.Min)
                 {
@@ -156,19 +172,19 @@ namespace AlApar.Classes
         }
 
 
-        public Task loadAdInstance<T>(T adInstance, int logId, int contactId, string contactName) where T : class
+        public Task loadAdInstance<T>(T adInstance, int logId, int contactId) where T : class
         {
             adInstance.GetType().GetProperty("PrivateId").SetValue(adInstance, new Random().Next(100000000, 1000000000).ToString("D9"));
             adInstance.GetType().GetProperty("LogId").SetValue(adInstance, logId);
             adInstance.GetType().GetProperty("Viewed").SetValue(adInstance, 0);
             adInstance.GetType().GetProperty("StatusId").SetValue(adInstance, (int)Status.AdStatus.Pending);
             adInstance.GetType().GetProperty("PackageId").SetValue(adInstance, (int)Status.AdPackage.Standart);
-            adInstance.GetType().GetProperty(contactName).SetValue(adInstance, contactId);
+            adInstance.GetType().GetProperty("ContactId").SetValue(adInstance, contactId);
 
             return Task.CompletedTask;
         }
 
-        public async Task add2Db<AdModel, Contact, Log, Context, Form, Photos>(Context db, Form form, string contactIdName, string TempFolder, string MainFolder, IWebHostEnvironment _webHostEnvironment, Func<AdModel, Contact, Log, Form, Task> extra = null)
+        public async Task add2Db<AdModel, Contact, Log, Context, Form, Photos>(Context db, Form form, string TempFolder, string MainFolder, IWebHostEnvironment _webHostEnvironment, Func<AdModel, Contact, Log, Form, Task> extra = null)
             where AdModel : class, new() // Ad Instance
             where Contact : class, new() // Contact
             where Log : class, new() // Logs
@@ -202,7 +218,7 @@ namespace AlApar.Classes
             await db.SaveChangesAsync();
 
             await loadAdInstance(adInstance, (int)logs.GetType().GetProperty("Id").GetValue(logs),
-                (int)contacts.GetType().GetProperty("Id").GetValue(contacts), contactIdName);
+                (int)contacts.GetType().GetProperty("Id").GetValue(contacts));
 
 
             if (extra != null)
@@ -235,18 +251,22 @@ namespace AlApar.Classes
             await db.SaveChangesAsync();
         }
 
-        public async Task<object> PostFilter<F, C, V, A>(F res, C db, string firstSearchBy, int skip, int take, Func<C, int?, int, int, IAsyncEnumerable<V>> query, Func<V, bool> extra = null)
-            where F : class, new()
-            where C : DbContext
-            where V : class, new()
+        public async Task<object> PostFilter<Form, Context, View, A, Currency>(Form res, Context db, string firstSearchBy, int skip, int take, Func<Context, int?, int, int, IAsyncEnumerable<View>> query, Func<View, Form, bool> extra = null)
+            where Form : class, new()
+            where Context : DbContext
+            where View : class, new()
             where A : class, new()
+            where Currency : class, TCurrency, new()
         {
-            List<V> result = new List<V>();
+
+            var currencyList = await db.Set<Currency>().ToListAsync();
+
+            List<View> result = new List<View>();
             Dictionary<PropertyInfo, object> store = new Dictionary<PropertyInfo, object>();
 
             List<FilterCheckAttribute> filters = new();
 
-            PropertyInfo[] propertyInfos = new F().GetType().GetProperties();
+            PropertyInfo[] propertyInfos = new Form().GetType().GetProperties();
 
 
             if (propertyInfos.Count() > 0)
@@ -255,7 +275,7 @@ namespace AlApar.Classes
                 {
                     if (item.GetValue(res) != null)
                     {
-                        if (new V().GetType().GetProperty(item.Name) != null)
+                        if (new View().GetType().GetProperty(item.Name) != null)
                         {
                             store.Add(item, item.GetValue(res));
                         }
@@ -274,7 +294,7 @@ namespace AlApar.Classes
             {
                 foreach (FilterCheckAttribute filter in filters)
                 {
-                    if (!CheckFilterProperties(filter, res, item)) goto SkipLoop;
+                    if (!CheckFilterProperties(filter, res, item, db, currencyList)) goto SkipLoop;
                 }
 
                 if (res.GetType().GetProperty("SharedDate").GetValue(res) != null)
@@ -298,7 +318,7 @@ namespace AlApar.Classes
 
                 if (extra is not null)
                 {
-                    if (!extra(item))
+                    if (!extra(item, res))
                     {
                         continue;
                     }
@@ -323,5 +343,48 @@ namespace AlApar.Classes
 
             return result;
         }
+
+        public async Task<object> MainMenuStuffs<Category, View, Context, Photo>(Context context, int adListNumber)
+            where Category : class, TCategory, new()
+            where View : class, TView<Photo>, new()
+            where Context : DbContext
+        {
+            var categories = await context.Set<Category>().ToListAsync();
+            
+            List<View> ads = new();
+
+
+            foreach (var item in categories)
+            {
+                ads.AddRange(await context.Set<View>().AsNoTracking().Include(s => s.Images).Where((s) => s.CategoryId == item.Id).Take(adListNumber).ToArrayAsync());
+            }
+
+            for (int i = 0; i < ads.Count; i++)
+            {
+                var prop = ads[i].GetType().GetProperty("About");
+
+                if (prop != null)
+                    prop.SetValue(ads[i], null);
+            }
+
+            return categories.Select(category => new { category, Ads = ads.Where(w=>w.CategoryId == category.Id)});
+        }
+    }
+
+    public interface TCategory
+    {
+        public int Id { get; set; }
+    }
+
+    public interface TView<Image>
+    {
+        public int? CategoryId { get; set; }
+        public ICollection<Image> Images { get; set; }
+    }
+
+    public interface TCurrency
+    {
+        public int Id { get; set; }
+        public double? Rate { get; set; }
     }
 }

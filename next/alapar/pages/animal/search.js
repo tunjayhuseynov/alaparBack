@@ -2,7 +2,7 @@ import { Component } from 'react'
 import Filter from '@/Animal/filter'
 import { connect } from "react-redux";
 import Card from '@/subcomponents/card'
-import * as URL from '@/Layouts/const';
+import * as URL from '@/Constructions/const';
 
 
 const mapStateToProps = (state) => {

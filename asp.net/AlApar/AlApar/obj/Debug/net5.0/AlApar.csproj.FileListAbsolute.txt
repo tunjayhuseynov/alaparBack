@@ -8,7 +8,6 @@ C:\Users\tunca\Desktop\AlApar_master\asp.net\AlApar\AlApar\bin\Debug\net5.0\AlAp
 C:\Users\tunca\Desktop\AlApar_master\asp.net\AlApar\AlApar\bin\Debug\net5.0\AlApar.dll
 C:\Users\tunca\Desktop\AlApar_master\asp.net\AlApar\AlApar\bin\Debug\net5.0\ref\AlApar.dll
 C:\Users\tunca\Desktop\AlApar_master\asp.net\AlApar\AlApar\bin\Debug\net5.0\AlApar.pdb
-C:\Users\tunca\Desktop\AlApar_master\asp.net\AlApar\AlApar\bin\Debug\net5.0\AlApar.Views.dll
 C:\Users\tunca\Desktop\AlApar_master\asp.net\AlApar\AlApar\bin\Debug\net5.0\AlApar.Views.pdb
 C:\Users\tunca\Desktop\AlApar_master\asp.net\AlApar\AlApar\bin\Debug\net5.0\Castle.Core.dll
 C:\Users\tunca\Desktop\AlApar_master\asp.net\AlApar\AlApar\bin\Debug\net5.0\Humanizer.dll
@@ -196,3 +195,4 @@ C:\Users\tunca\Desktop\AlApar_master\asp.net\AlApar\AlApar\obj\Debug\net5.0\Razo
 C:\Users\tunca\Desktop\AlApar_master\asp.net\AlApar\AlApar\obj\Debug\net5.0\Razor\Areas\Electro\Views\ElectroPhoneModels\Index.cshtml.g.cs
 C:\Users\tunca\Desktop\AlApar_master\asp.net\AlApar\AlApar\bin\Debug\net5.0\phoneMark.json
 C:\Users\tunca\Desktop\AlApar_master\asp.net\AlApar\AlApar\bin\Debug\net5.0\fetched.json
+C:\Users\tunca\Desktop\AlApar_master\asp.net\AlApar\AlApar\bin\Debug\net5.0\AlApar.Views.dll

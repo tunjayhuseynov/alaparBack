@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace AlApar.Models.Auto.View
 {
-    public class ViewAutoAds
+    public class ViewAutoAds : TView<AutoPhotos>
     {
         public ViewAutoAds()
         {
@@ -18,7 +19,7 @@ namespace AlApar.Models.Auto.View
         public string Title { get; set; }
         public int? StatusId { get; set; } // +
         public int? PackageId { get; set; } // +
-        public int? MarkId { get; set; } // +
+        public int? CategoryId { get; set; } // +
         public string Mark { get; set; }
         public int? ModelId { get; set; } // +
         public string Model { get; set; }
@@ -52,7 +53,7 @@ namespace AlApar.Models.Auto.View
         public string City { get; set; }
         public int? CityId { get; set; }
 
-
+        public int? LogId { get; set; }
 
         public bool? Abs { get; set; }
         public bool? YungulDisk { get; set; }

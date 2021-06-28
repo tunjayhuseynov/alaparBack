@@ -1,4 +1,4 @@
-import {Currency, City, SharedDate} from '@/Layouts/objects'
+import {Currency, City, SharedDate} from '@/Constructions/objects'
 
 export interface Genera{
     id: number,

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 
 namespace AlApar.Models.Bina
 {
-    public partial class BinaAdsPersonal
+    public partial class BinaAdsPersonal : TCategory
     {
         public BinaAdsPersonal()
         {
@@ -31,7 +32,7 @@ namespace AlApar.Models.Bina
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }
         public string About { get; set; }
-        public int? PersonalContactId { get; set; } // Manual
+        public int? ContactId { get; set; } // Manual
         public bool? HasLicense { get; set; }
         public int? LandAppointmentId { get; set; }
         public bool? HasMortgage { get; set; }

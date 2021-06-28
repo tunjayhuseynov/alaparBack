@@ -1,11 +1,13 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace AlApar.Models.Bina.Views
 {
-    public class ViewBinaPersonalGeneral
+    public class ViewBinaPersonalGeneral : TView<BinaPersonalPhotos>
     {
         public int Id { get; set; }
         public DateTime? ModifiedDate { get; set; }
@@ -56,6 +58,10 @@ namespace AlApar.Models.Bina.Views
         public int? MetroWayId { get; set; }
         public int? SecondAreaSize { get; set; }
         public string CustomAdress { get; set; }
+
+        public int? LogId { get; set; }
+        public int? ContactId { get; set; }
+
         //Relations
 
         public string CategoryName { get; set; }
@@ -74,6 +80,11 @@ namespace AlApar.Models.Bina.Views
         public string Email { get; set; }
         public string PersonName { get; set; }
         public bool? Owner { get; set; }
+        public double? Longitude { get; set; }
+        public double? Latitude { get; set; }
+        
+        public string About{ get; set; }
+        public int? Viewed { get; set; }
 
         public virtual ICollection<BinaPersonalPhotos> Images { get; set; }
     }

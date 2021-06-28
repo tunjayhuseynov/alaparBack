@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace AlApar.Models.Electro
 {
-    public class ElectroAds
+    public class ElectroAds : TCategory
     {
         public ElectroAds()
         {

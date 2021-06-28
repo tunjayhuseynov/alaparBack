@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
 
 namespace AlApar.Models.Job
 {
-    public partial class JobCategory
+    public partial class JobCategory : TCategory
     {
         public JobCategory()
         {

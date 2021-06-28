@@ -59,77 +59,6 @@ $category-item-height: 300px;
 @include elan();
 
 
-// Nav-Bar Section
-.nav-bar {
-    height: $nav-bar-height;
-    //background: $main-gradient;
-
-
-    border-bottom: .5px solid rgb(255, 255, 255);
-
-    .row {
-        height: 100%;
-        display: flex;
-        padding: $left-padding;
-
-        .column {
-            flex: 50%;
-            justify-content: center;
-
-            .logo {
-                height: 100%;
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                color: white;
-                font-size: 3rem;
-                font-weight: 600;
-            }
-
-        }
-    }
-}
-
-//END NAVVBAR
-
-// Header Section
-.header {
-    height: $header-height;
-    //background: $main-gradient;
-    background: $main-gradient;
-    background-size: 100% 2px;
-    background-position-y: bottom;
-    margin: 3px 0 0 0;
-    position: relative;
-
-    >.title {
-        position: relative;
-        top: 1%;
-        padding-top: 20px;
-        font-size: 2rem;
-        width: 100%;
-        text-align: center;
-        font-family: 'Main';
-        font-weight: 400;
-    }
-
-    @include initCarousel($coruselNumber, $coursel-item-height-1440);
-
-    .premium {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        background: $main-gradient;
-
-        .title {
-            margin-bottom: 20px;
-            font-size: 2rem;
-            text-align: center;
-            font-family: 'Main';
-        }
-    }
-
-}
 
 
 
@@ -296,48 +225,6 @@ $category-item-height: 300px;
 
 //END CARD
 
-//Main
-
-.main {
-    background: $main-gradient-reverse, $main-gradient-mirror-reverse;
-    background-position: left, right;
-    //padding: 20px 0;
-    background-size: 2px 100%, 2px 100%;
-
-    .container {
-        padding: $left-padding;
-
-    }
-
-    .title {
-        margin-bottom: 20px;
-        font-size: 2rem;
-        text-align: center;
-        font-family: 'Main';
-    }
-
-
-}
-
-@media (max-width: 1024px) {
-    .main {
-        @include initCarousel(3, $coursel-item-height-1024)
-    }
-}
-
-@media (max-width: 768px) {
-    .main {
-        @include initCarousel(2, $coursel-item-height-768)
-    }
-}
-
-@media (max-width: 425px) {
-    .main {
-        @include initCarousel(1, $coursel-item-height-425)
-    }
-}
-
-//END MAIN
 
 .categoryCard {
     box-shadow: $category-box-shadow;
@@ -402,24 +289,6 @@ $category-item-height: 300px;
 
 .noShadow {
     box-shadow: none;
-}
-
-.underline {
-    position: relative;
-
-    &::after {
-        position: absolute;
-        bottom: -3px;
-        left: 50%;
-        transform: translateX(-50%);
-        content: '';
-        width: 50%;
-        height: 50px;
-        //border-bottom: 2px solid red;
-        background: $main-gradient;
-        background-size: 100% 3px;
-        background-position-y: bottom;
-    }
 }
 
 .white {

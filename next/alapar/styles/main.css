@@ -10,14 +10,6 @@
 .ant-input-affix-wrapper:hover {
   border-color: gainsboro; }
 
-.ant-btn-primary {
-  background: #111;
-  border: none; }
-  .ant-btn-primary:hover {
-    background: linear-gradient(90deg, #ffc0c0 0%, #b0d1ff 52%, #b9ffcd 100%) no-repeat; }
-  .ant-btn-primary:focus {
-    background: linear-gradient(90deg, #ffc0c0 0%, #b0d1ff 52%, #b9ffcd 100%) no-repeat; }
-
 .leftSide .ant-select-single {
   width: 100% !important; }
 
@@ -69,84 +61,6 @@
               #elanSection .container .row > .item .feature > .item .mainFeatures .top {
                 display: flex;
                 gap: 5px; }
-
-.nav-bar {
-  height: 45px;
-  border-bottom: 0.5px solid white; }
-  .nav-bar .row {
-    height: 100%;
-    display: flex;
-    padding: 0 4rem; }
-    .nav-bar .row .column {
-      flex: 50%;
-      justify-content: center; }
-      .nav-bar .row .column .logo {
-        height: 100%;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        color: white;
-        font-size: 3rem;
-        font-weight: 600; }
-
-.header {
-  height: 45px;
-  background: linear-gradient(90deg, #ffc0c0 0%, #b0d1ff 52%, #b9ffcd 100%) no-repeat;
-  background-size: 100% 2px;
-  background-position-y: bottom;
-  margin: 3px 0 0 0;
-  position: relative; }
-  .header > .title {
-    position: relative;
-    top: 1%;
-    padding-top: 20px;
-    font-size: 2rem;
-    width: 100%;
-    text-align: center;
-    font-family: 'Main';
-    font-weight: 400; }
-  .header .header-carousel {
-    height: 100%;
-    width: 100%;
-    padding: 0 4rem;
-    position: relative; }
-    .header .header-carousel .header-carousel-container {
-      height: 100%;
-      display: flex;
-      overflow-x: hidden; }
-    .header .header-carousel .previous-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2rem;
-      left: 1rem; }
-    .header .header-carousel .next-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2rem;
-      right: 1rem; }
-  .header .carousel-item-container {
-    height: 250px;
-    margin-bottom: 10px;
-    flex-wrap: nowrap;
-    flex: 0 0 auto;
-    width: 25%;
-    transition: all 2s ease; }
-    .header .carousel-item-container > .item {
-      height: 100%;
-      width: 100%;
-      padding: 15px 15px 15px 15px; }
-  .header .premium {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background: linear-gradient(90deg, #ffc0c0 0%, #b0d1ff 52%, #b9ffcd 100%) no-repeat; }
-    .header .premium .title {
-      margin-bottom: 20px;
-      font-size: 2rem;
-      text-align: center;
-      font-family: 'Main'; }
 
 /*Search*/
 .search {
@@ -343,117 +257,6 @@
     .card .card-bottom-side .value {
       font-weight: 500; }
 
-.main {
-  background: linear-gradient(190deg, #ffc0c0 0%, #b0d1ff 52%, #b9ffcd 100%) no-repeat, linear-gradient(0deg, #ffc0c0 0%, #b0d1ff 52%, #b9ffcd 100%) no-repeat;
-  background-position: left, right;
-  background-size: 2px 100%, 2px 100%; }
-  .main .container {
-    padding: 0 4rem; }
-  .main .title {
-    margin-bottom: 20px;
-    font-size: 2rem;
-    text-align: center;
-    font-family: 'Main'; }
-
-@media (max-width: 1024px) {
-  .main .header-carousel {
-    height: 100%;
-    width: 100%;
-    padding: 0 4rem;
-    position: relative; }
-    .main .header-carousel .header-carousel-container {
-      height: 100%;
-      display: flex;
-      overflow-x: hidden; }
-    .main .header-carousel .previous-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2rem;
-      left: 1rem; }
-    .main .header-carousel .next-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2rem;
-      right: 1rem; }
-  .main .carousel-item-container {
-    height: 300px;
-    margin-bottom: 10px;
-    flex-wrap: nowrap;
-    flex: 0 0 auto;
-    width: 33.3333333333%;
-    transition: all 2s ease; }
-    .main .carousel-item-container > .item {
-      height: 100%;
-      width: 100%;
-      padding: 15px 15px 15px 15px; } }
-@media (max-width: 768px) {
-  .main .header-carousel {
-    height: 100%;
-    width: 100%;
-    padding: 0 4rem;
-    position: relative; }
-    .main .header-carousel .header-carousel-container {
-      height: 100%;
-      display: flex;
-      overflow-x: hidden; }
-    .main .header-carousel .previous-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2rem;
-      left: 1rem; }
-    .main .header-carousel .next-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2rem;
-      right: 1rem; }
-  .main .carousel-item-container {
-    height: 250px;
-    margin-bottom: 10px;
-    flex-wrap: nowrap;
-    flex: 0 0 auto;
-    width: 50%;
-    transition: all 2s ease; }
-    .main .carousel-item-container > .item {
-      height: 100%;
-      width: 100%;
-      padding: 15px 15px 15px 15px; } }
-@media (max-width: 425px) {
-  .main .header-carousel {
-    height: 100%;
-    width: 100%;
-    padding: 0 4rem;
-    position: relative; }
-    .main .header-carousel .header-carousel-container {
-      height: 100%;
-      display: flex;
-      overflow-x: hidden; }
-    .main .header-carousel .previous-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2rem;
-      left: 1rem; }
-    .main .header-carousel .next-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2rem;
-      right: 1rem; }
-  .main .carousel-item-container {
-    height: 300px;
-    margin-bottom: 10px;
-    flex-wrap: nowrap;
-    flex: 0 0 auto;
-    width: 100%;
-    transition: all 2s ease; }
-    .main .carousel-item-container > .item {
-      height: 100%;
-      width: 100%;
-      padding: 15px 15px 15px 15px; } }
 .categoryCard {
   box-shadow: 0rem 0rem 20px -15px;
   padding: 10px 0;
@@ -579,20 +382,6 @@
 
 .noShadow {
   box-shadow: none; }
-
-.underline {
-  position: relative; }
-  .underline::after {
-    position: absolute;
-    bottom: -3px;
-    left: 50%;
-    transform: translateX(-50%);
-    content: '';
-    width: 50%;
-    height: 50px;
-    background: linear-gradient(90deg, #ffc0c0 0%, #b0d1ff 52%, #b9ffcd 100%) no-repeat;
-    background-size: 100% 3px;
-    background-position-y: bottom; }
 
 .white {
   color: white; }

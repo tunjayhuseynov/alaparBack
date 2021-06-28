@@ -31,41 +31,13 @@ namespace AlApar.Models.Job
 
 
         public virtual DbSet<Cities> Cities { get; set; }
+        public virtual DbSet<Currency> Currency { get; set; }
         public virtual DbSet<AdStatuses> AdStatuses { get; set; } 
         public virtual DbSet<AdPackages> AdPackages { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LastSharedTimes>(entity =>
-            {
-                entity.ToTable("last_shared_times");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-            });
-
-            modelBuilder.Entity<Cities>(entity => {
-
-                entity.ToTable("cities");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-
-            });
-
-            modelBuilder.Entity<AdStatuses>(entity => {
-
-                entity.ToTable("adStatuses");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-
-            });
-
-            modelBuilder.Entity<AdPackages>(entity => {
-
-                entity.ToTable("adPackages");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-
-            });
+            GeneralModels.generateGeneralModels(in modelBuilder);
 
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 

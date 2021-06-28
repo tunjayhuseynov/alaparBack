@@ -25,6 +25,8 @@ using AlApar.Repositories.Private;
 using AlApar.Models.Private;
 using AlApar.Repositories.Service;
 using AlApar.Models.Service;
+using Microsoft.AspNetCore.HttpOverrides;
+using System.Net;
 
 namespace AlApar
 {
@@ -40,6 +42,8 @@ namespace AlApar
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
             services.AddDistributedMemoryCache();
 
             services.AddMemoryCache();
@@ -83,6 +87,12 @@ namespace AlApar
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -95,7 +105,7 @@ namespace AlApar
             }
             //app.UseHttpsRedirection();
 
-           /* app.UseCors(x => x
+           app.UseCors(x => x
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .SetIsOriginAllowed(origin => true) // allow any origin

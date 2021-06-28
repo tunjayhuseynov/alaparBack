@@ -38,36 +38,7 @@ namespace AlApar.Models.Child
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
-            modelBuilder.Entity<LastSharedTimes>(entity =>
-            {
-                entity.ToTable("last_shared_times");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-            });
-
-            modelBuilder.Entity<Currency>(entity => {
-
-                entity.ToTable("currency");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-
-            });
-
-            modelBuilder.Entity<Cities>(entity => {
-
-                entity.ToTable("cities");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-
-            });
-
-            modelBuilder.Entity<AdStatuses>(entity => {
-
-                entity.ToTable("adStatuses");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-
-            });
+            GeneralModels.generateGeneralModels(in modelBuilder);
 
             modelBuilder.Entity<ChildAd>(entity =>
             {
@@ -369,6 +340,17 @@ namespace AlApar.Models.Child
                     .HasColumnName("typeName");
 
                 entity.Property(e => e.Viewed).HasColumnName("viewed");
+
+                entity.Property(e => e.LogId).HasColumnName("logId");
+                entity.Property(e => e.StatusId).HasColumnName("statusId");
+                entity.Property(e => e.PackageId).HasColumnName("packageId");
+                entity.Property(e => e.CurrencyId).HasColumnName("currencyId");
+                entity.Property(e => e.CityId).HasColumnName("cityId");
+                entity.Property(e => e.ContactId).HasColumnName("contactId");
+                entity.Property(e => e.ClothesGenderId).HasColumnName("clothesGenderId");
+                entity.Property(e => e.ClothesTypeId).HasColumnName("clothesTypeId");
+                entity.Property(e => e.TypeId).HasColumnName("typeId");
+                entity.Property(e => e.LogId).HasColumnName("logId");
             });
 
             OnModelCreatingPartial(modelBuilder);

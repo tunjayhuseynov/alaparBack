@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Home
 {
-    public class HomeCrud : Common<ViewHomeAd, HomeContext, Form, HomeAd, HomeLog, HomeContact, HomePhoto>, IHomeCrud
+    public class HomeCrud : Common<ViewHomeAd, HomeContext, Form, HomeAd, HomeLog, HomeContact, HomePhoto, HomeCategory>, IHomeCrud
     {
         public override string TempFolder => "images/home/temporarily";
         public override string MainFolder => "images/home/personal";
 
-
+        public override Func<HomeContext, int?, int, int, IAsyncEnumerable<ViewHomeAd>> FilterQuery => EF.CompileAsyncQuery((HomeContext db, int? id, int skip, int take) => db.ViewHomeAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
         public override async Task<object> getForm(HomeContext db)
         {
             var category = await db.HomeCategories.ToListAsync();

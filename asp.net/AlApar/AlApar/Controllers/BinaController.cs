@@ -22,7 +22,17 @@ namespace AlApar.Controllers
     [Route("api/[controller]")]
     [Produces("application/json")]
     [Consumes("application/json")]
-    public class BinaController : ControllerBase, ICommonController<ViewBinaPersonalGeneral, Form, Name>
+
+    public class BinaController : CommonController<IBinaCrud, BinaContext, ViewBinaPersonalGeneral, Form, Name, BinaAdsPersonal, BinaPersonalContacts, BinaAdsPersonalLogs, BinaCategories>
+    {
+        public BinaController(IBinaCrud crud, BinaContext _db, IUtility utility, IWebHostEnvironment webHostEnvironment) : 
+            base(crud, _db, utility, webHostEnvironment)
+        {
+        }
+
+    }
+
+   /* public class BinaController : ControllerBase, ICommonController<ViewBinaPersonalGeneral, Form, Name>
     {
         private readonly BinaContext db;
 
@@ -160,7 +170,7 @@ namespace AlApar.Controllers
         }
 
 
-    }
+    }*/
 
 
 }

@@ -15,12 +15,11 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Auto
 {
-    public class AutoCrud : Common<ViewAutoAds, AutoContext, Form, AutoAds, AutoAdLogs, AutoContacts, AutoPhotos>, IAutoCrud
+    public class AutoCrud : Common<ViewAutoAds, AutoContext, Form, AutoAds, AutoAdLogs, AutoContacts, AutoPhotos, AutoMarks>, IAutoCrud
     {
         public override string TempFolder => "images/auto/temporarily";
         public override string MainFolder => "images/auto/personal";
-
-
+        public override Func<AutoContext, int?, int, int, IAsyncEnumerable<ViewAutoAds>> FilterQuery => EF.CompileAsyncQuery((AutoContext db, int? id, int skip, int take) => db.ViewAutoAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
         public override async Task<object> getForm(AutoContext db)
         {
             var banTypes = await db.AutoBanTypes.AsNoTracking().ToListAsync();

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Service
 {
-    public interface IServiceCrud : ICommon<ViewServiceAd, ServiceContext, Form, ServiceAd, ServiceContact, ServiceLog>
+    public interface IServiceCrud : ICommon<ViewServiceAd, ServiceContext, Form, ServiceAd, ServiceContact, ServiceLog, ServiceCategory>
     {
     }
 }

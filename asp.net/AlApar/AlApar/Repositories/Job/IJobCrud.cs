@@ -5,7 +5,7 @@ using AlApar.Repositories.Common;
 
 namespace AlApar.Repositories.Job
 {
-    public interface IJobCrud : ICommon<ViewJobAds, JobContext, Form, JobAd, JobContact, JobLog>
+    public interface IJobCrud : ICommon<ViewJobAds, JobContext, Form, JobAd, JobContact, JobLog, JobCategory>
     {
     }
 }

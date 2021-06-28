@@ -1,4 +1,5 @@
-﻿using AlApar.Models.Animal;
+﻿using AlApar.Classes;
+using AlApar.Models.Animal;
 using AlApar.Models.Auto;
 using AlApar.Models.Bina;
 using AlApar.Models.Child;
@@ -12,7 +13,7 @@ using System.Collections.Generic;
 
 namespace AlApar.Models
 {
-    public partial class Currency
+    public partial class Currency : TCurrency
     {
         public Currency()
         {
@@ -29,6 +30,7 @@ namespace AlApar.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
+        public double? Rate { get; set; }
 
         public virtual ICollection<BinaAdsPersonal> BinaAdsPersonal { get; set; }
         public virtual ICollection<AutoAds> AutoAds { get; set; }

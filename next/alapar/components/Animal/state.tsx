@@ -1,4 +1,4 @@
-import {Currency, City, SharedDate} from '@/Layouts/objects'
+import {Currency, City, SharedDate} from '@/Constructions/objects'
 import { Genera, Type, Category } from './object';
 
 interface Animal_Selection{

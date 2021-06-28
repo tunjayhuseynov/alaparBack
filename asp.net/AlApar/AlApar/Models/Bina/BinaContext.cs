@@ -38,6 +38,8 @@ namespace AlApar.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            GeneralModels.generateGeneralModels(in modelBuilder);
+
             modelBuilder.Entity<ViewBinaPersonalGeneral>(entity => {
 
                 entity.ToView("View_Bina_Personal_General");
@@ -83,6 +85,8 @@ namespace AlApar.Models
                 entity.Property(e => e.RoomAmount).HasColumnName("roomAmount");
 
                 entity.Property(e => e.SellTypeId).HasColumnName("sellTypeId");
+                entity.Property(e => e.SellTypeId).HasColumnName("logId");
+                entity.Property(e => e.SellTypeId).HasColumnName("contactId");
 
 
                 entity.Property(e => e.VillageId).HasColumnName("villageId");
@@ -142,9 +146,13 @@ namespace AlApar.Models
                 entity.Property(w => w.Owner).HasColumnName("owner");
 
                 entity.Property(w => w.CategoryName).HasColumnName("categoryName");
+                entity.Property(w => w.Longitude).HasColumnName("longitude");
+                entity.Property(w => w.Latitude).HasColumnName("latitude");
+                entity.Property(w => w.About).HasColumnName("about");
+                entity.Property(w => w.Viewed).HasColumnName("viewed");
 
 
-            });
+            }).Ignore("About");
 
             modelBuilder.Entity<MetroWays>(entity => {
                 entity.ToTable("metro_ways");
@@ -153,34 +161,7 @@ namespace AlApar.Models
 
             });
 
-            modelBuilder.Entity<LastSharedTimes>(entity =>
-            {
-                entity.ToTable("last_shared_times");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-            });
 
-            modelBuilder.Entity<AdPackages>(entity =>
-            {
-                entity.ToTable("adPackages");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Name)
-                    .HasColumnName("name")
-                    .HasMaxLength(255);
-            });
-
-            modelBuilder.Entity<AdStatuses>(entity =>
-            {
-                entity.ToTable("adStatuses");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Name)
-                    .HasColumnName("name")
-                    .HasMaxLength(255);
-            });
 
             modelBuilder.Entity<BinaAdsPersonalLogs>(entity =>
             {
@@ -248,7 +229,7 @@ namespace AlApar.Models
                 entity.Property(e => e.MetroId).HasColumnName("metroId");
 
 
-                entity.Property(e => e.PersonalContactId).HasColumnName("personalContactId");
+                entity.Property(e => e.ContactId).HasColumnName("contactId");
 
                 entity.Property(e => e.Price).HasColumnName("price");
 
@@ -332,7 +313,7 @@ namespace AlApar.Models
 
                 entity.HasOne(d => d.PersonalContact)
                     .WithMany(p => p.BinaAdsPersonal)
-                    .HasForeignKey(d => d.PersonalContactId)
+                    .HasForeignKey(d => d.ContactId)
                     .HasConstraintName("personContactID");
 
                 entity.HasOne(d => d.Region)
@@ -513,27 +494,7 @@ namespace AlApar.Models
                     .HasConstraintName("rent_sellType");
             });
 
-            modelBuilder.Entity<Cities>(entity =>
-            {
-                entity.ToTable("cities");
 
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Name)
-                    .HasColumnName("name")
-                    .HasMaxLength(255);
-            });
-
-            modelBuilder.Entity<Currency>(entity =>
-            {
-                entity.ToTable("currency");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Name)
-                    .HasColumnName("name")
-                    .HasMaxLength(255);
-            });
 
             modelBuilder.Entity<Metros>(entity =>
             {

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
@@ -14,3 +18,39 @@ a {
 * {
   box-sizing: border-box;
 }
+
+  #header .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+    @apply bg-gradient-to-r;
+    @apply from-skyblue;
+    @apply via-blue;
+    @apply to-pink;
+    @apply h-9;
+    -webkit-text-stroke: .1px #c5c5c5;   
+  }
+
+  #header .ant-input{
+    height: 2.25rem!important;
+  }
+
+  #header .ant-input-search-button{
+      @apply h-9 !important;
+}
+
+  #header .ant-btn-primary{
+    @apply text-white !important;
+    @apply bg-black !important;
+    @apply  border-none !important;
+  }
+
+  #header .ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item{
+    margin: auto 0;
+  }
+
+  #header .ant-select-selection-item{
+    @apply text-white !important;
+    @apply text-lg !important;
+  }
+
+  .swiper-pagination-bullet-active{
+    @apply bg-pink !important;
+  }

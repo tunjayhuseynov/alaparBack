@@ -1,8 +1,8 @@
 import { Component } from 'react'
 import Utilities from '@/utilities';
 import Callbacks from '@/callbacks';
-import * as URL from '@/Layouts/const';
-import Form from '@/Layouts/form';
+import * as URL from '@/Constructions/const';
+import Form from '@/Constructions/form';
 import {Auto_State} from '@/Auto/state';
 import {AUTO_FILTER_CONVERTER} from '@/Auto/object';
 

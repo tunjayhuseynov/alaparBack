@@ -1,9 +1,10 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 
 namespace AlApar.Models.Animal
 {
-    public partial class AnimalCategory
+    public partial class AnimalCategory : TCategory
     {
         public AnimalCategory()
         {

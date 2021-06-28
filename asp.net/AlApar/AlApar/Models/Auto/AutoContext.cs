@@ -39,12 +39,7 @@ namespace AlApar.Models.Auto
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LastSharedTimes>(entity =>
-            {
-                entity.ToTable("last_shared_times");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-            });
+            GeneralModels.generateGeneralModels(in modelBuilder);
 
             modelBuilder.Entity<AutoAdLogs>(entity => {
 
@@ -154,37 +149,6 @@ namespace AlApar.Models.Auto
             });
 
 
-            modelBuilder.Entity<Cities>(entity => {
-
-                entity.ToTable("cities");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-            
-            });
-
-            modelBuilder.Entity<Currency>(entity => {
-
-                entity.ToTable("currency");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-
-            });
-
-            modelBuilder.Entity<AdStatuses>(entity => {
-
-                entity.ToTable("adStatuses");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-
-            });
-
-            modelBuilder.Entity<AdPackages>(entity => {
-
-                entity.ToTable("adPackages");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-
-            });
 
             modelBuilder.Entity<AutoAds>(entity => {
 
@@ -196,7 +160,7 @@ namespace AlApar.Models.Auto
                 entity.Property(w => w.LogId).HasColumnName("logId");
                 entity.Property(w => w.StatusId).HasColumnName("statusId");
                 entity.Property(w => w.PackageId).HasColumnName("packageId");
-                entity.Property(w => w.MarkId).HasColumnName("markId");
+                entity.Property(w => w.CategoryId).HasColumnName("markId");
                 entity.Property(w => w.ModelId).HasColumnName("modelId");
                 entity.Property(w => w.BanTypeId).HasColumnName("banTypeId");
                 entity.Property(w => w.CurrencyId).HasColumnName("currencyId");
@@ -252,7 +216,7 @@ namespace AlApar.Models.Auto
                       .HasForeignKey(w => w.LogId).HasConstraintName("auto_ad_log");
 
                 entity.HasOne(w => w.Mark).WithMany(w => w.AutoAds)
-                      .HasForeignKey(w => w.MarkId).HasConstraintName("auto_ad_mark");
+                      .HasForeignKey(w => w.CategoryId).HasConstraintName("auto_ad_mark");
 
                 entity.HasOne(w => w.Model).WithMany(w => w.AutoAds)
                       .HasForeignKey(w => w.ModelId).HasConstraintName("auto_ad_model");
@@ -281,7 +245,7 @@ namespace AlApar.Models.Auto
                 entity.Property(w => w.Title).HasColumnName("title");
                 entity.Property(w => w.StatusId).HasColumnName("statusId");
                 entity.Property(w => w.PackageId).HasColumnName("packageId");
-                entity.Property(w => w.MarkId).HasColumnName("markId");
+                entity.Property(w => w.CategoryId).HasColumnName("markId");
                 entity.Property(w => w.ModelId).HasColumnName("modelId");
                 entity.Property(w => w.BanTypeId).HasColumnName("banTypeId");
                 entity.Property(w => w.CurrencyId).HasColumnName("currencyId");
@@ -315,6 +279,7 @@ namespace AlApar.Models.Auto
 
                 entity.Property(w => w.City).HasColumnName("City");
                 entity.Property(w => w.CityId).HasColumnName("CityId");
+                entity.Property(w => w.LogId).HasColumnName("logId");
                 entity.Property(w => w.ModifiedDate).HasColumnName("modifiedDate");
 
                 entity.Property(w => w.Abs).HasColumnName("abs");

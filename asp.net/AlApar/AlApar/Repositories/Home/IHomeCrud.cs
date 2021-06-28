@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Home
 {
-    public interface IHomeCrud : ICommon<ViewHomeAd, HomeContext, Form, HomeAd, HomeContact, HomeLog>
+    public interface IHomeCrud : ICommon<ViewHomeAd, HomeContext, Form, HomeAd, HomeContact, HomeLog, HomeCategory>
     {
     }
 }

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
 
 namespace AlApar.Models.Home
 {
-    public partial class HomeAd
+    public partial class HomeAd : TCategory
     {
         public HomeAd()
         {

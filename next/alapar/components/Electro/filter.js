@@ -3,8 +3,8 @@ import * as types from '../../store/types'
 import { connect } from 'react-redux';
 import Utilities from '@/utilities'
 import Callbacks from '@/callbacks';
-import FilterLayout from '@/layouts/filter'
-import * as URL from '@/Layouts/const'
+import FilterLayout from '@/Constructions/filter'
+import * as URL from '@/Constructions/const'
 
 const mapStateToProps = (state) => {
     return {

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
 
 namespace AlApar.Models.Hobby
 {
-    public partial class HobbyCategory
+    public partial class HobbyCategory : TCategory
     {
         public HobbyCategory()
         {

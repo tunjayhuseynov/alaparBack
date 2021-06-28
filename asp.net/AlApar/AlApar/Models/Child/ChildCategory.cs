@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
 
 namespace AlApar.Models.Child
 {
-    public partial class ChildCategory
+    public partial class ChildCategory : TCategory
     {
         public ChildCategory()
         {

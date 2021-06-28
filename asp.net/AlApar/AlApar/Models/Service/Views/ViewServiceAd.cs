@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
 
 namespace AlApar.Models.Service.Views
 {
-    public partial class ViewServiceAd
+    public partial class ViewServiceAd : TView<ServicePhoto>
     {
         public int? Viewed { get; set; }
         public string About { get; set; }
@@ -31,6 +32,14 @@ namespace AlApar.Models.Service.Views
         public string StatusName { get; set; }
         public string CityName { get; set; }
         public int Id { get; set; }
+
+        public int? LogId { get; set; }
+        public int? StatusId { get; set; }
+        public int? PackageId { get; set; }
+        public int? CurrencyId { get; set; }
+        public int? CityId { get; set; }
+        public int? ContactId { get; set; }
+        public int? TypeId { get; set; }
 
         public virtual ICollection<ServicePhoto> Images { get; set; }
 

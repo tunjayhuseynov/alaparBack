@@ -3,8 +3,8 @@ import * as types from '../../store/types'
 import { connect } from 'react-redux';
 import Utilities from '@/utilities'
 import Callbacks from '@/callbacks';
-import * as URL from '@/Layouts/const';
-import FilterLayout from '@/Layouts/filter'
+import * as URL from '@/Constructions/const';
+import FilterLayout from '@/Constructions/filter'
 import { Animal_State } from './state';
 import { ANIMAL_FILTER_CONVERTER } from './object';
 

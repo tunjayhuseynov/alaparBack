@@ -10,12 +10,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AlApar.Repositories.Private
 {
-    public class PrivateCrud : Common<ViewPrivateAd, PrivateContext, Form, PrivateAd, PrivateLog, PrivateContact, PrivatePhoto>, IPrivateCrud
+    public class PrivateCrud : Common<ViewPrivateAd, PrivateContext, Form, PrivateAd, PrivateLog, PrivateContact, PrivatePhoto, PrivateCategory>, IPrivateCrud
     {
 
         public override string TempFolder => "images/private/temporarily";
         public override string MainFolder => "images/private/personal";
 
+        public override Func<PrivateContext, int?, int, int, IAsyncEnumerable<ViewPrivateAd>> FilterQuery => EF.CompileAsyncQuery((PrivateContext db, int? id, int skip, int take) => db.ViewPrivateAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
 
         public override async Task<object> getForm(PrivateContext db)
         {

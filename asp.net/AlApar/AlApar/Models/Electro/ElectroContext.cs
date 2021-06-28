@@ -41,12 +41,7 @@ namespace AlApar.Models.Electro
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<LastSharedTimes>(entity =>
-            {
-                entity.ToTable("last_shared_times");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-            });
+            GeneralModels.generateGeneralModels(in modelBuilder);
 
             modelBuilder.Entity<ViewElectroAds>(entity => {
 
@@ -55,7 +50,7 @@ namespace AlApar.Models.Electro
                 entity.Property(w => w.StatusId).HasColumnName("statusId");
                 entity.Property(w => w.PackageId).HasColumnName("packageId");
                 entity.Property(w => w.Viewed).HasColumnName("viewed");
-                entity.Property(w => w.CateogryId).HasColumnName("cateogryId");
+                entity.Property(w => w.CategoryId).HasColumnName("categoryId");
                 entity.Property(w => w.TypeId).HasColumnName("typeId");
                 entity.Property(w => w.Title).HasColumnName("title");
                 entity.Property(w => w.IsNew).HasColumnName("isNew");
@@ -292,40 +287,6 @@ namespace AlApar.Models.Electro
                 entity.Property(w => w.TillDate).HasColumnName("tillDate");
 
             });
-
-
-            modelBuilder.Entity<Cities>(entity => {
-
-                entity.ToTable("cities");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-
-            });
-
-            modelBuilder.Entity<Currency>(entity => {
-
-                entity.ToTable("currency");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-
-            });
-
-            modelBuilder.Entity<AdStatuses>(entity => {
-
-                entity.ToTable("adStatuses");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-
-            });
-
-            modelBuilder.Entity<AdPackages>(entity => {
-
-                entity.ToTable("adPackages");
-                entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.Name).HasColumnName("name");
-
-            });
-
 
             OnModelCreatingPartial(modelBuilder);
         }

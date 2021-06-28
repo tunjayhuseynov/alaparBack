@@ -1,5 +1,5 @@
 import {BanType, Color, Fuel, Mark, Model, TransmissionBox, Transmitter} from '@/Auto/object'
-import {Currency, City, SharedDate} from '@/Layouts/objects'
+import {Currency, City, SharedDate} from '@/Constructions/objects'
 
 interface Auto_Selection{
     mark: number,

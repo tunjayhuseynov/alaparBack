@@ -5,18 +5,43 @@ using AlApar.Models.Bina.Views;
 using AlApar.Repositories.Common;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 
 namespace AlApar.Repositories.Bina
 {
-    public class BinaCrud : Common<ViewBinaPersonalGeneral, BinaContext, Form, BinaAdsPersonal, BinaAdsPersonalLogs, BinaPersonalContacts, BinaPersonalPhotos>, IBinaCrud
+    public class BinaCrud : Common<ViewBinaPersonalGeneral, BinaContext, Form, BinaAdsPersonal, BinaAdsPersonalLogs, BinaPersonalContacts, BinaPersonalPhotos, BinaCategories>, IBinaCrud
     {
 
         public override string TempFolder => "images/bina/temporarily";
         public override string MainFolder => "images/bina/personal";
+        public override Func<BinaContext, int?, int, int, IAsyncEnumerable<ViewBinaPersonalGeneral>> FilterQuery => EF.CompileAsyncQuery((BinaContext db, int? id, int skip, int take) => db.ViewBinaPersonalGenerals.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
 
+        sbyte floorDetection = new sbyte();
+        public override Func<ViewBinaPersonalGeneral, Form, bool> extra => (ViewBinaPersonalGeneral ad, Form form) =>
+        {
+            bool bottomFloor = form.Bottomfloor??false;
+            bool middleFloor = form.Middlefloor??false;
+            bool upperFloor = form.Upperfloor??false;
+
+            if (bottomFloor || middleFloor || upperFloor)
+            {
+                if (ad.Floor == ad.BuildingFloor) floorDetection = 1;
+                else if (ad.Floor < ad.BuildingFloor && ad.Floor > 1) floorDetection = 0;
+                else floorDetection = -1;
+
+                if (floorDetection == 1 && upperFloor) return true;
+                else if (floorDetection == 0 && middleFloor) return true;
+                else if (floorDetection == -1 && bottomFloor) return true;
+
+                return false;
+            }
+
+            return true;
+           
+        };
 
         //GET
         public override async Task<object> getForm(BinaContext db)
@@ -90,14 +115,6 @@ namespace AlApar.Repositories.Bina
             return json;
         }
 
-
-        public int FloorPlace(ViewBinaPersonalGeneral ad)
-        {
-            if (ad.Floor == ad.BuildingFloor) return 1;
-            else if (ad.Floor < ad.BuildingFloor && ad.Floor > 1) return 0;
-
-            return -1;
-        }
 
     }
 }

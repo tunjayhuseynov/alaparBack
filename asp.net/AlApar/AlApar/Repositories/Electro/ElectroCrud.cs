@@ -13,10 +13,12 @@ using AlApar.Models.Electro.Views;
 
 namespace AlApar.Repositories.Electro
 {
-    public class ElectroCrud : Common<ViewElectroAds, ElectroContext, Form, ElectroAds, ElectroLogs, ElectroContacts, ElectroPhotos>, IElectroCrud
+    public class ElectroCrud : Common<ViewElectroAds, ElectroContext, Form, ElectroAds, ElectroLogs, ElectroContacts, ElectroPhotos, ElectroCategories>, IElectroCrud
     {
         public override string TempFolder => "images/electro/temporarily";
         public override string MainFolder => "images/electro/personal";
+
+        public override Func<ElectroContext, int?, int, int, IAsyncEnumerable<ViewElectroAds>> FilterQuery => EF.CompileAsyncQuery((ElectroContext db, int? id, int skip, int take) => db.ViewElectroAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
 
         public override async Task<object> getForm(ElectroContext db)
         {

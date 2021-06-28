@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
 
 namespace AlApar.Models.Private
 {
-    public partial class PrivateCategory
+    public partial class PrivateCategory : TCategory
     {
         public PrivateCategory()
         {

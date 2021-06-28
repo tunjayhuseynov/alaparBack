@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
 
 namespace AlApar.Models.Hobby.Views
 {
-    public partial class ViewHobbyAd
+    public partial class ViewHobbyAd : TView<HobbyPhoto>
     {
         public int Id { get; set; }
         public int? Viewed { get; set; }
@@ -32,6 +33,8 @@ namespace AlApar.Models.Hobby.Views
         public string TypeName { get; set; }
         public string CityName { get; set; }
         public string StatusName { get; set; }
+        public int? LogId { get; set; }
+        public int? ContactId { get; set; }
 
         public virtual ICollection<HobbyPhoto> Images { get; set; }
 

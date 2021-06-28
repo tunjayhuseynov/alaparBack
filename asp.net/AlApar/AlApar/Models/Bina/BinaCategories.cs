@@ -1,9 +1,10 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 
 namespace AlApar.Models.Bina
 {
-    public partial class BinaCategories
+    public partial class BinaCategories : TCategory
     {
         public BinaCategories()
         {

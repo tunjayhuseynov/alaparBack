@@ -21,18 +21,7 @@ $main-gradient: linear-gradient(90deg, rgba(255, 192, 192, 1) 0%, rgba(176, 209,
     }
 }
 
-.ant-btn-primary{
-    background: #111;
-    border: none;
 
-    &:hover{
-        background: $main-gradient;
-    }
-
-    &:focus{
-        background: $main-gradient;
-    }
-}
 
 .leftSide{
     .ant-select-single{

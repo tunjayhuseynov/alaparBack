@@ -1,17 +1,18 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace AlApar.Models.Electro.Views
 {
-    public class ViewElectroAds
+    public class ViewElectroAds : TView<ElectroPhotos>
     {
         public int Id { get; set; }
         public int? StatusId { get; set; }
         public int? PackageId { get; set; }
         public int? Viewed { get; set; }
-        public int? CateogryId { get; set; }
+        public int? CategoryId { get; set; }
         public int? ContactId { get; set; }
 
         public int? TypeId { get; set; }
@@ -45,6 +46,7 @@ namespace AlApar.Models.Electro.Views
         public string PhoneNumber { get; set; }
         public bool? IsWp { get; set; }
         public bool? IsCall { get; set; }
+        public int? LogId { get; set; }
 
         public virtual ICollection<ElectroPhotos> Images { get; set; }
     }

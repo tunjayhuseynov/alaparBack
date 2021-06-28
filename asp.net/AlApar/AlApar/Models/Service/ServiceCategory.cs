@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
 
 namespace AlApar.Models.Service
 {
-    public partial class ServiceCategory
+    public partial class ServiceCategory : TCategory
     {
         public ServiceCategory()
         {

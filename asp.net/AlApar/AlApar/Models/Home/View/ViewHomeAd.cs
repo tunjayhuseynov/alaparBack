@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AlApar.Classes;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
 
 namespace AlApar.Models.Home.View
 {
-    public partial class ViewHomeAd
+    public partial class ViewHomeAd : TView<HomePhoto>
     {
         public ViewHomeAd()
         {
@@ -31,6 +32,13 @@ namespace AlApar.Models.Home.View
         public string PackageName { get; set; }
         public string TypeName { get; set; }
         public int? CategoryId { get; set; }
+        public int? LogId { get; set; }
+        public int? StatusId { get; set; }
+        public int? PackageId { get; set; }
+        public int? CurrencyId { get; set; }
+        public int? CityId { get; set; }
+        public int? ContactId { get; set; }
+        public int? TypeId { get; set; }
 
         public virtual ICollection<HomePhoto> Images { get; set; }
     }
