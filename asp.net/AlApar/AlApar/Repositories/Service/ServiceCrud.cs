@@ -19,16 +19,25 @@ namespace AlApar.Repositories.Service
         public override async Task<object> getForm(ServiceContext db)
         {
 
+            var category = await db.ServiceCategories.AsNoTracking().ToListAsync();
+
+            var type = await db.ServiceTypes.AsNoTracking().ToListAsync();
+
+            var cities = await db.Cities.AsNoTracking().ToListAsync();
+
+            var currency = await db.Currencies.AsNoTracking().ToListAsync();
+
+            var sharedDate = await db.LastSharedTimes.AsNoTracking().ToListAsync();
+
+
             return new
             {
-
+                category = category.Select(w => new { w.Id, w.Name, w.New, w.Delivery, TypeList = type.Where(s => s.CategoryId == w.Id) }),
+                cities,
+                currency,
+                sharedDate
             };
         }
 
-        public override async Task<ViewServiceAd> getPersonalAd(int id, ServiceContext db)
-        {
-            return await db.ViewServiceAds.Include(w => w.Images).AsNoTracking().FirstOrDefaultAsync(w => w.Id == id);
-
-        }
     }
 }

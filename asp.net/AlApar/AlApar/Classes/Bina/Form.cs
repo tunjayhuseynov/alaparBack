@@ -158,7 +158,8 @@ namespace AlApar.Classes.Bina
         public bool? Otagordaire { get; set; }
 
         [JsonProperty("currency")]
-        public int? CurrencyId_ByPass { get; set; }
+        [Bypass]
+        public int? CurrencyId { get; set; }
 
         [JsonProperty("metroWay")]
         public int? MetroWayId { get; set; }
@@ -194,12 +195,12 @@ namespace AlApar.Classes.Bina
 
         [JsonProperty("minPrice")]
         [FilterCheck(TypeEnum.Min, "Price")]
-        [CurrencyConverter("CurrencyId_ByPass", "CurrencyId")]
+        [CurrencyConverter("CurrencyId", "CurrencyId")]
         public int? MinPrice { get; set; }
 
         [JsonProperty("maxPrice")]
         [FilterCheck(TypeEnum.Max, "Price")]
-        [CurrencyConverter("CurrencyId_ByPass", "CurrencyId")]
+        [CurrencyConverter("CurrencyId", "CurrencyId")]
         public int? MaxPrice { get; set; }
 
         [JsonProperty("minArea")]

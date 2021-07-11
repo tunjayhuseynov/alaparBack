@@ -8,7 +8,7 @@ namespace AlApar.Models.Bina
     {
         public int Id { get; set; }
         public string ImagePath { get; set; }
-        public int? AdId { get; set; }
+        public long? AdId { get; set; }
         public int? PrimaryImage { get; set; }
         public string Thumbnail { get; set; }
         public virtual BinaAdsPersonal Ad { get; set; }

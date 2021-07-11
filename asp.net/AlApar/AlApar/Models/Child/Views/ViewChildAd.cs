@@ -8,7 +8,7 @@ namespace AlApar.Models.Child.Views
 {
     public partial class ViewChildAd : TView<ChildPhoto>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public string StatusName { get; set; }
         public string CategoryName { get; set; }

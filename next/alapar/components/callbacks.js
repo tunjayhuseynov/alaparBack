@@ -1,3 +1,5 @@
+
+
 class Callbacks {
 
     constructor(th) {
@@ -23,6 +25,7 @@ class Callbacks {
         this.homeCategoryCallback = this.homeCategoryCallback.bind(th) // 20
         this.privateCategoryCallback = this.privateCategoryCallback.bind(th) // 21
         this.clothesGenderCallback = this.clothesGenderCallback.bind(th) // 22
+        this.trimCallback = this.trimCallback.bind(th) // 23 
     }
 
     clothesGenderCallback = function (value){
@@ -49,8 +52,8 @@ class Callbacks {
                 clothesGender: null,
                 clothesTypes: null
             },
-            typeList: cat?.typeList, 
-            clothesGendersList: cat?.ClothesGender,
+            typeList: cat?.types, 
+            clothesGendersList: cat?.clothesGender,
             clothesTypesList: null,
             hasNew: cat?.new,
             hasDelivery: cat?.delivery
@@ -67,7 +70,8 @@ class Callbacks {
                 type: null,
             },
             typeList: cat?.typeList, 
-            hasNew: cat?.new
+            hasNew: cat?.new,
+            hasDelivery: cat?.delivery
         })
     }
 
@@ -123,7 +127,11 @@ class Callbacks {
                 ...this.state.selected,
                 mark: value,
                 model: null,
+                color: null,
+                storage: null,
             },
+            colorList: null,
+            storageList: null,
             modelList: this.state.markList.find(w=>w.id == value).model
         })
     }
@@ -143,7 +151,7 @@ class Callbacks {
             storageList: resStorage,
             selected: {
                 ...this.state.selected,
-                colors: null,
+                color: null,
                 storage: null,
             }
         })
@@ -330,7 +338,15 @@ class Callbacks {
                 [value.target.name]: val.replace(/[^0-9]/g,'')
             }
         })
+    }
 
+    trimCallback = function (value){
+        this.setState({
+            selected: {
+                ...this.state.selected,
+                [value.target.name]: value.target.defaultValue.trim()
+            }
+        })
     }
 
 }

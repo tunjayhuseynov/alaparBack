@@ -262,7 +262,7 @@ namespace AlApar.Models.Home
 
                 entity.Property(e => e.IsWp).HasColumnName("isWp");
 
-                entity.Property(e => e.CurrencyId).HasColumnName("isWp");
+                entity.Property(e => e.CurrencyId).HasColumnName("currencyId");
 
                 entity.Property(e => e.CityId).HasColumnName("cityId");
                 entity.Property(e => e.TypeId).HasColumnName("typeId");

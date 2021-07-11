@@ -21,7 +21,7 @@ export interface Category{
     typeList: Array<Type>;
 }
 
-interface Animal_Filter{
+export interface Animal_Filter{
     category : Array<Category>;
     currency : Array<Currency>;
     cities: Array<City>;
@@ -34,3 +34,4 @@ export const ANIMAL_FILTER_CONVERTER = (json : Animal_Filter) => ({
     cities: json.cities,
     sharedDate: json.sharedDate
 })
+

@@ -30,14 +30,14 @@ namespace AlApar.Repositories.Private
 
             var sharedDate = await db.LastSharedTimes.AsNoTracking().ToListAsync();
             
-            var cities = await db.Cities.ToListAsync();
+            var cities = await db.Cities.AsNoTracking().ToListAsync();
 
-            var currency = await db.Currencies.ToListAsync();
+            var currency = await db.Currencies.AsNoTracking().ToListAsync();
 
 
-            Func<PrivateClothesGender, object> clothesGenderSelector = w => new { w.Id, w.Name, ClothesTypes = clothesTypes.Where(s=>s.Id == w.Id)};
+            Func<PrivateClothesGender, object> clothesGenderSelector = w => new { w.Id, w.Name, ClothesTypes = clothesTypes.Where(s=>s.ClothesGenderId == w.Id)};
 
-            Func<PrivateCategory, object> categorySelector = w => new { w.Id, w.Name, w.New, w.Delivery, ClothesGender = clothesGenders.Select(clothesGenderSelector), Types = types.Where(s=>s.Id == w.Id) };
+            Func<PrivateCategory, object> categorySelector = w => new { w.Id, w.Name, w.New, w.Delivery, ClothesGender = clothesGenders.Where(s=>s.CategoryId == w.Id).Select(clothesGenderSelector), Types = types.Where(s=>s.CategoryId == w.Id) };
 
             return new {
                 Category = category.Select(categorySelector),
@@ -47,10 +47,5 @@ namespace AlApar.Repositories.Private
             };
         }
 
-        public override async Task<ViewPrivateAd> getPersonalAd(int id, PrivateContext db)
-        {
-            return await db.ViewPrivateAds.Include(w => w.Images).AsNoTracking().FirstOrDefaultAsync(w => w.Id == id);
-
-        }
     }
 }

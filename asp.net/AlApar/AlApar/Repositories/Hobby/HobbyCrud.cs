@@ -39,10 +39,6 @@ namespace AlApar.Repositories.Hobby
             };
         }
 
-        public override async Task<ViewHobbyAd> getPersonalAd(int id, HobbyContext db)
-        {
-            return await db.ViewHobbyAds.Include(w => w.Images).AsNoTracking().FirstOrDefaultAsync(w => w.Id == id);
 
-        }
     }
 }

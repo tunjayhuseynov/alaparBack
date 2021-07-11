@@ -57,11 +57,5 @@ namespace AlApar.Repositories.Auto
             };
         }
 
-        public override async Task<ViewAutoAds> getPersonalAd(int id, AutoContext db)
-        {
-            return await db.ViewAutoAds.Include(w => w.Images).AsNoTracking().FirstOrDefaultAsync(w => w.Id == id);
-            
-        }
-
     }
 }

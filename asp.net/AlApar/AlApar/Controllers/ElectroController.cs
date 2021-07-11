@@ -21,14 +21,26 @@ namespace AlApar.Controllers
     [Consumes("application/json")]
     public class ElectroController : CommonController<IElectroCrud, ElectroContext, ViewElectroAds, Form, Name, ElectroAds, ElectroContacts, ElectroLogs, ElectroCategories>
     {
-
+        private readonly IElectroCrud _crud;
+        private readonly ElectroContext _db;
         public ElectroController(ElectroContext db, IElectroCrud electroCrud, IUtility utility, IWebHostEnvironment webHostEnvironment)
         :base(electroCrud, db, utility, webHostEnvironment)
         {
-
-            
+            _crud = electroCrud;
+            _db = db;
         }
 
-      
+        [Route("color/{id}")]
+        public async Task<IEnumerable<ElectroPhoneColors>> getColors(int id)
+        {
+            return await _crud.getColors(_db, id);
+        }
+
+        [Route("storage/{id}")]
+        public async Task<IEnumerable<ElectroPhoneStorages>> getStorages(int id)
+        {
+            return await _crud.getStorages(_db, id);
+        }
+
     }
 }

@@ -12,7 +12,7 @@ namespace AlApar.Models.Home.View
         {
             Images = new HashSet<HomePhoto>();
         }
-        public int Id { get; set; }
+        public long Id { get; set; }
         public int? Viewed { get; set; }
         public string Title { get; set; }
         public bool? HasDelivery { get; set; }

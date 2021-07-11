@@ -11,14 +11,14 @@ namespace AlApar.Repositories.Common
 {
     public abstract class CommonController<ICrud, Context, View, Form, Name, Ads, Contact, Log, Category> : ControllerBase, ICommonController<View, Form, Name>
         where ICrud : ICommon<View, Context, Form, Ads, Contact, Log, Category>
-        where Context: DbContext
+        where Context : DbContext
         where View : class, new()
         where Form : class, new()
         where Name : Classes.Common.Name, new()
         where Ads : class, new()
         where Contact : class, new()
         where Log : class, new()
-        
+
     {
         private readonly ICrud _crud;
         private readonly IUtility _utility;
@@ -31,7 +31,7 @@ namespace AlApar.Repositories.Common
             _utility = utility;
             this._db = _db;
             _webHostEnvironment = webHostEnvironment;
-     
+
         }
 
         [Route("Add")]
@@ -56,9 +56,11 @@ namespace AlApar.Repositories.Common
         }
 
         [Route("Image")]
+        [Consumes("multipart/form-data")]
+        [HttpPost]
         public async Task<object> getImage(IFormFile images)
         {
-            return await _crud.saveTempImage(images, _utility, _webHostEnvironment);
+            return await _crud.saveTempImage(images, _utility, _webHostEnvironment) ?? StatusCode(415);
         }
 
         [Route("Image")]
@@ -70,18 +72,17 @@ namespace AlApar.Repositories.Common
             return Ok();
         }
 
-        [Route("get/{id}")]
-        public async Task<View> getOne(int id)
+        [Route("Get/{id}")]
+        public async Task<object> getOne(int id)
         {
-            return await _crud.getPersonalAd(id, _db);
+            return await _crud.getAd(_utility, id, _db)??NotFound(new { NotFound = true });
         }
-
 
         [HttpPost]
         [Route("Search")]
         public async Task<object> postFilter([FromBody] Form res, [FromQuery] int s, [FromQuery] int t)
         {
-            return await _crud.PostFilter(res, _db, "CategoryId", s, t, _utility);
+            return (await _crud.PostFilter(res, _db, "CategoryId", s, t, _utility)) ?? NotFound(new { NotFound = true });
         }
 
         [Route("mainmenu")]

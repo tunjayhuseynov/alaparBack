@@ -41,10 +41,5 @@ namespace AlApar.Repositories.Animal
 
         }
 
-        public override async Task<ViewAnimalAd> getPersonalAd(int id, AnimalContext db)
-        {
-            return await db.ViewAnimalAds.Include(w => w.Images).AsNoTracking().FirstOrDefaultAsync(w => w.Id == id);
-
-        }
     }
 }

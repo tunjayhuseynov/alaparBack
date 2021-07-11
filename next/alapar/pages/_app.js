@@ -6,8 +6,8 @@ import '../styles/main.css'
 import 'swiper/swiper-bundle.min.css';
 
 import { useRouter } from 'next/router'
-import {useEffect} from 'react'
-import Layout from '@/layout'
+import { useEffect } from 'react'
+import Layout from '@/Layouts/layout'
 import { Provider } from 'react-redux'
 import { createWrapper } from 'next-redux-wrapper'
 import store from '../store/store'
@@ -16,7 +16,7 @@ import NProgress from 'nprogress'
 
 
 function MyApp({ Component, pageProps }) {
-  
+
   const router = useRouter();
 
   useEffect(() => {
@@ -35,9 +35,11 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+
     </Provider>
   )
 }

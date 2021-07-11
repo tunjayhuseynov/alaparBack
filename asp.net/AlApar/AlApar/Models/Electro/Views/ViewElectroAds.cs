@@ -8,7 +8,7 @@ namespace AlApar.Models.Electro.Views
 {
     public class ViewElectroAds : TView<ElectroPhotos>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public int? StatusId { get; set; }
         public int? PackageId { get; set; }
         public int? Viewed { get; set; }

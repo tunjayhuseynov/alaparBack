@@ -1,8 +1,8 @@
-import { message, Tabs, Button, Upload, Modal, Select, Radio, Checkbox, InputNumber, Collapse, Input, Tooltip } from 'antd';
+import { message, Tabs, Button, Upload,  Modal, Select, Radio, Checkbox, InputNumber, Collapse, Input, Tooltip } from 'antd';
 import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import React from 'react'
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import {
     withScriptjs,
     withGoogleMap,
@@ -10,6 +10,7 @@ import {
     Marker
 } from "react-google-maps";
 import { v4 as uuidv4 } from 'uuid'
+
 
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
@@ -89,7 +90,7 @@ class Utilities {
                 footer={[
                     <Button key="submit" type="primary" onClick={handleOk}>
                         Tamam
-              </Button>,
+                    </Button>,
                 ]}>
                 {htmlElements}
             </Modal>
@@ -110,13 +111,13 @@ class Utilities {
             return null
         }
         let val = {}
-        if(novalidation == null){
+        if (novalidation == null) {
             val.validatename = state;
         }
 
         let obj = {}
-        if(phone){
-            obj.onInput= (v)=>{
+        if (phone) {
+            obj.onInput = (v) => {
                 v.target.value = v.target.value.replace(/(?<=^.{15}).*/g, "").replace(/[^0-9]/g, '').split("").reduce((a, c, i) => {
                     if (i == 0) a += '('
                     if (i == 2) return a + c + ') '
@@ -124,9 +125,9 @@ class Utilities {
                     if (i == 7) return a + c + '-'
                     return a + c
                 }, '');
-                
-                v.target.value = v.target.value.replace(/[- \(\)]{1,2}$/g, "").split("").reduce((a,c)=>a+c,'')
-                
+
+                v.target.value = v.target.value.replace(/[- \(\)]{1,2}$/g, "").split("").reduce((a, c) => a + c, '')
+
             }
         }
 
@@ -137,10 +138,12 @@ class Utilities {
 
                     <Input
                         {...obj}
-                        className={'width'}
+                        className={'w-full md:w-1/2'}
                         name={state}
                         placeholder={placeholder}
-                        onKeyUp={callback} />
+                        onKeyUp={callback} 
+                        onBlur={this.th.callbacks.trimCallback}
+                        />
                 </div>
             </div>
         )
@@ -163,13 +166,13 @@ class Utilities {
                 <div className={'item'}>
                     <label className={'title'}>{title}</label>
                 </div>
-                <div className={'item'}>
+                <div className={'item flex'}>
                     <InputNumber
                         style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
                         name={name}
                         min={min}
                         max={max}
-                        className={'width inputnumber'}
+                        className={'w-full md:w-1/2 inputnumber'}
                         placeholder={placeholder}
                         formatter={formatter}
                         parser={parser}
@@ -177,8 +180,8 @@ class Utilities {
                     />
                     {!addonAfterList ? null :
                         <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
-                            <Select style={{ width: 120 }} value={addonValue} onSelect={addonAfterCallback} name={addonName}>
-                                {addonAfterList.map((w, i) => <Option state={addonName} value={w.id}>{w.name}</Option>)}
+                            <Select value={addonValue} onSelect={addonAfterCallback} name={addonName}>
+                                {addonAfterList.map((w, i) => <Option key={uuidv4()} state={addonName} value={w.id}>{w.name}</Option>)}
                             </Select>
                         </div>
                     }
@@ -192,8 +195,8 @@ class Utilities {
         )
     }
 
-    textAreaGeneretor = (title, placeholder, callback, name, {visibility = null}={}) => {
-        if(visibility == false){
+    textAreaGeneretor = (title, placeholder, callback, name, { visibility = null } = {}) => {
+        if (visibility == false) {
             this.th.state.selected[name] = null
 
             return null
@@ -212,13 +215,14 @@ class Utilities {
                         autoSize={{ minRows: 5, maxRows: 12 }}
                         onKeyUp={callback}
                         maxLength={5000}
+                        onBlur={this.th.callbacks.trimCallback}
                     />
                 </div>
             </div>
         )
     }
 
-    rangeİnputGenerator = (title, minName, maxName, Callback, visibility, { min = Number.MIN_VALUE, max=Number.MAX_VALUE, step = 1, addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null } = {}) => {
+    rangeİnputGenerator = (title, minName, maxName, Callback, visibility, { min = Number.MIN_VALUE, max = Number.MAX_VALUE, step = 1, addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null } = {}) => {
         if (!visibility) {
 
             this.th.state.selected[minName] = null
@@ -238,8 +242,8 @@ class Utilities {
                         formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                         parser={value => value.replace(/\$\s?|(,*)/g, '')}
                     />
-                -
-                <InputNumber
+                    -
+                    <InputNumber
                         style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
                         placeholder={"Max."}
                         onKeyUp={Callback}
@@ -250,7 +254,7 @@ class Utilities {
                     {!addonAfterList ? null :
                         <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
                             <Select style={{ width: 120 }} value={addonValue} onSelect={addonAfterCallback} name={addonName}>
-                                {addonAfterList.map((w, i) => <Option state={addonName} value={w.id}>{w.name}</Option>)}
+                                {addonAfterList.map((w, i) => <Option key={uuidv4()} state={addonName} value={w.id}>{w.name}</Option>)}
                             </Select>
                         </div>
                     }
@@ -264,13 +268,14 @@ class Utilities {
         )
     }
 
-    selectGenerator = (title, options, name, selected, callback, { visibility = false, loading = null, search = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null } = {}) => {
+    selectGenerator = (title, options, name, selected, callback, { visibility = false, loading = null, search = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null, novalidation = null } = {}) => {
         if ((!options || options.length < 1) && !visibility) {
 
             this.th.state.selected[name] = null
 
             return null
         }
+
         if (sort) {
             options.sort((a, b) => {
                 let fa = a.name.toLowerCase()
@@ -289,18 +294,21 @@ class Utilities {
         }
 
         let obj = {}
-        if(loading){
+        if (loading) {
             obj.loading = true
+        }
+        if (novalidation == null) {
+            obj.validatename = name;
         }
 
         if (subname) {
             return (
                 <div className={'subitem selectInput'}>
                     <div className={'item'}><label>{title}</label></div>
-                    <div className={'item'} validatename={name} displayname={title.replace(":", "")}>
-                        <Select {...obj} filterOption={(input, option) => option?.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'width'}>
-                            {selectAll ? <Option state={name} value={null}>Hamısı</Option> : null}
-                            {options?.filter(w => !(w[subnameTitle]))?.map((w, i) => <Option state={name} key={new Date().getTime() + i} value={w.id}>{w.name}</Option>)}
+                    <div className={'item'} displayname={title.replace(":", "")}>
+                        <Select {...obj} filterOption={(input, option) => option?.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'w-full md:w-1/2'}>
+                            {selectAll ? <Option key={uuidv4()} state={name} value={null}>Hamısı</Option> : null}
+                            {options?.filter(w => !(w[subnameTitle]))?.map((w, i) => <Option state={name} key={uuidv4()} value={w.id}>{w.name}</Option>)}
                             {subname?.map((w, i) => <OptGroup key={uuidv4()} label={w.name}>
 
                                 {w.category.map((d, q) => <Option state={name} key={uuidv4()} value={d.id}>{d.name}</Option>)}
@@ -315,10 +323,10 @@ class Utilities {
 
         return (<div className={'subitem selectInput'}>
             <div className={'item'}><label>{title}</label></div>
-            <div className={'item'} validatename={name} displayname={title.replace(":", "")}>
-                <Select {...obj} filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'width'}>
-                    {selectAll ? <Option state={name} value={null}>Hamısı</Option> : null}
-                    {options?.map((w, i) => <Option state={name} key={new Date().getTime() + i} value={w.id}>{w.name}</Option>)}
+            <div className={'item'} displayname={title.replace(":", "")}>
+                <Select {...obj} filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'w-full md:w-1/2'}>
+                    {selectAll ? <Option key={uuidv4()} state={name} value={null}>Hamısı</Option> : null}
+                    {options?.map((w, i) => <Option key={uuidv4()} state={name} value={w.id}>{w.name}</Option>)}
                 </Select>
             </div>
         </div>)
@@ -376,7 +384,7 @@ class Utilities {
 
     validation = (id) => {
         let inputs = document.querySelectorAll(`#${id} [validatename]`);
-
+        let classes = ["border", "border-red"];
         let hasError = false
 
         for (let index = 0; index < inputs.length; index++) {
@@ -388,16 +396,19 @@ class Utilities {
 
                 let ele = inputs[index].querySelector(".ant-select-selector") || inputs[index].querySelector("textarea") || inputs[index].querySelector("input");
                 if (ele) {
-                    ele.classList.add("errorBorder");
-                    ele.onclick = (e) => { ele.classList.remove("errorBorder") }
+                    ele.classList.add(...classes);
+                    ele.onclick = (e) => { ele.classList.remove(...classes) }
                 }
             }
         }
 
         if (this.th.state.selected.images == null || this.th.state.selected.images.length == 0) {
+            let ele = document.querySelector(`#${id} .ant-upload`)
+            ele.classList.add(...classes);
+            ele.onclick = (e) => { ele.classList.remove(...classes) }
             let text = `Məlumat Doldurulmayıb: Şəkillər`
             this.showError(text)
-            return false;
+            if (!hasError) { hasError = !hasError; }
         }
 
         return hasError
@@ -407,7 +418,11 @@ class Utilities {
     // Submit 
 
     submitClick = async (e) => {
-        if (this.validation(e.target.getAttribute("valid"))) return
+        let source = e.target.parentElement
+
+        if (this.validation(source.getAttribute("valid"))) {
+            return
+        }
 
         let header = {
             method: "POST",
@@ -418,9 +433,12 @@ class Utilities {
             body: JSON.stringify(this.th.state.selected)
         }
 
-        let res = await fetch(e.target.getAttribute("link"), header);
+        let res = await fetch(source.getAttribute("link"), header);
         if (res.status == 200) {
-            alert("Done")
+            alert("Yükləndi")
+            location.reload()
+        } else {
+            alert(res.status)
         }
     }
 
@@ -434,6 +452,7 @@ class Utilities {
 
 
     DragableUploadListItem = ({ originNode, moveRow, file, fileList }) => {
+        console.log(originNode)
         const type = 'DragableUploadList';
         const ref = React.useRef();
         const index = fileList.indexOf(file);
@@ -472,11 +491,16 @@ class Utilities {
                 style={{ cursor: 'move' }}
             >
                 {file.status === 'error' ? errorNode : originNode}
+                <div className={'text-center mb-4 cursor-default'}>
+                    <DeleteOutlined className={'inline text-black cursor-pointer'} onClick={()=> this.handleRemove(file)}/>
+                </div>
             </div>
         );
     };
 
-
+    example = () => <div className={'text-center mb-4 cursor-default'}>
+        <DeleteOutlined className={'inline text-black cursor-pointer'} />
+    </div>
     moveRow =
         (dragIndex, hoverIndex) => {
             let fileList = this.th.state.fileList;
@@ -496,9 +520,11 @@ class Utilities {
                 <DndProvider manager={this.manager.dragDropManager}>
                     <Upload
                         action={url}
+                        showUploadList={{showRemoveIcon: false}}
                         name={"images"}
                         multiple={true}
                         listType="picture-card"
+                        accept="image/*"
                         fileList={fileList}
                         onPreview={this.handlePreview}
                         onChange={this.handleChange}
@@ -551,7 +577,10 @@ class Utilities {
         });
     };
 
-    handleChange = async ({ fileList }) => {
+    handleChange = async ({ fileList, file }) => {
+        if (file?.error?.status == 415) {
+            this.showError("Fayl Tipi Dəstəklənmir. PNG, JPG və ya JPEG tipli fayl yükləyin")
+        }
         this.th.setState({
             ...this.th.state,
             fileList: [...fileList],
@@ -565,6 +594,7 @@ class Utilities {
     };
 
     handleRemove = async (file) => {
+        await this.handleChange({fileList: this.th.state.fileList.filter(w=> w !== file), file: file})
         let req = await fetch(this.th.state.url, {
             method: 'DELETE',
             headers: {
@@ -594,14 +624,14 @@ class Utilities {
                 <div className={'item'}>
                     <Button type="primary" onClick={() => { this.th.setState({ mapVisible: true }) }}>
                         Aç
-                </Button>
+                    </Button>
                 </div>
-                <Modal title="Xəritə" visible={this.th.state.mapVisible} width={'50%'} footer={null} onCancel={() => { this.th.setState({ mapVisible: false }) }}>
+                <Modal title="Xəritə" visible={this.th.state.mapVisible} className={'w-full md:w-3/4 top-3'} footer={null} onCancel={() => { this.th.setState({ mapVisible: false }) }}>
                     <RegularMap
                         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6Vz_IKnktPC_TLl9DAmm_BpxokzQ4fIQ"
                         loadingElement={<div style={loadingElementStyle} />}
-                        containerElement={<div style={containerElementStyle} />}
-                        mapElement={<div style={mapElementStyle} />}
+                        containerElement={<div className={'h-75vh'} />}
+                        mapElement={<div className={'h-full'} />}
                         info={{ lat: lat, lan: lan, callback: callback }}
                     />
                 </Modal>

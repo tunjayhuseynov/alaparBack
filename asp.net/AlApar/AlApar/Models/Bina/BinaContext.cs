@@ -40,11 +40,14 @@ namespace AlApar.Models
         {
             GeneralModels.generateGeneralModels(in modelBuilder);
 
-            modelBuilder.Entity<ViewBinaPersonalGeneral>(entity => {
+            modelBuilder.Entity<ViewBinaPersonalGeneral>(entity =>
+            {
 
                 entity.ToView("View_Bina_Personal_General");
 
-                entity.Property(e=>e.ModifiedDate).HasColumnName("modifiedDate");
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ModifiedDate).HasColumnName("modifiedDate");
 
                 entity.Property(e => e.PackageId).HasColumnName("packageId");
 
@@ -85,8 +88,8 @@ namespace AlApar.Models
                 entity.Property(e => e.RoomAmount).HasColumnName("roomAmount");
 
                 entity.Property(e => e.SellTypeId).HasColumnName("sellTypeId");
-                entity.Property(e => e.SellTypeId).HasColumnName("logId");
-                entity.Property(e => e.SellTypeId).HasColumnName("contactId");
+                entity.Property(e => e.LogId).HasColumnName("logId");
+                entity.Property(e => e.ContactId).HasColumnName("contactId");
 
 
                 entity.Property(e => e.VillageId).HasColumnName("villageId");
@@ -144,6 +147,7 @@ namespace AlApar.Models
                 entity.Property(w => w.PersonName).HasColumnName("personName");
 
                 entity.Property(w => w.Owner).HasColumnName("owner");
+                entity.Property(w => w.LandAppointmentName).HasColumnName("landAppointmentName");
 
                 entity.Property(w => w.CategoryName).HasColumnName("categoryName");
                 entity.Property(w => w.Longitude).HasColumnName("longitude");
@@ -152,7 +156,7 @@ namespace AlApar.Models
                 entity.Property(w => w.Viewed).HasColumnName("viewed");
 
 
-            }).Ignore("About");
+            });
 
             modelBuilder.Entity<MetroWays>(entity => {
                 entity.ToTable("metro_ways");

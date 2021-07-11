@@ -11,7 +11,7 @@ namespace AlApar.Models.Animal.View
         {
             Images = new HashSet<AnimalPhoto>();
         }
-        public int Id { get; set; }
+        public long Id { get; set; }
         public int? Viewed { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public string Name { get; set; }

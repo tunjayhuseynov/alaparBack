@@ -1,10 +1,11 @@
-export const base = "http://localhost:3500";
+export const base = "http://192.168.1.103:3500";
 
 export const BINA_SUBMIT = `${base}/api/bina/Add`;
 export const BINA_IMAGE = `${base}/api/bina/image`;
 export const BINA_FORM = `${base}/api/bina/Form`;
 export const BINA_GET_FILTER = `${base}/api/bina/filter`
 export const BINA_SEARCH = `${base}/api/bina/search`
+export const BINA_MENU = `${base}/api/bina/mainmenu`
 
 export const HOME_SUBMIT = `${base}/api/home/Add`;
 export const HOME_IMAGE = `${base}/api/home/image`;
@@ -54,3 +55,17 @@ export const PRIVATE_IMAGE = `${base}/api/private/image`;
 export const PRIVATE_FORM = `${base}/api/private/Form`;
 export const PRIVATE_GET_FILTER = `${base}/api/private/filter`
 export const PRIVATE_SEARCH = `${base}/api/private/search`
+
+
+export const CHILD_SUBMIT = `${base}/api/child/Add`;
+export const CHILD_IMAGE = `${base}/api/child/image`;
+export const CHILD_FORM = `${base}/api/child/Form`;
+export const CHILD_GET_FILTER = `${base}/api/child/filter`
+export const CHILD_SEARCH = `${base}/api/child/search`
+
+
+export const SERVICE_SUBMIT = `${base}/api/service/Add`;
+export const SERVICE_IMAGE = `${base}/api/service/image`;
+export const SERVICE_FORM = `${base}/api/service/Form`;
+export const SERVICE_GET_FILTER = `${base}/api/service/filter`
+export const SERVICE_SEARCH = `${base}/api/service/search`

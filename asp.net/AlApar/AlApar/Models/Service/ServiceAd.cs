@@ -6,14 +6,14 @@ using System.Collections.Generic;
 
 namespace AlApar.Models.Service
 {
-    public partial class ServiceAd : TCategory
+    public partial class ServiceAd
     {
         public ServiceAd()
         {
             ServicePhotos = new HashSet<ServicePhoto>();
         }
 
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string PrivateId { get; set; }
         public int? Viewed { get; set; }
         public int? LogId { get; set; }

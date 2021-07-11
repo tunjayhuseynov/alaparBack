@@ -13,7 +13,7 @@ namespace AlApar.Models.Auto.View
             Images = new HashSet<AutoPhotos>();
         }
 
-        public int Id { get; set; }
+        public long Id { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public int? Viewed { get; set; }
         public string Title { get; set; }

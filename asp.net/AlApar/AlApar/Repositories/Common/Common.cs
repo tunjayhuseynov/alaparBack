@@ -54,9 +54,9 @@ namespace AlApar.Repositories.Common
             return await utility.MainMenuStuffs<Category, View, Context, Photos>(context, adListNumber);
         }
 
-        public virtual Task<View> getPersonalAd(int id, Context db)
+        public virtual async Task<object> getAd(IUtility utility, int id, Context db)
         {
-            throw new NotImplementedException();
+            return await utility.GetView<Context, View, Photos>(db, id);
         }
 
 

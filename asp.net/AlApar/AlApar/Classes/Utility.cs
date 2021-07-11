@@ -28,7 +28,17 @@ namespace AlApar.Classes
             get => new List<string> {
             "image/jpeg",
             "image/png"
-        };
+            };
+        }
+
+        public List<string> ImageExtensions
+        {
+            get => new List<string>
+            {
+                ".png",
+                ".jpg",
+                ".jpeg"
+            };
         }
 
         public Size GetThumbnailSize(Image original)
@@ -61,7 +71,7 @@ namespace AlApar.Classes
             return new Size((int)(originalWidth * factor), (int)(originalHeight * factor));
         }
 
-        public Task ImageSaver(List<string> images, string tempFolder, string mainFolder, int folderId, IWebHostEnvironment _webHostEnvironment)
+        public Task ImageSaver(List<string> images, string tempFolder, string mainFolder, long folderId, IWebHostEnvironment _webHostEnvironment)
         {
             tempFolder = Path.Combine(_webHostEnvironment.WebRootPath, tempFolder);
             mainFolder = Path.Combine(_webHostEnvironment.WebRootPath, mainFolder);
@@ -95,7 +105,7 @@ namespace AlApar.Classes
 
         public async Task<object> SaveTempImage(IFormFile image, string TempFolder, IWebHostEnvironment _webHostEnvironment)
         {
-            if (image != null && ImageTypes.Contains(image.ContentType))
+            if (image != null && ImageTypes.Contains(image.ContentType) && ImageExtensions.Contains(Path.GetExtension(image.FileName)))
             {
                 string folder = Path.Combine(_webHostEnvironment.WebRootPath, TempFolder);
 
@@ -104,7 +114,7 @@ namespace AlApar.Classes
                     Directory.CreateDirectory($"{folder}");
                 }
 
-                string uniqueName = $@"{Guid.NewGuid()}.{image.FileName.Split(".").Last()}";
+                string uniqueName = $@"{Guid.NewGuid()}{Path.GetExtension(image.FileName)}";
                 string path = Path.Combine(folder, uniqueName);
 
                 using var fileStream = new FileStream(path, FileMode.Create);
@@ -230,7 +240,7 @@ namespace AlApar.Classes
             await db.SaveChangesAsync();
 
             List<string> imageNames = (List<string>)form.GetType().GetProperty("ImageList").GetValue(form);
-            int adInstanceId = (int)adInstance.GetType().GetProperty("Id").GetValue(adInstance);
+            long adInstanceId = (long)adInstance.GetType().GetProperty("Id").GetValue(adInstance);
 
             await ImageSaver(imageNames, TempFolder, MainFolder, adInstanceId, _webHostEnvironment);
 
@@ -275,6 +285,8 @@ namespace AlApar.Classes
                 {
                     if (item.GetValue(res) != null)
                     {
+                        if (GetAttributes<BypassAttribute>(item) != null) continue;
+
                         if (new View().GetType().GetProperty(item.Name) != null)
                         {
                             store.Add(item, item.GetValue(res));
@@ -290,13 +302,15 @@ namespace AlApar.Classes
             }
 
             var list = query(db, (int?)res.GetType().GetProperty(firstSearchBy).GetValue(res), skip, take);
+
             await foreach (var item in list)
             {
+            
                 foreach (FilterCheckAttribute filter in filters)
                 {
                     if (!CheckFilterProperties(filter, res, item, db, currencyList)) goto SkipLoop;
                 }
-
+              
                 if (res.GetType().GetProperty("SharedDate").GetValue(res) != null)
                 {
                     if (item.GetType().GetProperty("ModifiedDate").GetValue(item) is not null)
@@ -324,7 +338,7 @@ namespace AlApar.Classes
                     }
                 }
 
-
+                
                 foreach (var keyValue in store)
                 {
                     if (item.GetType().GetProperty(keyValue.Key.Name).GetValue(item) != null && item.GetType().GetProperty(keyValue.Key.Name).GetValue(item).ToString() != keyValue.Value.ToString())
@@ -340,8 +354,8 @@ namespace AlApar.Classes
             SkipLoop:
                 continue;
             }
-
-            return result;
+            
+            return result.Any()?result:null;
         }
 
         public async Task<object> MainMenuStuffs<Category, View, Context, Photo>(Context context, int adListNumber)
@@ -356,7 +370,7 @@ namespace AlApar.Classes
 
             foreach (var item in categories)
             {
-                ads.AddRange(await context.Set<View>().AsNoTracking().Include(s => s.Images).Where((s) => s.CategoryId == item.Id).Take(adListNumber).ToArrayAsync());
+                ads.AddRange(await context.Set<View>().AsNoTracking().Include(s => s.Images).Where((s) => s.CategoryId == item.Id).OrderBy(w=>w.Id).Take(adListNumber).ToArrayAsync());
             }
 
             for (int i = 0; i < ads.Count; i++)
@@ -369,6 +383,12 @@ namespace AlApar.Classes
 
             return categories.Select(category => new { category, Ads = ads.Where(w=>w.CategoryId == category.Id)});
         }
+
+        public async Task<object> GetView<Context, View, Photo>(Context context, int id)
+            where Context : DbContext where View : class, TView<Photo>, new()
+        {
+            return await context.Set<View>().FindAsync(id);
+        }
     }
 
     public interface TCategory
@@ -378,6 +398,7 @@ namespace AlApar.Classes
 
     public interface TView<Image>
     {
+        public long Id { get; set; }
         public int? CategoryId { get; set; }
         public ICollection<Image> Images { get; set; }
     }

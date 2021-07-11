@@ -1,13 +1,12 @@
 import { Component } from 'react'
 import { withRouter, NextRouter } from 'next/router'
-import DataReader from '@/dataReader'
+import {ImageGallery} from 'react-image-gallery'
 
 
 class AdPage extends Component {
     constructor(props) {
         super(props)
         console.log(props.json)
-        this.dataReader = new DataReader(this)
 
         this.state = {
             images: props.json.images.map(w => {
@@ -29,7 +28,9 @@ class AdPage extends Component {
 
                         <div className={'item'}>
                             <div className={'imageGallery'}>
-                                {this.dataReader.imageGallery(this.state.images)}
+                                <div>
+                                    <ImageGallery items={this.state.images} showPlayButton={false} />
+                                </div>
                             </div>
                             <div className={'feature'}>
                                 <div className={'item'}>

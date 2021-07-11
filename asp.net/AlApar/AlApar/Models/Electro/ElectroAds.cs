@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace AlApar.Models.Electro
 {
-    public class ElectroAds : TCategory
+    public class ElectroAds
     {
         public ElectroAds()
         {
             Photos = new HashSet<ElectroPhotos>();
         }
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string PrivateId { get; set; }
         public int? LogId { get; set; }
         public int? StatusId { get; set; }

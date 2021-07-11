@@ -19,17 +19,30 @@ namespace AlApar.Repositories.Child
 
         public override async Task<object> getForm(ChildContext db)
         {
+            var category = await db.ChildCategories.AsNoTracking().ToListAsync();
+
+            var type = await db.ChildTypes.AsNoTracking().ToListAsync();
+
+            var gender = await db.ChildClothesGenders.AsNoTracking().ToListAsync();
+
+            var clothes = await db.ChildClothesTypes.AsNoTracking().ToListAsync();
+
+            var sharedDate = await db.LastSharedTimes.AsNoTracking().ToListAsync();
+
+            var cities = await db.Cities.AsNoTracking().ToListAsync();
+
+            var currency = await db.Currencies.AsNoTracking().ToListAsync();
+
+            Func<ChildClothesGender, object> clothesGenderSelector = w => new { w.Id, w.Name, ClothesTypes = clothes.Where(s => s.ClothesGenderId == w.Id) };
 
             return new
             {
-
+                category = category.Select(w=>new { w.Id, w.Name, w.New, w.Delivery, ClothesGender = gender.Where(s => s.CategoryId == w.Id).Select(clothesGenderSelector), Types = type.Where(s => s.CategoryId == w.Id) }),
+                cities,
+                currency,
+                sharedDate
             };
         }
 
-        public override async Task<ViewChildAd> getPersonalAd(int id, ChildContext db)
-        {
-            return await db.ViewChildAds.Include(w => w.Images).AsNoTracking().FirstOrDefaultAsync(w => w.Id == id);
-
-        }
     }
 }

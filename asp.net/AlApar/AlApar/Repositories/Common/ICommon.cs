@@ -23,7 +23,7 @@ namespace AlApar.Repositories.Common
         Func<View, Form, bool> extra { get; }
         // GET 
         public Task<object> getForm(Context db);
-        public Task<View> getPersonalAd(int id, Context db);
+        public Task<object> getAd(IUtility utility, int id, Context db);
 
         // POST
         public Task<object> PostFilter(Form res, Context db, string firstSearchBy, int skip, int take, IUtility utility);

@@ -39,7 +39,7 @@ export interface Mark{
 }
 
 
-interface Auto_Filter{
+export interface Auto_Filter{
     banTypes: Array<BanType>;
     colors: Array<Color>;
     fuels: Array<Fuel>;

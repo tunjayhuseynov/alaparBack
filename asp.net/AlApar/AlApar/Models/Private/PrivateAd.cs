@@ -6,14 +6,14 @@ using System.Collections.Generic;
 
 namespace AlApar.Models.Private
 {
-    public partial class PrivateAd : TCategory
+    public partial class PrivateAd
     {
         public PrivateAd()
         {
             PrivatePhotos = new HashSet<PrivatePhoto>();
         }
 
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string PrivateId { get; set; }
         public int? Viewed { get; set; }
         public int? LogId { get; set; }

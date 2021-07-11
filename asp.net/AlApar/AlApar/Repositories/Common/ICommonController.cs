@@ -14,13 +14,13 @@ namespace AlApar.Repositories.Common
     /// <summary>
     /// V is View, F is Form, M is Name class for image
     /// </summary>
-    /// <typeparam name="V"></typeparam>
+    /// <typeparam name="View"></typeparam>
     /// <typeparam name="F"></typeparam>
     /// <typeparam name="M"></typeparam>
-    interface ICommonController<V, F, M>
+    interface ICommonController<View, F, M>
     {
-        public Task<IEnumerable<V>> getAll();
-        public Task<V> getOne(int id);
+        public Task<IEnumerable<View>> getAll();
+        public Task<object> getOne(int id);
         public Task<object> getFilter();
         public Task<object> getForm();
         public Task<object> getImage(IFormFile images);

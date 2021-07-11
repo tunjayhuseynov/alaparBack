@@ -14,6 +14,16 @@
     "static/development/_ssgManifest.js"
   ],
   "pages": {
+    "/[pagename]/add": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/[pagename]/add.js"
+    ],
+    "/[pagename]/search": [
+      "static/chunks/main.js",
+      "static/chunks/webpack.js",
+      "static/chunks/pages/[pagename]/search.js"
+    ],
     "/_app": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
@@ -23,16 +33,6 @@
       "static/chunks/main.js",
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
-    ],
-    "/dasinmaz": [
-      "static/chunks/main.js",
-      "static/chunks/webpack.js",
-      "static/chunks/pages/dasinmaz.js"
-    ],
-    "/dasinmaz/search": [
-      "static/chunks/main.js",
-      "static/chunks/webpack.js",
-      "static/chunks/pages/dasinmaz/search.js"
     ]
   },
   "ampFirstPages": []

@@ -26,8 +26,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.js",
-    "**/*.tsx", "pages/animal/add.js"
-  ],
+    "**/*.tsx", "pages/animal.js/add.js"
+, "components/Animal/content.jsx", "components/Private/content.jsx", "pages/animal"  ],
   "exclude": [
     "node_modules"
   ]

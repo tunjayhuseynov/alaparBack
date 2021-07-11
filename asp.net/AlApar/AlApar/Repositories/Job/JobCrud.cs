@@ -35,9 +35,5 @@ namespace AlApar.Repositories.Job
             };
         }
 
-        public override async Task<ViewJobAds> getPersonalAd(int id, JobContext db)
-        {
-            return await db.ViewJobAds.Include(w => w.Images).AsNoTracking().FirstOrDefaultAsync(w => w.Id == id);
-        }
     }
 }

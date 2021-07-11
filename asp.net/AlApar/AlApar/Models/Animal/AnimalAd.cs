@@ -10,7 +10,7 @@ namespace AlApar.Models.Animal
             AnimalPhotos = new HashSet<AnimalPhoto>();
         }
 
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string PrivateId { get; set; }
         public int? Viewed { get; set; }
         public int? LogId { get; set; }

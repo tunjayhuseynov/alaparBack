@@ -8,7 +8,7 @@ namespace AlApar.Models.Hobby.Views
 {
     public partial class ViewHobbyAd : TView<HobbyPhoto>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public int? Viewed { get; set; }
         public int? StatusId { get; set; }
         public int? PackageId { get; set; }

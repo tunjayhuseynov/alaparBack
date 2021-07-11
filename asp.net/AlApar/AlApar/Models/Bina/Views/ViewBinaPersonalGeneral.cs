@@ -9,7 +9,7 @@ namespace AlApar.Models.Bina.Views
 {
     public class ViewBinaPersonalGeneral : TView<BinaPersonalPhotos>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public string Adress { get; set; } //Manual
         public int? StatusId { get; set; } //Manual
@@ -58,6 +58,7 @@ namespace AlApar.Models.Bina.Views
         public int? MetroWayId { get; set; }
         public int? SecondAreaSize { get; set; }
         public string CustomAdress { get; set; }
+        public string LandAppointmentName { get; set; }
 
         public int? LogId { get; set; }
         public int? ContactId { get; set; }

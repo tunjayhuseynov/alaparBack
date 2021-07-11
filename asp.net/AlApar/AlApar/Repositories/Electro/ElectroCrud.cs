@@ -68,11 +68,6 @@ namespace AlApar.Repositories.Electro
             };
         }
 
-        public override async Task<ViewElectroAds> getPersonalAd(int id, ElectroContext db)
-        {
-            return await db.ViewElectroAds.Include(w => w.Images).AsNoTracking().FirstOrDefaultAsync(w => w.Id == id);
-        }
-
         public async Task<IEnumerable<ElectroPhoneColors>> getColors(ElectroContext db, int modelId)
         {
             return await db.ElectroPhoneColors.AsNoTracking().Where(w => w.ModelId == modelId).ToListAsync();

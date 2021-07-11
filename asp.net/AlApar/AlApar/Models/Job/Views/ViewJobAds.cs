@@ -8,7 +8,7 @@ namespace AlApar.Models.Job.Views
 {
     public class ViewJobAds : TView<JobEmployeePhoto>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public int? Viewed { get; set; }
         public int? StatusId { get; set; }
         public int? LogId { get; set; }

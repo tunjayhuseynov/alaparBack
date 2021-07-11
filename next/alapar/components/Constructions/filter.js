@@ -8,11 +8,12 @@ class FilterLayout extends Component {
 
     render() {
         return (
-            <div id={'filter'}>
+            <><div id={'filter'}>
                 <div className={'containerFilter'}>
                     {this.props.children}
                 </div>
             </div>
+            </>
         )
     }
 }

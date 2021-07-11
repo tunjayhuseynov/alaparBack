@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace AlApar.Models.Bina
 {
-    public partial class BinaAdsPersonal : TCategory
+    public partial class BinaAdsPersonal
     {
         public BinaAdsPersonal()
         {
@@ -12,7 +12,7 @@ namespace AlApar.Models.Bina
 
         }
 
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string PrivateId { get; set; }  // Manual
         public int? LogId { get; set; } // Manual
         public string Adress { get; set; } //Manual

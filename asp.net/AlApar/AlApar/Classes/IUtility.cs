@@ -14,6 +14,7 @@ namespace AlApar.Classes
     public interface IUtility
     {
         public List<string> ImageTypes { get; }
+        public List<string> ImageExtensions { get; }
         public Task loadAdInstance<T>(T adInstance, int logId, int contactId) where T : class;
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace AlApar.Classes
 
         public Size GetThumbnailSize(Image original);
 
-        public Task ImageSaver(List<string> images, string tempFolder, string mainFolder, int folderId, IWebHostEnvironment _webHostEnvironment);
+        public Task ImageSaver(List<string> images, string tempFolder, string mainFolder, long folderId, IWebHostEnvironment _webHostEnvironment);
 
         public Task<object> SaveTempImage(IFormFile image, string TempFolder, IWebHostEnvironment _webHostEnvironment);
 
@@ -51,5 +52,7 @@ namespace AlApar.Classes
             where Form : class where View : class where Context : DbContext where Currency : class, TCurrency, new();
 
         public Task<object> MainMenuStuffs<Category, View, Context, Photo>(Context context, int adListNumber) where Category : class, TCategory, new() where View : class, TView<Photo>, new() where Context : DbContext;
+
+        public Task<object> GetView<Context, View, Photo>(Context context, int id) where Context : DbContext where View : class, TView<Photo>, new();
     }
 }

@@ -43,6 +43,7 @@ namespace AlApar.Repositories.Bina
            
         };
 
+
         //GET
         public override async Task<object> getForm(BinaContext db)
         {
@@ -94,11 +95,7 @@ namespace AlApar.Repositories.Bina
                 LandAppointment = landAppointment,
                 Cities = cities.Select(citySelect),
                 SellTypes = sellType.Select(w => new { Id = w.Id, Name = w.Name, Rent = durationRentType.Where(s => s.RentId == w.Id) }),
-                Price = true,
-                Area = true,
                 Currency = currencies,
-                Ipoteka = true,
-                License = true,
                 Rentals = rentals,
                 MetroWays = metroWays,
                 SharedDate = sharedDate,
@@ -106,15 +103,6 @@ namespace AlApar.Repositories.Bina
 
             return result;
         }
-
-
-        public override async Task<ViewBinaPersonalGeneral> getPersonalAd(int id, BinaContext db)
-        {
-            var json = await db.ViewBinaPersonalGenerals.Include(w => w.Images).AsNoTracking().FirstOrDefaultAsync(w => w.Id == id);
-
-            return json;
-        }
-
 
     }
 }

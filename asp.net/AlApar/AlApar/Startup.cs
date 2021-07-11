@@ -27,6 +27,8 @@ using AlApar.Repositories.Service;
 using AlApar.Models.Service;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Net;
+using AlApar.Repositories.Child;
+using AlApar.Models.Child;
 
 namespace AlApar
 {
@@ -56,6 +58,7 @@ namespace AlApar
             services.AddSingleton<IHobbyCrud, HobbyCrud>();
             services.AddSingleton<IHomeCrud, HomeCrud>();
             services.AddSingleton<IPrivateCrud, PrivateCrud>();
+            services.AddSingleton<IChildCrud, ChildCrud>();
             services.AddSingleton<IServiceCrud, ServiceCrud>();
 
             services.AddDbContext<BinaContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:AlApar")));
@@ -66,6 +69,7 @@ namespace AlApar
             services.AddDbContext<AnimalContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:AlApar")));
             services.AddDbContext<HomeContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:AlApar")));
             services.AddDbContext<PrivateContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:AlApar")));
+            services.AddDbContext<ChildContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:AlApar")));
             services.AddDbContext<ServiceContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:AlApar")));
             
             services.AddCors(c =>

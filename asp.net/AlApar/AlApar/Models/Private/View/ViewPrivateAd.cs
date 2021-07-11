@@ -8,7 +8,7 @@ namespace AlApar.Models.Private.View
 {
     public partial class ViewPrivateAd : TView<PrivatePhoto>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public string StatusName { get; set; }
         public string CategoryName { get; set; }
