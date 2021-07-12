@@ -45,7 +45,7 @@ export interface Electro extends ImageState{
     operatorsList: Array<Operator>,
     markList: Array<Mark>,
     modelList: Array<Model>,
-    copmuterMarkList: Array<ComputerMark>,
+    computerMarkList: Array<ComputerMark>,
     colorList: Array<Color>,
     storageList: Array<Storage>,
     type: boolean,

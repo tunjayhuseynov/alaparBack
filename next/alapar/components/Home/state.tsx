@@ -22,7 +22,7 @@ interface Home_Selection{
     sharedDate: number,
 }
 
-interface Home extends ImageState{
+export interface Home extends ImageState{
     url: string,
     submitUrl: string,
     selected: Home_Selection,

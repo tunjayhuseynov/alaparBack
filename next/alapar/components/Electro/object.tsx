@@ -52,7 +52,7 @@ export interface Category {
     activateType: boolean,
     type: Array<Type>,
     mark: Array<Mark>,
-    operators: Array<Operator>,
+    operator: Array<Operator>,
     computerMark: Array<ComputerMark>
 }
 

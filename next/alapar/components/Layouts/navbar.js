@@ -13,7 +13,6 @@ class Navbar extends Component {
   componentDidMount() {
     let navbar = document.querySelector("#navbar");
     window.addEventListener("scroll", () => {
-      console.log(navbar.offsetHeight - navbar.clientHeight)
       if (this.lastTop < window.pageYOffset && navbar.offsetHeight < window.pageYOffset) {
         if (!navbar.className.includes("-translate-y-full")) {
           navbar.classList.add("-translate-y-full")

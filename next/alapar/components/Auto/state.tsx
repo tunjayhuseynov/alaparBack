@@ -54,7 +54,7 @@ interface Auto_Selection {
     sharedDate: number,
 }
 
-interface Auto extends ImageState{
+export interface Auto extends ImageState{
     url: string,
     submitUrl: string,
     selected: Auto_Selection,

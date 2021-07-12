@@ -11,7 +11,9 @@ export interface Category{
     id: number,
     name: string,
     new: boolean,
-    delivery: boolean
+    delivery: boolean,
+    typeList: Array<Type>
+    type: boolean,
 }
 
 export interface SERVICE_FILTER{

@@ -12,6 +12,7 @@ export interface Category{
     name: string,
     new: boolean,
     type: boolean,
+    delivery: boolean,
     typeList: Array<Type>
 }
 

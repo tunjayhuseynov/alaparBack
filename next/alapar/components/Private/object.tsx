@@ -10,7 +10,7 @@ export interface ClothesType{
 export interface ClothesGender{
     id: number,
     name: string,
-    clothesType: Array<ClothesType>
+    clothesTypes: Array<ClothesType>
 }
 
 export interface Type{
@@ -23,7 +23,9 @@ export interface Category{
     id: number,
     name: string,
     new: boolean,
-    delivery: boolean
+    delivery: boolean,
+    clothesGender: Array<ClothesGender>,
+    types: Array<Type>
 }
 
 export interface PRIVATE_FILTER{

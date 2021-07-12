@@ -79,7 +79,7 @@ interface Bina_Selection {
     upperfloor: boolean,
 }
 
-interface Bina extends ImageState {
+export interface Bina extends ImageState {
     url: string,
     submitUrl: string,
     selected: Bina_Selection,

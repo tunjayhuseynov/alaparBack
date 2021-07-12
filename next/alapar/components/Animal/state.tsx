@@ -23,7 +23,7 @@ interface Animal_Selection {
 }
 
 
-interface Animal extends ImageState{
+export interface Animal extends ImageState{
     url: string,
     submitUrl: string,
     selected: Animal_Selection;

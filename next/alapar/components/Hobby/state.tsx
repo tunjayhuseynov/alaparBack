@@ -26,7 +26,7 @@ interface Hobby_Selection{
     sharedDate: number,
 }
 
-interface Hobby extends ImageState{
+export interface Hobby extends ImageState{
     url: string,
     submitUrl: string,
     selected: Hobby_Selection,
