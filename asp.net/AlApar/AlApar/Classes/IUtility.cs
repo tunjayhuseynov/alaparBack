@@ -40,7 +40,7 @@ namespace AlApar.Classes
 
         public Size GetThumbnailSize(Image original);
 
-        public Task ImageSaver(List<string> images, string tempFolder, string mainFolder, long folderId, IWebHostEnvironment _webHostEnvironment);
+        public Task ImageSaver(List<ImageStructure> images, string tempFolder, string mainFolder, long folderId, IWebHostEnvironment _webHostEnvironment);
 
         public Task<object> SaveTempImage(IFormFile image, string TempFolder, IWebHostEnvironment _webHostEnvironment);
 

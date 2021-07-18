@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\" />
+    <Folder Include="wwwroot\images\bina\temporarily\" />
     <Folder Include="wwwroot\images\temporarily\" />
   </ItemGroup>
 

@@ -1,3 +1,4 @@
+//ts-check
 import { ANIMAL_FILTER_CONVERTER } from '@/Animal/object';
 import { HtmlAdd as AnimalHtml, HtmlFilter as AnimalHtmlFilter } from '@/Animal/content';
 import { Animal_State } from '@/Animal/state';

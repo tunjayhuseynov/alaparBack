@@ -1,4 +1,4 @@
-import { message, Tabs, Button, Upload,  Modal, Select, Radio, Checkbox, InputNumber, Collapse, Input, Tooltip } from 'antd';
+import { message, Tabs, Button, Upload, Modal, Select, Radio, Checkbox, InputNumber, Collapse, Input, Tooltip } from 'antd';
 import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import React from 'react'
@@ -9,7 +9,20 @@ import {
     GoogleMap,
     Marker
 } from "react-google-maps";
+import { FiRotateCcw, FiRotateCw } from "react-icons/fi"
 import { v4 as uuidv4 } from 'uuid'
+
+import dynamic from 'next/dynamic'
+
+const MobileSelector = dynamic(() => import('@/mobileUtility').then(w => w.MobileSelector), {
+    ssr: false,
+});
+
+const MobileNumberInput = dynamic(() => import('@/mobileUtility').then(w => w.MobileNumberInput), {
+    ssr: false,
+});
+
+const Device = dynamic(() => import('@/mobileUtility').then(w => w.Device), { ssr: false })
 
 
 const { Option, OptGroup } = Select;
@@ -67,7 +80,6 @@ class Utilities {
 
     divider = (text, side = "left") => {
 
-
         return (
             <div className={'separator'}>{text}</div>)
     }
@@ -117,8 +129,9 @@ class Utilities {
 
         let obj = {}
         if (phone) {
+            obj.inputMode = "numeric"
             obj.onInput = (v) => {
-                v.target.value = v.target.value.replace(/(?<=^.{15}).*/g, "").replace(/[^0-9]/g, '').split("").reduce((a, c, i) => {
+                v.target.value = v.target.value.slice(0, 15).replace(/[^0-9]/g, '').split("").reduce((a, c, i) => {
                     if (i == 0) a += '('
                     if (i == 2) return a + c + ') '
                     if (i == 5) return a + c + '-'
@@ -141,9 +154,9 @@ class Utilities {
                         className={'w-full md:w-1/2'}
                         name={state}
                         placeholder={placeholder}
-                        onKeyUp={callback} 
+                        onKeyUp={callback}
                         onBlur={this.th.callbacks.trimCallback}
-                        />
+                    />
                 </div>
             </div>
         )
@@ -161,13 +174,16 @@ class Utilities {
         let parser = value => `${value}`.replace(/\$\s?|(,*)/g, '')
 
 
-        return (
-            <div className={'subitem numberInput'} validatename={name} displayname={title.replace(":", "")}>
-                <div className={'item'}>
-                    <label className={'title'}>{title}</label>
-                </div>
-                <div className={'item flex'}>
-                    <InputNumber
+        return <Device>
+            {(isMobile) => {
+                let selectedInput;
+                if (isMobile) selectedInput = (<>
+                    <MobileNumberInput name={name} min={min} max={max} className={'ant-input-number-input w-full inputnumber'}
+                        placeholder={placeholder} callback={callback}
+                    />
+                </>)
+                else {
+                    selectedInput = <InputNumber
                         style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
                         name={name}
                         min={min}
@@ -178,21 +194,34 @@ class Utilities {
                         parser={parser}
                         onKeyUp={callback}
                     />
-                    {!addonAfterList ? null :
-                        <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
-                            <Select value={addonValue} onSelect={addonAfterCallback} name={addonName}>
-                                {addonAfterList.map((w, i) => <Option key={uuidv4()} state={addonName} value={w.id}>{w.name}</Option>)}
-                            </Select>
-                        </div>
-                    }
-                    {!addonAfterOnlyText ? null :
-                        <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
-                            {addonAfterOnlyText}
-                        </div>
-                    }
+
+                }
+
+
+                return <div className={'subitem numberInput'} validatename={name} displayname={title.replace(":", "")}>
+                    <div className={'item'}>
+                        <label className={'title'}>{title}</label>
+                    </div>
+                    <div className={'item flex'}>
+
+                        {selectedInput}
+
+                        {!addonAfterList ? null :
+                            <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
+                                <Select value={addonValue} onSelect={addonAfterCallback} name={addonName}>
+                                    {addonAfterList.map((w, i) => <Option key={uuidv4()} state={addonName} value={w.id}>{w.name}</Option>)}
+                                </Select>
+                            </div>
+                        }
+                        {!addonAfterOnlyText ? null :
+                            <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
+                                {addonAfterOnlyText}
+                            </div>
+                        }
+                    </div>
                 </div>
-            </div>
-        )
+            }}
+        </Device>
     }
 
     textAreaGeneretor = (title, placeholder, callback, name, { visibility = null } = {}) => {
@@ -222,7 +251,7 @@ class Utilities {
         )
     }
 
-    rangeİnputGenerator = (title, minName, maxName, Callback, visibility, { min = Number.MIN_VALUE, max = Number.MAX_VALUE, step = 1, addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null } = {}) => {
+    rangeİnputGenerator = (title, minName, maxName, callback, visibility, { min = Number.MIN_VALUE, max = Number.MAX_VALUE, step = 1, addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null } = {}) => {
         if (!visibility) {
 
             this.th.state.selected[minName] = null
@@ -231,45 +260,79 @@ class Utilities {
             return null
         }
         return (
-            <div className={'subitem rangeInput'} displayname={title.replace(":", "")}>
-                <div className={'item'} ><label>{title}</label></div>
-                <div className={'item'}>
-                    <InputNumber
-                        style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
-                        placeholder={"Min."}
-                        onKeyUp={Callback}
-                        min={min} max={max} step={step} name={minName}
-                        formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                    />
-                    -
-                    <InputNumber
-                        style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
-                        placeholder={"Max."}
-                        onKeyUp={Callback}
-                        min={min} max={max} step={step} name={maxName}
-                        formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                    />
-                    {!addonAfterList ? null :
-                        <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
-                            <Select style={{ width: 120 }} value={addonValue} onSelect={addonAfterCallback} name={addonName}>
-                                {addonAfterList.map((w, i) => <Option key={uuidv4()} state={addonName} value={w.id}>{w.name}</Option>)}
-                            </Select>
-                        </div>
+            <Device>
+                {(isMobile) => {
+                    let selectedInput;
+
+                    if (isMobile) {
+                        selectedInput = (<>
+                            <MobileNumberInput name={minName} min={min} max={max} step={step} className={'ant-input-number-input w-full inputnumber'}
+                                callback={callback} placeholder={"Min."}
+                            />
+                            -
+                            <MobileNumberInput name={maxName} min={min} max={max} step={step} className={'ant-input-number-input w-full inputnumber'}
+                                callback={callback} placeholder={"Max."}
+                            />
+                        </>
+                        )
+                    } else {
+                        selectedInput = (
+                            <>
+                                <InputNumber
+                                    style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
+                                    placeholder={"Min."}
+                                    onKeyUp={callback}
+                                    min={min} max={max} step={step} name={minName}
+                                    formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                    parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                                />
+                                -
+                                <InputNumber
+                                    style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
+                                    placeholder={"Max."}
+                                    onKeyUp={callback}
+                                    min={min} max={max} step={step} name={maxName}
+                                    formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                    parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                                />
+                            </>
+                        )
                     }
-                    {!addonAfterOnlyText ? null :
-                        <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
-                            {addonAfterOnlyText}
+
+
+                    return (
+                        <div className={'subitem rangeInput'} displayname={title.replace(":", "")}>
+                            <div className={'item'} ><label>{title}</label></div>
+                            <div className={'item'}>
+                                {selectedInput}
+                                {!addonAfterList ? null :
+                                    <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
+                                        <Select style={{ width: 120 }} value={addonValue} onSelect={addonAfterCallback} name={addonName}>
+                                            {addonAfterList.map((w, i) => <Option key={uuidv4()} state={addonName} value={w.id}>{w.name}</Option>)}
+                                        </Select>
+                                    </div>
+                                }
+                                {!addonAfterOnlyText ? null :
+                                    <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
+                                        {addonAfterOnlyText}
+                                    </div>
+                                }
+                            </div>
                         </div>
-                    }
-                </div>
-            </div>
+                    )
+                }}
+            </Device>
         )
     }
 
-    selectGenerator = (title, options, name, selected, callback, { visibility = false, loading = null, search = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null, novalidation = null } = {}) => {
-        if ((!options || options.length < 1) && !visibility) {
+    selectGenerator = (title, options, name, selected, callback, { visibility = null, loading = null, search = false, noneed = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null, novalidation = null } = {}) => {
+        if (visibility != null && visibility == false) {
+            this.th.state.selected[name] = null
+
+            return null
+        }
+
+        if ((!options || options.length < 1) && visibility == null) {
 
             this.th.state.selected[name] = null
 
@@ -301,35 +364,71 @@ class Utilities {
             obj.validatename = name;
         }
 
-        if (subname) {
-            return (
-                <div className={'subitem selectInput'}>
+        return <Device>
+            {(isMobile) => {
+                if (isMobile) {
+                    if (subname) {
+                        return (<div className={'subitem selectInput'}>
+                            <div className={'item'}><label>{title}</label></div>
+                            <div className={'item'} displayname={title.replace(":", "")} {...obj}>
+                                <MobileSelector state={name} selected={selected} callback={callback}>
+                                    <option disabled value={""} hidden> Seçin </option>
+                                    {noneed ? <option key={uuidv4()} state={name} value={""}>Boş Burax</option> : null}
+                                    {subname?.map((w, i) => <optgroup key={uuidv4()} label={w.name}>
+
+                                        {w.category.map((d, q) => <option state={name} key={uuidv4()} value={d.id}>{d.name}</option>)}
+
+                                    </optgroup>)}
+                                </MobileSelector>
+                            </div>
+                        </div>)
+                    }
+
+                    return (
+                        <div className={'subitem selectInput'}>
+                            <div className={'item'}><label>{title}</label></div>
+                            <div className={'item'} displayname={title.replace(":", "")} {...obj}>
+                                <MobileSelector state={name} selected={selected} callback={callback}>
+                                    <option disabled value={""} hidden> Seçin </option>
+                                    {noneed ? <option key={uuidv4()} state={name} value={""}>Boş Burax</option> : null}
+                                    {options?.map((w, i) => <option key={uuidv4()} state={name} value={w.id}>{w.name}</option>)}
+                                </MobileSelector>
+                            </div>
+                        </div>)
+                }
+
+                if (subname) {
+                    return (
+                        <div className={'subitem selectInput'}>
+                            <div className={'item'}><label>{title}</label></div>
+                            <div className={'item'} displayname={title.replace(":", "")}>
+                                <Select {...obj} filterOption={(input, option) => option?.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'w-full md:w-1/2'}>
+                                    {selectAll ? <Option key={uuidv4()} state={name} value={null}>Hamısı</Option> : null}
+                                    {noneed ? <Option key={uuidv4()} state={name} value={""}>Boş Burax</Option> : null}
+                                    {options?.filter(w => !(w[subnameTitle]))?.map((w, i) => <Option state={name} key={uuidv4()} value={w.id}>{w.name}</Option>)}
+                                    {subname?.map((w, i) => <OptGroup key={uuidv4()} label={w.name}>
+
+                                        {w.category.map((d, q) => <Option state={name} key={uuidv4()} value={d.id}>{d.name}</Option>)}
+
+                                    </OptGroup>)}
+                                </Select>
+                            </div>
+                        </div>
+
+                    )
+                }
+
+                return (<div className={'subitem selectInput'}>
                     <div className={'item'}><label>{title}</label></div>
                     <div className={'item'} displayname={title.replace(":", "")}>
-                        <Select {...obj} filterOption={(input, option) => option?.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'w-full md:w-1/2'}>
+                        <Select {...obj} filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'w-full md:w-1/2'}>
                             {selectAll ? <Option key={uuidv4()} state={name} value={null}>Hamısı</Option> : null}
-                            {options?.filter(w => !(w[subnameTitle]))?.map((w, i) => <Option state={name} key={uuidv4()} value={w.id}>{w.name}</Option>)}
-                            {subname?.map((w, i) => <OptGroup key={uuidv4()} label={w.name}>
-
-                                {w.category.map((d, q) => <Option state={name} key={uuidv4()} value={d.id}>{d.name}</Option>)}
-
-                            </OptGroup>)}
+                            {noneed ? <Option key={uuidv4()} state={name} value={""}>Boş burax</Option> : null}
+                            {options?.map((w, i) => <Option key={uuidv4()} state={name} value={w.id}>{w.name}</Option>)}
                         </Select>
                     </div>
-                </div>
-
-            )
-        }
-
-        return (<div className={'subitem selectInput'}>
-            <div className={'item'}><label>{title}</label></div>
-            <div className={'item'} displayname={title.replace(":", "")}>
-                <Select {...obj} filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'w-full md:w-1/2'}>
-                    {selectAll ? <Option key={uuidv4()} state={name} value={null}>Hamısı</Option> : null}
-                    {options?.map((w, i) => <Option key={uuidv4()} state={name} value={w.id}>{w.name}</Option>)}
-                </Select>
-            </div>
-        </div>)
+                </div>)
+            }}</Device>
     }
 
     checkBoxGenerator = (title, callback, name, visible, { multiple = null, makeBlock = null } = {}) => {
@@ -439,6 +538,7 @@ class Utilities {
             location.reload()
         } else {
             alert(res.status)
+            alert(await res.json())
         }
     }
 
@@ -452,7 +552,6 @@ class Utilities {
 
 
     DragableUploadListItem = ({ originNode, moveRow, file, fileList }) => {
-        console.log(originNode)
         const type = 'DragableUploadList';
         const ref = React.useRef();
         const index = fileList.indexOf(file);
@@ -490,9 +589,11 @@ class Utilities {
                 className={`ant-upload-draggable-list-item ${isOver ? dropClassName : ''}`}
                 style={{ cursor: 'move' }}
             >
-                {file.status === 'error' ? errorNode : originNode}
-                <div className={'text-center mb-4 cursor-default'}>
-                    <DeleteOutlined className={'inline text-black cursor-pointer'} onClick={()=> this.handleRemove(file)}/>
+                {file.status === 'error' && file.status != undefined ? errorNode : originNode}
+                <div className={'text-center mb-4 cursor-default flex p-5'}>
+                    <DeleteOutlined className={'inline flex-grow text-black cursor-pointer'} onClick={() => this.handleRemove(file)} />
+                    <FiRotateCcw className={'inline flex-grow text-black cursor-pointer'} onClick={() => this.handleRotation(file, -90)} />
+                    <FiRotateCw className={'inline flex-grow text-black cursor-pointer'} onClick={() => this.handleRotation(file, 90)} />
                 </div>
             </div>
         );
@@ -520,7 +621,16 @@ class Utilities {
                 <DndProvider manager={this.manager.dragDropManager}>
                     <Upload
                         action={url}
-                        showUploadList={{showRemoveIcon: false}}
+                        beforeUpload={
+                            (file, list) => {
+                                for (let index = 0; index < list.length; index++) {
+                                    if (this.th.state.fileList.find(w => w.name == list[index].name)) {
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                        showUploadList={{ showRemoveIcon: false }}
                         name={"images"}
                         multiple={true}
                         listType="picture-card"
@@ -548,9 +658,10 @@ class Utilities {
                     visible={previewVisible}
                     title={previewTitle}
                     footer={null}
+                    destroyOnClose
                     onCancel={this.handleCancel}
                 >
-                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                    <img style={{ width: '100%', height: '100%' }} src={previewImage} />
                 </Modal>
             </div>
         )
@@ -558,43 +669,76 @@ class Utilities {
 
     getImageState = {
         previewVisible: false,
+        previewRotation: 0,
         previewImage: '',
         previewTitle: '',
         fileList: []
     }
 
-    handleCancel = () => this.th.setState({ previewVisible: false });
+    handleCancel = () => this.th.setState({ previewVisible: false, previewImage: null });
 
     handlePreview = async (file) => {
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj);
         }
+        this.rotate(file.preview, file["rotation"]).then((base) => {
+            this.th.setState({
+                previewImage: file.url || base,
+                previewVisible: true,
+                previewRotation: file["rotation"],
+                previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+            });
+        })
 
-        this.th.setState({
-            previewImage: file.url || file.preview,
-            previewVisible: true,
-            previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
-        });
     };
 
     handleChange = async ({ fileList, file }) => {
+        if (file?.status == undefined && file != undefined) {
+            this.showError("Eyni fayl birdən çox yüklənə bilməz.")
+            return;
+        }
         if (file?.error?.status == 415) {
             this.showError("Fayl Tipi Dəstəklənmir. PNG, JPG və ya JPEG tipli fayl yükləyin")
+            return;
         }
+
+        if (file != undefined && !file["rotation"]) {
+            file["rotation"] = 0;
+        }
+
         this.th.setState({
             ...this.th.state,
-            fileList: [...fileList],
+            fileList: [...fileList].filter(w => w?.status != undefined),
             selected:
             {
                 ...this.th.state.selected,
-                images: [...fileList].filter(w => w.response).map(w => w.response.fileName)
+                images: [...fileList].filter(w => w?.response).map(w => ({ filename: w.response.fileName, rotation: w["rotation"], }))
 
             }
         })
     };
 
+    handleRotation = (file, rotation) => {
+        let imageList = this.th.state.selected.images;
+
+        let value = imageList.find(w => w.filename == file.response.fileName);
+        value.rotation += rotation
+        file["rotation"] = value.rotation
+
+        let img = document.querySelector(`img[src="${file.thumbUrl}"]`);
+        img.style.transform = `rotate(${value.rotation}deg)`
+
+        this.th.setState({
+            ...this.th.state,
+            selected: {
+                ...this.th.state.selected,
+                images: imageList
+            }
+        })
+    }
+
     handleRemove = async (file) => {
-        await this.handleChange({fileList: this.th.state.fileList.filter(w=> w !== file), file: file})
+        await this.handleChange({ fileList: this.th.state.fileList.filter(w => w !== file), file: file })
         let req = await fetch(this.th.state.url, {
             method: 'DELETE',
             headers: {
@@ -606,6 +750,25 @@ class Utilities {
 
         if (req.ok) console.log(`${file.response.fileName} Deleted`)
     }
+
+    rotate = (srcBase64, degrees) => new Promise((resolve, reject) => {
+        const canvas = document.createElement("canvas")
+        let ctx = canvas.getContext("2d");
+        let image = new Image();
+
+        image.onload = function () {
+            canvas.width = degrees % 180 === 0 ? image.width : image.height;
+            canvas.height = degrees % 180 === 0 ? image.height : image.width;
+
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate(degrees * Math.PI / 180);
+            ctx.drawImage(image, image.width / -2, image.height / -2);
+
+            resolve(canvas.toDataURL())
+        };
+
+        image.src = srcBase64;
+    })
 
     /*
     END
@@ -644,7 +807,6 @@ class Utilities {
 
 
 export default Utilities;
-
 
 const defaultOptions = { scrollwheel: false };
 

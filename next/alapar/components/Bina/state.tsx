@@ -1,6 +1,6 @@
 import { Currency, City, SharedDate, ImageState, Region, Village, Metro } from '@/Constructions/objects'
 import * as URL from '@/Constructions/const';
-import { SellType, Category, Cities, MetroWays, LandAppointment, Rent, BINA_FILTER, Rental } from './object'
+import { SellType, Category, Cities, MetroWays, LandAppointment, Rent, BINA_FILTER, Rental, TargetPoints, PropertySellingType, ContractType } from './object'
 
 interface Bina_Selection {
     images: Array<string>, //list<string>
@@ -10,14 +10,10 @@ interface Bina_Selection {
     village: number, //int
     metro: number, //int
     sellType: number, //int
-    licence: boolean, //boolean
-    ipoteka: boolean, //bool
     roomAmount: number, //int
     floor: number, //int
     buildingFloor: number, //int
     landAppointment: number, //int
-    icare: boolean, //boolean
-    belediyye: boolean, //boolean
     rentDuration: number, //int
     price: number, //int
     areaSize: number, //int
@@ -39,7 +35,6 @@ interface Bina_Selection {
     su: boolean,
     isig: boolean,
     kanalizasiya: boolean,
-    barter: boolean,
     owner: boolean,
     metbex: boolean,
     qab: boolean,
@@ -53,10 +48,13 @@ interface Bina_Selection {
     heyvan: boolean,
     otagordaire: boolean,
     currency: number,
+    target: number,
     metroWay: number,
     metroDuration: number,
     secondAreaSize: number,
     customAdress: string,
+    contract: number,
+    propertySelling: number,
 
     //Filter
     minRoom: number,
@@ -89,9 +87,12 @@ export interface Bina extends ImageState {
     mapVisible: boolean,
     sellTypeList: Array<SellType>,
     categoryList: Array<Category>,
+    contractList: Array<ContractType>,
+    targetPointList: Array<TargetPoints>,
     subCategory: Array<object>,
     cityList: Array<Cities>,
     regionList: Array<Region>,
+    propertySellingTypes: Array<PropertySellingType>,
     villageList: Array<Village>,
     metroList: Array<Metro>,
     metroWayList: Array<MetroWays>,
@@ -110,7 +111,18 @@ export interface Bina extends ImageState {
         landAppointment: boolean,
         icare: boolean,
         belediyye: boolean,
-        barter: boolean
+        barter: boolean,
+
+        eyvan: boolean,
+        lift: boolean,
+        mebel: boolean,
+        temir: boolean,
+        hovuz: boolean,
+        qaz: boolean,
+        su: boolean,
+        isig: boolean,
+        kanalizasiya: boolean,
+        hamam: boolean,
     },
     rentalAddition: {
         metbexM: boolean,
@@ -141,15 +153,12 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             region: null, //int
             village: null, //int
             metro: null, //int
+            target: null, // int
             sellType: json.sellTypes[0].id, //int
-            licence: null, //bool
-            ipoteka: null, //bool
             roomAmount: null, //int
             floor: null, //int
             buildingFloor: null, //int
             landAppointment: null, //int
-            icare: null, //bool
-            belediyye: null, //bool
             rentDuration: null, //int
             price: null, //int
             areaSize: null, //int
@@ -159,6 +168,8 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             name: null, //string
             wp: null, //bool
             call: null, //bool
+            contract: null,
+            propertySelling: null,
             lat: null,
             lng: null,
             hamam: null,
@@ -171,7 +182,6 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             su: null,
             isig: null,
             kanalizasiya: null,
-            barter: null,
             owner: true,
             metbex: null,
             qab: null,
@@ -217,11 +227,14 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
         mapVisible: false,
         sellTypeList: json.sellTypes,
         categoryList: json.categories,
+        contractList: json.contract,
+        targetPointList: null,
         subCategory: th.utility.convertCategory2Sub(json.categories, "subname"),
         cityList: json.cities,
         regionList: null,
         villageList: null,
         metroList: null,
+        propertySellingTypes: json.propertySellingTypes,
         metroWayList: json.metroWays,
         landAppointmentList: json.landAppointment,
         rentDurationList: null,
@@ -238,7 +251,18 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             landAppointment: false,
             icare: false,
             belediyye: false,
-            barter: true
+            barter: true,
+
+            eyvan: false,
+            lift: false,
+            mebel: false,
+            temir: false,
+            hovuz: false,
+            qaz: false,
+            su: false,
+            isig: false,
+            kanalizasiya: false,
+            hamam: false,
         },
         rentalAddition: {},
         extraVisible: false,

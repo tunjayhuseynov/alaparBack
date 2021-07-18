@@ -20,6 +20,8 @@ export interface Private_Selection{
     phone: string,
     isWp: boolean,
     isCall: boolean,
+
+    sharedDate: number
 }
 
 export interface Private extends ImageState{

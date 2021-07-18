@@ -18,6 +18,8 @@ export interface Service_Selection{
     phone: string,
     isWp: boolean,
     isCall: boolean,
+
+    sharedDate: number
 }
 
 export interface Service extends ImageState{

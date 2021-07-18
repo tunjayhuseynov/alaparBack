@@ -1,7 +1,6 @@
 import { Component } from 'react'
 import Utilities from '@/utilities';
 import { Button } from 'antd';
-import { PoweroffOutlined } from '@ant-design/icons';
 
 class Form extends Component {
     constructor(props) {

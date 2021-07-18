@@ -27,6 +27,7 @@ namespace AlApar.Models
             PrivateAds = new HashSet<PrivateAd>();
             ServiceAds = new HashSet<ServiceAd>();
             ChildAds = new HashSet<ChildAd>();
+            TargetPoints = new HashSet<BinaTargetPoints>();
         }
 
         public int Id { get; set; }
@@ -36,6 +37,7 @@ namespace AlApar.Models
         public virtual ICollection<BinaAdsPersonal> BinaAdsPersonal { get; set; }
         public virtual ICollection<Regions> Regions { get; set; }
         public virtual ICollection<Metros> Metros { get; set; }
+        public virtual ICollection<BinaTargetPoints> TargetPoints { get; set; }
 
         //Auto
         public virtual ICollection<AutoContacts> AutoContacts { get; set; }

@@ -1,4 +1,4 @@
-// @ts-check
+//ts-check
 import { Component } from 'react'
 import Utilities from '@/utilities';
 import Callbacks from '@/callbacks';
@@ -7,10 +7,10 @@ import { stateProcess, InitFetch, pageprocess, pagenames } from '@/controller'
 import Header from '@/Layouts/header';
 import FilterLayout from '@/Constructions/filter';
 
-class Add extends Component {
+class StaticPages extends Component {
     constructor(props) {
         super(props)
-
+        
         this.utility = new Utilities(this)
         this.callbacks = new Callbacks(this)
 
@@ -24,7 +24,7 @@ class Add extends Component {
 
     render() {
         let content = this.html();
-        return content ? this.props.processname == pageprocess.add ?
+        return this.props.processname == pageprocess.add ?
             // Add
             (
                 <Form childstate={this}>
@@ -52,8 +52,6 @@ class Add extends Component {
                     </div>
                 </>
             )
-            // If Content is null
-            : null;
     }
 }
 
@@ -107,4 +105,4 @@ export async function getStaticPaths() {
     };
 }
 
-export default Add;
+export default StaticPages;

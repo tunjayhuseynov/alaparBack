@@ -24,14 +24,10 @@ namespace AlApar.Models.Bina.Views
         public double? Price { get; set; }
         public int? CurrencyId { get; set; }
         public double? AreaSize { get; set; }
-        public bool? HasLicense { get; set; }
         public int? LandAppointmentId { get; set; }
-        public bool? HasMortgage { get; set; }
         public int? RoomAmount { get; set; }
         public int? BuildingFloor { get; set; }
         public int? Floor { get; set; }
-        public bool? HasIcare { get; set; }
-        public bool? HasBelediyye { get; set; }
         public int? Hamam { get; set; }
         public bool? Eyvan { get; set; }
         public bool? Lift { get; set; }
@@ -42,7 +38,6 @@ namespace AlApar.Models.Bina.Views
         public bool? Su { get; set; }
         public bool? Isig { get; set; }
         public bool? Kanalizasiya { get; set; }
-        public bool? Barter { get; set; }
         public bool? MetbexM { get; set; }
         public bool? QabY { get; set; }
         public bool? PaltarY { get; set; }
@@ -59,6 +54,12 @@ namespace AlApar.Models.Bina.Views
         public int? SecondAreaSize { get; set; }
         public string CustomAdress { get; set; }
         public string LandAppointmentName { get; set; }
+        public int? TargetPointId { get; set; }
+        public string TargetName { get; set; }
+        public int? PropertySellingTypeId { get; set; }
+        public string PropertySellingName { get; set; }
+        public int? ContractTypeId { get; set; }
+        public string ContractName { get; set; }
 
         public int? LogId { get; set; }
         public int? ContactId { get; set; }

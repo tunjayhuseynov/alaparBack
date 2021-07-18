@@ -25,6 +25,9 @@ namespace AlApar.Models
         public virtual DbSet<BinaPersonalPhotos> BinaPersonalPhotos { get; set; }
         public virtual DbSet<BinaRentPaymentTypes> BinaRentPaymentTypes { get; set; }
         public virtual DbSet<BinaRentalProps> BinaRentalPros { get; set; }
+        public virtual DbSet<BinaTargetPoints> BinaTargetPoints { get; set; }
+        public virtual DbSet<BinaContractTypes> BinaContractTypes { get; set; }
+        public virtual DbSet<BinaSellingTypes> BinaSellingTypes { get; set; }
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Currency> Currency { get; set; }
         public virtual DbSet<Metros> Metros { get; set; }
@@ -39,6 +42,33 @@ namespace AlApar.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             GeneralModels.generateGeneralModels(in modelBuilder);
+
+            modelBuilder.Entity<BinaTargetPoints>(entity=> {
+                entity.ToTable("bina_target_points");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Name).HasColumnName("name");
+                entity.Property(e => e.CityId).HasColumnName("cityId");
+
+                entity.HasOne(e => e.City).WithMany(e => e.TargetPoints).HasForeignKey(e => e.CityId).HasConstraintName("bina_target_points_city");
+            
+            });
+
+            modelBuilder.Entity<BinaContractTypes>(entity => {
+                entity.ToTable("bina_contract_types");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Name).HasColumnName("name");
+
+            });
+
+            modelBuilder.Entity<BinaSellingTypes>(entity => {
+                entity.ToTable("bina_selling_types");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Name).HasColumnName("name");
+
+            });
 
             modelBuilder.Entity<ViewBinaPersonalGeneral>(entity =>
             {
@@ -71,10 +101,6 @@ namespace AlApar.Models
                 entity.Property(e => e.BuildingFloor).HasColumnName("buildingFloor");
 
 
-                entity.Property(e => e.HasLicense).HasColumnName("hasLicense");
-
-                entity.Property(e => e.HasMortgage).HasColumnName("hasMortgage");
-
                 entity.Property(e => e.LandAppointmentId).HasColumnName("landAppointmentId");
 
                 entity.Property(e => e.MetroId).HasColumnName("metroId");
@@ -91,14 +117,11 @@ namespace AlApar.Models
                 entity.Property(e => e.LogId).HasColumnName("logId");
                 entity.Property(e => e.ContactId).HasColumnName("contactId");
 
+                entity.Property(e => e.TargetPointId).HasColumnName("targetPointId");
+                entity.Property(e => e.TargetName).HasColumnName("targetName");
 
                 entity.Property(e => e.VillageId).HasColumnName("villageId");
 
-                entity.Property(e => e.Barter).HasColumnName("barter");
-
-                entity.Property(w => w.HasIcare).HasColumnName("hasIcare");
-
-                entity.Property(w => w.HasBelediyye).HasColumnName("hasBelediyye");
 
                 entity.Property(w => w.MetbexM).HasColumnName("metbexM");
                 entity.Property(w => w.QabY).HasColumnName("qabY");
@@ -154,6 +177,10 @@ namespace AlApar.Models
                 entity.Property(w => w.Latitude).HasColumnName("latitude");
                 entity.Property(w => w.About).HasColumnName("about");
                 entity.Property(w => w.Viewed).HasColumnName("viewed");
+                entity.Property(w => w.PropertySellingName).HasColumnName("propertySellingName");
+                entity.Property(w => w.ContractName).HasColumnName("contractName");
+                entity.Property(w => w.ContractTypeId).HasColumnName("contractTypeId");
+                entity.Property(w => w.PropertySellingTypeId).HasColumnName("binasellingTypeId");
 
 
             });
@@ -190,6 +217,8 @@ namespace AlApar.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
+                entity.Property(e => e.TargetPointId).HasColumnName("targetPointId");
+
                 entity.Property(e => e.PrivateId).HasColumnName("privateId");
 
                 entity.Property(e => e.LogId).HasColumnName("logId");
@@ -219,10 +248,7 @@ namespace AlApar.Models
 
                 entity.Property(e => e.BuildingFloor).HasColumnName("buildingFloor");
 
-
-                entity.Property(e => e.HasLicense).HasColumnName("hasLicense");
-
-                entity.Property(e => e.HasMortgage).HasColumnName("hasMortgage");
+                entity.Property(e => e.BinaSellingTypeId).HasColumnName("binasellingTypeId");
 
                 entity.Property(e => e.LandAppointmentId).HasColumnName("landAppointmentId");
 
@@ -245,16 +271,11 @@ namespace AlApar.Models
 
                 entity.Property(e => e.SellTypeId).HasColumnName("sellTypeId");
 
+                entity.Property(e => e.ContractTypeId).HasColumnName("contractTypeId");
 
                 entity.Property(e => e.Viewed).HasColumnName("viewed");
 
                 entity.Property(e => e.VillageId).HasColumnName("villageId");
-
-                entity.Property(e => e.Barter).HasColumnName("barter");
-
-                entity.Property(w => w.HasIcare).HasColumnName("hasIcare");
-
-                entity.Property(w => w.HasBelediyye).HasColumnName("hasBelediyye");
 
                 entity.Property(w => w.MetbexM).HasColumnName("metbexM");
                 entity.Property(w => w.QabY).HasColumnName("qabY");
@@ -290,10 +311,20 @@ namespace AlApar.Models
                     .HasForeignKey(d => d.StatusId)
                     .HasConstraintName("AdStatus");
 
+                entity.HasOne(d => d.TargetPoint)
+                      .WithMany(d => d.BinaAdsPersonals)
+                      .HasForeignKey(d => d.TargetPointId)
+                      .HasConstraintName("bina_ads_personal_targets");
+
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.BinaAdsPersonal)
                     .HasForeignKey(d => d.CategoryId)
                     .HasConstraintName("FK__ads__categoryId__3B75D760");
+
+                entity.HasOne(d => d.ContractTypes)
+                      .WithMany(d => d.BinaAdsPersonal)
+                      .HasForeignKey(d => d.ContractTypeId)
+                      .HasConstraintName("bina_ads_personal_contracts");
 
                 entity.HasOne(d => d.City)
                     .WithMany(p => p.BinaAdsPersonal)
@@ -319,6 +350,11 @@ namespace AlApar.Models
                     .WithMany(p => p.BinaAdsPersonal)
                     .HasForeignKey(d => d.ContactId)
                     .HasConstraintName("personContactID");
+
+                entity.HasOne(d => d.BinaSellingTypes)
+                      .WithMany(d => d.BinaAdsPersonals)
+                      .HasForeignKey(d => d.BinaSellingTypeId)
+                      .HasConstraintName("bina_selling_type_id");
 
                 entity.HasOne(d => d.Region)
                     .WithMany(p => p.BinaAdsPersonal)

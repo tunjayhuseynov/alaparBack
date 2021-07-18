@@ -33,14 +33,10 @@ namespace AlApar.Models.Bina
         public double? Latitude { get; set; }
         public string About { get; set; }
         public int? ContactId { get; set; } // Manual
-        public bool? HasLicense { get; set; }
         public int? LandAppointmentId { get; set; }
-        public bool? HasMortgage { get; set; }
         public int? RoomAmount { get; set; }
         public int? BuildingFloor { get; set; }
         public int? Floor { get; set; }
-        public bool? HasIcare { get; set; }
-        public bool? HasBelediyye { get; set; }
         public int? Hamam { get; set; }
         public bool? Eyvan { get; set; }
         public bool? Lift { get; set; }
@@ -51,7 +47,6 @@ namespace AlApar.Models.Bina
         public bool? Su { get; set; }
         public bool? Isig { get; set; }
         public bool? Kanalizasiya { get; set; }
-        public bool? Barter { get; set; }
         public bool? MetbexM { get; set; }
         public bool? QabY { get; set; }
         public bool? PaltarY { get; set; }
@@ -67,9 +62,15 @@ namespace AlApar.Models.Bina
         public int? MetroWayId { get; set; }
         public int? SecondAreaSize { get; set; }
         public string CustomAdress { get; set; }
+        public int? TargetPointId { get; set; }
+        public int? ContractTypeId { get; set; }
+        public int? BinaSellingTypeId { get; set; }
 
 
+        public virtual BinaContractTypes ContractTypes { get; set; }
+        public virtual BinaSellingTypes BinaSellingTypes { get; set; }
         public virtual BinaAdsPersonalLogs Infos { get; set; }
+        public virtual BinaTargetPoints TargetPoint { get; set; }
         public virtual MetroWays MetroWay { get; set; }
         public virtual AdPackages AdPackage { get; set; }
         public virtual AdStatuses AdStatus { get; set; }

@@ -11,7 +11,7 @@ namespace AlApar.Classes.Bina
     public class Form
     {
         [JsonProperty("images")]
-        public List<string> ImageList { get; set; }
+        public List<ImageStructure> ImageList { get; set; }
 
         [JsonProperty("category")]
         public int? CategoryId { get; set; }
@@ -31,11 +31,6 @@ namespace AlApar.Classes.Bina
         [JsonProperty("sellType")]
         public int? SellTypeId { get; set; }
 
-        [JsonProperty("licence")]
-        public bool? HasLicense { get; set; }
-
-        [JsonProperty("ipoteka")]
-        public bool? HasMortgage { get; set; }
 
         [JsonProperty("roomAmount")]
         public int? RoomAmount { get; set; }
@@ -49,11 +44,15 @@ namespace AlApar.Classes.Bina
         [JsonProperty("landAppointment")]
         public int? LandAppointmentId { get; set; }
 
-        [JsonProperty("icareCixaris")]
-        public bool? HasIcare { get; set; }
 
-        [JsonProperty("belediyye")]
-        public bool? HasBelediyye { get; set; }
+        [JsonProperty("target")]
+        public int? TargetPointId { get; set; }
+
+        [JsonProperty("contract")]
+        public int? ContractTypeId { get; set; }
+        
+        [JsonProperty("propertySelling")]
+        public int? BinaSellingTypeId { get; set; }
 
         [JsonProperty("rentDuration")]
         public int? RentPaymentTypeId { get; set; }
@@ -118,8 +117,6 @@ namespace AlApar.Classes.Bina
         [JsonProperty("kanalizasiya")]
         public bool? Kanalizasiya { get; set; }
 
-        [JsonProperty("barter")]
-        public bool? Barter { get; set; }
 
         [JsonProperty("owner")]
         public bool? Owner { get; set; }

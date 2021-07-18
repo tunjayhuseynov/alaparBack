@@ -10,7 +10,7 @@ namespace AlApar.Classes.Auto
     public class Form
     {
         [JsonProperty("images")]
-        public List<string> ImageList { get; set; }
+        public List<ImageStructure> ImageList { get; set; }
 
         [JsonProperty("mark")]
         public int? MarkId { get; set; }

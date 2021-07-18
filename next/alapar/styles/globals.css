@@ -19,10 +19,7 @@ a {
   box-sizing: border-box;
 }
 
-.slick-list,
-.slick-track {
-  touch-action: pan-y!important;
-}
+
 
 .ant-btn>span {
   display: inline-flex;

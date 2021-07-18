@@ -23,6 +23,7 @@ namespace AlApar.Classes
             Month = 3
         }
 
+
         public List<string> ImageTypes
         {
             get => new List<string> {
@@ -71,28 +72,52 @@ namespace AlApar.Classes
             return new Size((int)(originalWidth * factor), (int)(originalHeight * factor));
         }
 
-        public Task ImageSaver(List<string> images, string tempFolder, string mainFolder, long folderId, IWebHostEnvironment _webHostEnvironment)
+        public Task ImageSaver(List<ImageStructure> images, string tempFolder, string mainFolder, long folderId, IWebHostEnvironment _webHostEnvironment)
         {
             tempFolder = Path.Combine(_webHostEnvironment.WebRootPath, tempFolder);
             mainFolder = Path.Combine(_webHostEnvironment.WebRootPath, mainFolder);
 
             foreach (var item in images)
             {
-                if (File.Exists($"{tempFolder}/{item}"))
+                if (File.Exists($"{tempFolder}/{item.FileName}"))
                 {
                     if (!Directory.Exists($"{mainFolder}/{folderId}"))
                     {
                         Directory.CreateDirectory($"{mainFolder}/{folderId}");
                     }
 
-                    File.Move($"{tempFolder}/{item}", $"{mainFolder}/{folderId}/{item}", true);
+                    Image orgimg = Image.FromFile($"{tempFolder}/{item.FileName}");
 
-                    Image img = Image.FromFile($"{mainFolder}/{folderId}/{item}");
+                    double rot = Math.Truncate(((double)item.Rotation) / 360.0) - (((double)item.Rotation) / 360.0);
+                    switch (rot)
+                    {
+                        case -0.25 or 0.75:
+                            orgimg.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                            break;
+                        case 0.5 or -0.5:
+                            orgimg.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                            break;
+                        case 0.25 or -0.75:
+                            orgimg.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    orgimg.Save($"{mainFolder}/{folderId}/{item.FileName}");
+
+                    File.SetAttributes($"{tempFolder}/{item.FileName}", FileAttributes.Normal);
+                    File.Delete($"{tempFolder}/{item.FileName}");
+                    //File.Move($"{tempFolder}/{item.FileName}", $"{mainFolder}/{folderId}/{item.FileName}", true);
+
+                    Image img = Image.FromFile($"{mainFolder}/{folderId}/{item.FileName}");
+
+
                     Size tumbSize = GetThumbnailSize(img);
 
                     Image thumbnail = img.GetThumbnailImage(tumbSize.Width, tumbSize.Height, null, IntPtr.Zero);
 
-                    thumbnail.Save($"{mainFolder}/{folderId}/thumb-{item}");
+                    thumbnail.Save($"{mainFolder}/{folderId}/thumb-{item.FileName}");
                 }
                 else
                 {
@@ -239,7 +264,7 @@ namespace AlApar.Classes
             await db.AddAsync(adInstance);
             await db.SaveChangesAsync();
 
-            List<string> imageNames = (List<string>)form.GetType().GetProperty("ImageList").GetValue(form);
+            List<ImageStructure> imageNames = (List<ImageStructure>)form.GetType().GetProperty("ImageList").GetValue(form);
             long adInstanceId = (long)adInstance.GetType().GetProperty("Id").GetValue(adInstance);
 
             await ImageSaver(imageNames, TempFolder, MainFolder, adInstanceId, _webHostEnvironment);
@@ -407,5 +432,14 @@ namespace AlApar.Classes
     {
         public int Id { get; set; }
         public double? Rate { get; set; }
+    }
+
+    public class ImageStructure
+    {
+        [Newtonsoft.Json.JsonProperty("filename")]
+        public string FileName { get; set; }
+
+        [Newtonsoft.Json.JsonProperty("rotation")]
+        public int Rotation { get; set; }
     }
 }

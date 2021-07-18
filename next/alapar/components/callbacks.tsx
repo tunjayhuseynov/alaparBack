@@ -256,6 +256,7 @@ class Callbacks {
     cityCallback = function (this: React.Component<{}, Bina>, value) {
         let regions = this.state.cityList?.find(w => w.id == value)?.regions;
         let metros = this.state.cityList?.find(w => w.id == value)?.metros;
+        let targets = this.state.cityList?.find(w => w.id == value)?.targetPoints;
         this.setState({
             selected: {
                 ...this.state.selected,
@@ -267,7 +268,8 @@ class Callbacks {
             metroList: metros || null,
             nometro: !metros.length ? false : true,
             regionList: regions || null,
-            villageList: null
+            villageList: null,
+            targetPointList: targets
         })
     }
 
@@ -319,7 +321,7 @@ class Callbacks {
         this.setState({
             selected: {
                 ...this.state.selected,
-                [option.state]: value
+                [option.state]: value === ''? null : value
             }
         })
 
@@ -335,10 +337,16 @@ class Callbacks {
     }
 
     numberCallback = function (value) {
+        const val = +value.target.defaultValue.replace(/[^\-\d]/g, '') || +value.target.value.replace(/[^\-\d]/g, '') || null;
+        if(val == null) return;
+        const min = +value.target.min
+        const max = +value.target.max
+        const result = Math.max(min,val) != min ? Math.min(val,max) : min;
+    
         this.setState({
             selected: {
                 ...this.state.selected,
-                [value.target.name]: +value.target.defaultValue.replace(/[^\d]/g, '') || null
+                [value.target.name]: result
             }
         })
     }

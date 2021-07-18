@@ -54,6 +54,11 @@ interface Auto_Selection {
     sharedDate: number,
 }
 
+export interface ChechboxObject{
+    title: string,
+    name: string,
+}
+
 export interface Auto extends ImageState{
     url: string,
     submitUrl: string,
@@ -75,7 +80,7 @@ export interface Auto extends ImageState{
     barter: boolean,
     power: boolean,
     modelSubList: Array<any>,
-    checkboxList: Array<object>,
+    checkboxList: Array<ChechboxObject>,
 
     //Filter
     sharedDate: Array<SharedDate>,

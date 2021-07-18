@@ -69,6 +69,12 @@ namespace AlApar.Repositories.Bina
 
             var metroWays = await db.MetroWays.AsNoTracking().ToListAsync();
 
+            var targetPoints = await db.BinaTargetPoints.AsNoTracking().ToListAsync();
+
+            var contract = await db.BinaContractTypes.AsNoTracking().ToListAsync();
+
+            var propertySellingTypes = await db.BinaSellingTypes.AsNoTracking().ToListAsync();
+
             var sharedDate = await db.LastSharedTimes.AsNoTracking().ToListAsync();
 
             Func<Villages, object> villageSelect = r => new { Id = r.Id, Name = r.Name };
@@ -84,6 +90,7 @@ namespace AlApar.Repositories.Bina
             {
                 w.Id,
                 w.Name,
+                TargetPoints = targetPoints.Where(s => s.CityId == w.Id), 
                 Metros = metros.Where(b => b.cityId == w.Id),
                 Regions = regions.Where(s => s.cityId == w.Id)
                                      .Select(regionSelect)
@@ -97,6 +104,8 @@ namespace AlApar.Repositories.Bina
                 SellTypes = sellType.Select(w => new { Id = w.Id, Name = w.Name, Rent = durationRentType.Where(s => s.RentId == w.Id) }),
                 Currency = currencies,
                 Rentals = rentals,
+                propertySellingTypes,
+                Contract = contract,
                 MetroWays = metroWays,
                 SharedDate = sharedDate,
             };
