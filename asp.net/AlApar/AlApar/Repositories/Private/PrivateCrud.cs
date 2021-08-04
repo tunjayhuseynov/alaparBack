@@ -7,6 +7,7 @@ using AlApar.Models.Private;
 using AlApar.Classes.Private;
 using AlApar.Repositories.Common;
 using Microsoft.EntityFrameworkCore;
+using static AlApar.Classes.Utility;
 
 namespace AlApar.Repositories.Private
 {
@@ -34,6 +35,10 @@ namespace AlApar.Repositories.Private
 
             var currency = await db.Currencies.AsNoTracking().ToListAsync();
 
+            var colors = await db.ClothesColors.AsNoTracking().ToListAsync();
+            var shoesSizes = await db.ShoesSizes.AsNoTracking().Where(w => w.TableName == (char)DbCharNames.Private).ToListAsync();
+            var clothesSizes = await db.ClothesSizes.AsNoTracking().Where(w => w.TableName == (char)DbCharNames.Private).ToListAsync();
+
 
             Func<PrivateClothesGender, object> clothesGenderSelector = w => new { w.Id, w.Name, ClothesTypes = clothesTypes.Where(s=>s.ClothesGenderId == w.Id)};
 
@@ -43,6 +48,9 @@ namespace AlApar.Repositories.Private
                 Category = category.Select(categorySelector),
                 cities,
                 currency,
+                colors,
+                shoesSizes,
+                clothesSizes,
                 sharedDate
             };
         }

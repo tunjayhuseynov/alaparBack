@@ -20,7 +20,7 @@ namespace AlApar.Repositories.Common
     interface ICommonController<View, F, M>
     {
         public Task<IEnumerable<View>> getAll();
-        public Task<object> getOne(int id);
+        public Task<object> getOne(long id);
         public Task<object> getFilter();
         public Task<object> getForm();
         public Task<object> getImage(IFormFile images);

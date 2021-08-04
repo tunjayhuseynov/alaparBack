@@ -11,20 +11,61 @@ namespace AlApar.Models.Bina.Views
     {
         public long Id { get; set; }
         public DateTime? ModifiedDate { get; set; }
-        public string Adress { get; set; } //Manual
+        public int? Viewed { get; set; }
         public int? StatusId { get; set; } //Manual
         public int? PackageId { get; set; } //Manual
         public int? CategoryId { get; set; }
         public int? CityId { get; set; }
+        public int? LogId { get; set; }
+        public int? ContactId { get; set; }
         public int? RegionId { get; set; }
         public int? VillageId { get; set; }
         public int? MetroId { get; set; }
         public int? SellTypeId { get; set; }
         public int? RentPaymentTypeId { get; set; }
-        public double? Price { get; set; }
         public int? CurrencyId { get; set; }
-        public double? AreaSize { get; set; }
+        public int? MetroWayId { get; set; }
+        public int? PropertySellingTypeId { get; set; }
+        public int? ContractTypeId { get; set; }
         public int? LandAppointmentId { get; set; }
+        public int? TargetPointId { get; set; }
+        public string Adress { get; set; } //Manual
+        public string CustomAdress { get; set; }
+        public string Email { get; set; }
+        public string PersonName { get; set; }
+        public string About { get; set; }
+        public bool? NearHospital { get; set; }
+        public bool? NearSchool { get; set; }
+        public bool? NearShop { get; set; }
+        public bool? NearKindigarden { get; set; }
+        public bool? NearMall { get; set; }
+        public bool? NearBusstop { get; set; }
+        public int? RepairId { get; set; }
+        public string RepairName { get; set; }
+        public int? HouseFloor { get; set; }
+
+        //Relations
+        public string LandAppointmentName { get; set; }
+        public string TargetName { get; set; }
+        public string PropertySellingName { get; set; }
+        public string ContractName { get; set; }
+        public string CategoryName { get; set; }
+        public string PackageName { get; set; }
+        public string CityName { get; set; }
+        public string RegionName { get; set; }
+        public string VillageName { get; set; }
+        public string MetroName { get; set; }
+        public string SellTypeName { get; set; }
+        public string CurrencyName { get; set; }
+        public string StatusName { get; set; }
+        public string MetroWayName { get; set; }
+        public string ContactNumber { get; set; }
+        public string AreaUnit { get; set; }
+        //--
+        public double? Price { get; set; }
+        public double? AreaSize { get; set; }
+        public int? MetroDuration { get; set; }
+        public int? SecondAreaSize { get; set; }
         public int? RoomAmount { get; set; }
         public int? BuildingFloor { get; set; }
         public int? Floor { get; set; }
@@ -32,7 +73,6 @@ namespace AlApar.Models.Bina.Views
         public bool? Eyvan { get; set; }
         public bool? Lift { get; set; }
         public bool? Mebel { get; set; }
-        public bool? Temir { get; set; }
         public bool? Hovuz { get; set; }
         public bool? Qaz { get; set; }
         public bool? Su { get; set; }
@@ -49,44 +89,12 @@ namespace AlApar.Models.Bina.Views
         public bool? Usag { get; set; }
         public bool? Heyvan { get; set; }
         public bool? Otagordaire { get; set; }
-        public int? MetroDuration { get; set; }
-        public int? MetroWayId { get; set; }
-        public int? SecondAreaSize { get; set; }
-        public string CustomAdress { get; set; }
-        public string LandAppointmentName { get; set; }
-        public int? TargetPointId { get; set; }
-        public string TargetName { get; set; }
-        public int? PropertySellingTypeId { get; set; }
-        public string PropertySellingName { get; set; }
-        public int? ContractTypeId { get; set; }
-        public string ContractName { get; set; }
-
-        public int? LogId { get; set; }
-        public int? ContactId { get; set; }
-
-        //Relations
-
-        public string CategoryName { get; set; }
-        public string PackageName { get; set; }
-        public string CityName { get; set; }
-        public string RegionName { get; set; }
-        public string VillageName { get; set; }
-        public string MetroName { get; set; }
-        public string SellTypeName { get; set; }
-        public string CurrencyName { get; set; }
-        public string StatusName { get; set; }
-        public string MetroWayName { get; set; }
-        public string ContactNumber { get; set; }
         public bool? IsCall { get; set; }
         public bool? IsWp { get; set; }
-        public string Email { get; set; }
-        public string PersonName { get; set; }
         public bool? Owner { get; set; }
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }
         
-        public string About{ get; set; }
-        public int? Viewed { get; set; }
 
         public virtual ICollection<BinaPersonalPhotos> Images { get; set; }
     }

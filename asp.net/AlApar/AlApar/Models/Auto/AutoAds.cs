@@ -29,6 +29,8 @@ namespace AlApar.Models.Auto
         public int? TransmitterId { get; set; } // +
         public int? TransmissionBoxId { get; set; } // +
         public int? ContactId { get; set; }
+        public int? RentPaymentTypeId { get; set; }
+        public int? SellTypeId { get; set; }
         public int? CarYear { get; set; }
         public double? Mileage { get; set; }
         public double? Price { get; set; }
@@ -58,6 +60,8 @@ namespace AlApar.Models.Auto
         public bool? StartStopSistem { get; set; }
 
         public virtual AutoAdLogs Log { get; set; }
+        public virtual AutoRentPaymentTypes RentPaymentType { get; set; }
+        public virtual SellTypes SellType { get; set; }
         public virtual AdStatuses Status { get; set; }
         public virtual AdPackages Package { get; set; }
         public virtual AutoMarks Mark { get; set; }

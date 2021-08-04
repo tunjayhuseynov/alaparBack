@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static AlApar.Classes.Utility;
 
 namespace AlApar.Repositories.Child
 {
@@ -28,6 +29,9 @@ namespace AlApar.Repositories.Child
             var clothes = await db.ChildClothesTypes.AsNoTracking().ToListAsync();
 
             var sharedDate = await db.LastSharedTimes.AsNoTracking().ToListAsync();
+            var colors = await db.ClothesColors.AsNoTracking().ToListAsync();
+            var shoesSizes = await db.ShoesSizes.AsNoTracking().Where(w=>w.TableName == (char)DbCharNames.Child).ToListAsync();
+            var clothesSizes = await db.ClothesSizes.AsNoTracking().Where(w=>w.TableName == (char)DbCharNames.Child).ToListAsync();
 
             var cities = await db.Cities.AsNoTracking().ToListAsync();
 
@@ -39,6 +43,9 @@ namespace AlApar.Repositories.Child
             {
                 category = category.Select(w=>new { w.Id, w.Name, w.New, w.Delivery, ClothesGender = gender.Where(s => s.CategoryId == w.Id).Select(clothesGenderSelector), Types = type.Where(s => s.CategoryId == w.Id) }),
                 cities,
+                colors,
+                shoesSizes,
+                clothesSizes,
                 currency,
                 sharedDate
             };

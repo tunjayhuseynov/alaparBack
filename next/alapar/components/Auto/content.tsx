@@ -5,10 +5,12 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Auto> & Static
     return (<>
         <div className={'part'}>
             {this.utility.header("Əsas", "basliq")}
+            {this.utility.radioGenerator("Satış Növü*:", this.state.sellTypeList, 1, this.callbacks.autoSellTypeCallback, "sellType")}
             {this.utility.selectGenerator("Marka:", this.state.markList, "mark", this.state.selected.mark, this.callbacks.autoMarkCallback, { search: true })}
             {this.utility.selectGenerator("Model:", this.state.modelList, "model", this.state.selected.model, this.callbacks.commonCallback, { search: true, subname: this.state.modelSubList, subnameTitle: "title" })}
             {this.utility.selectGenerator("Ban növü:", this.state.banList, "ban", this.state.selected.ban, this.callbacks.commonCallback)}
             {this.utility.numberGenerator("Qiymət:", "Daxil Edin", this.callbacks.numberCallback, "price", true, 1, Number.MAX_VALUE, { addonAfterList: this.state.currencyList, addonAfterCallback: this.callbacks.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}
+            {this.utility.selectGenerator("Kirayə müddəti*:", this.state.rentDurationList, "rentDuration", this.state.selected.rentDuration, this.callbacks.commonCallback)}
             <div className={'radioGroup'}>
                 {this.utility.checkBoxGenerator("Kredit", this.callbacks.checkboxCallback, "kredit", this.state.kredit)}
                 {this.utility.checkBoxGenerator("Barter", this.callbacks.checkboxCallback, "barter", this.state.barter)}
@@ -19,7 +21,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Auto> & Static
         </div>
         <div className={'part'}>
             {this.utility.header("Özəlliklər", "basliq")}
-            {this.utility.numberGenerator("Buraxılış ili:", "Daxil Edin", this.callbacks.numberCallback, "year", true)}
+            {this.utility.numberGenerator("Buraxılış ili:", "Daxil Edin", this.callbacks.numberCallback, "year", true, 1900, new Date().getFullYear() + 1, { nocommo: true })}
             {this.utility.numberGenerator("Yürüş (km):", "Daxil Edin", this.callbacks.numberCallback, "mileage", true)}
             {this.utility.selectGenerator("Yanacaq növü:", this.state.fuelList, "fuel", this.state.selected.fuel, this.callbacks.commonCallback)}
             {this.utility.selectGenerator("Sürətlər qutusu:", this.state.transmissionBoxList, "transmissionBox", this.state.selected.transmissionBox, this.callbacks.commonCallback)}
@@ -35,7 +37,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Auto> & Static
             </div>
         </div>
         <div className="part">
-            {this.utility.header("Əlaqə", "basliq")}
+            {this.utility.header("ƏLAQƏ MƏLUMATLAR", "basliq")}
             {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.commonCallback, { sort: true, swapItem: [5] })}
             {this.utility.inputGenerator("Adınız:", "Daxil Edin", this.callbacks.textAreaCallback, "name")}
             {this.utility.inputGenerator("E-mail:", "Daxil Edin", this.callbacks.textAreaCallback, "email")}
@@ -76,26 +78,21 @@ export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Auto> & 
         )
     }
     return (<>
+        {this.utility.radioGenerator("Satış Növü*:", this.state.sellTypeList, 1, this.callbacks.autoSellTypeCallback, "sellType")}
         {this.utility.selectGenerator("Marka:", this.state.markList, "mark", this.state.selected.mark, this.callbacks.autoMarkCallback, { search: true })}
-        {this.utility.selectGenerator("Model:", this.state.modelList, "model", this.state.selected.model, this.callbacks.commonCallback, { selectAll: true, search: true, subname: this.state.modelSubList, subnameTitle: "title" })}
-        {this.utility.selectGenerator("Ban növü:", this.state.banList, "ban", this.state.selected.ban, this.callbacks.commonCallback, { selectAll: true })}
+        {this.utility.selectGenerator("Model:", this.state.modelList, "model", this.state.selected.model, this.callbacks.commonCallback, { search: true, subname: this.state.modelSubList, subnameTitle: "title" })}
+        {this.utility.selectGenerator("Ban növü:", this.state.banList, "ban", this.state.selected.ban, this.callbacks.commonCallback)}
         {this.utility.rangeİnputGenerator("Qiymət:", "minPrice", "maxPrice", this.callbacks.numberCallback, this.state.selected.mark, { addonAfterList: this.state.currencyList, addonAfterCallback: this.callbacks.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}
+        {this.utility.selectGenerator("Kirayə müddəti*:", this.state.rentDurationList, "rentDuration", this.state.selected.rentDuration, this.callbacks.commonCallback)}
+        {this.utility.rangeİnputGenerator("Buraxılış ili:", "minYear", "maxYear", this.callbacks.numberCallback, this.state.selected.mark)}
+        {this.utility.rangeİnputGenerator("Yürüş (km):", "minMileage", "maxMileage", this.callbacks.numberCallback, this.state.selected.mark)}
         <div className={'radioGroup'}>
             {this.utility.checkBoxGenerator("Kredit", this.callbacks.checkboxCallback, "kredit", this.state.kredit)}
             {this.utility.checkBoxGenerator("Barter", this.callbacks.checkboxCallback, "barter", this.state.barter)}
         </div>
-        {this.utility.rangeİnputGenerator("Buraxılış ili:", "minYear", "maxYear", this.callbacks.numberCallback, this.state.selected.mark)}
-
-        {this.utility.rangeİnputGenerator("Yürüş (km):", "minMileage", "maxMileage", this.callbacks.numberCallback, this.state.selected.mark)}
-
-        {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.commonCallback, { sort: true, swapItem: [5], selectAll: true })}
 
         {this.utility.selectGenerator("Paylaşma Tarixi:", this.state.sharedDate, "sharedDate", this.state.selected.sharedDate, this.callbacks.commonCallback, { selectAll: true })}
 
-        {this.utility.generateModal(extras(), this.state.extraVisible, "extraVisible", { title: "Əlavələr" })}
-
-        <div className={'extraBtnParent'}>
-            <button className={'extraBtn'} onClick={() => { this.setState({ extraVisible: true }) }}>Əlavələr</button>
-        </div>
+        {this.utility.advancePanel(extras())}
     </>)
 }

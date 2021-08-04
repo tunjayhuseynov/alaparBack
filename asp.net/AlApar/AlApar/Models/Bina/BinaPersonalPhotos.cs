@@ -11,6 +11,7 @@ namespace AlApar.Models.Bina
         public long? AdId { get; set; }
         public int? PrimaryImage { get; set; }
         public string Thumbnail { get; set; }
+        public string Blur { get; set; }
         public virtual BinaAdsPersonal Ad { get; set; }
         public virtual ViewBinaPersonalGeneral ViewAd { get; set; }
     }

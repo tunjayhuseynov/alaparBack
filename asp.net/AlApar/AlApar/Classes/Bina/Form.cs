@@ -99,8 +99,11 @@ namespace AlApar.Classes.Bina
         [JsonProperty("mebel")]
         public bool? Mebel { get; set; }
 
+        [JsonProperty("houseFloor")]
+        public int? HouseFloor { get; set; }
+
         [JsonProperty("temir")]
-        public bool? Temir { get; set; }
+        public int? RepairId { get; set; }
 
         [JsonProperty("hovuz")]
         public bool? Hovuz { get; set; }
@@ -169,6 +172,25 @@ namespace AlApar.Classes.Bina
 
         [JsonProperty("customAdress")]
         public string CustomAdress { get; set; }
+
+        [JsonProperty("nearHospital")]
+        public bool? NearHospital { get; set; }
+
+        [JsonProperty("nearSchool")]
+        public bool? NearSchool { get; set; }
+
+        [JsonProperty("nearShop")]
+        public bool? NearShop { get; set; }
+
+        [JsonProperty("nearKindigarden")]
+        public bool? NearKindigarden { get; set; }
+
+        [JsonProperty("nearMall")]
+        public bool? NearMall { get; set; }
+
+        [JsonProperty("nearBusstop")]
+        public bool? NearBusstop { get; set; }
+
 
         //Filter Side
         //Filter Side

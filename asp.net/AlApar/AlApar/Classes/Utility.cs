@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -21,6 +22,12 @@ namespace AlApar.Classes
             Day = 1,
             Week = 2,
             Month = 3
+        }
+
+        public enum DbCharNames 
+        {
+            Child = 'c',
+            Private = 'p'
         }
 
 
@@ -42,10 +49,10 @@ namespace AlApar.Classes
             };
         }
 
-        public Size GetThumbnailSize(Image original)
+        public Size GetThumbnailSize(Image original, int maxPixel)
         {
             // Maximum size of any dimension.
-            const int maxPixels = 500;
+            int maxPixels = maxPixel;
 
             // Width and height.
             int originalWidth = original.Width;
@@ -72,6 +79,7 @@ namespace AlApar.Classes
             return new Size((int)(originalWidth * factor), (int)(originalHeight * factor));
         }
 
+        public ImageCodecInfo jpgEncoder;
         public Task ImageSaver(List<ImageStructure> images, string tempFolder, string mainFolder, long folderId, IWebHostEnvironment _webHostEnvironment)
         {
             tempFolder = Path.Combine(_webHostEnvironment.WebRootPath, tempFolder);
@@ -105,19 +113,41 @@ namespace AlApar.Classes
                     }
 
                     orgimg.Save($"{mainFolder}/{folderId}/{item.FileName}");
+                    orgimg.Dispose();
 
                     File.SetAttributes($"{tempFolder}/{item.FileName}", FileAttributes.Normal);
                     File.Delete($"{tempFolder}/{item.FileName}");
-                    //File.Move($"{tempFolder}/{item.FileName}", $"{mainFolder}/{folderId}/{item.FileName}", true);
 
                     Image img = Image.FromFile($"{mainFolder}/{folderId}/{item.FileName}");
 
 
-                    Size tumbSize = GetThumbnailSize(img);
+                    Size tumbSize = GetThumbnailSize(img, 500);
+                    Size blurSize = GetThumbnailSize(img, 10);
 
                     Image thumbnail = img.GetThumbnailImage(tumbSize.Width, tumbSize.Height, null, IntPtr.Zero);
 
+                    
+
+                    
+
+                    if (item.FileName.Contains(".jpg") || item.FileName.Contains(".jpeg"))
+                    {
+                        jpgEncoder = GetEncoder(ImageFormat.Jpeg);
+                    }
+                    else if (item.FileName.Contains(".png"))
+                    {
+                        jpgEncoder = GetEncoder(ImageFormat.Png);
+                    }
+
+                    Encoder myEncoder = Encoder.Quality;
+
+                    EncoderParameters myEncoderParameters = new EncoderParameters(1);
+
+                    EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 1L);
+                    myEncoderParameters.Param[0] = myEncoderParameter;
+
                     thumbnail.Save($"{mainFolder}/{folderId}/thumb-{item.FileName}");
+                    thumbnail.Save($"{mainFolder}/{folderId}/blur-{item.FileName}", jpgEncoder, myEncoderParameters);
                 }
                 else
                 {
@@ -126,6 +156,19 @@ namespace AlApar.Classes
             }
 
             return Task.CompletedTask;
+        }
+
+        private ImageCodecInfo GetEncoder(ImageFormat format)
+        {
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+            return null;
         }
 
         public async Task<object> SaveTempImage(IFormFile image, string TempFolder, IWebHostEnvironment _webHostEnvironment)
@@ -236,54 +279,66 @@ namespace AlApar.Classes
             string tempFolder = Path.Combine(_webHostEnvironment.WebRootPath, TempFolder);
             string mainFolder = Path.Combine(_webHostEnvironment.WebRootPath, MainFolder);
 
-            foreach (var item in new Form().GetType().GetProperties())
+            using var transaction = await db.Database.BeginTransactionAsync();
+
+            try
             {
-                if (item.GetValue(form) != null && adInstance.GetType().GetProperty(item.Name) != null)
+                foreach (var item in new Form().GetType().GetProperties())
                 {
-                    adInstance.GetType().GetProperty(item.Name).SetValue(adInstance, item.GetValue(form));
+                    if (item.GetValue(form) != null && adInstance.GetType().GetProperty(item.Name) != null)
+                    {
+                        adInstance.GetType().GetProperty(item.Name).SetValue(adInstance, item.GetValue(form));
+                    }
+                    else if (item.GetValue(form) != null && contacts.GetType().GetProperty(item.Name) != null)
+                    {
+                        contacts.GetType().GetProperty(item.Name).SetValue(contacts, item.GetValue(form));
+                    }
                 }
-                else if (item.GetValue(form) != null && contacts.GetType().GetProperty(item.Name) != null)
+
+                await db.AddAsync(contacts);
+                await db.AddAsync(logs);
+                await db.SaveChangesAsync();
+
+                await loadAdInstance(adInstance, (int)logs.GetType().GetProperty("Id").GetValue(logs),
+                    (int)contacts.GetType().GetProperty("Id").GetValue(contacts));
+
+
+                if (extra != null)
                 {
-                    contacts.GetType().GetProperty(item.Name).SetValue(contacts, item.GetValue(form));
+                    await extra(adInstance, contacts, logs, form);
                 }
+
+                await db.AddAsync(adInstance);
+                await db.SaveChangesAsync();
+
+                List<ImageStructure> imageNames = (List<ImageStructure>)form.GetType().GetProperty("ImageList").GetValue(form);
+                long adInstanceId = (long)adInstance.GetType().GetProperty("Id").GetValue(adInstance);
+
+                await ImageSaver(imageNames, TempFolder, MainFolder, adInstanceId, _webHostEnvironment);
+
+                await db.AddRangeAsync(
+                    imageNames
+                    .Select((w, i) =>
+                    {
+                        var imageInstace = new Photos();
+                        imageInstace.GetType().GetProperty("AdId").SetValue(imageInstace, adInstanceId);
+                        imageInstace.GetType().GetProperty("ImagePath").SetValue(imageInstace, $"/{MainFolder}/{adInstanceId}/{w.FileName}");
+                        imageInstace.GetType().GetProperty("PrimaryImage").SetValue(imageInstace, i);
+                        imageInstace.GetType().GetProperty("Thumbnail").SetValue(imageInstace, $"/{MainFolder}/{adInstanceId}/thumb-{w.FileName}");
+                        imageInstace.GetType().GetProperty("Blur").SetValue(imageInstace, Convert.ToBase64String(File.ReadAllBytes($"{mainFolder}/{adInstanceId}/blur-{w.FileName}")));
+                        return imageInstace;
+                    })
+                );
+
+                await db.SaveChangesAsync();
+
+                await transaction.CommitAsync();
             }
-
-            await db.AddAsync(contacts);
-            await db.AddAsync(logs);
-            await db.SaveChangesAsync();
-
-            await loadAdInstance(adInstance, (int)logs.GetType().GetProperty("Id").GetValue(logs),
-                (int)contacts.GetType().GetProperty("Id").GetValue(contacts));
-
-
-            if (extra != null)
+            catch (Exception e)
             {
-                await extra(adInstance, contacts, logs, form);
+                Console.WriteLine(e.ToString());
+                await transaction.RollbackAsync();
             }
-
-            await db.AddAsync(adInstance);
-            await db.SaveChangesAsync();
-
-            List<ImageStructure> imageNames = (List<ImageStructure>)form.GetType().GetProperty("ImageList").GetValue(form);
-            long adInstanceId = (long)adInstance.GetType().GetProperty("Id").GetValue(adInstance);
-
-            await ImageSaver(imageNames, TempFolder, MainFolder, adInstanceId, _webHostEnvironment);
-
-            await db.AddRangeAsync(
-                imageNames
-                .Select((w, i) =>
-                {
-                    var imageInstace = new Photos();
-                    imageInstace.GetType().GetProperty("AdId").SetValue(imageInstace, adInstanceId);
-                    imageInstace.GetType().GetProperty("ImagePath").SetValue(imageInstace, $"/{MainFolder}/{adInstanceId}/{w}");
-                    imageInstace.GetType().GetProperty("PrimaryImage").SetValue(imageInstace, i);
-                    imageInstace.GetType().GetProperty("Thumbnail").SetValue(imageInstace, $"/{MainFolder}/{adInstanceId}/thumb-{w}");
-
-                    return imageInstace;
-                })
-            );
-
-            await db.SaveChangesAsync();
         }
 
         public async Task<object> PostFilter<Form, Context, View, A, Currency>(Form res, Context db, string firstSearchBy, int skip, int take, Func<Context, int?, int, int, IAsyncEnumerable<View>> query, Func<View, Form, bool> extra = null)
@@ -409,10 +464,10 @@ namespace AlApar.Classes
             return categories.Select(category => new { category, Ads = ads.Where(w=>w.CategoryId == category.Id)});
         }
 
-        public async Task<object> GetView<Context, View, Photo>(Context context, int id)
+        public async Task<object> GetView<Context, View, Photo>(Context context, long id)
             where Context : DbContext where View : class, TView<Photo>, new()
         {
-            return await context.Set<View>().FindAsync(id);
+            return await context.Set<View>().Include(w=>w.Images).FirstOrDefaultAsync(w=>w.Id == id);
         }
     }
 

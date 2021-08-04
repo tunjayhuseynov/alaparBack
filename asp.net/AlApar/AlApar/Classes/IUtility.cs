@@ -38,7 +38,7 @@ namespace AlApar.Classes
            where Ad : class, new()
            where Currency : class, TCurrency, new();
 
-        public Size GetThumbnailSize(Image original);
+        public Size GetThumbnailSize(Image original, int maxPixel);
 
         public Task ImageSaver(List<ImageStructure> images, string tempFolder, string mainFolder, long folderId, IWebHostEnvironment _webHostEnvironment);
 
@@ -53,6 +53,6 @@ namespace AlApar.Classes
 
         public Task<object> MainMenuStuffs<Category, View, Context, Photo>(Context context, int adListNumber) where Category : class, TCategory, new() where View : class, TView<Photo>, new() where Context : DbContext;
 
-        public Task<object> GetView<Context, View, Photo>(Context context, int id) where Context : DbContext where View : class, TView<Photo>, new();
+        public Task<object> GetView<Context, View, Photo>(Context context, long id) where Context : DbContext where View : class, TView<Photo>, new();
     }
 }

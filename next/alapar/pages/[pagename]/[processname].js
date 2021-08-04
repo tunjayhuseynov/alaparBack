@@ -27,7 +27,7 @@ class StaticPages extends Component {
         return this.props.processname == pageprocess.add ?
             // Add
             (
-                <Form childstate={this}>
+                <Form submit={this.utility.submitClick} link={this.state.submitUrl}>
                     {content}
                 </Form>
             ) :
@@ -35,19 +35,16 @@ class StaticPages extends Component {
             (
                 <>
                     <Header></Header>
-                    <div className={'searchbox container'}>
-                        <div className={'split leftSide'}>
+                    <div className={'flex flex-col md:flex-row container mx-auto min-h-screen gap-4'}>
+                        <div className={'flex-grow-0 w-220px self-center md:self-start text-center'}>
                             <div className={'box'}>
                                 <FilterLayout>
                                     {content}
                                 </FilterLayout>
                             </div>
                         </div>
-                        <div className={'split rightSide'}>
-
-
-
-
+                        <div className={'flex-grow-2 bg-white rounded'}>
+                            
                         </div>
                     </div>
                 </>

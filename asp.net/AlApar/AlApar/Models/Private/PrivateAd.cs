@@ -1,6 +1,7 @@
 ﻿using AlApar.Classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -31,6 +32,22 @@ namespace AlApar.Models.Private
         public double? Price { get; set; }
         public int? CurrencyId { get; set; }
         public string About { get; set; }
+
+        [Column("colorId")]
+        public int? ColorId { get; set; }
+        [ForeignKey("ColorId")]
+        public virtual ClothesColors ClothesColor { get; set; }
+
+        [Column("shoesSizeId")]
+        public int? ShoesSizeId { get; set; }
+        [ForeignKey("ShoesSizeId")]
+        public virtual ShoesSizes ShoesSize { get; set; }
+
+
+        [Column("clothesSizeId")]
+        public int? ClothesSizeId { get; set; }
+        [ForeignKey("ClothesSizeId")]
+        public virtual ClothesSizes ClothesSize { get; set; }
 
         public virtual PrivateCategory Category { get; set; }
         public virtual PrivateClothesGender ClothesGender { get; set; }

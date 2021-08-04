@@ -9,7 +9,7 @@ class FilterLayout extends Component {
     render() {
         return (
             <><div id={'filter'}>
-                <div className={'containerFilter'}>
+                <div className={'flex flex-col gap-4'}>
                     {this.props.children}
                 </div>
             </div>

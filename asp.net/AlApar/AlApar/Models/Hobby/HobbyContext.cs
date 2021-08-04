@@ -257,6 +257,7 @@ namespace AlApar.Models.Hobby
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.AdId).HasColumnName("adId");
+                entity.Property(e => e.Blur).HasColumnName("blur");
 
                 entity.Property(e => e.ImagePath)
                     .HasMaxLength(500)

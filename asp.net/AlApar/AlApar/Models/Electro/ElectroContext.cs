@@ -251,6 +251,7 @@ namespace AlApar.Models.Electro
                 entity.Property(w => w.AdId).HasColumnName("adId");
                 entity.Property(w => w.PrimaryImage).HasColumnName("primaryImage");
                 entity.Property(w => w.Thumbnail).HasColumnName("thumbnail");
+                entity.Property(e => e.Blur).HasColumnName("blur");
 
                 entity.HasOne(w => w.Ad).WithMany(w => w.Photos)
                       .HasForeignKey(w => w.AdId).HasConstraintName("electro_ad_photo");

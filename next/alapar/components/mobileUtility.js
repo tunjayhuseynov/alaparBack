@@ -30,7 +30,7 @@ export const MobileNumberInput = function MobileNumberInput(props) {
     const ref = useRef(0)
     return <>
         <div className={'ant-input-number w-full'}>
-            <input ref={ref} inputMode="numeric" type="number" onInput={(e)=>{e.target.value = e.target.value.replace(/^0+/, '');props.callback(e);}} onBlur={(e)=>{if(!e.target.value) return; if(+e.target.value<(+e.target.min ?? Number.MIN_VALUE)){ e.target.value=e.target.min; props.callback(e);} if(+e.target.value>(+e.target.max ?? Number.MAX_VALUE)){ e.target.value=e.target.max; props.callback(e);} }} name={props.name} className={props.className} min={props.min} max={props.max} step={props.step} placeholder={props.placeholder} />
+            <input ref={ref} autocomplete="off" inputMode="numeric" type="text" onInput={(e)=>{e.target.value = props.formatter(e.target.value.replace(/^0+/, '').replace(/\D/g, '').slice(0,14));props.callback(e);}} onBlur={(e)=>{if(!e.target.value) return; if(+e.target.value<(+e.target.min ?? Number.MIN_VALUE)){ e.target.value=e.target.min; props.callback(e);} if(+e.target.value>(+e.target.max ?? Number.MAX_VALUE)){ e.target.value=e.target.max; props.callback(e);} }} name={props.name} className={props.className} min={props.min} max={props.max} step={props.step} placeholder={props.placeholder} />
         </div>
     </>
 

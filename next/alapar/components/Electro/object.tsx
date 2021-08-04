@@ -27,7 +27,7 @@ export interface ComputerMark {
 export interface Type {
     id: number,
     name: string,
-    categoryId: number
+    categoryId: number,
 }
 
 

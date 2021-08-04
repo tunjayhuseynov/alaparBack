@@ -1,4 +1,4 @@
-import { City, Currency, ImageState, SharedDate } from "@/Constructions/objects";
+import { City, ClothesColor, ClothesSize, Currency, ImageState, SharedDate, ShoeSize } from "@/Constructions/objects";
 import { Category, ClothesGender, ClothesType, CHILD_FILTER, Type } from "./object";
 import * as URL from '@/Constructions/const';
 
@@ -6,6 +6,9 @@ export interface Child_Selection{
     category: number,
     clothesGender: number,
     clothesTypes: number,
+    clothesColor: number,
+    shoesSize: number,
+    clothesSize: number,
     type: number,
     isNew: boolean,
     hasDelivery: boolean,
@@ -34,6 +37,9 @@ export interface Child extends ImageState{
     categoryList: Array<Category>,
     clothesGendersList: Array<ClothesGender>,
     clothesTypesList: Array<ClothesType>,
+    clothesColors: Array<ClothesColor>,
+    shoesSizesList: Array<ShoeSize>
+    clothesSizesList: Array<ClothesSize>
     typeList: Array<Type>,
     hasNew: boolean,
     hasDelivery: boolean,
@@ -51,6 +57,9 @@ export const Child_State = (json: CHILD_FILTER, th) : Child => {
             category: null,
             clothesGender: null,
             clothesTypes: null,
+            clothesColor: null,
+            shoesSize: null,
+            clothesSize: null,
             type: null,
             isNew: null,
             hasDelivery: null,
@@ -71,6 +80,9 @@ export const Child_State = (json: CHILD_FILTER, th) : Child => {
         categoryList: json.category,
         clothesGendersList: null,
         clothesTypesList: null,
+        shoesSizesList: json.shoesSizes,
+        clothesSizesList: json.clothesSizes,
+        clothesColors: json.colors,
         typeList: null,
         hasNew: null,
         hasDelivery: null,

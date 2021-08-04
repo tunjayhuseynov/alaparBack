@@ -1,6 +1,7 @@
 ﻿using AlApar.Classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -24,6 +25,26 @@ namespace AlApar.Models.Private.View
         public bool? IsCall { get; set; }
         public string ContactNumber { get; set; }
         public string ClothesGenderName { get; set; }
+
+        [Column("colorId")]
+        public int? ColorId { get; set; }
+
+        [Column("colorName")]
+        public string ColorName { get; set; }
+
+        [Column("shoesSizeId")]
+        public int? ShoesSizeId { get; set; }
+
+        [Column("shoesSizeName")]
+        public string ShoesSizeName { get; set; }
+
+        [Column("clothesSizeId")]
+        public string ClothesSizeId { get; set; }
+
+        [Column("clothesSizeName")]
+        public string ClothesSizeName { get; set; }
+
+
         public string About { get; set; }
         public double? Price { get; set; }
         public string Title { get; set; }

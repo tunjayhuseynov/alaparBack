@@ -13,7 +13,7 @@ import { Bina } from "./Bina/state"
 const utility = new Utilities();
 
 class Callbacks {
-    constructor(th : React.Component) {
+    constructor(th: React.Component) {
         this.checkboxCallback = this.checkboxCallback.bind(th)   // 1
         this.numberCallback = this.numberCallback.bind(th)       // 2
         this.textAreaCallback = this.textAreaCallback.bind(th)   // 3
@@ -21,7 +21,7 @@ class Callbacks {
         this.regionCallback = this.regionCallback.bind(th)       // 5
         this.cityCallback = this.cityCallback.bind(th)           // 6
         this.binaCategoryCallback = this.binaCategoryCallback.bind(th)   // 7
-        this.sellTypeCallback = this.sellTypeCallback.bind(th)   // 8
+        this.binaSellTypeCallback = this.binaSellTypeCallback.bind(th)   // 8
         this.rentTypeCallback = this.rentTypeCallback.bind(th)   // 9
         this.ownerCallback = this.ownerCallback.bind(th)         // 10
         this.googleMapCallback = this.googleMapCallback.bind(th) // 11
@@ -37,24 +37,28 @@ class Callbacks {
         this.privateCategoryCallback = this.privateCategoryCallback.bind(th) // 21
         this.clothesGenderCallback = this.clothesGenderCallback.bind(th) // 22
         this.trimCallback = this.trimCallback.bind(th) // 23 
+        this.commonNoOptionCallback = this.commonNoOptionCallback.bind(th) // 24 
+        this.autoSellTypeCallback = this.autoSellTypeCallback.bind(th) // 25 
     }
 
     // Child || Private
-    clothesGenderCallback = function (this: React.Component<{},Child | Private>, value) {  
-        const cat = this.state.clothesGendersList.find((w)=>w.id === value)
+    clothesGenderCallback = function (this: React.Component<{}, Child | Private>, value) {
+        const cat = this.state.clothesGendersList.find((w) => w.id === value)
         this.setState({
             ...this.state,
             selected: {
                 ...this.state.selected,
                 clothesGender: value,
                 clothesTypes: null,
+                clothesColor: null,
+                shoesSize: null,
             },
             clothesTypesList: cat?.clothesTypes
         })
     }
 
     //Child || Private
-    privateCategoryCallback = function (this : React.Component<{}, Child | Private>,value) {
+    privateCategoryCallback = function (this: React.Component<{}, Child | Private>, value) {
         let cat = this.state.categoryList.find(w => w.id == value)
         this.setState({
             ...this.state,
@@ -63,7 +67,11 @@ class Callbacks {
                 category: value,
                 type: null,
                 clothesGender: null,
-                clothesTypes: null
+                clothesTypes: null,
+                clothesColor: null,
+                shoesSize: null,
+                isNew: cat?.new ? this.state.selected.isNew : null,
+                hasDelivery: cat?.delivery ? this.state.selected.hasDelivery : null,
             },
             typeList: cat?.types,
             clothesGendersList: cat?.clothesGender,
@@ -74,7 +82,7 @@ class Callbacks {
     }
 
     // Home || Service
-    homeCategoryCallback = function (this : React.Component<{}, Home | Service>, value) {
+    homeCategoryCallback = function (this: React.Component<{}, Home | Service>, value) {
         let cat = this.state.categoryList.find(w => w.id == value)
         this.setState({
             ...this.state,
@@ -82,6 +90,8 @@ class Callbacks {
                 ...this.state.selected,
                 category: value,
                 type: null,
+                isNew: cat?.new ? this.state.selected.isNew : null,
+                hasDelivery: cat?.delivery ? this.state.selected.hasDelivery : null,
             },
             typeList: cat?.typeList,
             hasNew: cat?.new,
@@ -90,7 +100,7 @@ class Callbacks {
     }
 
     // Animal
-    animalCategoryCallback = function (this : React.Component<{}, Animal>,value) {
+    animalCategoryCallback = function (this: React.Component<{}, Animal>, value) {
         let cat = this.state.categoryList.find(w => w.id == value)
 
         this.setState({
@@ -107,7 +117,7 @@ class Callbacks {
     }
 
     // Hobby
-    hobbyCategoryCallback = function (this: React.Component<{}, Hobby> ,value) {
+    hobbyCategoryCallback = function (this: React.Component<{}, Hobby>, value) {
         let cat = this.state.categoryList.find(w => w.id == value)
         this.setState({
             ...this.state,
@@ -115,6 +125,8 @@ class Callbacks {
                 ...this.state.selected,
                 category: value,
                 type: null,
+                isNew: cat?.new ? this.state.selected.isNew : null,
+                hasDelivery: cat?.delivery ? this.state.selected.hasDelivery : null,
             },
             typeList: cat?.type,
             hasNew: cat?.new,
@@ -123,7 +135,7 @@ class Callbacks {
     }
 
     // Auto
-    autoMarkCallback = function (this : React.Component<{}, Auto>, value) {
+    autoMarkCallback = function (this: React.Component<{}, Auto>, value) {
         this.setState({
             ...this.state,
             selected: {
@@ -136,8 +148,26 @@ class Callbacks {
         })
     }
 
+    //Auto
+    autoSellTypeCallback = function (this: React.Component<{}, Auto>, value) {
+        const rent = this.state.sellTypeList.find(w => w.id == value.target.value)?.rent
+        this.setState({
+            ...this.state,
+            selected: {
+                ...this.state.selected,
+                sellType: value.target.value,
+                rentDuration: rent.length > 0 ? this.state.selected.rentDuration : null,
+                kredit: rent.length > 0 ? null : this.state.selected.kredit,
+                barter: rent.length > 0 ? null : this.state.selected.barter,
+            },
+            kredit: !(rent.length > 0),
+            barter: !(rent.length > 0),
+            rentDurationList: rent.length > 0 ? rent : null,
+        })
+    }
+
     // Electro
-    electroMarkCallback = function (this : React.Component<{}, Electro>,value) {
+    electroMarkCallback = function (this: React.Component<{}, Electro>, value) {
         this.setState({
             ...this.state,
             selected: {
@@ -154,7 +184,7 @@ class Callbacks {
     }
 
     // Electro
-    electroModelCallback = async function (this : React.Component<{}, Electro>, value, option) {
+    electroModelCallback = async function (this: React.Component<{}, Electro>, value, option) {
         new Callbacks(this).commonCallback(value, option)
 
         let reqColor = await fetch(this.state.colorUrl + value)
@@ -162,7 +192,7 @@ class Callbacks {
 
         let reqStorage = await fetch(this.state.storageUrl + value)
         let resStorage = await reqStorage.json()
-        
+
         this.setState({
             ...this.state,
             colorList: resColor,
@@ -174,9 +204,9 @@ class Callbacks {
             }
         })
     }
-    
+
     // Electro
-    electroCategoryCallback = function (this : React.Component<{}, Electro>, value) {
+    electroCategoryCallback = function (this: React.Component<{}, Electro>, value) {
         this.setState({
             ...this.state,
             selected: {
@@ -186,6 +216,9 @@ class Callbacks {
                 operator: null,
                 mark: null,
                 computerMark: null,
+                model: null,
+                color: null,
+                storage: null,
             },
             typeList: this.state.categoryList.find(w => w.id == value).type,
             operatorsList: this.state.categoryList.find(w => w.id == value).operator,
@@ -193,7 +226,7 @@ class Callbacks {
             computerMarkList: this.state.categoryList.find(w => w.id == value).computerMark,
         })
     }
-    
+
     // Bina
     binaCategoryCallback = function (this: React.Component<{}, Bina>, value) {
         this.setState({
@@ -233,7 +266,7 @@ class Callbacks {
     }
 
     //Bina
-    sellTypeCallback = function (this: React.Component<{}, Bina>, value) {
+    binaSellTypeCallback = function (this: React.Component<{}, Bina>, value) {
         let rent = this.state.sellTypeList.find(w => w.id == value.target.value).rent
         this.setState({
             ...this.state,
@@ -244,8 +277,8 @@ class Callbacks {
                 rentDuration: rent.length > 0 ? this.state.selected.rentDuration : null
             },
             rentDurationList: rent.length > 0 ? rent : null,
-            sellingTypeBoxVisibility: rent.length > 0 ? false : true,
-            rentingTypeBoxVisibility: rent.length > 0 ? true : false,
+            sellingTypeBoxVisibility: !(rent.length > 0),
+            rentingTypeBoxVisibility: rent.length > 0,
             rentalAddition: this.state.rentalAddition,
 
         })
@@ -321,7 +354,17 @@ class Callbacks {
         this.setState({
             selected: {
                 ...this.state.selected,
-                [option.state]: value === ''? null : value
+                [option.state]: value === '' ? null : value
+            }
+        })
+
+    }
+
+    commonNoOptionCallback = function (value) {
+        this.setState({
+            selected: {
+                ...this.state.selected,
+                [value.target.name]: value.target.value === '' ? null : value.target.value
             }
         })
 
@@ -337,12 +380,20 @@ class Callbacks {
     }
 
     numberCallback = function (value) {
-        const val = +value.target.defaultValue.replace(/[^\-\d]/g, '') || +value.target.value.replace(/[^\-\d]/g, '') || null;
-        if(val == null) return;
+        const val = +value.target.defaultValue.replace(/[^\-\d]/g, '').slice(0, 14) || +value.target.value.replace(/[^\-\d]/g, '').slice(0, 14) || null;
+        if (val == null) {
+            this.setState({
+                selected: {
+                    ...this.state.selected,
+                    [value.target.name]: null
+                }
+            })
+            return
+        };
         const min = +value.target.min
-        const max = +value.target.max
-        const result = Math.max(min,val) != min ? Math.min(val,max) : min;
-    
+        const max = value.target.max === "" ? Number.MAX_VALUE : +value.target.max
+        const result = Math.max(min, val) != min ? Math.min(val, max) : min;
+
         this.setState({
             selected: {
                 ...this.state.selected,

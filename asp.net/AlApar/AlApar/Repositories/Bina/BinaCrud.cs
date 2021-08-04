@@ -75,6 +75,8 @@ namespace AlApar.Repositories.Bina
 
             var propertySellingTypes = await db.BinaSellingTypes.AsNoTracking().ToListAsync();
 
+            var repairs = await db.BinaRepairs.AsNoTracking().ToListAsync();
+
             var sharedDate = await db.LastSharedTimes.AsNoTracking().ToListAsync();
 
             Func<Villages, object> villageSelect = r => new { Id = r.Id, Name = r.Name };
@@ -107,6 +109,7 @@ namespace AlApar.Repositories.Bina
                 propertySellingTypes,
                 Contract = contract,
                 MetroWays = metroWays,
+                repairs,
                 SharedDate = sharedDate,
             };
 

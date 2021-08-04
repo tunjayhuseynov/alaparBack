@@ -13,7 +13,8 @@ namespace AlApar.Models.Electro
         public long? AdId { get; set; }
         public int? PrimaryImage { get; set; }
         public string Thumbnail { get; set; }
-        
+        public string Blur { get; set; }
+
         public virtual ElectroAds Ad { get; set; }
         public virtual ViewElectroAds ViewAd { get; set; }
       

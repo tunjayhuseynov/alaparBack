@@ -1,6 +1,7 @@
 ﻿using AlApar.Classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -12,6 +13,26 @@ namespace AlApar.Models.Child.Views
         public string Name { get; set; }
         public string StatusName { get; set; }
         public string CategoryName { get; set; }
+
+        [Column("colorId")]
+        public int? ColorId { get; set; }
+        
+        [Column("colorName")]
+        public string ColorName { get; set; }
+        
+        [Column("shoesSizeId")]
+        public int? ShoesSizeId { get; set; }
+
+        [Column("shoesSizeName")]
+        public string ShoesSizeName { get; set; }
+        
+        [Column("clothesSizeId")]
+        public string ClothesSizeId { get; set; }
+        
+        [Column("clothesSizeName")]
+        public string ClothesSizeName { get; set; }
+
+
         public int? Viewed { get; set; }
         public int? CategoryId { get; set; }
         public string CurrencyName { get; set; }

@@ -28,6 +28,7 @@ namespace AlApar.Models
         public virtual DbSet<BinaTargetPoints> BinaTargetPoints { get; set; }
         public virtual DbSet<BinaContractTypes> BinaContractTypes { get; set; }
         public virtual DbSet<BinaSellingTypes> BinaSellingTypes { get; set; }
+        public virtual DbSet<BinaRepairs> BinaRepairs { get; set; }
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Currency> Currency { get; set; }
         public virtual DbSet<Metros> Metros { get; set; }
@@ -42,6 +43,15 @@ namespace AlApar.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             GeneralModels.generateGeneralModels(in modelBuilder);
+
+            modelBuilder.Entity<BinaRepairs>(entity => {
+
+                entity.ToTable("bina_repairs");
+
+                entity.Property(w => w.Id).HasColumnName("id");
+                entity.Property(w => w.Name).HasColumnName("name");
+            
+            });
 
             modelBuilder.Entity<BinaTargetPoints>(entity=> {
                 entity.ToTable("bina_target_points");
@@ -83,6 +93,8 @@ namespace AlApar.Models
 
                 entity.Property(e => e.StatusId).HasColumnName("statusId");
 
+                entity.Property(e => e.AreaUnit).HasColumnName("areaUnit");
+
                 entity.Property(e => e.Adress)
                     .HasColumnName("adress")
                     .HasColumnType("text");
@@ -122,6 +134,9 @@ namespace AlApar.Models
 
                 entity.Property(e => e.VillageId).HasColumnName("villageId");
 
+                entity.Property(e => e.RepairId).HasColumnName("repairId");
+                entity.Property(e => e.RepairName).HasColumnName("repairName");
+                entity.Property(e => e.HouseFloor).HasColumnName("houseFloor");
 
                 entity.Property(w => w.MetbexM).HasColumnName("metbexM");
                 entity.Property(w => w.QabY).HasColumnName("qabY");
@@ -182,6 +197,12 @@ namespace AlApar.Models
                 entity.Property(w => w.ContractTypeId).HasColumnName("contractTypeId");
                 entity.Property(w => w.PropertySellingTypeId).HasColumnName("binasellingTypeId");
 
+                entity.Property(w => w.NearBusstop).HasColumnName("nearBusstop");
+                entity.Property(w => w.NearHospital).HasColumnName("nearHospital");
+                entity.Property(w => w.NearSchool).HasColumnName("nearSchool");
+                entity.Property(w => w.NearShop).HasColumnName("nearShop");
+                entity.Property(w => w.NearKindigarden).HasColumnName("nearKindigarden");
+                entity.Property(w => w.NearMall).HasColumnName("nearMall");
 
             });
 
@@ -222,6 +243,7 @@ namespace AlApar.Models
                 entity.Property(e => e.PrivateId).HasColumnName("privateId");
 
                 entity.Property(e => e.LogId).HasColumnName("logId");
+                entity.Property(e => e.HouseFloor).HasColumnName("houseFloor");
 
                 entity.Property(e => e.About)
                     .HasColumnName("about")
@@ -258,6 +280,12 @@ namespace AlApar.Models
 
                 entity.Property(e => e.MetroId).HasColumnName("metroId");
 
+                entity.Property(w => w.NearBusstop).HasColumnName("nearBusstop");
+                entity.Property(w => w.NearHospital).HasColumnName("nearHospital");
+                entity.Property(w => w.NearSchool).HasColumnName("nearSchool");
+                entity.Property(w => w.NearShop).HasColumnName("nearShop");
+                entity.Property(w => w.NearKindigarden).HasColumnName("nearKindigarden");
+                entity.Property(w => w.NearMall).HasColumnName("nearMall");
 
                 entity.Property(e => e.ContactId).HasColumnName("contactId");
 
@@ -295,6 +323,11 @@ namespace AlApar.Models
 
                 entity.Property(w => w.CustomAdress).HasColumnName("customAdress");
 
+                entity.Property(w => w.RepairId).HasColumnName("repairId");
+
+                entity.HasOne(d => d.Repair).WithMany(p => p.BinaAdsPersonals)
+                      .HasForeignKey(d => d.RepairId)
+                      .HasConstraintName("bina_ads_personal_repair");
 
                 entity.HasOne(d => d.Infos)
                     .WithMany(p => p.BinaAdsPersonal)
@@ -471,6 +504,8 @@ namespace AlApar.Models
                 entity.Property(w => w.AreaUnit).HasColumnName("areaUnit");
 
                 entity.Property(w => w.SecondArea).HasColumnName("secondArea");
+                entity.Property(w => w.HouseFloor).HasColumnName("houseFloor");
+
 
                 entity.HasOne(d => d.RentalPros)
                       .WithMany(p => p.BinaCategories)
@@ -500,6 +535,7 @@ namespace AlApar.Models
                 entity.Property(e => e.AdId).HasColumnName("adId");
 
                 entity.Property(e => e.PrimaryImage).HasColumnName("primaryImage");
+                entity.Property(e => e.Blur).HasColumnName("blur");
 
                 entity.Property(e => e.ImagePath)
                     .HasColumnName("imagePath")

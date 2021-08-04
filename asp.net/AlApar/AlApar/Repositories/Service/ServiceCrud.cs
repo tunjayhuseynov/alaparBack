@@ -32,7 +32,7 @@ namespace AlApar.Repositories.Service
 
             return new
             {
-                category = category.Select(w => new { w.Id, w.Name, w.New, w.Delivery, TypeList = type.Where(s => s.CategoryId == w.Id) }),
+                category = category.Select(w => new { w.Id, w.Name, w.New, w.Delivery, w.LabelName ,TypeList = type.Where(s => s.CategoryId == w.Id) }),
                 cities,
                 currency,
                 sharedDate

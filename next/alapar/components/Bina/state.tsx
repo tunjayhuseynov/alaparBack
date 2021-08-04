@@ -1,6 +1,6 @@
 import { Currency, City, SharedDate, ImageState, Region, Village, Metro } from '@/Constructions/objects'
 import * as URL from '@/Constructions/const';
-import { SellType, Category, Cities, MetroWays, LandAppointment, Rent, BINA_FILTER, Rental, TargetPoints, PropertySellingType, ContractType } from './object'
+import { SellType, Category, Cities, MetroWays, LandAppointment, Rent, BINA_FILTER, Rental, TargetPoints, PropertySellingType, ContractType, Repair } from './object'
 
 interface Bina_Selection {
     images: Array<string>, //list<string>
@@ -17,6 +17,8 @@ interface Bina_Selection {
     rentDuration: number, //int
     price: number, //int
     areaSize: number, //int
+    temir: number,
+    houseFloor: number, //int
     aboutInfo: string, //string
     email: string, //string
     phone: string, //string
@@ -29,7 +31,6 @@ interface Bina_Selection {
     eyvan: boolean,
     lift: boolean,
     mebel: boolean,
-    temir: boolean,
     hovuz: boolean,
     qaz: boolean,
     su: boolean,
@@ -55,6 +56,12 @@ interface Bina_Selection {
     customAdress: string,
     contract: number,
     propertySelling: number,
+    nearSchool: boolean,
+    nearBusstop: boolean,
+    nearHospital: boolean,
+    nearShop: boolean,
+    nearKindigarden: boolean,
+    nearMall: boolean,
 
     //Filter
     minRoom: number,
@@ -95,6 +102,7 @@ export interface Bina extends ImageState {
     propertySellingTypes: Array<PropertySellingType>,
     villageList: Array<Village>,
     metroList: Array<Metro>,
+    repairList: Array<Repair>,
     metroWayList: Array<MetroWays>,
     landAppointmentList: Array<LandAppointment>,
     rentDurationList: Array<Rent>,
@@ -112,7 +120,7 @@ export interface Bina extends ImageState {
         icare: boolean,
         belediyye: boolean,
         barter: boolean,
-
+        houseFloor: boolean,
         eyvan: boolean,
         lift: boolean,
         mebel: boolean,
@@ -167,6 +175,7 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             phone: null, //string
             name: null, //string
             wp: null, //bool
+            houseFloor: null,
             call: null, //bool
             contract: null,
             propertySelling: null,
@@ -234,6 +243,7 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
         regionList: null,
         villageList: null,
         metroList: null,
+        repairList: json.repairs,
         propertySellingTypes: json.propertySellingTypes,
         metroWayList: json.metroWays,
         landAppointmentList: json.landAppointment,

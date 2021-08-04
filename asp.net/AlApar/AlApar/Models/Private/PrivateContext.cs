@@ -28,6 +28,10 @@ namespace AlApar.Models.Private
         public virtual DbSet<PrivateType> PrivateTypes { get; set; }
         public virtual DbSet<ViewPrivateAd> ViewPrivateAds { get; set; }
 
+        public virtual DbSet<ShoesSizes> ShoesSizes { get; set; }
+        public virtual DbSet<ClothesSizes> ClothesSizes { get; set; }
+        public virtual DbSet<ClothesColors> ClothesColors { get; set; }
+
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Currency> Currencies { get; set; }
         public virtual DbSet<AdStatuses> AdStatuses { get; set; }
@@ -239,7 +243,7 @@ namespace AlApar.Models.Private
                 entity.Property(e => e.ImagePath)
                     .HasMaxLength(500)
                     .HasColumnName("imagePath");
-
+                entity.Property(e => e.Blur).HasColumnName("blur");
                 entity.Property(e => e.PrimaryImage).HasColumnName("primaryImage");
 
                 entity.Property(e => e.Thumbnail)

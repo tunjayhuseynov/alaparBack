@@ -1,10 +1,13 @@
 
-import { Currency, City, SharedDate } from '@/Constructions/objects'
+import { Currency, City, SharedDate, ClothesColor, ClothesSize, ShoeSize } from '@/Constructions/objects'
 
 export interface ClothesType{
     id: number,
     name: string,
-    clothesGenderId: number
+    clothesGenderId: number,
+    clothesColor: boolean,
+    shoesSize: boolean,
+    clothesSize: boolean,
 }
 
 export interface ClothesGender{
@@ -31,6 +34,9 @@ export interface Category{
 export interface PRIVATE_FILTER{
     category: Array<Category>,
     cities: Array<City>,
+    colors: Array<ClothesColor>,
+    shoesSizes: Array<ShoeSize>,
+    clothesSizes: Array<ClothesSize>,
     currency: Array<Currency>,
     sharedDate: Array<SharedDate>,
 }
@@ -38,6 +44,9 @@ export interface PRIVATE_FILTER{
 export const PRIVATE_FILTER_CONVERTER = (json : PRIVATE_FILTER) => ({
     category: json.category,
     cities: json.cities,
+    colors: json.colors,
+    shoesSizes: json.shoesSizes,
+    clothesSizes: json.clothesSizes,
     currency: json.currency,
     sharedDate: json.sharedDate,
 })

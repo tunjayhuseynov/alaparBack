@@ -23,6 +23,8 @@ namespace AlApar.Models.Bina
         public int? CityId { get; set; }
         public int? RegionId { get; set; }
         public int? VillageId { get; set; }
+        public int? RepairId { get; set; }
+        public int? HouseFloor { get; set; }
         public int? MetroId { get; set; }
         public int? SellTypeId { get; set; }
         public int? RentPaymentTypeId { get; set; }
@@ -41,7 +43,6 @@ namespace AlApar.Models.Bina
         public bool? Eyvan { get; set; }
         public bool? Lift { get; set; }
         public bool? Mebel { get; set; }
-        public bool? Temir { get; set; }
         public bool? Hovuz { get; set; }
         public bool? Qaz { get; set; }
         public bool? Su { get; set; }
@@ -65,9 +66,16 @@ namespace AlApar.Models.Bina
         public int? TargetPointId { get; set; }
         public int? ContractTypeId { get; set; }
         public int? BinaSellingTypeId { get; set; }
+        public bool? NearHospital { get; set; }
+        public bool? NearSchool { get; set; }
+        public bool? NearShop { get; set; }
+        public bool? NearKindigarden { get; set; }
+        public bool? NearMall { get; set; }
+        public bool? NearBusstop { get; set; }
 
 
         public virtual BinaContractTypes ContractTypes { get; set; }
+        public virtual BinaRepairs Repair { get; set; }
         public virtual BinaSellingTypes BinaSellingTypes { get; set; }
         public virtual BinaAdsPersonalLogs Infos { get; set; }
         public virtual BinaTargetPoints TargetPoint { get; set; }

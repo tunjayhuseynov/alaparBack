@@ -1,8 +1,11 @@
 import { BanType, Color, Fuel, Mark, Model, TransmissionBox, Transmitter, Auto_Filter } from './object'
 import { Currency, City, SharedDate, ImageState } from '@/Constructions/objects'
 import * as URL from '@/Constructions/const';
+import { Rent, SellType } from '@/Bina/object';
 
 interface Auto_Selection {
+    sellType: number, //int
+    rentDuration: number, //int
     mark: number,
     model: number,
     ban: number,
@@ -71,6 +74,8 @@ export interface Auto extends ImageState{
     fuelList: Array<Fuel>,
     cityList: Array<City>,
     capacityList: Array<any>,
+    sellTypeList: Array<SellType>,
+    rentDurationList: Array<Rent>,
     transmitterList: Array<Transmitter>,
     transmissionBoxList: Array<TransmissionBox>,
     //end
@@ -94,6 +99,7 @@ export const Auto_State = (json: Auto_Filter, th): Auto => {
         url: URL.AUTO_IMAGE,
         submitUrl: URL.AUTO_SUBMIT,
         selected: {
+            sellType: json.sellTypes[0].id, //int
             mark: null,
             model: null,
             ban: null,
@@ -148,6 +154,7 @@ export const Auto_State = (json: Auto_Filter, th): Auto => {
         currencyList: json.currencies,
         banList: json.banTypes,
         colorList: json.colors,
+        sellTypeList: json.sellTypes,
         fuelList: json.fuels,
         cityList: json.cities,
         //end

@@ -7,7 +7,7 @@ class Navbar extends Component {
   constructor() {
     super()
     this.classname = "container px-2 mx-auto bg-white fixed right-0 left-0 transform-gpu transition-all duration-200 ease-linear";
-    this.navidClass = "w-full bg-white fixed min-h-75 transform-gpu transition-all duration-200 ease-linear"
+    this.navidClass = "w-full z-50 bg-white fixed min-h-75 transform-gpu transition-all duration-200 ease-linear"
   }
 
   componentDidMount() {

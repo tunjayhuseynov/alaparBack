@@ -1,4 +1,4 @@
-import { City, Currency, ImageState, SharedDate } from "@/Constructions/objects";
+import { City, ClothesColor, ClothesSize, Currency, ImageState, SharedDate, ShoeSize } from "@/Constructions/objects";
 import { Category, ClothesGender, ClothesType, PRIVATE_FILTER, Type } from "./object";
 import * as URL from '@/Constructions/const';
 
@@ -6,6 +6,9 @@ export interface Private_Selection{
     category: number,
     clothesGender: number,
     clothesTypes: number,
+    clothesColor: number,
+    shoesSize: number,
+    clothesSize: number,
     type: number,
     isNew: boolean,
     hasDelivery: boolean,
@@ -31,6 +34,9 @@ export interface Private extends ImageState{
     categoryList: Array<Category>,
     clothesGendersList: Array<ClothesGender>,
     clothesTypesList: Array<ClothesType>,
+    clothesColors: Array<ClothesColor>,
+    shoesSizesList: Array<ShoeSize>
+    clothesSizesList: Array<ClothesSize>
     typeList: Array<Type>,
     hasNew: boolean,
     hasDelivery: boolean,
@@ -48,6 +54,9 @@ export const Private_State = (json: PRIVATE_FILTER, th) : Private => {
             category: null,
             clothesGender: null,
             clothesTypes: null,
+            clothesColor: null,
+            shoesSize: null,
+            clothesSize: null,
             type: null,
             isNew: null,
             hasDelivery: null,
@@ -68,6 +77,9 @@ export const Private_State = (json: PRIVATE_FILTER, th) : Private => {
         categoryList: json.category,
         clothesGendersList: null,
         clothesTypesList: null,
+        shoesSizesList: json.shoesSizes,
+        clothesSizesList: json.clothesSizes,
+        clothesColors: json.colors,
         typeList: null,
         isNew: null,
         hasDelivery: null,

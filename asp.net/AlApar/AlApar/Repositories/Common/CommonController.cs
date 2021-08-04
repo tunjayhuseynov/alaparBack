@@ -37,6 +37,9 @@ namespace AlApar.Repositories.Common
         [Route("Add")]
         public async Task<IActionResult> addToDb([FromBody] Form form)
         {
+            List<ImageStructure> imageNames = (List<ImageStructure>)form.GetType().GetProperty("ImageList").GetValue(form);
+            if (imageNames.Count > 25) return StatusCode(406, new { status = "Faly sayı 25-i keçməməlidir" });
+
             await _crud.addToDb(form, _db, _utility, _webHostEnvironment);
 
             return Ok();
@@ -73,7 +76,7 @@ namespace AlApar.Repositories.Common
         }
 
         [Route("Get/{id}")]
-        public async Task<object> getOne(int id)
+        public async Task<object> getOne(long id)
         {
             return await _crud.getAd(_utility, id, _db)??NotFound(new { NotFound = true });
         }

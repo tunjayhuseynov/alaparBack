@@ -1,3 +1,4 @@
+import { SellType } from '@/Bina/object'
 import {Currency, City, SharedDate} from '@/Constructions/objects'
 
 export interface BanType{
@@ -46,6 +47,7 @@ export interface Auto_Filter{
     cities: Array<City>;
     transmissionBoxs: Array<TransmissionBox>;
     transmitters: Array<Transmitter>;
+    sellTypes: Array<SellType>;
     currencies: Array<Currency>;
     mark: Array<Mark>;
     sharedDate: Array<SharedDate>;
@@ -57,6 +59,7 @@ export const AUTO_FILTER_CONVERTER = (json : Auto_Filter) => ({
     fuels: json.fuels,
     transmissionBoxs: json.transmissionBoxs,
     transmitters: json.transmitters,
+    sellTypes: json.sellTypes,
     cities: json.cities,
     mark: json.mark,
     currencies: json.currencies,

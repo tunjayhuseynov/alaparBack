@@ -15,9 +15,13 @@ declare class Utilities{
     
     showError(text : string) : any; 
 
+    advancePanel(list : ReactNode) : ReactNode; 
+
+    phoneConverter(a, c, i) : any;
+
     inputGenerator(title : string, placeholder : string, callback : Function, state : string, { visibility, phone, novalidation }? : {visibility? : boolean | Array<any>, phone? : boolean, novalidation? : boolean}): ReactNode;
 
-    numberGenerator(title : string, placeholder : string, callback : Function, name, visibility : boolean | number | string | Array<object>, min? : number, max? : number, { addonAfterList, addonAfterCallback, addonName, addonValue, addonAfterOnlyText }? : {addonAfterList? : Array<any>, addonAfterCallback? : Function, addonName? : string, addonValue? : string | number, addonAfterOnlyText?: string}): ReactNode;
+    numberGenerator(title : string, placeholder : string, callback : Function, name, visibility : boolean | number | string | Array<object>, min? : number, max? : number, { addonAfterList, addonAfterCallback, addonName, addonValue, addonAfterOnlyText, nocommo }? : {addonAfterList? : Array<any>, addonAfterCallback? : Function, addonName? : string, addonValue? : string | number, addonAfterOnlyText?: string, nocommo? : boolean}): ReactNode;
 
     textAreaGeneretor(title : string, placeholder : string, callback : Function, name : string, { visibility }? : {visibility? : boolean}) : ReactNode;
 
@@ -33,7 +37,7 @@ declare class Utilities{
 
     async submitClick(e : object) : void;
 
-    imageUploadGenerator(fileList : Array<any>, previewVisible : boolean, previewTitle : string, previewImage : string, url : string) : ReactNode;
+    imageUploadGenerator(fileList : Array<any>, previewVisible : boolean, previewTitle : string, previewImage : string, url : string, {undertext}? : {undertext?: string}) : ReactNode;
 
     getImageState : object;
 

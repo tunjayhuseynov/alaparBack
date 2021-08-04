@@ -34,6 +34,7 @@ namespace AlApar.Models.Bina
         public string AreaUnit { get; set; }
         public string Subname { get; set; }
         public bool? SecondArea { get; set; }
+        public bool? HouseFloor { get; set; }
 
         public virtual ICollection<BinaAdsPersonal> BinaAdsPersonal { get; set; }
         public virtual BinaRentalProps RentalPros { get; set; }

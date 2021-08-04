@@ -34,11 +34,12 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Job> & StaticP
 
             {this.utility.textAreaGeneretor("Bacarıqlarınız:", "Daxil Edin", this.callbacks.textAreaCallback, "employeeSkills", { visibility: newType?.employeeSkills })}
             {this.utility.textAreaGeneretor("Əlavə məlumat:", "Daxil Edin", this.callbacks.textAreaCallback, "employeeAboutExtra", { visibility: newType?.employeeAboutExtra })}
+            {this.utility.imageUploadGenerator(this.state.fileList, this.state.previewVisible, this.state.previewTitle, this.state.previewImage, this.state.url, {undertext: newType?.employeeName ? "Ən azı bir profil şəkli əlavə edin" : "Ən azı bir şirkət logosu və ya komanda şəkli əlavə edin"})}
 
         </div>
 
         <div className="part">
-            {this.utility.header("Əlaqə", "basliq")}
+            {this.utility.header("ƏLAQƏ MƏLUMATLAR", "basliq")}
 
 
             {this.utility.inputGenerator("Şirkətin Adı:", "Daxil Edin", this.callbacks.textAreaCallback, "companyName", { visibility: newType?.companyName })}

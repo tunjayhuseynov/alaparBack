@@ -24,6 +24,7 @@ export interface Category {
     areaUnit: string,
     subname: string,
     secondArea: boolean,
+    houseFloor: boolean,
 }
 
 export interface TargetPoints{
@@ -85,6 +86,11 @@ export interface MetroWays {
     name: string
 }
 
+export interface Repair{
+    id: number,
+    name: string
+}
+
 export interface BINA_FILTER {
     categories: Array<Category>,
     landAppointment: Array<LandAppointment>,
@@ -94,6 +100,7 @@ export interface BINA_FILTER {
     rentals: Array<Rental>,
     propertySellingTypes: Array<PropertySellingType>,
     contract: Array<ContractType>,
+    repairs: Array<Repair>,
     metroWays: Array<MetroWays>,
     sharedDate: Array<SharedDate>,
 }
@@ -106,6 +113,7 @@ export const BINA_FILTER_CONVERTER = (json : BINA_FILTER) => ({
     contract: json.contract,
     propertySellingTypes: json.propertySellingTypes,
     cities: json.cities,
+    repairs: json.repairs,
     sellTypes: json.sellTypes,
     landAppointment: json.landAppointment,
     sharedDate: json.sharedDate,

@@ -4,7 +4,7 @@ import { Currency, City, SharedDate } from '@/Constructions/objects'
 export interface Type{
     id: number,
     name: string,
-    categoryId: number
+    categoryId: number,
 }
 
 export interface Category{
@@ -14,6 +14,8 @@ export interface Category{
     delivery: boolean,
     typeList: Array<Type>
     type: boolean,
+    labelName: string,
+
 }
 
 export interface SERVICE_FILTER{

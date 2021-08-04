@@ -47,14 +47,20 @@ export const pagenames = {
 export const pageprocess = {
     search: "search",
     add: "add",
+    show: "show",
+    menu: "menu"
 }
 
-const contentProcess = function contentProcess(comname, addHtml, searchHtml ){
+const contentProcess = function contentProcess(comname, addHtml, searchHtml, showHtml, menuHtml){
     switch (comname) {
         case pageprocess.search:
             return searchHtml;
         case pageprocess.add:
             return addHtml;
+        case pageprocess.show:
+            return showHtml;
+        case pageprocess.menu:
+            return menuHtml;
         default:
             break;
     }
@@ -123,25 +129,25 @@ export const stateProcess = function stateProcess(pagename, comname){
 export const InitFetch = function InitFetch(pagename, comname){
     switch (pagename) {
         case pagenames.animal:
-            return contentProcess(comname, URL.ANIMAL_FORM, URL.ANIMAL_GET_FILTER);
+            return contentProcess(comname, URL.ANIMAL_FORM, URL.ANIMAL_GET_FILTER, URL.ANIMAL_GET, URL.ANIMAL_MENU);
         case pagenames.auto:
-            return contentProcess(comname, URL.AUTO_FORM, URL.AUTO_GET_FILTER)
+            return contentProcess(comname, URL.AUTO_FORM, URL.AUTO_GET_FILTER, URL.AUTO_GET, URL.AUTO_MENU)
         case pagenames.bina:
-            return contentProcess(comname, URL.BINA_FORM, URL.BINA_GET_FILTER)
+            return contentProcess(comname, URL.BINA_FORM, URL.BINA_GET_FILTER, URL.BINA_GET, URL.BINA_MENU)
         case pagenames.electro:
-            return contentProcess(comname, URL.ELECTRO_FORM, URL.ELECTRO_GET_FILTER)
+            return contentProcess(comname, URL.ELECTRO_FORM, URL.ELECTRO_GET_FILTER, URL.ELECTRO_GET, URL.ELECTRO_MENU)
         case pagenames.hobby:
-            return contentProcess(comname, URL.HOBBY_FORM, URL.HOBBY_GET_FILTER)
+            return contentProcess(comname, URL.HOBBY_FORM, URL.HOBBY_GET_FILTER, URL.HOBBY_GET, URL.HOBBY_MENU)
         case pagenames.home:
-            return contentProcess(comname, URL.HOME_FORM, URL.HOME_GET_FILTER)
+            return contentProcess(comname, URL.HOME_FORM, URL.HOME_GET_FILTER, URL.HOME_GET, URL.HOME_MENU)
         case pagenames.job:
-            return contentProcess(comname, URL.JOB_FORM, URL.JOB_GET_FILTER)
+            return contentProcess(comname, URL.JOB_FORM, URL.JOB_GET_FILTER, URL.JOB_GET, URL.JOB_MENU)
         case pagenames.private:
-            return contentProcess(comname, URL.PRIVATE_FORM, URL.PRIVATE_GET_FILTER)
+            return contentProcess(comname, URL.PRIVATE_FORM, URL.PRIVATE_GET_FILTER, URL.PRIVATE_GET, URL.PRIVATE_MENU)
         case pagenames.child:
-            return contentProcess(comname, URL.CHILD_FORM, URL.CHILD_GET_FILTER)
+            return contentProcess(comname, URL.CHILD_FORM, URL.CHILD_GET_FILTER, URL.CHILD_GET, URL.CHILD_MENU)
         case pagenames.service:
-            return contentProcess(comname, URL.SERVICE_FORM, URL.SERVICE_GET_FILTER)
+            return contentProcess(comname, URL.SERVICE_FORM, URL.SERVICE_GET_FILTER, URL.SERVICE_GET, URL.SERVICE_MENU)
         default:
             break;
     }

@@ -1,7 +1,6 @@
 import '../styles/globals.css'
 import 'antd/dist/antd.css'
 import "react-image-gallery/styles/css/image-gallery.css"
-import '../styles/main.css'
 // Import Swiper styles
 import 'swiper/swiper-bundle.min.css';
 

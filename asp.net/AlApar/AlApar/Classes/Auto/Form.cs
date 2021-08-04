@@ -39,6 +39,13 @@ namespace AlApar.Classes.Auto
         [JsonProperty("year")]
         public int? CarYear { get; set; }
 
+        
+        [JsonProperty("rentDuration")]
+        public int? RentPaymentTypeId { get; set; }
+
+        [JsonProperty("sellType")]
+        public int? SellTypeId { get; set; }
+
         [JsonProperty("mileage")]
         public double? Mileage { get; set; }
 

@@ -19,6 +19,8 @@ interface Electro_Selection {
     color: number,
     storage: number,
     computerMark: number,
+    guarantee: boolean,
+    credit: boolean,
     //Contact
     city: number,
     name: string,
@@ -80,6 +82,8 @@ export const Electro_State = (json: ELECTRO_FORM, th) : Electro => {
             color: null,
             storage: null,
             computerMark: null,
+            credit: null,
+            guarantee: null,
             //Contact
             city: null,
             name: null,

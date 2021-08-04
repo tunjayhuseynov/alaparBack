@@ -40,6 +40,10 @@ namespace AlApar.Repositories.Auto
 
             var currencies = await db.Currencies.AsNoTracking().ToListAsync();
 
+            var sellType = await db.SellTypes.AsNoTracking().ToListAsync();
+
+            var durationRentType = await db.AutoRentPaymentTypes.AsNoTracking().ToListAsync();
+
             var sharedDate = await db.LastSharedTimes.AsNoTracking().ToListAsync();
 
 
@@ -51,6 +55,7 @@ namespace AlApar.Repositories.Auto
                 TransmissionBoxs = transmissionBoxs,
                 Transmitters = transmitters,
                 Cities = cities,
+                SellTypes = sellType.Select(w => new { Id = w.Id, Name = w.Name, Rent = durationRentType.Where(s => s.RentId == w.Id) }),
                 Currencies = currencies,
                 Mark = marks.Select(w=> new { id = w.Id, name = w.Name, models = models.Where(s => s.MarkId == w.Id) }),
                 SharedDate = sharedDate,

@@ -1,6 +1,7 @@
 ﻿using AlApar.Classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -19,6 +20,8 @@ namespace AlApar.Models.Service
         public bool? New { get; set; }
         public bool? Delivery { get; set; }
 
+        [Column("lableName")]
+        public string LabelName { get; set; }
         public virtual ICollection<ServiceAd> ServiceAds { get; set; }
         public virtual ICollection<ServiceType> ServiceTypes { get; set; }
     }

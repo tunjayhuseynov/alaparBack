@@ -27,6 +27,8 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Electro> & Sta
             <div className={'radioGroup'}>
                 {this.utility.checkBoxGenerator("Yeni", this.callbacks.checkboxCallback, "isNew", true, { makeBlock: true })}
                 {this.utility.checkBoxGenerator("Çatdırılma", this.callbacks.checkboxCallback, "hasDelivery", true, { makeBlock: true })}
+                {this.utility.checkBoxGenerator("Zəmanət", this.callbacks.checkboxCallback, "guarantee", true, { makeBlock: true })}
+                {this.utility.checkBoxGenerator("Kredit", this.callbacks.checkboxCallback, "credit", true, { makeBlock: true })}
             </div>
             {this.utility.textAreaGeneretor("Məlumat:", "Ən azı 100 hərfdən ibarət olmalıdır", this.callbacks.textAreaCallback, "about")}
             {this.utility.imageUploadGenerator(this.state.fileList, this.state.previewVisible, this.state.previewTitle, this.state.previewImage, this.state.url)}
@@ -34,7 +36,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Electro> & Sta
         </div>
 
         <div className="part">
-            {this.utility.header("Əlaqə", "basliq")}
+            {this.utility.header("ƏLAQƏ MƏLUMATLAR", "basliq")}
             {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.commonCallback, { sort: true, swapItem: [5] })}
             {this.utility.inputGenerator("Adınız:", "Daxil Edin", this.callbacks.textAreaCallback, "name")}
             {this.utility.inputGenerator("E-mail:", "Daxil Edin", this.callbacks.textAreaCallback, "email")}
@@ -72,6 +74,8 @@ export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Electro>
         <div className={'radioGroup'}>
             {this.utility.checkBoxGenerator("Yeni", this.callbacks.checkboxCallback, "isNew", true, { makeBlock: true })}
             {this.utility.checkBoxGenerator("Çatdırılma", this.callbacks.checkboxCallback, "hasDelivery", true, { makeBlock: true })}
+            {this.utility.checkBoxGenerator("Zəmanət", this.callbacks.checkboxCallback, "guarantee", true, { makeBlock: true })}
+            {this.utility.checkBoxGenerator("Kredit", this.callbacks.checkboxCallback, "credit", true, { makeBlock: true })}
         </div>
 
         {this.utility.selectGenerator("Paylaşma Tarixi:", this.state.sharedDate, "sharedDate", this.state.selected.sharedDate, this.callbacks.commonCallback, { selectAll: true })}

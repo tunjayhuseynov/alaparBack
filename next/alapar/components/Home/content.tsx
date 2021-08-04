@@ -18,7 +18,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Home> & Static
 
         </div>
         <div className="part">
-            {this.utility.header("Əlaqə", "basliq")}
+            {this.utility.header("ƏLAQƏ MƏLUMATLAR", "basliq")}
             {this.utility.inputGenerator("Adınız:", "Daxil Edin", this.callbacks.textAreaCallback, "name")}
             {this.utility.inputGenerator("E-mail:", "Daxil Edin", this.callbacks.textAreaCallback, "email")}
             {this.utility.inputGenerator("Telefon:", "Daxil Edin", this.callbacks.phoneNumberCallback, "phone", { phone: true })}

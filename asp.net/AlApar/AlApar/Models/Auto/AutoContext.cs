@@ -36,6 +36,8 @@ namespace AlApar.Models.Auto
         public virtual DbSet<AdStatuses> AdStatuses { get; set; }
         public virtual DbSet<AdPackages> AdPackages { get; set; }
         public virtual DbSet<LastSharedTimes> LastSharedTimes { get; set; }
+        public virtual DbSet<SellTypes> SellTypes { get; set; }
+        public virtual DbSet<AutoRentPaymentTypes> AutoRentPaymentTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -121,6 +123,7 @@ namespace AlApar.Models.Auto
                 entity.Property(w => w.AdId).HasColumnName("adId");
                 entity.Property(w => w.PrimaryImage).HasColumnName("primaryImage");
                 entity.Property(w => w.Thumbnail).HasColumnName("thumbnail");
+                entity.Property(e => e.Blur).HasColumnName("blur");
 
                 entity.HasOne(w => w.AutoAd).WithMany(w => w.AutoPhotos)
                       .HasForeignKey(w => w.AdId).HasConstraintName("auto_ad_photo");
@@ -178,6 +181,9 @@ namespace AlApar.Models.Auto
                 entity.Property(w => w.Kredit).HasColumnName("kredit");
                 entity.Property(w => w.Barter).HasColumnName("barter");
 
+                entity.Property(w => w.SellTypeId).HasColumnName("sellTypeId");
+                entity.Property(w => w.RentPaymentTypeId).HasColumnName("rentPaymentTypeId");
+
                 entity.Property(w => w.Abs).HasColumnName("abs");
                 entity.Property(w => w.YungulDisk).HasColumnName("yungulDisk");
                 entity.Property(w => w.Lyuk).HasColumnName("lyuk");
@@ -199,6 +205,12 @@ namespace AlApar.Models.Auto
 
                 entity.HasOne(w => w.BanType).WithMany(w => w.AutoAds)
                       .HasForeignKey(w => w.BanTypeId).HasConstraintName("auto_ad_ban");
+                
+                entity.HasOne(w => w.RentPaymentType).WithMany(w => w.AutoAds)
+                      .HasForeignKey(w => w.BanTypeId).HasConstraintName("auto_ad_rentpayment");
+
+                entity.HasOne(w => w.SellType).WithMany(w => w.AutoAd)
+                      .HasForeignKey(w => w.BanTypeId).HasConstraintName("auto_ad_selltype");
 
                 entity.HasOne(w => w.Color).WithMany(w => w.AutoAds)
                       .HasForeignKey(w => w.ColorId).HasConstraintName("auto_ad_color");
@@ -233,6 +245,23 @@ namespace AlApar.Models.Auto
                 entity.HasOne(w => w.Transmitter).WithMany(w => w.AutoAds)
                       .HasForeignKey(w => w.TransmitterId).HasConstraintName("auto_ad_transmitter");
 
+            });
+
+
+            modelBuilder.Entity<AutoRentPaymentTypes>(entity =>
+            {
+                entity.ToTable("auto_rentPaymentTypes");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasMaxLength(255);
+
+                entity.HasOne(w => w.SellType)
+                    .WithMany(w => w.AutoRentPaymentTypes)
+                    .HasForeignKey(w => w.RentId)
+                    .HasConstraintName("payment_selltypes");
             });
 
 

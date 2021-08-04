@@ -13,6 +13,7 @@ namespace AlApar.Models.Private
         public long? AdId { get; set; }
         public int? PrimaryImage { get; set; }
         public string Thumbnail { get; set; }
+        public string Blur { get; set; }
 
         public virtual PrivateAd Ad { get; set; }
         public virtual ViewPrivateAd ViewPrivateAd { get; set; }

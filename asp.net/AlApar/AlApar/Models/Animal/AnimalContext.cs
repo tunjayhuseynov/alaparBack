@@ -214,6 +214,8 @@ namespace AlApar.Models.Animal
                     .HasMaxLength(500)
                     .HasColumnName("thumbnail");
 
+                entity.Property(e => e.Blur).HasColumnName("blur");
+
                 entity.HasOne(d => d.Ad)
                     .WithMany(p => p.AnimalPhotos)
                     .HasForeignKey(d => d.AdId)

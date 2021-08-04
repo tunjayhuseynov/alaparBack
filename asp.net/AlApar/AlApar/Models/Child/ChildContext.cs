@@ -22,6 +22,9 @@ namespace AlApar.Models.Child
         public virtual DbSet<ChildCategory> ChildCategories { get; set; }
         public virtual DbSet<ChildClothesGender> ChildClothesGenders { get; set; }
         public virtual DbSet<ChildClothesType> ChildClothesTypes { get; set; }
+        public virtual DbSet<ShoesSizes> ShoesSizes { get; set; }
+        public virtual DbSet<ClothesSizes> ClothesSizes { get; set; }
+        public virtual DbSet<ClothesColors> ClothesColors { get; set; }
         public virtual DbSet<ChildContact> ChildContacts { get; set; }
         public virtual DbSet<ChildLog> ChildLogs { get; set; }
         public virtual DbSet<ChildPhoto> ChildPhotos { get; set; }
@@ -239,6 +242,7 @@ namespace AlApar.Models.Child
                     .HasColumnName("imagePath");
 
                 entity.Property(e => e.PrimaryImage).HasColumnName("primaryImage");
+                entity.Property(e => e.Blur).HasColumnName("blur");
 
                 entity.Property(e => e.Thumbnail)
                     .HasMaxLength(500)

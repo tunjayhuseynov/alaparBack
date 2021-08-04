@@ -54,7 +54,7 @@ namespace AlApar.Repositories.Common
             return await utility.MainMenuStuffs<Category, View, Context, Photos>(context, adListNumber);
         }
 
-        public virtual async Task<object> getAd(IUtility utility, int id, Context db)
+        public virtual async Task<object> getAd(IUtility utility, long id, Context db)
         {
             return await utility.GetView<Context, View, Photos>(db, id);
         }
