@@ -24,6 +24,8 @@ interface Hobby_Selection{
     minPrice: number,
 
     sharedDate: number,
+
+    typeList: Array<number>
 }
 
 export interface Hobby extends ImageState{
@@ -65,6 +67,8 @@ export const Hobby_State = (json: HOBBY_FORM, th) : Hobby => {
             minPrice: null,
 
             sharedDate: null,
+
+            typeList: []
         },
         categoryList: json.category,
         typeList: null,

@@ -44,6 +44,30 @@ namespace AlApar.Models.Bina.Views
         public string RepairName { get; set; }
         public int? HouseFloor { get; set; }
 
+        [Column("withstuffs")]
+        public bool? Withstuffs { get; set; }
+
+        [Column("madeinHouse")]
+        public bool? MadeinHouse { get; set; }
+
+        [Column("centralHeatingSystem")]
+        public bool? CentralHeatingSystem { get; set; }
+
+        [Column("parkingArea")]
+        public bool? ParkingArea { get; set; }
+
+        [Column("cableTv")]
+        public bool? CabelTv { get; set; }
+
+        [Column("pvcWindow")]
+        public bool? PVCWindow { get; set; }
+
+        [Column("combi")]
+        public bool? Combi { get; set; }
+
+        [Column("garaj")]
+        public bool? Garaj { get; set; }
+
         //Relations
         public string LandAppointmentName { get; set; }
         public string TargetName { get; set; }

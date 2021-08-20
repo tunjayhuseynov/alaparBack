@@ -15,7 +15,7 @@ namespace AlApar.Repositories.Service
         public override string TempFolder => "images/service/temporarily";
         public override string MainFolder => "images/service/personal";
 
-        public override Func<ServiceContext, int?, int, int, IAsyncEnumerable<ViewServiceAd>> FilterQuery => EF.CompileAsyncQuery((ServiceContext db, int? id, int skip, int take) => db.ViewServiceAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
+        public override Func<ServiceContext, int?, int, int, IAsyncEnumerable<ViewServiceAd>> FilterQuery => EF.CompileAsyncQuery((ServiceContext db, int? id, int skip, int take) => db.ViewServiceAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
         public override async Task<object> getForm(ServiceContext db)
         {
 

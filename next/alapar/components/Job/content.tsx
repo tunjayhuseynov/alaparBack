@@ -4,7 +4,6 @@ import { Job } from "./state";
 export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Job> & StaticPages) {
     let newType = this.state.types.find(w => w.id == this.state.selected.type);
     return (<>
-        <div className={'part'}>
             {this.utility.header("Əsas", "basliq")}
 
             {this.utility.selectGenerator("Elan Növü:", this.state.types, "type", this.state.selected.type, this.callbacks.commonCallback)}
@@ -17,7 +16,11 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Job> & StaticP
 
             {this.utility.selectGenerator("İş Sahəsi:", this.state.category, "category", this.state.selected.category, this.callbacks.commonCallback, { subname: this.state.subcategory, subnameTitle: "title", search: true })}
             {this.utility.inputGenerator("Vəzifə:", "Daxil Edin", this.callbacks.textAreaCallback, "role", { visibility: newType?.role })}
-            {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.commonCallback, { sort: true, swapItem: [5] })}
+            {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.jobCityCallback, { sort: true, swapItem: [5] })}
+
+            {this.utility.selectGenerator("Rayon:", this.state.regionList, "region", this.state.selected.region, this.callbacks.regionCallback, { sort: true, novalidation: true, noneed: true })}
+
+            {this.utility.selectGenerator("Qəsəbə:", this.state.villageList, "village", this.state.selected.village, this.callbacks.commonCallback, { sort: true, novalidation: true, noneed: true })}
 
 
             {this.utility.rangeİnputGenerator("Maaş:", "minWage", "maxWage", this.callbacks.numberCallback, newType?.companyName)}
@@ -34,11 +37,9 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Job> & StaticP
 
             {this.utility.textAreaGeneretor("Bacarıqlarınız:", "Daxil Edin", this.callbacks.textAreaCallback, "employeeSkills", { visibility: newType?.employeeSkills })}
             {this.utility.textAreaGeneretor("Əlavə məlumat:", "Daxil Edin", this.callbacks.textAreaCallback, "employeeAboutExtra", { visibility: newType?.employeeAboutExtra })}
-            {this.utility.imageUploadGenerator(this.state.fileList, this.state.previewVisible, this.state.previewTitle, this.state.previewImage, this.state.url, {undertext: newType?.employeeName ? "Ən azı bir profil şəkli əlavə edin" : "Ən azı bir şirkət logosu və ya komanda şəkli əlavə edin"})}
+            {this.utility.imageUploadGenerator(this.state.fileList, this.state.previewVisible, this.state.previewTitle, this.state.previewImage, this.state.url, { undertext: newType?.employeeName ? "Ən azı bir profil şəkli əlavə edin" : "Ən azı bir şirkət logosu və ya komanda şəkli əlavə edin" })}
 
-        </div>
 
-        <div className="part">
             {this.utility.header("ƏLAQƏ MƏLUMATLAR", "basliq")}
 
 
@@ -55,27 +56,29 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Job> & StaticP
 
             </div>
 
-        </div>
     </>)
 }
 
 
 export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Job> & StaticPages) {
     let newType = this.state.types.find(w => w.id == this.state.selected.type);
-    
+
     return (<>
 
-        {this.utility.selectGenerator("Elan Növü:", this.state.types, "type", this.state.selected.type, this.callbacks.commonCallback)}
+        {this.utility.selectGenerator("Elan Növü:", this.state.types, "type", this.state.selected.type, this.callbacks.commonCallback, { filtername: true })}
 
         {this.utility.radioGenerator("Cinsiyyət:", newType?.employeeIsGirl, 2, this.callbacks.ownerCallback, "gender", this.state.gender)}
 
 
-        {this.utility.selectGenerator("İş Sahəsi:", this.state.category, "category", this.state.selected.category, this.callbacks.commonCallback, { subname: this.state.subcategory, subnameTitle: "title", search: true })}
+        {this.utility.selectGenerator("İş Sahəsi:", this.state.category, "categoryList", this.state.selected.categoryList, this.callbacks.multipleCallback, { subname: this.state.subcategory, subnameTitle: "title", search: true, multiple: true })}
         {this.utility.rangeİnputGenerator("Maaş:", "minWageFilter", "maxWageFilter", this.callbacks.numberCallback, newType?.companyName)}
         {this.utility.rangeİnputGenerator("Yaş aralığı:", "minAgeFilter", "maxAgeFilter", this.callbacks.numberCallback, newType?.companyName, { min: 16, max: 65 })}
-        {this.utility.selectGenerator("Təhsil səviyyəsi:", this.state.educationList, "educationLevel", this.state.selected.educationLevel, this.callbacks.commonCallback, { visibility: newType?.educationId })}
-        {this.utility.selectGenerator("İş Təcrübəsi:", this.state.practices, "practiceDuration", this.state.selected.practiceDuration, this.callbacks.commonCallback, { visibility: newType?.practiceId })}
-        {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.commonCallback, { sort: true, swapItem: [5] })}
+        {this.utility.selectGenerator("Təhsil səviyyəsi:", this.state.educationList, "educationLevelList", this.state.selected.educationLevelList, this.callbacks.multipleCallback, { visibility: newType?.educationId, multiple: true})}
+        {this.utility.selectGenerator("İş Təcrübəsi:", this.state.practices, "practiceDurationList", this.state.selected.practiceDurationList, this.callbacks.multipleCallback, { visibility: newType?.practiceId, multiple: true})}
+        {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.jobCityCallback, { sort: true, swapItem: [5] })}
+        {this.utility.selectGenerator("Rayon:", this.state.regionList, "region", this.state.selected.region, this.callbacks.regionCallback, { sort: true, novalidation: true})}
+
+        {this.utility.selectGenerator("Qəsəbə:", this.state.villageList, "villageList", this.state.selected.villageList, this.callbacks.multipleCallback, { sort: true, novalidation: true, multiple: true})}
 
         {this.utility.selectGenerator("Paylaşma Tarixi:", this.state.sharedDate, "sharedDate", this.state.selected.sharedDate, this.callbacks.commonCallback, { selectAll: true })}
 

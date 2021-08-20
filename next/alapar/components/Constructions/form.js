@@ -19,7 +19,7 @@ class Form extends Component {
                     <div className={'bg-white my-3 py-3 md:col-span-2'}>
 
                         <div className={'customCol'}>
-                            <div className={'px-15% py-4 '}>
+                            <div className={'px-10 py-4 '}>
                                 <span className={'text-xs'}>* - Zəruri Doldurulmalıdır </span>
                             </div>
                             {this.props.children}

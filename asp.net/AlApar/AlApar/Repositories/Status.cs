@@ -25,7 +25,9 @@ namespace AlApar.Repositories
         public enum TypeEnum
         {
             Min = 1,
-            Max = 2
+            Max = 2,
+            Multiple = 3,
+            Text = 4
         }
     }
 }

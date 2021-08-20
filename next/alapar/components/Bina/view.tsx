@@ -166,7 +166,7 @@ export const Bina_View_Data = (ad: Bina_View) => {
                 name: ""
             },
         },
-        names: {
+        nameList: {
             modifiedDate: {
                 value: ad.modifiedDate,
                 name: "Yenilənmə Tarixi"

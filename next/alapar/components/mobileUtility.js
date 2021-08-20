@@ -12,7 +12,7 @@ export const MobileSelector = function MobileSelector(props) {
 
     return (<>
         <div className="ant-select w-full md:w-1/2 ant-select-single ant-select-show-arrow">
-            <select ref={ref} state={props.state} className="ant-select-selector appearance-none" value={props.selected ?? ""} onChange={(e) => props.callback(e.target.value === ''? null: +e.target.value, {state: props.state})}>
+            <select {...props.object} ref={ref} state={props.state} className="ant-select-selector appearance-none" value={props.selected ?? ""} onChange={(e) => {e.target.value === ''? null: props.callback(+e.target.value, {state: props.state})}}>
                 {props.children}
             </select>
             <span className="ant-select-arrow">

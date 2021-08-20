@@ -1,6 +1,7 @@
 ﻿using AlApar.Classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -24,6 +25,13 @@ namespace AlApar.Models.Job
         public int? EducationId { get; set; }
         public int? PracticeId { get; set; }
         public int? CityId { get; set; }
+
+        [Column("regionId")]
+        public int? RegionId { get; set; }
+
+        [Column("villageId")]
+        public int? VillageId { get; set; }
+
         public string Role { get; set; }
         public int? MinWage { get; set; }
         public int? MaxWage { get; set; }
@@ -49,6 +57,12 @@ namespace AlApar.Models.Job
         public virtual JobPracticeDuration Practice { get; set; }
         public virtual JobAdType Type { get; set; }
         public virtual Cities City { get; set; }
+        
+        [ForeignKey("VillageId")]
+        public virtual Villages Village { get; set; }
+        
+        [ForeignKey("RegionId")]
+        public virtual Regions Region { get; set; }
         public virtual AdPackages Package { get; set; }
         public virtual AdStatuses Status { get; set; }
 

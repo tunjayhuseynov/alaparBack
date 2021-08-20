@@ -6,11 +6,12 @@ import Form from '@/Constructions/form';
 import { stateProcess, InitFetch, pageprocess, pagenames } from '@/controller'
 import Header from '@/Layouts/header';
 import FilterLayout from '@/Constructions/filter';
+import * as URL from '@/Constructions/const';
 
 class StaticPages extends Component {
     constructor(props) {
         super(props)
-        
+
         this.utility = new Utilities(this)
         this.callbacks = new Callbacks(this)
 
@@ -19,6 +20,23 @@ class StaticPages extends Component {
             stateProcess.bind(this)(this.props.pagename, pageprocess.add);
         else if (this.props.processname == pageprocess.search)
             stateProcess.bind(this)(this.props.pagename, pageprocess.search);
+
+    }
+
+    componentDidUpdate = async (prevProps, prevState) => {
+        if (this.props.processname == pageprocess.search && prevState.selected !== this.state.selected ) {
+            let conn = await fetch(`${URL.BINA_SEARCH}?s=${0}&t=${20}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                mode: 'cors',
+                body: JSON.stringify(this.state.selected)
+            });
+            let res = await conn.json();
+
+            this.setState({ ads: res })
+        }
 
     }
 
@@ -35,18 +53,11 @@ class StaticPages extends Component {
             (
                 <>
                     <Header></Header>
-                    <div className={'flex flex-col md:flex-row container mx-auto min-h-screen gap-4'}>
-                        <div className={'flex-grow-0 w-220px self-center md:self-start text-center'}>
-                            <div className={'box'}>
-                                <FilterLayout>
-                                    {content}
-                                </FilterLayout>
-                            </div>
-                        </div>
-                        <div className={'flex-grow-2 bg-white rounded'}>
-                            
-                        </div>
-                    </div>
+
+                    <FilterLayout state={this.state} ads={this.state.ads??[]}>
+                        {content}
+                    </FilterLayout>
+
                 </>
             )
     }
@@ -77,26 +88,26 @@ export async function getStaticProps(context) {
 export async function getStaticPaths() {
     return {
         paths: [
-            { params: { pagename: pagenames.animal, processname: pageprocess.add} },
-            { params: { pagename: pagenames.auto, processname: pageprocess.add} },
-            { params: { pagename: pagenames.bina, processname: pageprocess.add} },
-            { params: { pagename: pagenames.child, processname: pageprocess.add} },
-            { params: { pagename: pagenames.electro, processname: pageprocess.add} },
-            { params: { pagename: pagenames.hobby, processname: pageprocess.add} },
-            { params: { pagename: pagenames.home, processname: pageprocess.add} },
-            { params: { pagename: pagenames.job, processname: pageprocess.add} },
-            { params: { pagename: pagenames.private, processname: pageprocess.add} },
-            { params: { pagename: pagenames.service, processname: pageprocess.add} },
-            { params: { pagename: pagenames.animal, processname: pageprocess.search} },
-            { params: { pagename: pagenames.auto, processname: pageprocess.search} },
-            { params: { pagename: pagenames.bina, processname: pageprocess.search} },
-            { params: { pagename: pagenames.child, processname: pageprocess.search} },
-            { params: { pagename: pagenames.electro, processname: pageprocess.search} },
-            { params: { pagename: pagenames.hobby, processname: pageprocess.search} },
-            { params: { pagename: pagenames.home, processname: pageprocess.search} },
-            { params: { pagename: pagenames.job, processname: pageprocess.search} },
-            { params: { pagename: pagenames.private, processname: pageprocess.search} },
-            { params: { pagename: pagenames.service, processname: pageprocess.search} },
+            { params: { pagename: pagenames.animal, processname: pageprocess.add } },
+            { params: { pagename: pagenames.auto, processname: pageprocess.add } },
+            { params: { pagename: pagenames.bina, processname: pageprocess.add } },
+            { params: { pagename: pagenames.child, processname: pageprocess.add } },
+            { params: { pagename: pagenames.electro, processname: pageprocess.add } },
+            { params: { pagename: pagenames.hobby, processname: pageprocess.add } },
+            { params: { pagename: pagenames.home, processname: pageprocess.add } },
+            { params: { pagename: pagenames.job, processname: pageprocess.add } },
+            { params: { pagename: pagenames.private, processname: pageprocess.add } },
+            { params: { pagename: pagenames.service, processname: pageprocess.add } },
+            { params: { pagename: pagenames.animal, processname: pageprocess.search } },
+            { params: { pagename: pagenames.auto, processname: pageprocess.search } },
+            { params: { pagename: pagenames.bina, processname: pageprocess.search } },
+            { params: { pagename: pagenames.child, processname: pageprocess.search } },
+            { params: { pagename: pagenames.electro, processname: pageprocess.search } },
+            { params: { pagename: pagenames.hobby, processname: pageprocess.search } },
+            { params: { pagename: pagenames.home, processname: pageprocess.search } },
+            { params: { pagename: pagenames.job, processname: pageprocess.search } },
+            { params: { pagename: pagenames.private, processname: pageprocess.search } },
+            { params: { pagename: pagenames.service, processname: pageprocess.search } },
         ],
         fallback: false // See the "fallback" section below
     };

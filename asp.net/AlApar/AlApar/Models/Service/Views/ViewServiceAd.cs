@@ -1,6 +1,7 @@
 ﻿using AlApar.Classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -17,10 +18,6 @@ namespace AlApar.Models.Service.Views
         public bool? HasDelivery { get; set; }
         public double? Price { get; set; }
         public string Name { get; set; }
-        public string ImagePath { get; set; }
-        public int? AdId { get; set; }
-        public int? PrimaryImage { get; set; }
-        public string Thumbnail { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public string ContactNumber { get; set; }
         public bool? IsCall { get; set; }
@@ -40,6 +37,9 @@ namespace AlApar.Models.Service.Views
         public int? CityId { get; set; }
         public int? ContactId { get; set; }
         public int? TypeId { get; set; }
+
+        [Column("lableName")]
+        public string LableName { get; set; }
 
         public virtual ICollection<ServicePhoto> Images { get; set; }
 

@@ -16,7 +16,7 @@ namespace AlApar.Repositories.Child
         public override string TempFolder => "images/child/temporarily";
         public override string MainFolder => "images/child/personal";
 
-        public override Func<ChildContext, int?, int, int, IAsyncEnumerable<ViewChildAd>> FilterQuery => EF.CompileAsyncQuery((ChildContext db, int? id, int skip, int take) => db.ViewChildAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
+        public override Func<ChildContext, int?, int, int, IAsyncEnumerable<ViewChildAd>> FilterQuery => EF.CompileAsyncQuery((ChildContext db, int? id, int skip, int take) => db.ViewChildAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
 
         public override async Task<object> getForm(ChildContext db)
         {

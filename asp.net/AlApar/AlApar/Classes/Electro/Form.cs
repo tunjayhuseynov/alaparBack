@@ -7,7 +7,7 @@ using static AlApar.Repositories.Status;
 
 namespace AlApar.Classes.Electro
 {
-    public class Form
+    public class Form : commonForm
     {
         [JsonProperty("category")]
         public int? CateogryId { get; set; }
@@ -28,6 +28,7 @@ namespace AlApar.Classes.Electro
         public double? Price { get; set; }
 
         [JsonProperty("currency")]
+        [Bypass]
         public int? CurrencyId { get; set; }
 
         [JsonProperty("about")]
@@ -54,6 +55,12 @@ namespace AlApar.Classes.Electro
         [JsonProperty("storage")]
         public int? StorageId { get; set; }
 
+        [JsonProperty("guarantee")]
+        public bool? Guarantee { get; set; }
+
+        [JsonProperty("credit")]
+        public bool? Credit { get; set; }
+
         [JsonProperty("City")]
         public int? CityId { get; set; }
 
@@ -76,13 +83,36 @@ namespace AlApar.Classes.Electro
 
         [JsonProperty("minPrice")]
         [FilterCheck(TypeEnum.Min, "Price")]
+        [CurrencyConverter("CurrencyId", "CurrencyId")]
         public int? MinPrice { get; set; }
 
         [JsonProperty("maxPrice")]
         [FilterCheck(TypeEnum.Max, "Price")]
+        [CurrencyConverter("CurrencyId", "CurrencyId")]
         public int? MaxPrice { get; set; }
 
         [JsonProperty("sharedDate")]
         public int? SharedDate { get; set; }
+
+
+        [JsonProperty("typeList")]
+        [FilterCheck(TypeEnum.Multiple, "TypeId")]
+        public List<int> TypeList { get; set; }
+
+        [JsonProperty("computerMarkList")]
+        [FilterCheck(TypeEnum.Multiple, "ComputerMarkId")]
+        public List<int> ComputerMarkList { get; set; }
+
+        [JsonProperty("operatorList")]
+        [FilterCheck(TypeEnum.Multiple, "OperatorId")]
+        public List<int> OperatorList { get; set; }
+
+        [JsonProperty("colorList")]
+        [FilterCheck(TypeEnum.Multiple, "ColorId")]
+        public List<int> ColorList { get; set; }
+
+        [JsonProperty("storageList")]
+        [FilterCheck(TypeEnum.Multiple, "StorageId")]
+        public List<int> StorageList { get; set; }
     }
 }

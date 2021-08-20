@@ -15,7 +15,7 @@ namespace AlApar.Repositories.Animal
         public override string TempFolder => "images/animal/temporarily";
         public override string MainFolder => "images/animal/personal";
 
-        public override Func<AnimalContext, int?, int, int, IAsyncEnumerable<ViewAnimalAd>> FilterQuery => EF.CompileAsyncQuery((AnimalContext db, int? id, int skip, int take) => db.ViewAnimalAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
+        public override Func<AnimalContext, int?, int, int, IAsyncEnumerable<ViewAnimalAd>> FilterQuery => EF.CompileAsyncQuery((AnimalContext db, int? id, int skip, int take) => db.ViewAnimalAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
 
         public override async Task<object> getForm(AnimalContext db)
         {
@@ -25,7 +25,6 @@ namespace AlApar.Repositories.Animal
             var currency = await db.Currencies.AsNoTracking().ToListAsync();
             var cities = await db.Cities.AsNoTracking().ToListAsync();
             var sharedDate = await db.LastSharedTimes.AsNoTracking().ToListAsync();
-
 
             return new
             {

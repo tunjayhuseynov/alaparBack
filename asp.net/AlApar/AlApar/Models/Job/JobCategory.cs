@@ -17,6 +17,7 @@ namespace AlApar.Models.Job
         public string Name { get; set; }
         public string Title { get; set; }
 
+
         public virtual ICollection<JobAd> JobAds { get; set; }
     }
 }

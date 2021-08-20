@@ -55,33 +55,28 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Auto> & Static
 export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Auto> & StaticPages) {
     let extras = () => {
         return (
-            <div className={'extraModel'}>
-                <div className={'extraFlex'}>
-                    <div>
-                        {this.utility.selectGenerator("Yanacaq növü:", this.state.fuelList, "fuel", this.state.selected.fuel, this.callbacks.commonCallback)}
-                        {this.utility.selectGenerator("Sürətlər qutusu:", this.state.transmissionBoxList, "transmissionBox", this.state.selected.transmissionBox, this.callbacks.commonCallback)}
-                        {this.utility.selectGenerator("Ötürücü:", this.state.transmitterList, "transmitter", this.state.selected.transmitter, this.callbacks.commonCallback)}
-                    </div>
-                    <div>
-                        {this.utility.selectGenerator("Rəng:", this.state.colorList, "color", this.state.selected.color, this.callbacks.commonCallback)}
-                        {this.utility.selectGenerator("Mühərrikin həcmi (sm³):", this.state.capacityList, "capacity", this.state.selected.capacity, this.callbacks.commonCallback)}
+            <>
+                {this.utility.selectGenerator("Yanacaq növü:", this.state.fuelList, "fuel", this.state.selected.fuelList, this.callbacks.multipleCallback, { multiple: true })}
+                {this.utility.selectGenerator("Sürətlər qutusu:", this.state.transmissionBoxList, "transmissionBoxList", this.state.selected.transmissionBoxList, this.callbacks.multipleCallback, { multiple: true })}
+                {this.utility.selectGenerator("Ötürücü:", this.state.transmitterList, "transmitter", this.state.selected.transmitter, this.callbacks.commonCallback)}
 
-                        {this.utility.rangeİnputGenerator("Mühərrikin gücü (a.g):", "minMotorPower", "maxMotorPower", this.callbacks.numberCallback, this.state.selected.mark)}
+                {this.utility.selectGenerator("Rəng:", this.state.colorList, "colorList", this.state.selected.colorList, this.callbacks.multipleCallback, { multiple: true })}
+                {this.utility.selectGenerator("Mühərrikin həcmi (sm³):", this.state.capacityList, "capacityList", this.state.selected.capacityList, this.callbacks.multipleCallback, { multiple: true })}
 
-                    </div>
+                {this.utility.rangeİnputGenerator("Mühərrikin gücü (a.g):", "minMotorPower", "maxMotorPower", this.callbacks.numberCallback, this.state.selected.mark)}
 
-                </div>
                 <div className={'radioGroup'}>
                     {this.state.checkboxList.map(w => this.utility.checkBoxGenerator(w.title, this.callbacks.checkboxCallback, w.name, true))}
                 </div>
-            </div>
+            </>
+
         )
     }
     return (<>
-        {this.utility.radioGenerator("Satış Növü*:", this.state.sellTypeList, 1, this.callbacks.autoSellTypeCallback, "sellType")}
+        {this.utility.radioGenerator("Satış Növü:", this.state.sellTypeList, 1, this.callbacks.autoSellTypeCallback, "sellType")}
         {this.utility.selectGenerator("Marka:", this.state.markList, "mark", this.state.selected.mark, this.callbacks.autoMarkCallback, { search: true })}
-        {this.utility.selectGenerator("Model:", this.state.modelList, "model", this.state.selected.model, this.callbacks.commonCallback, { search: true, subname: this.state.modelSubList, subnameTitle: "title" })}
-        {this.utility.selectGenerator("Ban növü:", this.state.banList, "ban", this.state.selected.ban, this.callbacks.commonCallback)}
+        {this.utility.selectGenerator("Model:", this.state.modelList, "modelList", this.state.selected.modelList, this.callbacks.multipleCallback, { search: true, subname: this.state.modelSubList, subnameTitle: "title", multiple: true })}
+        {this.utility.selectGenerator("Ban növü:", this.state.banList, "banList", this.state.selected.banList, this.callbacks.multipleCallback, { multiple: true })}
         {this.utility.rangeİnputGenerator("Qiymət:", "minPrice", "maxPrice", this.callbacks.numberCallback, this.state.selected.mark, { addonAfterList: this.state.currencyList, addonAfterCallback: this.callbacks.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}
         {this.utility.selectGenerator("Kirayə müddəti*:", this.state.rentDurationList, "rentDuration", this.state.selected.rentDuration, this.callbacks.commonCallback)}
         {this.utility.rangeİnputGenerator("Buraxılış ili:", "minYear", "maxYear", this.callbacks.numberCallback, this.state.selected.mark)}
@@ -90,6 +85,7 @@ export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Auto> & 
             {this.utility.checkBoxGenerator("Kredit", this.callbacks.checkboxCallback, "kredit", this.state.kredit)}
             {this.utility.checkBoxGenerator("Barter", this.callbacks.checkboxCallback, "barter", this.state.barter)}
         </div>
+        {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.commonCallback, { sort: true, swapItem: [5] })}
 
         {this.utility.selectGenerator("Paylaşma Tarixi:", this.state.sharedDate, "sharedDate", this.state.selected.sharedDate, this.callbacks.commonCallback, { selectAll: true })}
 

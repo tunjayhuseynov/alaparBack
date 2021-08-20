@@ -3,7 +3,6 @@ import * as URL from '@/Constructions/const';
 import { SellType, Category, Cities, MetroWays, LandAppointment, Rent, BINA_FILTER, Rental, TargetPoints, PropertySellingType, ContractType, Repair } from './object'
 
 interface Bina_Selection {
-    images: Array<string>, //list<string>
     category: number, //numberint
     city: number, //int
     region: number, //int
@@ -30,7 +29,6 @@ interface Bina_Selection {
     hamam: number,
     eyvan: boolean,
     lift: boolean,
-    mebel: boolean,
     hovuz: boolean,
     qaz: boolean,
     su: boolean,
@@ -62,6 +60,15 @@ interface Bina_Selection {
     nearShop: boolean,
     nearKindigarden: boolean,
     nearMall: boolean,
+    withstuffs: boolean,
+
+    madeinHouse: boolean,
+    centralHeatingSystem: boolean,
+    parkingArea: boolean,
+    cabelTv: boolean,
+    pvcWindow: boolean,
+    combi: boolean,
+    garaj: boolean,
 
     //Filter
     minRoom: number,
@@ -82,6 +89,13 @@ interface Bina_Selection {
     bottomfloor: boolean,
     middlefloor: boolean,
     upperfloor: boolean,
+
+    contractList: Array<number>,
+    temirList: Array<number>
+    villageList: Array<number>, 
+    targetList: Array<number>, 
+    propertySellingTypeList: Array<number>, 
+    landAppointmentList: Array<Number>, 
 }
 
 export interface Bina extends ImageState {
@@ -99,8 +113,8 @@ export interface Bina extends ImageState {
     subCategory: Array<object>,
     cityList: Array<Cities>,
     regionList: Array<Region>,
-    propertySellingTypes: Array<PropertySellingType>,
     villageList: Array<Village>,
+    propertySellingTypes: Array<PropertySellingType>,
     metroList: Array<Metro>,
     repairList: Array<Repair>,
     metroWayList: Array<MetroWays>,
@@ -123,7 +137,7 @@ export interface Bina extends ImageState {
         houseFloor: boolean,
         eyvan: boolean,
         lift: boolean,
-        mebel: boolean,
+        metbex: boolean,
         temir: boolean,
         hovuz: boolean,
         qaz: boolean,
@@ -131,6 +145,16 @@ export interface Bina extends ImageState {
         isig: boolean,
         kanalizasiya: boolean,
         hamam: boolean,
+
+        madeinHouse: boolean,
+        centralHeatingSystem: boolean,
+        parkingArea: boolean,
+        cabelTv: boolean,
+        pvcWindow: boolean,
+        combi: boolean,
+        kondisoner: boolean,
+        garaj: boolean,
+    
     },
     rentalAddition: {
         metbexM: boolean,
@@ -144,6 +168,13 @@ export interface Bina extends ImageState {
         usag: boolean,
         heyvan: boolean,
         otagordaire: boolean,
+        
+        centralHeatingSystem: boolean,
+        parkingArea: boolean,
+        cabelTv: boolean,
+        pvcWindow: boolean,
+        combi: boolean,
+        garaj: boolean,
     },
     sharedDate: Array<SharedDate>,
     extraVisible: boolean,
@@ -208,7 +239,8 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             metroDuration: null,
             secondAreaSize: null,
             customAdress: null,
-
+            withstuffs: null,
+            
             //Filter
             minRoom: null,
             maxRoom: null,
@@ -229,6 +261,12 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             middlefloor: null,
             upperfloor: null,
 
+            temirList: [],
+            contractList: [],
+            villageList: [], 
+            targetList: [], 
+            propertySellingTypeList: [], 
+            landAppointmentList: [], 
         },
         areaUnit: null,
         sellingTypeBoxVisibility: true,
@@ -265,7 +303,7 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
 
             eyvan: false,
             lift: false,
-            mebel: false,
+            metbex: false,
             temir: false,
             hovuz: false,
             qaz: false,
@@ -273,6 +311,15 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             isig: false,
             kanalizasiya: false,
             hamam: false,
+
+            madeinHouse: false,
+            centralHeatingSystem: false,
+            parkingArea: false,
+            cabelTv: false,
+            pvcWindow: false,
+            combi: false,
+            kondisoner: false,
+            garaj: false,
         },
         rentalAddition: {},
         extraVisible: false,

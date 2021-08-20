@@ -7,6 +7,8 @@ export interface Auto_View {
     title: string,
     statusId: number,
     packageId: number,
+    packageName: string,
+    statusName: string,
     categoryId: number,
     mark: string,
     modelId: number,
@@ -56,6 +58,9 @@ export interface Auto_View {
     esp: boolean,
     kruizKontrol: boolean,
     startStopSistem: boolean,
+    sellTypeName: string,
+    rentPaymentName: string,
+    sellTypeFilterName: string,
     images: Array<ImageView>
 }
 
@@ -117,6 +122,30 @@ export const Auto_View_Data = (ad: Auto_View) => {
             },
         },
         nameList: {
+            viewed: {
+                value: ad.viewed,
+                name: "Baxış"
+            },
+            statusName: {
+                value: ad.statusName,
+                name: "Status"
+            },
+            packageName: {
+                value: ad.packageName,
+                name: "Paket Növü"
+            },
+            sellTypeName: {
+                value: ad.sellTypeName,
+                name: "Elan növü"
+            },
+            rentPaymentName: {
+                value: ad.rentPaymentName,
+                name: "Kirayə Müddəti"
+            },
+            sellTypeFilterName: {
+                value: ad.sellTypeFilterName,
+                name: "Elan növü"
+            },
             modifiedDate: {
                 value: ad.modifiedDate,
                 name: "Yenilənmə Tarixi"

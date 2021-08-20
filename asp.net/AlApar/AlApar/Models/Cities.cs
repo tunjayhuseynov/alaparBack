@@ -10,6 +10,7 @@ using AlApar.Models.Private;
 using AlApar.Models.Service;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlApar.Models
 {
@@ -18,8 +19,8 @@ namespace AlApar.Models
         public Cities()
         {
             BinaAdsPersonal = new HashSet<BinaAdsPersonal>();
-            AutoContacts = new HashSet<AutoContacts>();
-            ElectroContacts = new HashSet<ElectroContacts>();
+            AutoAds = new HashSet<AutoAds>();
+            ElectroAds = new HashSet<ElectroAds>();
             JobAds = new HashSet<JobAd>();
             HobbyAds = new HashSet<HobbyAd>();
             AnimalAds = new HashSet<AnimalAd>();
@@ -40,10 +41,12 @@ namespace AlApar.Models
         public virtual ICollection<BinaTargetPoints> TargetPoints { get; set; }
 
         //Auto
-        public virtual ICollection<AutoContacts> AutoContacts { get; set; }
+        [InverseProperty("City")]
+        public virtual ICollection<AutoAds> AutoAds { get; set; }
 
         // Electro
-        public virtual ICollection<ElectroContacts> ElectroContacts { get; set; }
+        [InverseProperty("City")]
+        public virtual ICollection<ElectroAds> ElectroAds { get; set; }
 
 
         public virtual ICollection<JobAd> JobAds { get; set; }

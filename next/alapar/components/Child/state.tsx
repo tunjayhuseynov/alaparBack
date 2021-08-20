@@ -28,6 +28,12 @@ export interface Child_Selection{
     maxPrice: number,
 
     sharedDate: number,
+
+    typeList: Array<number>
+    clothesTypesList: Array<number>
+    clothesColorList: Array<number>
+    clothesSizeList: Array<number>
+    shoesSizeList: Array<number>
 }
 
 export interface Child extends ImageState{
@@ -76,6 +82,12 @@ export const Child_State = (json: CHILD_FILTER, th) : Child => {
             isCall: null,
 
             sharedDate: null,
+
+            typeList: [],
+            clothesTypesList: [],
+            clothesColorList: [],
+            clothesSizeList: [],
+            shoesSizeList: [],
         },
         categoryList: json.category,
         clothesGendersList: null,

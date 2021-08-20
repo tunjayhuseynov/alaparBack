@@ -18,7 +18,7 @@ namespace AlApar.Repositories.Electro
         public override string TempFolder => "images/electro/temporarily";
         public override string MainFolder => "images/electro/personal";
 
-        public override Func<ElectroContext, int?, int, int, IAsyncEnumerable<ViewElectroAds>> FilterQuery => EF.CompileAsyncQuery((ElectroContext db, int? id, int skip, int take) => db.ViewElectroAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
+        public override Func<ElectroContext, int?, int, int, IAsyncEnumerable<ViewElectroAds>> FilterQuery => EF.CompileAsyncQuery((ElectroContext db, int? id, int skip, int take) => db.ViewElectroAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
 
         public override async Task<object> getForm(ElectroContext db)
         {
@@ -51,6 +51,7 @@ namespace AlApar.Repositories.Electro
                 w.ActivateOperator,
                 w.ActivatePhoneMark,
                 w.ActivateType,
+                w.ActivateTitle,
                 Type = type.Where(s => s.CategoryId == w.Id),
                 Mark = mark.Where(s=>s.CategoryId == w.Id).Select(forMark),
                 Operator = operators.Where(s=>s.CategoryId == w.Id),

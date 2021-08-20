@@ -7,11 +7,8 @@ using static AlApar.Repositories.Status;
 
 namespace AlApar.Classes.Auto
 {
-    public class Form
-    {
-        [JsonProperty("images")]
-        public List<ImageStructure> ImageList { get; set; }
-
+    public class Form : commonForm
+    {  
         [JsonProperty("mark")]
         public int? MarkId { get; set; }
 
@@ -167,5 +164,31 @@ namespace AlApar.Classes.Auto
 
         [JsonProperty("sharedDate")]
         public int? SharedDate { get; set; }
+
+
+
+        [JsonProperty("modelList")]
+        [FilterCheck(TypeEnum.Multiple, "ModelId")]
+        public List<int?> ModelList { get; set; }
+
+        [JsonProperty("banList")]
+        [FilterCheck(TypeEnum.Multiple, "BanTypeId")]
+        public List<int?> BanList { get; set; }
+
+        [JsonProperty("fuelList")]
+        [FilterCheck(TypeEnum.Multiple, "FuelId")]
+        public List<int?> FuelList { get; set; }
+
+        [JsonProperty("transmissionBoxList")]
+        [FilterCheck(TypeEnum.Multiple, "TransmissionBoxId")]
+        public List<int?> TransmissionBoxList { get; set; }
+
+        [JsonProperty("colorList")]
+        [FilterCheck(TypeEnum.Multiple, "ColorId")]
+        public List<int?> ColorList { get; set; }
+
+        [JsonProperty("capacityList")]
+        [FilterCheck(TypeEnum.Multiple, "MotorCapacity")]
+        public List<int?> CapacityList { get; set; }
     }
 }

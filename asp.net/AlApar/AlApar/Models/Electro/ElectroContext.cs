@@ -265,7 +265,6 @@ namespace AlApar.Models.Electro
 
                 entity.ToTable("electro_contacts");
                 entity.Property(w => w.Id).HasColumnName("id");
-                entity.Property(w => w.CityId).HasColumnName("cityId");
                 entity.Property(w => w.Name).HasColumnName("name");
                 entity.Property(w => w.Email).HasColumnName("email");
                 entity.Property(w => w.PhoneNumber).HasColumnName("phoneNumber");
@@ -273,8 +272,6 @@ namespace AlApar.Models.Electro
                 entity.Property(w => w.IsCall).HasColumnName("isCall");
                 entity.Property(w => w.Timespan).HasColumnName("timespan");
 
-                entity.HasOne(w => w.City).WithMany(w => w.ElectroContacts)
-                      .HasForeignKey(w => w.CityId).HasConstraintName("electro_ad_contact");
 
             });
 

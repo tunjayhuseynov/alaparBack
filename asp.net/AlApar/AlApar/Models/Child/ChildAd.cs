@@ -32,22 +32,23 @@ namespace AlApar.Models.Child
         public double? Price { get; set; }
         public int? CurrencyId { get; set; }
         public string About { get; set; }
-        
-        [Column("colorId")]
-        public int? ColorId { get; set; }
-        [ForeignKey("ColorId")]
-        public virtual ClothesColors ClothesColor { get; set; }
-
-
-
-        [Column("shoesSizeId")]
-        public int? ShoesSizeId { get; set; }
-        [ForeignKey("ShoesSizeId")]
-        public virtual ShoesSizes ShoesSize { get; set; }
-
 
         [Column("clothesSizeId")]
         public int? ClothesSizeId { get; set; }
+
+        [Column("shoesSizeId")]
+        public int? ShoesSizeId { get; set; }
+
+        [Column("colorId")]
+        public int? ColorId { get; set; }
+
+
+        [ForeignKey("ColorId")]
+        public virtual ClothesColors ClothesColor { get; set; }
+
+        [ForeignKey("ShoesSizeId")]
+        public virtual ShoesSizes ShoesSize { get; set; }
+
         [ForeignKey("ClothesSizeId")]
         public virtual ClothesSizes ClothesSize { get; set; }
 

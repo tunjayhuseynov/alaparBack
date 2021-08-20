@@ -19,7 +19,7 @@ namespace AlApar.Repositories.Auto
     {
         public override string TempFolder => "images/auto/temporarily";
         public override string MainFolder => "images/auto/personal";
-        public override Func<AutoContext, int?, int, int, IAsyncEnumerable<ViewAutoAds>> FilterQuery => EF.CompileAsyncQuery((AutoContext db, int? id, int skip, int take) => db.ViewAutoAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
+        public override Func<AutoContext, int?, int, int, IAsyncEnumerable<ViewAutoAds>> FilterQuery => EF.CompileAsyncQuery((AutoContext db, int? id, int skip, int take) => db.ViewAutoAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
         public override async Task<object> getForm(AutoContext db)
         {
             var banTypes = await db.AutoBanTypes.AsNoTracking().ToListAsync();

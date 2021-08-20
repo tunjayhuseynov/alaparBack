@@ -34,8 +34,8 @@ namespace AlApar.Models
         public virtual DbSet<Metros> Metros { get; set; }
         public virtual DbSet<BinaPersonalContacts> PersonalContacts { get; set; }
         public virtual DbSet<Regions> Regions { get; set; }
-        public virtual DbSet<SellTypes> SellTypes { get; set; }
         public virtual DbSet<Villages> Villages { get; set; }
+        public virtual DbSet<SellTypes> SellTypes { get; set; }
         public virtual DbSet<MetroWays> MetroWays { get; set; }
         public virtual DbSet<LastSharedTimes> LastSharedTimes { get; set; }
         public virtual DbSet<ViewBinaPersonalGeneral> ViewBinaPersonalGenerals { get; set; }
@@ -474,8 +474,8 @@ namespace AlApar.Models
                 entity.Property(w => w.Lift)
                     .HasColumnName("lift");
 
-                entity.Property(w => w.Mebel)
-                    .HasColumnName("mebel");
+                entity.Property(w => w.Metbex)
+                    .HasColumnName("metbex");
 
                 entity.Property(w => w.Temir)
                     .HasColumnName("temir");

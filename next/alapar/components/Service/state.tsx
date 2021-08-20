@@ -19,7 +19,12 @@ export interface Service_Selection{
     isWp: boolean,
     isCall: boolean,
 
-    sharedDate: number
+    sharedDate: number,
+
+    minPrice: number,
+    maxPrice: number
+
+    typeList: Array<number>
 }
 
 export interface Service extends ImageState{
@@ -58,6 +63,11 @@ export const Service_State = (json: SERVICE_FILTER, th) : Service => {
             isCall: null,
 
             sharedDate: null,
+
+            minPrice: null,
+            maxPrice: null,
+
+            typeList: []
         },
         categoryList: json.category,
         typeList: null,

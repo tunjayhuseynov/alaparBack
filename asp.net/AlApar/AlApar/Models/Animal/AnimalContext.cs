@@ -252,8 +252,6 @@ namespace AlApar.Models.Animal
 
                 entity.Property(e => e.About).HasColumnName("about");
 
-                entity.Property(e => e.AdId).HasColumnName("adId");
-
                 entity.Property(e => e.CategoryName)
                     .HasMaxLength(50)
                     .HasColumnName("categoryName");
@@ -288,31 +286,22 @@ namespace AlApar.Models.Animal
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.ImagePath)
-                    .HasMaxLength(500)
-                    .HasColumnName("imagePath");
-
                 entity.Property(e => e.IsCall).HasColumnName("isCall");
 
                 entity.Property(e => e.IsWp).HasColumnName("isWp");
 
                 entity.Property(e => e.ModifiedDate).HasColumnName("modifiedDate");
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.PackageName)
                     .HasMaxLength(255)
-                    .HasColumnName("name");
+                    .HasColumnName("packageName");
 
                 entity.Property(e => e.Price).HasColumnName("price");
-
-                entity.Property(e => e.PrimaryImage).HasColumnName("primaryImage");
 
                 entity.Property(e => e.StatusName)
                     .HasMaxLength(255)
                     .HasColumnName("statusName");
 
-                entity.Property(e => e.Thumbnail)
-                    .HasMaxLength(500)
-                    .HasColumnName("thumbnail");
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(500)

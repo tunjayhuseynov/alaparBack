@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,6 +27,24 @@ namespace AlApar.Models.Bina
 
         public bool? Otagordaire { get; set; }
 
+
+        [Column("centralHeatingSystem")]
+        public bool? CentralHeatingSystem { get; set; }
+
+        [Column("parkingArea")]
+        public bool? ParkingArea { get; set; }
+
+        [Column("cableTv")]
+        public bool? CabelTv { get; set; }
+
+        [Column("pvcWindow")]
+        public bool? PVCWindow { get; set; }
+
+        [Column("combi")]
+        public bool? Combi { get; set; }
+
+        [Column("garaj")]
+        public bool? Garaj { get; set; }
 
         public virtual ICollection<BinaCategories> BinaCategories { get; set; }
     }

@@ -1,6 +1,7 @@
 ﻿using AlApar.Classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,6 +23,9 @@ namespace AlApar.Models.Electro
         public bool? ActivatePhoneMark { get; set; }
         public bool? ActivateComputerMark { get; set; }
         public bool? ActivateOperator { get; set; }
+
+        [Column("activateTitle")]
+        public bool? ActivateTitle { get; set; }
 
         public virtual ICollection<ElectroAds> Ads { get; set; }
         public virtual ICollection<ElectroTypes> Types { get; set; }

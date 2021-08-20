@@ -34,7 +34,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Animal> & Stat
 export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Animal> & StaticPages) {
     return (<>
         {this.utility.selectGenerator("Kateqoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.animalCategoryCallback)}
-        {this.utility.selectGenerator("Cins:", this.state.generaList, "genera", this.state.selected.genera, this.callbacks.commonCallback)}
+        {this.utility.selectGenerator("Cins:", this.state.generaList, "generaList", this.state.selected.generaList, this.callbacks.multipleCallback, {multiple: true})}
         {this.utility.selectGenerator("Elan Növü:", this.state.typeList, "type", this.state.selected.type, this.callbacks.commonCallback)}
         <div className={'radioGroup'}>
             {this.utility.checkBoxGenerator("Çatdırılma var", this.callbacks.checkboxCallback, "hasDelivery", true, { makeBlock: true })}

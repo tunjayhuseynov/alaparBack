@@ -14,7 +14,7 @@ namespace AlApar.Models.Animal.View
         public long Id { get; set; }
         public int? Viewed { get; set; }
         public DateTime? ModifiedDate { get; set; }
-        public string Name { get; set; }
+        public string PackageName { get; set; }
         public string StatusName { get; set; }
         public string About { get; set; }
         public double? Price { get; set; }
@@ -29,10 +29,6 @@ namespace AlApar.Models.Animal.View
         public string Email { get; set; }
         public string ContactName { get; set; }
         public string GeneraName { get; set; }
-        public string ImagePath { get; set; }
-        public int? AdId { get; set; }
-        public int? PrimaryImage { get; set; }
-        public string Thumbnail { get; set; }
         public string TypeName { get; set; }
         public string CurrencyName { get; set; }
         public string CityName { get; set; }

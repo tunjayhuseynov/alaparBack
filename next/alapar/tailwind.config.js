@@ -3,8 +3,8 @@ module.exports = {
     './components/**/*.{jsx,js,ts,tsx}',
     './pages/**/*.{jsx,js,ts,tsx}',
   ],
-  darkMode: false, // or 'media' or 'class'
   important: true,
+  darkMode: false, // or 'media' or 'class'
   theme: {
     screens: {
       'sm': '425px',

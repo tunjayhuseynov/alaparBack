@@ -50,7 +50,7 @@ class Utilities {
 
     header = (title, classname) => {
         return (
-            <div className={'pt-2'}>
+            <div className={'subitem pt-2'}>
                 <h3 className={classname}>{title}</h3>
             </div>
 
@@ -70,7 +70,7 @@ class Utilities {
                         initial="collapsed"
                         animate="open"
                         exit="collapsed"
-                        className={'flex flex-col gap-3'}
+                        className={'addition flex flex-col gap-3'}
                         variants={{
                             open: { opacity: 1, height: "auto" },
                             collapsed: { opacity: 0, height: 0 }
@@ -152,7 +152,9 @@ class Utilities {
         return a + c
     }
 
-    inputGenerator = (title, placeholder, callback, state, { visibility = null, phone = null, novalidation = null } = {}) => {
+    visible = false;
+
+    inputGenerator = (title, placeholder, callback, state, { visibility = null, phone = null, mail = null, novalidation = null, tooltiptext = null } = {}) => {
         if ((Array.isArray(visibility) && visibility.length < 1) || visibility == false) {
 
             this.th.state.selected[state] = null
@@ -173,7 +175,15 @@ class Utilities {
                 v.target.value = v.target.value.replace(/[- \(\)]{1,2}$/g, "").split("").reduce((a, c) => a + c, '')
 
             }
-        } else {
+        }
+        else if (mail) {
+            obj.inputMode = "email"
+            val.isemail = "true"
+            obj.onInput = (v) => {
+                v.target.value = v.target.value.replace(" ", "")
+            }
+        }
+        else {
             obj.onBlur = this.th.callbacks.trimCallback
         }
 
@@ -182,15 +192,17 @@ class Utilities {
                 <div className={'item'}><label>{title}</label></div>
                 <div className={'item'} {...val} displayname={title.replace(/[^\p{L}]+/gu, "")}>
 
-                    <Input
-                        {...obj}
-                        className={'w-full md:w-1/2'}
-                        name={state}
-                        allowClear
-                        placeholder={placeholder}
-                        onKeyUp={callback}
-
-                    />
+                    <Tooltip visible={this.visible && tooltiptext} title={tooltiptext} placement={"right"}>
+                        <Input
+                            {...obj}
+                            name={state}
+                            allowClear
+                            placeholder={placeholder}
+                            onKeyUp={callback}
+                            onFocus={() => { if (tooltiptext) { this.visible = true; this.th.setState({}) } }}
+                            onBlur={() => { if (tooltiptext) { this.visible = false; this.th.setState({}) } }}
+                        />
+                    </Tooltip>
                 </div>
             </div>
         )
@@ -211,25 +223,29 @@ class Utilities {
         return <Device>
             {(isMobile) => {
                 let selectedInput;
-                if (isMobile) selectedInput = (<>
+                /*if (isMobile) selectedInput = (<>
                     <MobileNumberInput name={name} formatter={formatter} min={min} max={max} className={'ant-input-number-input w-full inputnumber'}
                         placeholder={placeholder} callback={callback}
                     />
                 </>)
-                else {
-                    selectedInput = <InputNumber
-                        style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
-                        name={name}
-                        min={min}
-                        max={max}
-                        className={'w-full md:w-1/2 inputnumber'}
-                        placeholder={placeholder}
-                        formatter={formatter}
-                        parser={parser}
-                        onKeyUp={callback}
-                    />
+                else {*/
+                selectedInput = <><InputNumber
+                    style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
+                    name={name}
+                    min={min}
+                    max={max}
+                    inputMode="decimal"
+                    className={'flex-grow inputnumber'}
+                    placeholder={placeholder}
+                    formatter={formatter}
+                    parser={parser}
+                    onKeyUp={callback}
+                />
 
-                }
+
+                </>
+
+                // }
 
 
                 return <div className={'subitem numberInput'} validatename={name} displayname={title.replace(/[^\p{L}]+/gu, "")}>
@@ -285,7 +301,7 @@ class Utilities {
         )
     }
 
-    rangeİnputGenerator = (title, minName, maxName, callback, visibility, { min = 1, max = Number.MAX_VALUE, step = 1, addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null } = {}) => {
+    rangeİnputGenerator = (title, minName, maxName, callback, visibility, { min = 1, max = Number.MAX_VALUE, step = 1, addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null, nocommo = false } = {}) => {
         if (!visibility) {
 
             this.th.state.selected[minName] = null
@@ -293,47 +309,54 @@ class Utilities {
 
             return null
         }
+
+
+        let formatter = !nocommo ? value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') : value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '');
+        let parser = value => `${value}`.replace(/\$\s?|(,*)/g, '').slice(0, 14)
+
         return (
             <Device>
                 {(isMobile) => {
                     let selectedInput;
 
-                    if (isMobile) {
+                    /*if (isMobile) {
                         selectedInput = (<>
-                            <MobileNumberInput name={minName} min={min} max={max} step={step} className={'ant-input-number-input w-full inputnumber'}
+                            <MobileNumberInput formatter={formatter} name={minName} min={min} max={max} step={step} className={'ant-input-number-input w-full inputnumber'}
                                 callback={callback} placeholder={"Min."}
                             />
                             -
-                            <MobileNumberInput name={maxName} min={min} max={max} step={step} className={'ant-input-number-input w-full inputnumber'}
+                            <MobileNumberInput formatter={formatter} name={maxName} min={min} max={max} step={step} className={'ant-input-number-input w-full inputnumber'}
                                 callback={callback} placeholder={"Max."}
                             />
                         </>
                         )
-                    } else {
-                        selectedInput = (
-                            <>
-                                <InputNumber
-                                    className="flex-grow-1"
-                                    style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
-                                    placeholder={"Min."}
-                                    onKeyUp={callback}
-                                    min={min} max={max} step={step} name={minName}
-                                    formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                    parser={value => value.replace(/\$\s?|(,*)/g, '').slice(0, 14)}
-                                />
-                                -
-                                <InputNumber
-                                    className="flex-grow-1"
-                                    style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
-                                    placeholder={"Max."}
-                                    onKeyUp={callback}
-                                    min={min} max={max} step={step} name={maxName}
-                                    formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                    parser={value => value.replace(/\$\s?|(,*)/g, '').slice(0, 14)}
-                                />
-                            </>
-                        )
-                    }
+                    } else {*/
+                    selectedInput = (
+                        <>
+                            <InputNumber
+                                className="flex-grow-1"
+                                style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
+                                placeholder={"Min."}
+                                inputMode="decimal"
+                                onKeyUp={callback}
+                                min={min} max={this.th.state.selected[maxName] ?? max} step={step} name={minName}
+                                formatter={formatter}
+                                parser={parser}
+                            />
+                            -
+                            <InputNumber
+                                className="flex-grow-1"
+                                style={{ verticalAlign: 'middle', borderBottomRightRadius: 0, borderTopRightRadius: 0 }}
+                                placeholder={"Max."}
+                                inputMode="decimal"
+                                onKeyUp={callback}
+                                min={this.th.state.selected[minName] ?? min} max={max} step={step} name={maxName}
+                                formatter={formatter}
+                                parser={parser}
+                            />
+                        </>
+                    )
+                    //}
 
 
                     return (
@@ -361,16 +384,22 @@ class Utilities {
         )
     }
 
-    selectGenerator = (title, options, name, selected, callback, { visibility = null, loading = null, search = false, noneed = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null, novalidation = null } = {}) => {
+    selectGenerator = (title, options, name, selected, callback, { visibility = null, loading = null, search = false, noneed = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null, novalidation = null, filtername = false, multiple = false } = {}) => {
         if (visibility != null && visibility == false) {
-            this.th.state.selected[name] = null
+            if (multiple)
+                this.th.state.selected[name] = [];
+            else
+                this.th.state.selected[name] = null
 
             return null
         }
 
         if ((!options || options.length < 1) && visibility == null) {
 
-            this.th.state.selected[name] = null
+            if (multiple)
+                this.th.state.selected[name] = [];
+            else
+                this.th.state.selected[name] = null
 
             return null
         }
@@ -379,11 +408,13 @@ class Utilities {
             options.sort((a, b) => {
                 let fa = a.name.toLowerCase()
                 let fb = b.name.toLowerCase()
-
+                if (fa.includes("digər")) return 1
+                if (fb.includes("digər")) return -1
                 if (fa < fb) return -1
                 if (fa > fb) return 1
                 return 0
             })
+
         }
         if (swapItem) {
             swapItem.reverse().forEach((e) => {
@@ -393,11 +424,16 @@ class Utilities {
         }
 
         let obj = {}
+        let val = {}
         if (loading) {
             obj.loading = true
         }
         if (novalidation == null) {
-            obj.validatename = name;
+            val.validatename = name;
+        }
+        if (multiple) {
+            obj.mode = "multiple"
+            obj.allowClear = true
         }
 
         return <Device>
@@ -405,34 +441,33 @@ class Utilities {
 
                 return (<div className={'subitem selectInput'}>
                     <div className={'item'}><label>{title}</label></div>
-                    <div className={'item'} displayname={title.replace(/[^\p{L}]+/gu, "")} {...obj}>
-                        {isMobile ? <MobileSelector state={name} selected={selected} callback={callback}>
-                            <option disabled value={""} hidden> Seçin </option>
+                    <div className={'item'} {...val} displayname={title.replace(/[^\p{L}]+/gu, "")} >
+                        {isMobile & obj?.mode != "multiple" ? <MobileSelector state={name} selected={selected} callback={callback} object={obj}>
+
+                            {selectAll ? <option key={uuidv4()} state={name} value={""}>Hamısı</option> : <option disabled value={""} hidden> Seçin </option>}
+
                             {noneed ? <option key={uuidv4()} state={name} value={""}>Heç Biri</option> : null}
+                            {subname ? options?.filter(w => !(w[subnameTitle]))?.map((w, i) => <option state={name} key={uuidv4()} value={w.id}>{!filtername ? w.name : w.filtername}</option>) : null}
+
                             {subname ? subname?.map((w, i) => <optgroup key={uuidv4()} label={w.name}>
 
-                                {w.category.map((d, q) => <option state={name} key={uuidv4()} value={d.id}>{d.name}</option>)}
+                                {w.category.map((d, q) => <option state={name} key={uuidv4()} value={d.id}>{!filtername ? d.name : d.filtername}</option>)}
 
-                            </optgroup>) : options?.map((w, i) => <option key={uuidv4()} state={name} value={w.id}>{w.name}</option>)
+                            </optgroup>) : options?.map((w, i) => <option key={uuidv4()} state={name} value={w.id}>{!filtername ? w.name : w.filtername}</option>)
                             }
                         </MobileSelector>
                             :
-                            subname ? <Select {...obj} filterOption={(input, option) => option?.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'w-full'}>
+                            <Select {...obj} filterOption={(input, option) => option?.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} onDeselect={callback} placeholder={"Seçin"} value={selected} name={name} className={'w-full'}>
                                 {selectAll ? <Option key={uuidv4()} state={name} value={null}>Hamısı</Option> : null}
                                 {noneed ? <Option key={uuidv4()} state={name} value={""}>Heç Biri</Option> : null}
-                                {options?.filter(w => !(w[subnameTitle]))?.map((w, i) => <Option state={name} key={uuidv4()} value={w.id}>{w.name}</Option>)}
-                                {subname?.map((w, i) => <OptGroup key={uuidv4()} label={w.name}>
+                                {subname ? options?.filter(w => !(w[subnameTitle]))?.map((w, i) => <Option state={name} key={uuidv4()} value={w.id}>{w.name}</Option>) : null}
+                                {subname ? subname?.map((w, i) => <OptGroup key={uuidv4()} label={w.name}>
 
-                                    {w.category.map((d, q) => <Option state={name} key={uuidv4()} value={d.id}>{d.name}</Option>)}
+                                    {w.category.map((d, q) => <Option state={name} key={uuidv4()} value={d.id}>{!filtername ? d.name : d.filtername}</Option>)}
 
-                                </OptGroup>)}
+                                </OptGroup>) : options?.map((w, i) => <Option key={uuidv4()} state={name} value={w.id}>{!filtername ? w.name : w.filtername}</Option>)
+                                }
                             </Select>
-                                :
-                                <Select {...obj} filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} placeholder={"Seçin"} value={selected} name={name} className={'w-full'}>
-                                    {selectAll ? <Option key={uuidv4()} state={name} value={null}>Hamısı</Option> : null}
-                                    {noneed ? <Option key={uuidv4()} state={name} value={""}>Heç Biri</Option> : null}
-                                    {options?.map((w, i) => <Option key={uuidv4()} state={name} value={w.id}>{w.name}</Option>)}
-                                </Select>
 
                         }
                     </div>
@@ -456,7 +491,7 @@ class Utilities {
 
         if (multiple) {
             return (
-                <div className={`subitem checkInput ${makeBlock ? 'makeBlock' : ''}`} displayname={title.replace(/[^\p{L}]+/gu, "")}>
+                <div className={`radioitem checkInput ${makeBlock ? 'makeBlock' : ''}`} displayname={title.replace(/[^\p{L}]+/gu, "")}>
                     <div className={'item'}><label>{title}</label></div>
                     <div className={'item'}>
                         {multiple.map(w => <Checkbox key={uuidv4()} checked={this.th.state.selected[w.name]} state={w.name} name={w.name} onChange={callback}>{w.title}</Checkbox>
@@ -467,22 +502,22 @@ class Utilities {
         }
 
         return (
-            <div className={`subitem checkInput ${makeBlock ? 'makeBlock' : ''}`} displayname={title.replace(/[^\p{L}]+/gu, "")}>
+            <div className={`radioitem checkInput ${makeBlock ? 'makeBlock' : ''}`} displayname={title.replace(/[^\p{L}]+/gu, "")}>
                 <Checkbox state={name} name={name} onChange={callback}>{title}</Checkbox>
             </div>
         )
     }
 
 
-    radioGenerator = (title, values, defaultValue, callback, name, secondValues) => {
+    radioGenerator = (title, values, defaultValue, callback, name, secondValues, { filtername = false } = {}) => {
         if (!values) return null
         return (
             <div className={"subitem w-full"} validatename={name} displayname={title.replace(/[^\p{L}]+/gu, "")}>
                 <label>{title}</label> <br />
                 <Radio.Group onChange={callback} name={name} defaultValue={defaultValue} buttonStyle="solid">
                     {!secondValues ?
-                        values.map((w, i) => <Radio.Button key={new Date().getTime() + i} value={w.id}>{w.name}</Radio.Button>) :
-                        secondValues.map((w, i) => <Radio.Button key={new Date().getTime() + i} value={w.id}>{w.name}</Radio.Button>)}
+                        values.map((w, i) => <Radio.Button key={new Date().getTime() + i} value={w.id}>{filtername ? w.filtername : w.name}</Radio.Button>) :
+                        secondValues.map((w, i) => <Radio.Button key={new Date().getTime() + i} value={w.id}>{filtername ? w.filtername : w.name}</Radio.Button>)}
                 </Radio.Group>
             </div>
         )
@@ -505,6 +540,17 @@ class Utilities {
                     ele.classList.add(...classes);
                     ele.onclick = (e) => { ele.classList.remove(...classes) }
                 }
+            }
+            else if (this.th.state.selected[inputs[index].getAttribute("isemail") === "true" ? inputs[index].getAttribute("validatename") : null] != null && !this.th.state.selected[inputs[index].getAttribute("validatename")].match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+                    if (!hasError) { hasError = !hasError; }
+                    this.showError(`E-mail düzgün daxil edilməyib`)
+
+                    let ele = inputs[index].querySelector(".ant-input-number-input-wrap") || inputs[index].querySelector(".ant-select-selector") || inputs[index].querySelector("textarea") || inputs[index].querySelector(".ant-input-affix-wrapper") || inputs[index].querySelector("input");
+                    
+                    if (ele) {
+                        ele.classList.add(...classes);
+                        ele.onclick = (e) => { ele.classList.remove(...classes) }
+                    }
             }
         }
 

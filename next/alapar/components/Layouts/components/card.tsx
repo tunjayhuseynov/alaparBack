@@ -27,6 +27,7 @@ interface Props {
     child: boolean,
     service: boolean,
     ad: General;
+    eager?: boolean,
 }
 interface State {
     images: Array<ReactNode>;
@@ -40,16 +41,18 @@ class Card extends Component<Props, State> {
 
         this.state = {
             images: [],
-            imageClass: `${this.props.ad.images.length > 1 ? 'cursor-move' : null} object-cover`,
+            imageClass: `${this.props.ad.images.length > 1 ? 'cursor-move' : null} object-cover w-full h-full`,
             utilities: new Utilities()
         };
 
         this.props.ad.images.forEach(element => {
             this.state.images.push(
-                <div key={uuidv4()} className="relative max-w-full max-h-250 w-full h-250px">
+                <div key={uuidv4()} className="imageWrapper relative max-w-full max-h-250 w-full h-250px">
                     <Image
+                        loading={this.props.eager?'eager':'lazy'}
                         width={500}
                         height={500}
+                        layout={'fixed'}
                         blurDataURL={`data:image/png;base64,${element.blur}`}
                         placeholder="blur"
                         src={base + element.imagePath}

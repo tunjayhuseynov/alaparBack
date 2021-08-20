@@ -20,6 +20,11 @@ interface Home_Selection{
     isCall: boolean,
 
     sharedDate: number,
+
+    minPrice: number,
+    maxPrice: number,
+
+    typeList: Array<number>
 }
 
 export interface Home extends ImageState{
@@ -57,6 +62,8 @@ export const Home_State = (json: HOME_FILTER, th) : Home => {
             isCall: null,
 
             sharedDate: null,
+
+            typeList: []
         },
         categoryList: json.category,
         typeList: null,

@@ -24,7 +24,7 @@ namespace AlApar.Classes
             Month = 3
         }
 
-        public enum DbCharNames 
+        public enum DbCharNames
         {
             Child = 'c',
             Private = 'p'
@@ -126,9 +126,9 @@ namespace AlApar.Classes
 
                     Image thumbnail = img.GetThumbnailImage(tumbSize.Width, tumbSize.Height, null, IntPtr.Zero);
 
-                    
 
-                    
+
+
 
                     if (item.FileName.Contains(".jpg") || item.FileName.Contains(".jpeg"))
                     {
@@ -210,6 +210,18 @@ namespace AlApar.Classes
 
             if (rawValue != null && rawModelValue != null)
             {
+                if (attr.Type == TypeEnum.Text) { 
+                    string textvalue = ((string)rawValue).ToLower();
+                    string viewtextvalue = ((string)rawModelValue).ToLower();
+                    return viewtextvalue.Contains(textvalue);
+                }
+
+                if (attr.Type == TypeEnum.Multiple) {
+                    List<int> multiplevalue = (List<int>)rawValue;
+                    int? adValue = Convert.ToInt32(rawModelValue);
+                    return multiplevalue.Count == 0 ? true : multiplevalue.Contains(adValue??0);
+                }
+
                 double? value = Convert.ToDouble(rawValue);
                 double? modelValue = Convert.ToDouble(rawModelValue);
 
@@ -218,7 +230,7 @@ namespace AlApar.Classes
                     object currencyIdForm = form.GetType().GetProperty(currencyAttr.CurrencyFormPropertName).GetValue(form);
                     object currencyIdView = view.GetType().GetProperty(currencyAttr.CurrencyRealPropertName).GetValue(view);
 
-                    if(currencyIdForm != null && currencyIdView != null)
+                    if (currencyIdForm != null && currencyIdView != null)
                     {
                         value *= currencyList.Find(w => w.Id == Convert.ToInt32(currencyIdForm)).Rate;
                         modelValue *= currencyList.Find(w => w.Id == Convert.ToInt32(currencyIdView)).Rate;
@@ -377,20 +389,21 @@ namespace AlApar.Classes
                         {
                             filters.Add(filterRes);
                         }
+
                     }
                 }
             }
 
             var list = query(db, (int?)res.GetType().GetProperty(firstSearchBy).GetValue(res), skip, take);
 
-            await foreach (var item in list)
+            await foreach (var item in getItems(list))
             {
-            
+
                 foreach (FilterCheckAttribute filter in filters)
                 {
                     if (!CheckFilterProperties(filter, res, item, db, currencyList)) goto SkipLoop;
                 }
-              
+
                 if (res.GetType().GetProperty("SharedDate").GetValue(res) != null)
                 {
                     if (item.GetType().GetProperty("ModifiedDate").GetValue(item) is not null)
@@ -418,39 +431,53 @@ namespace AlApar.Classes
                     }
                 }
 
-                
+                var key = store.Last().Key;
+
                 foreach (var keyValue in store)
                 {
                     if (item.GetType().GetProperty(keyValue.Key.Name).GetValue(item) != null && item.GetType().GetProperty(keyValue.Key.Name).GetValue(item).ToString() != keyValue.Value.ToString())
                     {
                         break;
                     }
-                    if (store.Last().Key == keyValue.Key)
+                    if (key == keyValue.Key)
                     {
                         result.Add(item);
                     }
                 }
 
+                if (result.Count == take)
+                    break;
+
             SkipLoop:
                 continue;
             }
-            
-            return result.Any()?result:null;
+
+            return result.Any() ? result : null;
         }
 
+        public async IAsyncEnumerable<View> getItems<View>(IAsyncEnumerable<View> query)
+            where View : class, new()
+        {
+            await foreach (var item in query)
+            {
+                yield return item;
+            }
+
+
+        }
         public async Task<object> MainMenuStuffs<Category, View, Context, Photo>(Context context, int adListNumber)
             where Category : class, TCategory, new()
             where View : class, TView<Photo>, new()
             where Context : DbContext
         {
             var categories = await context.Set<Category>().ToListAsync();
-            
+
             List<View> ads = new();
 
 
             foreach (var item in categories)
             {
-                ads.AddRange(await context.Set<View>().AsNoTracking().Include(s => s.Images).Where((s) => s.CategoryId == item.Id).OrderBy(w=>w.Id).Take(adListNumber).ToArrayAsync());
+                ads.AddRange(await context.Set<View>().AsNoTracking().Include(s => s.Images).Where((s) => s.CategoryId == item.Id).OrderBy(w => w.Id).Take(adListNumber).ToArrayAsync());
             }
 
             for (int i = 0; i < ads.Count; i++)
@@ -461,13 +488,13 @@ namespace AlApar.Classes
                     prop.SetValue(ads[i], null);
             }
 
-            return categories.Select(category => new { category, Ads = ads.Where(w=>w.CategoryId == category.Id)});
+            return categories.Select(category => new { category, Ads = ads.Where(w => w.CategoryId == category.Id) });
         }
 
         public async Task<object> GetView<Context, View, Photo>(Context context, long id)
             where Context : DbContext where View : class, TView<Photo>, new()
         {
-            return await context.Set<View>().Include(w=>w.Images).FirstOrDefaultAsync(w=>w.Id == id);
+            return await context.Set<View>().Include(w => w.Images).FirstOrDefaultAsync(w => w.Id == id);
         }
     }
 

@@ -8,11 +8,8 @@ using static AlApar.Repositories.Status;
 
 namespace AlApar.Classes.Bina
 {
-    public class Form
+    public class Form : commonForm
     {
-        [JsonProperty("images")]
-        public List<ImageStructure> ImageList { get; set; }
-
         [JsonProperty("category")]
         public int? CategoryId { get; set; }
     
@@ -43,7 +40,6 @@ namespace AlApar.Classes.Bina
 
         [JsonProperty("landAppointment")]
         public int? LandAppointmentId { get; set; }
-
 
         [JsonProperty("target")]
         public int? TargetPointId { get; set; }
@@ -139,7 +135,7 @@ namespace AlApar.Classes.Bina
         [JsonProperty("tv")]
         public bool? Tv { get; set; }
 
-        [JsonProperty("kondicionser")]
+        [JsonProperty("kondicioner")]
         public bool? Kondicioner { get; set; }
 
         [JsonProperty("internet")]
@@ -192,9 +188,58 @@ namespace AlApar.Classes.Bina
         public bool? NearBusstop { get; set; }
 
 
+        [JsonProperty("withstuffs")]
+        public bool? Withstuffs { get; set; }
+
+        [JsonProperty("madeinHouse")]
+        public bool? MadeinHouse { get; set; }
+
+        [JsonProperty("centralHeatingSystem")]
+        public bool? CentralHeatingSystem { get; set; }
+
+        [JsonProperty("parkingArea")]
+        public bool? ParkingArea { get; set; }
+
+        [JsonProperty("cableTv")]
+        public bool? CabelTv { get; set; }
+
+        [JsonProperty("pvcWindow")]
+        public bool? PVCWindow { get; set; }
+
+        [JsonProperty("combi")]
+        public bool? Combi { get; set; }
+
+        [JsonProperty("garaj")]
+        public bool? Garaj { get; set; }
+
+
         //Filter Side
         //Filter Side
         //Filter Side
+
+        [JsonProperty("contractList")]
+        [FilterCheck(TypeEnum.Multiple,"ContractTypeId")]
+        public List<int> ContractList { get; set; }
+
+        [JsonProperty("temirList")]
+        [FilterCheck(TypeEnum.Multiple, "RepairId")]
+        public List<int> TemirList { get; set; }
+
+        [JsonProperty("villageList")]
+        [FilterCheck(TypeEnum.Multiple, "VillageId")]
+        public List<int> VillageList { get; set; }
+
+        [JsonProperty("targetList")]
+        [FilterCheck(TypeEnum.Multiple, "TargetPointId")]
+        public List<int> TargetList { get; set; }
+        
+        [JsonProperty("propertySellingTypeList")]
+        [FilterCheck(TypeEnum.Multiple, "BinaSellingTypeId")]
+        public List<int> PropertySellingTypeList { get; set; }
+
+        [JsonProperty("landAppointmentList")]
+        [FilterCheck(TypeEnum.Multiple, "LandAppointmentId")]
+        public List<int> LandAppointmentList { get; set; }
 
         [JsonProperty("minApartmentFloor")]
         [FilterCheck(TypeEnum.Min, "Floor")]

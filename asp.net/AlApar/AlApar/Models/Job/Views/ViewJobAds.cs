@@ -1,8 +1,7 @@
 ﻿using AlApar.Classes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlApar.Models.Job.Views
 {
@@ -40,6 +39,12 @@ namespace AlApar.Models.Job.Views
         public string CategoryName { get; set; }
         public string EducationName { get; set; }
         public string CityName { get; set; }
+
+        [Column("villageName")]
+        public string VillageName { get; set; }
+
+        [Column("regionName")]
+        public string RegionName { get; set; }
 
         public bool? IsWp { get; set; }
         public string PhoneNumber1 { get; set; }

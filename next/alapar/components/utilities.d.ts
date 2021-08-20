@@ -19,19 +19,19 @@ declare class Utilities{
 
     phoneConverter(a, c, i) : any;
 
-    inputGenerator(title : string, placeholder : string, callback : Function, state : string, { visibility, phone, novalidation }? : {visibility? : boolean | Array<any>, phone? : boolean, novalidation? : boolean}): ReactNode;
+    inputGenerator(title : string, placeholder : string, callback : Function, state : string, { visibility, phone, mail, novalidation, tooltiptext }? : {visibility? : boolean | Array<any>, phone? : boolean, mail? : boolean, novalidation? : boolean, tooltiptext?: string}): ReactNode;
 
     numberGenerator(title : string, placeholder : string, callback : Function, name, visibility : boolean | number | string | Array<object>, min? : number, max? : number, { addonAfterList, addonAfterCallback, addonName, addonValue, addonAfterOnlyText, nocommo }? : {addonAfterList? : Array<any>, addonAfterCallback? : Function, addonName? : string, addonValue? : string | number, addonAfterOnlyText?: string, nocommo? : boolean}): ReactNode;
 
     textAreaGeneretor(title : string, placeholder : string, callback : Function, name : string, { visibility }? : {visibility? : boolean}) : ReactNode;
 
-    rangeİnputGenerator(title : string, minName : string, maxName : string, callback : Function, visibility : boolean | number, { min, max, step, addonAfterList, addonAfterCallback, addonName, addonValue, addonAfterOnlyText }? : {min?: number, max?: number, step? : number, addonAfterList? : Array<any>, addonAfterCallback? : Function, addonName? : string, addonValue? : string | number, addonAfterOnlyText?: string}) : ReactNode;
+    rangeİnputGenerator(title : string, minName : string, maxName : string, callback : Function, visibility : boolean | number, { min, max, step, addonAfterList, addonAfterCallback, addonName, addonValue, addonAfterOnlyText, nocommo }? : {min?: number, max?: number, step? : number, addonAfterList? : Array<any>, addonAfterCallback? : Function, addonName? : string, addonValue? : string | number, addonAfterOnlyText?: string, nocommo?: boolean }) : ReactNode;
 
-    selectGenerator(title : string, options : Array<object | string> | boolean, name : string, selected : any, callback : Function, { visibility, loading, search, noneed, sort, selectAll, subname, subnameTitle, swapItem, novalidation }? : {visibility? : boolean, loading? : boolean, search? : boolean, noneed? : boolean, sort? : boolean, selectAll? : boolean, subname? : Array<any>, subnameTitle? : string, swapItem? : Array<number>, novalidation? : boolean}) : ReactNode;
+    selectGenerator(title : string, options : Array<object | string> | boolean, name : string, selected : any, callback : Function, { visibility, loading, search, noneed, sort, selectAll, subname, subnameTitle, swapItem, novalidation, filtername, multiple }? : {visibility? : boolean, loading? : boolean, search? : boolean, noneed? : boolean, sort? : boolean, selectAll? : boolean, subname? : Array<any>, subnameTitle? : string, swapItem? : Array<number>, novalidation? : boolean, filtername? : boolean, multiple?: boolean}) : ReactNode;
 
     checkBoxGenerator(title : string, callback : Function, name : string, visible : boolean, { multiple, makeBlock }? : {multiple? : Array<any>, makeBlock?: boolean}) : ReactNode;
 
-    radioGenerator(title : string, values : Array<object> | boolean, defaultValue : number, callback : Function, name : string, secondValues? : Array<object>) : ReactNode;
+    radioGenerator(title : string, values : Array<object> | boolean, defaultValue : number, callback : Function, name : string, secondValues? : Array<object>, {filtername}? : {filtername?: boolean}) : ReactNode;
 
     validation(id: string | number) : boolean;
 

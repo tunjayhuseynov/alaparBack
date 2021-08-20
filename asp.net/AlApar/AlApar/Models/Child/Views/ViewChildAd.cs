@@ -32,6 +32,11 @@ namespace AlApar.Models.Child.Views
         [Column("clothesSizeName")]
         public string ClothesSizeName { get; set; }
 
+        [Column("city")]
+        public string City { get; set; }
+
+
+
 
         public int? Viewed { get; set; }
         public int? CategoryId { get; set; }

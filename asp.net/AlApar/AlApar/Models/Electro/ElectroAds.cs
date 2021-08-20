@@ -41,6 +41,10 @@ namespace AlApar.Models.Electro
         [Column("credit")]
         public bool? Credit { get; set; }
 
+        [Column("cityId")]
+        public int? CityId { get; set; }
+
+
         public virtual ElectroLogs Log { get; set; }
         public virtual AdStatuses Status { get; set; }
         public virtual AdPackages Package { get; set; }
@@ -54,6 +58,10 @@ namespace AlApar.Models.Electro
         public virtual ElectroComputerMarks ComputerMarks { get; set; }
         public virtual ElectroPhoneColors Color { get; set; }
         public virtual ElectroPhoneStorages Storage { get; set; }
+
+        [ForeignKey("CityId")]
+        public virtual Cities City { get; set; }
+
         public virtual ICollection<ElectroPhotos> Photos { get; set; }
     }
 }

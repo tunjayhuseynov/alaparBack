@@ -12,7 +12,6 @@ namespace AlApar.Models.Electro
             Ads = new HashSet<ElectroAds>();
         }
         public int Id { get; set; }
-        public int? CityId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
@@ -20,7 +19,6 @@ namespace AlApar.Models.Electro
         public bool? IsCall { get; set; }
         public DateTime? Timespan { get; set; } = DateTime.UtcNow;
 
-        public virtual Cities City { get; set; }
         public virtual ICollection<ElectroAds> Ads { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 module.exports = {
   images: {
-    domains: ['192.168.1.103'],
+    disableStaticImages: true,
+    domains: ['192.168.1.103', '192.168.1.102', 'localhost'],
   },
   async rewrites() {
     return [

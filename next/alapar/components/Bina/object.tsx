@@ -12,7 +12,7 @@ export interface Category {
     hamam: boolean,
     eyvan: boolean,
     lift: boolean,
-    mebel: boolean,
+    metbex: boolean,
     temir: boolean,
     hovuz: boolean,
     qaz: boolean,
@@ -25,6 +25,15 @@ export interface Category {
     subname: string,
     secondArea: boolean,
     houseFloor: boolean,
+    
+    madeinHouse: boolean,
+    centralHeatingSystem: boolean,
+    parkingArea: boolean,
+    cabelTv: boolean,
+    pvcWindow: boolean,
+    combi: boolean,
+    kondisoner: boolean,
+    garaj: boolean,
 }
 
 export interface TargetPoints{
@@ -52,6 +61,7 @@ export interface Cities extends City {
 export interface SellType {
     id: number,
     name: string,
+    filtername: string,
     rent: Array<Rent>
 }
 
@@ -79,6 +89,14 @@ export interface Rental {
     usag: boolean,
     heyvan: boolean,
     otagordaire: boolean,
+
+    madeinHouse: boolean,
+    centralHeatingSystem: boolean,
+    parkingArea: boolean,
+    cabelTv: boolean,
+    pvcWindow: boolean,
+    combi: boolean,
+    garaj: boolean,
 }
 
 export interface MetroWays {

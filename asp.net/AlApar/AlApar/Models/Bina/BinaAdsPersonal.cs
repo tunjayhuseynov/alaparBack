@@ -1,6 +1,7 @@
 ﻿using AlApar.Classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlApar.Models.Bina
 {
@@ -61,7 +62,7 @@ namespace AlApar.Models.Bina
         public bool? Otagordaire { get; set; }
         public int? MetroDuration { get; set; }
         public int? MetroWayId { get; set; }
-        public int? SecondAreaSize { get; set; }
+        public double? SecondAreaSize { get; set; }
         public string CustomAdress { get; set; }
         public int? TargetPointId { get; set; }
         public int? ContractTypeId { get; set; }
@@ -72,6 +73,30 @@ namespace AlApar.Models.Bina
         public bool? NearKindigarden { get; set; }
         public bool? NearMall { get; set; }
         public bool? NearBusstop { get; set; }
+
+        [Column("withstuffs")]
+        public bool? Withstuffs { get; set; }
+
+        [Column("madeinHouse")]
+        public bool? MadeinHouse { get; set; }
+
+        [Column("centralHeatingSystem")]
+        public bool? CentralHeatingSystem { get; set; }
+
+        [Column("parkingArea")]
+        public bool? ParkingArea { get; set; }
+
+        [Column("cableTv")]
+        public bool? CabelTv { get; set; }
+
+        [Column("pvcWindow")]
+        public bool? PVCWindow { get; set; }
+
+        [Column("combi")]
+        public bool? Combi { get; set; }
+
+        [Column("garaj")]
+        public bool? Garaj { get; set; }
 
 
         public virtual BinaContractTypes ContractTypes { get; set; }

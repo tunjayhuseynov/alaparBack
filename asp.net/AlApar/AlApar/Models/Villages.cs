@@ -1,6 +1,8 @@
 ﻿using AlApar.Models.Bina;
+using AlApar.Models.Job;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlApar.Models
 {
@@ -9,6 +11,7 @@ namespace AlApar.Models
         public Villages()
         {
             BinaAdsPersonal = new HashSet<BinaAdsPersonal>();
+            JobAds = new HashSet<JobAd>();
         }
 
         public int Id { get; set; }
@@ -17,5 +20,9 @@ namespace AlApar.Models
 
         public virtual Regions Region { get; set; }
         public virtual ICollection<BinaAdsPersonal> BinaAdsPersonal { get; set; }
+
+        [InverseProperty("Village")]
+        public virtual ICollection<JobAd> JobAds { get; set; }
+
     }
 }

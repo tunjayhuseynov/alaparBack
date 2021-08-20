@@ -12,7 +12,7 @@ interface Electro_Selection {
     price: number,
     currency: number,
     about: string,
-    operator: string,
+    operator: number,
     inputPhoneNumber: string,
     mark: number,
     model: number,
@@ -32,6 +32,12 @@ interface Electro_Selection {
     minPrice: number,
     maxPrice: number,
     sharedDate: number,
+
+    typeList: Array<number>,
+    computerMarkList: Array<number>,
+    operatorList: Array<number>,
+    colorList: Array<number>,
+    storageList: Array<number>,
 }
 
 export interface Electro extends ImageState{
@@ -95,6 +101,13 @@ export const Electro_State = (json: ELECTRO_FORM, th) : Electro => {
             minPrice: null,
             maxPrice: null,
             sharedDate: null,
+
+            typeList: [],
+            computerMarkList: [],
+            operatorList: [],
+            colorList: [],
+            storageList: [],
+
         },
         cityList: json.cities,
         categoryList: json.categories,

@@ -1,42 +1,49 @@
 import { Currency, City, SharedDate, ImageState, Region, Village, Metro } from '@/Constructions/objects'
-import { Category, Education, JOB_FILTER, Practice, Type } from './object';
+import { Category, Cities, Education, JOB_FILTER, Practice, Type } from './object';
 import * as URL from '@/Constructions/const';
 
 interface Job_Selection {
-    type: number,
-    educationLevel: number,
-    gender: number,
-    category: number,
-    employeeName: string,
-    employeeSurname: string,
-    employeeEducation: string,
-    practiceDuration: number,
-    employeePractice: string,
-    role: string,
-    minAge: number,
-    maxAge: number,
-    city: number,
-    minWage: number,
-    maxWage: number,
-    employeeAboutExtra: string,
-    employeeSkills: string,
-    contactName: string,
-    companyName: string,
-    aboutReq: string,
-    aboutJob: string,
-    phone1: string,
-    phone2: string,
-    phone3: string,
-    phone4: string,
-    isWp: boolean,
-    email: string,
+    type: number, //
+    educationLevel: number, //
+    gender: number, // 
+    category: number, // 
+    employeeName: string, //
+    employeeSurname: string, // 
+    employeeEducation: string, //
+    practiceDuration: number, // 
+    employeePractice: string, //
+    role: string, //
+    minAge: number, //
+    maxAge: number, // 
+    city: number, //
+    region: number, //
+    village: number, //
+    minWage: number, //
+    maxWage: number, //
+    employeeAboutExtra: string, //
+    employeeSkills: string, //
+    contactName: string, //
+    companyName: string, //
+    aboutReq: string, //
+    aboutJob: string, // 
+    phone1: string, //
+    phone2: string, //
+    phone3: string, //
+    phone4: string, //
+    isWp: boolean, // 
+    email: string, // 
 
-    minAgeFilter: number,
-    maxAgeFilter: number,
-    minWageFilter: number,
-    maxWageFilter: number,
+    minAgeFilter: number, //
+    maxAgeFilter: number, //
+    minWageFilter: number, //
+    maxWageFilter: number, //
 
-    sharedDate: number
+    sharedDate: number //
+
+    educationLevelList: Array<number>,
+    practiceDurationList: Array<number>,
+    categoryList: Array<number>
+    villageList: Array<number>
 }
 
 export interface Job extends ImageState{
@@ -47,7 +54,9 @@ export interface Job extends ImageState{
     category: Array<Category>,
     subcategory: Array<object>,
     practices: Array<Practice>,
-    cityList: Array<City>,
+    cityList: Array<Cities>,
+    regionList: Array<Region>,
+    villageList: Array<Village>,
     educationList: Array<Education>,
     gender: Array<object>,
     sharedDate: Array<SharedDate>,
@@ -88,6 +97,11 @@ export const Job_State = (json: JOB_FILTER, th) : Job => {
             email: null,
 
             sharedDate: null,
+
+            categoryList: [],
+            villageList: [],
+            educationLevelList: [],
+            practiceDurationList: [],
         },
         types: json.types,
         category: json.categories,
@@ -95,6 +109,8 @@ export const Job_State = (json: JOB_FILTER, th) : Job => {
         practices: json.practices,
         cityList: json.cities,
         educationList: json.educations,
+        regionList: null,
+        villageList: null,
         gender: [{ id: 0, name: "Kişi" }, { id: 1, name: "Qadın" }],
         sharedDate: json.sharedDate
     }

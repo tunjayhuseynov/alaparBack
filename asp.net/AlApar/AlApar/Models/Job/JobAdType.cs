@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
@@ -14,6 +15,9 @@ namespace AlApar.Models.Job
 
         public int Id { get; set; }
         public string Name { get; set; }
+
+        [Column("filtername")]
+        public string Filtername { get; set; }
         public bool? CategoryId { get; set; }
         public bool? EducationId { get; set; }
         public bool? PracticeId { get; set; }

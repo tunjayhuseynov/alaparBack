@@ -50,6 +50,7 @@ export interface Category {
     activateOperator: boolean,
     activatePhoneMark: boolean,
     activateType: boolean,
+    activateTitle: boolean,
     type: Array<Type>,
     mark: Array<Mark>,
     operator: Array<Operator>,

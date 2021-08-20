@@ -31,6 +31,8 @@ namespace AlApar.Models.Job
 
 
         public virtual DbSet<Cities> Cities { get; set; }
+        public virtual DbSet<Regions> Regions { get; set; }
+        public virtual DbSet<Villages> Villages { get; set; }
         public virtual DbSet<Currency> Currency { get; set; }
         public virtual DbSet<AdStatuses> AdStatuses { get; set; } 
         public virtual DbSet<AdPackages> AdPackages { get; set; } 

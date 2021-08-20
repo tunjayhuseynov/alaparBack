@@ -1,6 +1,7 @@
 ﻿using AlApar.Classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,6 +31,11 @@ namespace AlApar.Models.Electro.Views
         public int? ColorId { get; set; }
         public int? StorageId { get; set; }
         public DateTime? ModifiedDate { get; set; }
+
+        [Column("guarantee")]
+        public bool? Guarantee { get; set; }
+        [Column("credit")]
+        public bool? Credit { get; set; }
 
         public string ComputerMark { get; set; }
         public string Operator { get; set; }

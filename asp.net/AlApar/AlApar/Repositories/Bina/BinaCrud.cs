@@ -17,7 +17,7 @@ namespace AlApar.Repositories.Bina
 
         public override string TempFolder => "images/bina/temporarily";
         public override string MainFolder => "images/bina/personal";
-        public override Func<BinaContext, int?, int, int, IAsyncEnumerable<ViewBinaPersonalGeneral>> FilterQuery => EF.CompileAsyncQuery((BinaContext db, int? id, int skip, int take) => db.ViewBinaPersonalGenerals.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
+        public override Func<BinaContext, int?, int, int, IAsyncEnumerable<ViewBinaPersonalGeneral>> FilterQuery => EF.CompileAsyncQuery((BinaContext db, int? id, int skip, int take) => db.ViewBinaPersonalGenerals.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
 
         sbyte floorDetection = new sbyte();
         public override Func<ViewBinaPersonalGeneral, Form, bool> extra => (ViewBinaPersonalGeneral ad, Form form) =>
@@ -103,7 +103,7 @@ namespace AlApar.Repositories.Bina
                 Categories = categories,
                 LandAppointment = landAppointment,
                 Cities = cities.Select(citySelect),
-                SellTypes = sellType.Select(w => new { Id = w.Id, Name = w.Name, Rent = durationRentType.Where(s => s.RentId == w.Id) }),
+                SellTypes = sellType.Select(w => new { Id = w.Id, Name = w.Name, Filtername = w.Filtername, Rent = durationRentType.Where(s => s.RentId == w.Id) }),
                 Currency = currencies,
                 Rentals = rentals,
                 propertySellingTypes,

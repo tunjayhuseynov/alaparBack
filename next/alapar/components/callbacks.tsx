@@ -9,6 +9,7 @@ import { Hobby } from "./Hobby/state"
 import { Auto } from "./Auto/state"
 import { Electro } from "./Electro/state"
 import { Bina } from "./Bina/state"
+import { Job } from "./Job/state"
 
 const utility = new Utilities();
 
@@ -39,6 +40,25 @@ class Callbacks {
         this.trimCallback = this.trimCallback.bind(th) // 23 
         this.commonNoOptionCallback = this.commonNoOptionCallback.bind(th) // 24 
         this.autoSellTypeCallback = this.autoSellTypeCallback.bind(th) // 25 
+        this.multipleCallback = this.multipleCallback.bind(th) // 26 
+        this.jobCityCallback = this.jobCityCallback.bind(th) // 27 
+    }
+
+
+    //Job
+    jobCityCallback = function (this: React.Component<{}, Job>, value) {
+        let regions = this.state.cityList?.find(w => w.id == value)?.regions;
+        this.setState({
+            selected: {
+                ...this.state.selected,
+                city: value,
+                region: null,
+                village: null,
+                villageList: [],
+            },
+            regionList: regions || null,
+            villageList: null,
+        })
     }
 
     // Child || Private
@@ -52,6 +72,11 @@ class Callbacks {
                 clothesTypes: null,
                 clothesColor: null,
                 shoesSize: null,
+                typeList: [],
+                clothesTypesList: [],
+                clothesColorList: [],
+                clothesSizeList: [],
+                shoesSizeList: [],
             },
             clothesTypesList: cat?.clothesTypes
         })
@@ -72,6 +97,11 @@ class Callbacks {
                 shoesSize: null,
                 isNew: cat?.new ? this.state.selected.isNew : null,
                 hasDelivery: cat?.delivery ? this.state.selected.hasDelivery : null,
+                typeList: [],
+                clothesTypesList: [],
+                clothesColorList: [],
+                clothesSizeList: [],
+                shoesSizeList: [],
             },
             typeList: cat?.types,
             clothesGendersList: cat?.clothesGender,
@@ -90,6 +120,7 @@ class Callbacks {
                 ...this.state.selected,
                 category: value,
                 type: null,
+                typeList: [],
                 isNew: cat?.new ? this.state.selected.isNew : null,
                 hasDelivery: cat?.delivery ? this.state.selected.hasDelivery : null,
             },
@@ -110,6 +141,7 @@ class Callbacks {
                 category: value,
                 type: null,
                 genera: null,
+                generaList: [],
             },
             typeList: cat?.typeList,
             generaList: cat?.generaList,
@@ -127,6 +159,7 @@ class Callbacks {
                 type: null,
                 isNew: cat?.new ? this.state.selected.isNew : null,
                 hasDelivery: cat?.delivery ? this.state.selected.hasDelivery : null,
+                typeList: []
             },
             typeList: cat?.type,
             hasNew: cat?.new,
@@ -142,6 +175,12 @@ class Callbacks {
                 ...this.state.selected,
                 mark: value,
                 model: null,
+                modelList: [],
+                banList: [],
+                fuelList: [],
+                transmissionBoxList: [],
+                colorList: [],
+                capacityList: [],
             },
             modelList: this.state.markList.find(w => w.id == value).models,
             modelSubList: utility.convertCategory2Sub(this.state.markList.find(w => w.id == value).models, "title")
@@ -176,6 +215,11 @@ class Callbacks {
                 model: null,
                 color: null,
                 storage: null,
+                typeList: [],
+                computerMarkList: [],
+                operatorList: [],
+                colorList: [],
+                storageList: [],
             },
             colorList: null,
             storageList: null,
@@ -201,6 +245,11 @@ class Callbacks {
                 ...this.state.selected,
                 color: null,
                 storage: null,
+                typeList: [],
+                computerMarkList: [],
+                operatorList: [],
+                colorList: [],
+                storageList: [],
             }
         })
     }
@@ -219,11 +268,19 @@ class Callbacks {
                 model: null,
                 color: null,
                 storage: null,
+                typeList: [],
+                computerMarkList: [],
+                operatorList: [],
+                colorList: [],
+                storageList: [],
             },
             typeList: this.state.categoryList.find(w => w.id == value).type,
             operatorsList: this.state.categoryList.find(w => w.id == value).operator,
             markList: this.state.categoryList.find(w => w.id == value).mark,
             computerMarkList: this.state.categoryList.find(w => w.id == value).computerMark,
+            modelList: null,
+            colorList: null,
+            storageList: null,
         })
     }
 
@@ -235,6 +292,12 @@ class Callbacks {
             selected: {
                 ...this.state.selected,
                 category: value,
+                temirList: [],
+                contractList: [],
+                villageList: [],
+                targetList: [],
+                propertySellingTypeList: [],
+                landAppointmentList: [],
             },
             addition: {
                 ...this.state.categoryList.find(w => w.id == value)
@@ -272,9 +335,14 @@ class Callbacks {
             ...this.state,
             selected: {
                 ...this.state.selected,
-                category: null,
                 sellType: value.target.value,
-                rentDuration: rent.length > 0 ? this.state.selected.rentDuration : null
+                rentDuration: rent.length > 0 ? this.state.selected.rentDuration : null,
+                temirList: [],
+                contractList: [],
+                villageList: [],
+                targetList: [],
+                propertySellingTypeList: [],
+                landAppointmentList: [],
             },
             rentDurationList: rent.length > 0 ? rent : null,
             sellingTypeBoxVisibility: !(rent.length > 0),
@@ -390,8 +458,8 @@ class Callbacks {
             })
             return
         };
-        const min = +value.target.min
-        const max = value.target.max === "" ? Number.MAX_VALUE : +value.target.max
+        const min = +value.target.min || +value.target.ariaValueMin
+        const max = +value.target.max || +value.target.ariaValueMax
         const result = Math.max(min, val) != min ? Math.min(val, max) : min;
 
         this.setState({
@@ -429,6 +497,16 @@ class Callbacks {
             selected: {
                 ...this.state.selected,
                 [value.target.name]: value.target.defaultValue.trim()
+            }
+        })
+    }
+
+    multipleCallback = function (value, option) {
+        if (value == null) return
+        this.setState({
+            selected: {
+                ...this.state.selected,
+                [option.state]: this.state.selected[option.state].includes(value) ? this.state.selected[option.state].filter(r => r !== value) : [...this.state.selected[option.state], value === '' ? null : value]
             }
         })
     }

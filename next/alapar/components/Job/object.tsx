@@ -4,6 +4,7 @@ import { Currency, City, Metro, Region, SharedDate } from '@/Constructions/objec
 export interface Type {
     id: number,
     name: string,
+    filtername: string
     categoryId: boolean,
     educationId: boolean,
     practiceId: boolean,
@@ -27,6 +28,10 @@ export interface Type {
     employeeAboutExtra: boolean,
 }
 
+export interface Cities extends City {
+    regions: Array<Region>,
+}
+
 export interface Category {
     id: number,
     name: string,
@@ -48,7 +53,7 @@ export interface JOB_FILTER {
     categories: Array<Category>,
     educations: Array<Education>,
     practices: Array<Practice>,
-    cities: Array<City>,
+    cities: Array<Cities>,
     sharedDate: Array<SharedDate>,
 }
 

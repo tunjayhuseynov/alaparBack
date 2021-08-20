@@ -1,6 +1,7 @@
 ﻿using AlApar.Classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,6 +41,8 @@ namespace AlApar.Models.Auto
         public bool? Kredit { get; set; }
         public bool? Barter { get; set; }
 
+        public int? CityId { get; set; }
+
 
         public bool? Abs { get; set; }
         public bool? YungulDisk { get; set; }
@@ -73,6 +76,10 @@ namespace AlApar.Models.Auto
         public virtual AutoTransmitters Transmitter { get; set; }
         public virtual AutoTransmissionBoxs TransmissionBox { get; set; }
         public virtual AutoContacts Contact { get; set; }
+
+        [ForeignKey("CityId")]
+        public virtual Cities City { get; set; }
+
         public virtual ICollection<AutoPhotos> AutoPhotos { get; set; }
     }
 }

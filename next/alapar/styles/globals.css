@@ -79,3 +79,35 @@ a {
 .swiper-pagination-bullet-active {
   @apply bg-pink !important;
 }
+
+.imageWrapper > div{
+  @apply max-w-full !important max-h-full !important;
+}
+
+#addSection .subitem, #addSection .radioGroup{
+  @apply px-10 py-3 w-full md:w-2/4;
+}
+
+#filter .subitem, #filter div.radioGroup{
+  @apply px-5 py-0 w-full;
+}
+
+#addSection .radioitem{
+
+}
+
+#addSection .radioGroup{
+  @apply grid grid-cols-2;
+}
+
+#filter .radioGroup{
+  @apply grid grid-cols-1;
+}
+
+#filter .addition .radioGroup{
+  
+}
+
+#filter .radioitem{
+  @apply text-left ml-5 p-5;
+}

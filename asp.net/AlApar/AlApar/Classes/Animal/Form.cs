@@ -7,8 +7,9 @@ using static AlApar.Repositories.Status;
 
 namespace AlApar.Classes.Animal
 {
-    public class Form
+    public class Form : commonForm
     {
+
         [JsonProperty("category")]
         public int? CategoryId { get; set; }
 
@@ -63,6 +64,10 @@ namespace AlApar.Classes.Animal
         [JsonProperty("minPrice")]
         [FilterCheck(TypeEnum.Min, "Price")]
         public int? MinPrice { get; set; }
+
+        [JsonProperty("generaList")]
+        [FilterCheck(TypeEnum.Multiple, "GeneraId")]
+        public List<int?> GeneraList { get; set; }
         
         [JsonProperty("sharedDate")]
         public int? SharedDate { get; set; }

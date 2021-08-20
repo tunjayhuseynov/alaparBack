@@ -1,6 +1,7 @@
 ﻿using AlApar.Classes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -72,6 +73,21 @@ namespace AlApar.Models.Auto.View
         public bool? Esp { get; set; }
         public bool? KruizKontrol { get; set; }
         public bool? StartStopSistem { get; set; }
+
+        [Column("sellTypeName")]
+        public string SellTypeName { get; set; }
+        
+        [Column("rentPaymentName")]
+        public string RentPaymentName { get; set; }
+        
+        [Column("sellTypeFilterName")]
+        public string SellTypeFilterName { get; set; }
+
+        [Column("packageName")]
+        public string PackageName { get; set; }
+
+        [Column("statusName")]
+        public string StatusName { get; set; }
 
         public virtual ICollection<AutoPhotos> Images { get; set; }
     }

@@ -4,30 +4,30 @@ import * as URL from '@/Constructions/const';
 import { Rent, SellType } from '@/Bina/object';
 
 interface Auto_Selection {
-    sellType: number, //int
-    rentDuration: number, //int
-    mark: number,
-    model: number,
-    ban: number,
-    price: number,
-    currency: number,
-    kredit: boolean,
-    barter: boolean,
-    aboutInfo: string,
-    color: number,
-    power: number,
-    capacity: number,
-    fuel: number,
-    transmitter: number,
-    transmissionBox: number,
-    year: number,
-    mileage: number,
-    city: number,
-    name: string,
-    isCall: boolean,
-    isWp: boolean,
-    email: string,
-    phone: string,
+    sellType: number, //
+    rentDuration: number, //
+    mark: number, //
+    model: number, //
+    ban: number, //
+    price: number, //
+    currency: number, //
+    kredit: boolean, //
+    barter: boolean, //
+    aboutInfo: string, //
+    color: number, //
+    power: number, //
+    capacity: number, //
+    fuel: number, //
+    transmitter: number, //
+    transmissionBox: number, //
+    year: number, //
+    mileage: number, //
+    city: number, //
+    name: string, //
+    isCall: boolean, // 
+    isWp: boolean, //
+    email: string, //
+    phone: string, //
     //Chechboxs
     abs: boolean,
     yungulLehimDisk: boolean,
@@ -55,6 +55,13 @@ interface Auto_Selection {
     minMotorPower: number,
     maxMotorPower: number,
     sharedDate: number,
+
+    modelList: Array<number>
+    banList: Array<number>
+    fuelList: Array<number>
+    transmissionBoxList: Array<number>,
+    colorList: Array<number>
+    capacityList: Array<number>
 }
 
 export interface ChechboxObject{
@@ -148,6 +155,14 @@ export const Auto_State = (json: Auto_Filter, th): Auto => {
             minMotorPower: null,
             maxMotorPower: null,
             sharedDate: null,
+
+
+            modelList: [],
+            banList: [],
+            fuelList: [],
+            transmissionBoxList: [],
+            colorList: [],
+            capacityList: [],
         },
         markList: json.mark,
         modelList: null,

@@ -15,7 +15,7 @@ namespace AlApar.Repositories.Hobby
         public override string TempFolder => "images/hobby/temporarily";
         public override string MainFolder => "images/hobby/personal";
 
-        public override Func<HobbyContext, int?, int, int, IAsyncEnumerable<ViewHobbyAd>> FilterQuery => EF.CompileAsyncQuery((HobbyContext db, int? id, int skip, int take) => db.ViewHobbyAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip).Take(take));
+        public override Func<HobbyContext, int?, int, int, IAsyncEnumerable<ViewHobbyAd>> FilterQuery => EF.CompileAsyncQuery((HobbyContext db, int? id, int skip, int take) => db.ViewHobbyAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
 
         public override async Task<object> getForm(HobbyContext db)
         {

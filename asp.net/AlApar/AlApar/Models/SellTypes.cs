@@ -2,6 +2,7 @@
 using AlApar.Models.Bina;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlApar.Models
 {
@@ -15,6 +16,9 @@ namespace AlApar.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
+
+        [Column("filtername")]
+        public string Filtername { get; set; }
 
         public virtual ICollection<BinaAdsPersonal> BinaAdsPersonal { get; set; }
         public virtual ICollection<BinaRentPaymentTypes> RentPayment { get; set; }

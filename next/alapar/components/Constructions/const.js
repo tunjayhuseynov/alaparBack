@@ -1,4 +1,4 @@
-export const base = "http://192.168.1.102:3500";
+export const base = "http://192.168.1.103:3500";
 
 export const BINA_SUBMIT = `${base}/api/bina/Add`;
 export const BINA_IMAGE = `${base}/api/bina/image`;

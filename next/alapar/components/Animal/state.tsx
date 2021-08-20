@@ -17,9 +17,13 @@ interface Animal_Selection {
     phone: string,
     isWp: boolean,
     isCall: boolean,
+
+    
     maxPrice: number,
     minPrice: number,
     sharedDate: number,
+
+    generaList: Array<number>
 }
 
 
@@ -61,6 +65,8 @@ export const Animal_State = (json : Animal_Filter, th) : Animal => {
             maxPrice: null,
             minPrice: null,
             sharedDate: null,
+
+            generaList: []
         },
         categoryList: json.category,
         generaList: null,

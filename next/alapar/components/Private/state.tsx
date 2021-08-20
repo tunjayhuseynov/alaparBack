@@ -24,7 +24,16 @@ export interface Private_Selection{
     isWp: boolean,
     isCall: boolean,
 
-    sharedDate: number
+    sharedDate: number,
+
+    minPrice: number,
+    maxPrice: number,
+
+    typeList: Array<number>
+    clothesTypesList: Array<number>
+    clothesColorList: Array<number>
+    clothesSizeList: Array<number>
+    shoesSizeList: Array<number>
 }
 
 export interface Private extends ImageState{
@@ -73,6 +82,15 @@ export const Private_State = (json: PRIVATE_FILTER, th) : Private => {
             isCall: null,
 
             sharedDate: null,
+
+            minPrice: null,
+            maxPrice: null,
+
+            typeList: [],
+            clothesTypesList: [],
+            clothesColorList: [],
+            clothesSizeList: [],
+            shoesSizeList: [],
         },
         categoryList: json.category,
         clothesGendersList: null,

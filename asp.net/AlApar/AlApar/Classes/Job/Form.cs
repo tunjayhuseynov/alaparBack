@@ -7,7 +7,7 @@ using static AlApar.Repositories.Status;
 
 namespace AlApar.Classes.Job
 {
-    public class Form
+    public class Form : commonForm
     {
         [JsonProperty("type")]
         public int? TypeId { get; set; }
@@ -23,6 +23,12 @@ namespace AlApar.Classes.Job
 
         [JsonProperty("city")]
         public int? CityId { get; set; }
+
+        [JsonProperty("region")]
+        public int? RegionId { get; set; }
+
+        [JsonProperty("village")]
+        public int? VillageId { get; set; }
 
         [JsonProperty("role")]
         public string Role { get; set; }
@@ -112,5 +118,22 @@ namespace AlApar.Classes.Job
         [JsonProperty("maxWageFilter")]
         [FilterCheck(TypeEnum.Max, "MaxWage")]
         public int? MaxWageFilter { get; set; }
+
+
+        [JsonProperty("educationLevelList")]
+        [FilterCheck(TypeEnum.Multiple, "EducationId")]
+        public List<int> EducationLevelList { get; set; }
+
+        [JsonProperty("practiceDurationList")]
+        [FilterCheck(TypeEnum.Multiple, "PracticeId")]
+        public List<int> PracticeDurationList { get; set; }
+
+        [JsonProperty("categoryList")]
+        [FilterCheck(TypeEnum.Multiple, "CategoryId")]
+        public List<int> CategoryList { get; set; }
+
+        [JsonProperty("villageList")]
+        [FilterCheck(TypeEnum.Multiple, "VillageId")]
+        public List<int> VillageList { get; set; }
     }
 }
