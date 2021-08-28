@@ -54,6 +54,7 @@ interface Bina_Selection {
     customAdress: string,
     contract: number,
     propertySelling: number,
+
     nearSchool: boolean,
     nearBusstop: boolean,
     nearHospital: boolean,
@@ -73,6 +74,8 @@ interface Bina_Selection {
     //Filter
     minRoom: number,
     maxRoom: number,
+    minBath: number,
+    maxBath: number,
     minApartmentFloor: number,
     maxApartmentFloor: number,
     minBuildingFloor: number,
@@ -95,7 +98,7 @@ interface Bina_Selection {
     villageList: Array<number>, 
     targetList: Array<number>, 
     propertySellingTypeList: Array<number>, 
-    landAppointmentList: Array<Number>, 
+    landAppointmentList: Array<number>, 
 }
 
 export interface Bina extends ImageState {
@@ -222,7 +225,7 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             su: null,
             isig: null,
             kanalizasiya: null,
-            owner: true,
+            owner: null,
             metbex: null,
             qab: null,
             paltar: null,
@@ -233,7 +236,7 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             telefon: null,
             usag: null,
             heyvan: null,
-            otagordaire: false,
+            otagordaire: null,
             currency: 1,
             metroWay: 1,
             metroDuration: null,
@@ -244,6 +247,8 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             //Filter
             minRoom: null,
             maxRoom: null,
+            minBath: null,
+            maxBath: null,
             minApartmentFloor: null,
             maxApartmentFloor: null,
             minBuildingFloor: null,

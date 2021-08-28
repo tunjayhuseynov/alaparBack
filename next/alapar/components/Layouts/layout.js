@@ -20,7 +20,7 @@ class Layout extends Component {
                 </Head>
                 <Navbar></Navbar>
                 <AnimatePresence>
-                    <motion.div style={{paddingTop: "75px"}} key={this.props.router.route} initial={"pageInitial"} animate={"pageAnimate"} variants={{
+                    <motion.div key={this.props.router.route} initial={"pageInitial"} animate={"pageAnimate"} variants={{
                         pageInitial: {
                             x: "100%",
                             opacity: 0,

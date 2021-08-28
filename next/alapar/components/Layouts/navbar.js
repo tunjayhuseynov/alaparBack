@@ -6,12 +6,12 @@ import Link from 'next/link'
 class Navbar extends Component {
   constructor() {
     super()
-    this.classname = "container px-2 mx-auto bg-white fixed right-0 left-0 transform-gpu transition-all duration-200 ease-linear";
-    this.navidClass = "w-full z-50 bg-white fixed min-h-75 transform-gpu transition-all duration-200 ease-linear"
+    this.classname = "container px-2 mx-auto bg-white right-0 left-0 transform-gpu transition-all duration-200 ease-linear";
+    this.navidClass = "w-full z-50 bg-white min-h-75 transform-gpu transition-all duration-200 ease-linear"
   }
 
   componentDidMount() {
-    let navbar = document.querySelector("#navbar");
+    /*let navbar = document.querySelector("#navbar");
     window.addEventListener("scroll", () => {
       if (this.lastTop < window.pageYOffset && navbar.offsetHeight < window.pageYOffset) {
         if (!navbar.className.includes("-translate-y-full")) {
@@ -26,7 +26,7 @@ class Navbar extends Component {
         navbar.className = this.navidClass
       }
       this.lastTop = window.pageYOffset;
-    })
+    })*/
   }
 
   render(h) {

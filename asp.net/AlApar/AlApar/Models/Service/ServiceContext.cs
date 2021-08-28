@@ -230,8 +230,6 @@ namespace AlApar.Models.Service
 
                 entity.Property(e => e.About).HasColumnName("about");
 
-                entity.Property(e => e.AdId).HasColumnName("adId");
-
                 entity.Property(e => e.CategoryId).HasColumnName("categoryId");
 
                 entity.Property(e => e.CategoryName)
@@ -269,10 +267,6 @@ namespace AlApar.Models.Service
                 entity.Property(e => e.LogId).HasColumnName("logId");
                 entity.Property(e => e.CurrencyId).HasColumnName("currencyId");
 
-                entity.Property(e => e.ImagePath)
-                    .HasMaxLength(500)
-                    .HasColumnName("imagePath");
-
                 entity.Property(e => e.IsCall).HasColumnName("isCall");
 
                 entity.Property(e => e.IsNew).HasColumnName("isNew");
@@ -291,15 +285,11 @@ namespace AlApar.Models.Service
 
                 entity.Property(e => e.Price).HasColumnName("price");
 
-                entity.Property(e => e.PrimaryImage).HasColumnName("primaryImage");
 
                 entity.Property(e => e.StatusName)
                     .HasMaxLength(255)
                     .HasColumnName("statusName");
 
-                entity.Property(e => e.Thumbnail)
-                    .HasMaxLength(500)
-                    .HasColumnName("thumbnail");
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(50)

@@ -15,7 +15,8 @@ interface Props{
     private: boolean,
     child: boolean,
     service: boolean,
-    category: object;
+    category?: object;
+    title?: string;
     adlist: Array<General>;
 }
 interface State{
@@ -67,7 +68,7 @@ class Category extends Component<Props, State> {
         return (
             <div className="py-4 p-2 sm:p-0">
                 <div className="h-30 flex justify-between">
-                    <h2 className="text-2xl">{this.props.category["title"]}</h2>
+                    <h2 className="text-2xl">{this.props.category?.["title"] ?? this.props.title}</h2>
                 </div>
                 <div className={'grid grid-cols-1 md:grid-cols-2 md:gap-x-4 md:gap-y-4 gap-y-4 py-4'}>
                     {this.state.adList}

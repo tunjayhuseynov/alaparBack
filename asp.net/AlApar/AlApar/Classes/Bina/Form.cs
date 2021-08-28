@@ -6,8 +6,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using static AlApar.Repositories.Status;
 
+
 namespace AlApar.Classes.Bina
 {
+
     public class Form : commonForm
     {
         [JsonProperty("category")]
@@ -204,7 +206,7 @@ namespace AlApar.Classes.Bina
         public bool? CabelTv { get; set; }
 
         [JsonProperty("pvcWindow")]
-        public bool? PVCWindow { get; set; }
+        public bool? PvcWindow { get; set; }
 
         [JsonProperty("combi")]
         public bool? Combi { get; set; }
@@ -292,12 +294,20 @@ namespace AlApar.Classes.Bina
         public int? MaxLandArea { get; set; }
 
         [JsonProperty("minRoom")]
-        [FilterCheck(TypeEnum.Min, "roomAmount")]
+        [FilterCheck(TypeEnum.Min, "RoomAmount")]
         public int? MinRoom { get; set; }
 
         [JsonProperty("maxRoom")]
-        [FilterCheck(TypeEnum.Max, "roomAmount")]
+        [FilterCheck(TypeEnum.Max, "RoomAmount")]
         public int? MaxRoom { get; set; }
+
+        [JsonProperty("minBath")]
+        [FilterCheck(TypeEnum.Min, "Hamam")]
+        public int? MinBath { get; set; }
+
+        [JsonProperty("maxBath")]
+        [FilterCheck(TypeEnum.Max, "Hamam")]
+        public int? MaxBath { get; set; }
 
         [JsonProperty("sharedDate")]
         public int? SharedDate { get; set; }

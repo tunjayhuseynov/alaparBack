@@ -4,6 +4,7 @@ import { stateProcess, InitFetch, pageprocess, pagenames } from '@/controller'
 import Category from '@/Layouts/components/category'
 import Header from '@/Layouts/header'
 import { v4 as uuidv4 } from 'uuid'
+import ScrollableBar from '@/Layouts/components/scrollableBar'
 
 class Index extends Component {
     constructor(props) {
@@ -18,11 +19,20 @@ class Index extends Component {
             [name]: true,
         };
 
-
+/*
         this.props.menu?.forEach(element => {
             if (element.ads && element.ads.length) {
                 this.state.menuList.push(
                     <Category key={uuidv4()} category={element.category} adlist={element.ads} {...this.obj}></Category>
+                )
+            }
+        });
+        */
+
+        this.props.menu?.ads?.forEach(element => {
+            if (element.list && element.list.length) {
+                this.state.menuList.push(
+                    <Category key={uuidv4()} title={element.title} adlist={element.list} {...this.obj}></Category>
                 )
             }
         });
@@ -32,6 +42,7 @@ class Index extends Component {
         return (<>
             <Header></Header>
             <section id={'main'} className={'container mx-auto'}>
+                <ScrollableBar categories={this.props.menu?.categories}/>
                 <div className={'text-center block'}>
                     <h1 className={'text-2xl'}>
                         <span>Elanlar</span>

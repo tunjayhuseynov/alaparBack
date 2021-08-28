@@ -83,6 +83,16 @@ export interface Bina_View {
     nearBusstop: boolean,
     longitude: number,
     latitude: number,
+
+    withstuffs: boolean,
+    madeinHouse: boolean,
+    centralHeatingSystem: boolean,
+    parkingArea: boolean,
+    cabelTv: boolean,
+    pvcWindow: boolean,
+    combi: boolean,
+    garaj: boolean,
+    
     images: Array<ImageView>
 }
 
@@ -189,7 +199,7 @@ export const Bina_View_Data = (ad: Bina_View) => {
             },
             repairName: {
                 value: ad.repairName,
-                name: "Mənzilin Vəziyyəti"
+                name: "Təmir Vəziyyəti"
             },
             houseFloor: {
                 value: ad.houseFloor,
@@ -261,7 +271,7 @@ export const Bina_View_Data = (ad: Bina_View) => {
             },
             areaSize: {
                 value: ad.areaSize,
-                name: "Ərazi Sahəsi"
+                name: "Sahəsi"
             },
             metroDuration: {
                 value: ad.metroDuration,
@@ -269,7 +279,7 @@ export const Bina_View_Data = (ad: Bina_View) => {
             },
             secondAreaSize: {
                 value: ad.secondAreaSize,
-                name: "İkinci Ərazi Sahəsi"
+                name: "Evin Sahəsi"
             },
             roomAmount: {
                 value: ad.roomAmount,
@@ -289,6 +299,38 @@ export const Bina_View_Data = (ad: Bina_View) => {
             },
         },
         checkboxes: {
+            withstuffs: {
+                value: ad.withstuffs,
+                name: "Əşyalı"
+            },
+            madeinHouse: {
+                value: ad.madeinHouse,
+                name: "Düzəlmə"
+            },
+            centralHeatingSystem: {
+                value: ad.centralHeatingSystem,
+                name: "Mərkəzi İsitmə Sistemi"
+            },
+            parkingArea: {
+                value: ad.parkingArea,
+                name: "Avtodayanacaq"
+            },
+            cabelTv: {
+                value: ad.cabelTv,
+                name: "Kabel TV"
+            },
+            pvcWindow: {
+                value: ad.pvcWindow,
+                name: "PVC Pəncərə"
+            },
+            combi: {
+                value: ad.combi,
+                name: "Kombi Sistemi"
+            },
+            garaj: {
+                value: ad.garaj,
+                name: "Garaj"
+            },
             eyvan: {
                 value: ad.eyvan,
                 name: "Eyvan"
@@ -392,7 +434,7 @@ export const Bina_View_Data = (ad: Bina_View) => {
         },
         otagordaire: {
             value: ad.otagordaire,
-            name: "Verilən Sahə"
+            name: "Kirayə Tipi"
         },
         nearLocations: {
             nearHospital: {

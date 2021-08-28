@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Common
@@ -35,12 +36,16 @@ namespace AlApar.Repositories.Common
         }
 
         [Route("Add")]
+        [HttpPost]
+        [Consumes("application/json; charset=UTF-8")]
         public async Task<IActionResult> addToDb([FromBody] Form form)
         {
+
             List<ImageStructure> imageNames = (List<ImageStructure>)form.GetType().GetProperty("ImageList").GetValue(form);
             if (imageNames.Count > 25) return StatusCode(406, new { status = "Faly sayı 25-i keçməməlidir" });
 
             await _crud.addToDb(form, _db, _utility, _webHostEnvironment);
+
 
             return Ok();
         }
@@ -78,7 +83,7 @@ namespace AlApar.Repositories.Common
         [Route("Get/{id}")]
         public async Task<object> getOne(long id)
         {
-            return await _crud.getAd(_utility, id, _db)??NotFound(new { NotFound = true });
+            return await _crud.getAd(_utility, id, _db) ?? NotFound(new { NotFound = true });
         }
 
         [HttpPost]
@@ -92,6 +97,12 @@ namespace AlApar.Repositories.Common
         public async Task<object> getMainMenu([FromQuery] int num = 4)
         {
             return await _crud.getMainMenuStuffs(_utility, _db, num);
+        }
+
+        [Route("mainmenu2")]
+        public async Task<object> getMainMenu2([FromQuery] int num = 24)
+        {
+            return await _crud.getMainMenuStuffs2(_utility, _db, num);
         }
 
         public Task<IEnumerable<View>> getAll()

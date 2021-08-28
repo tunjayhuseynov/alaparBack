@@ -48,15 +48,15 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Bina> & Static
 
             {this.utility.selectGenerator("Kirayə müddəti*:", this.state.rentDurationList, "rentDuration", this.state.selected.rentDuration, this.callbacks.commonCallback, { sort: true })}
 
-            {this.state.rentingTypeBoxVisibility ? this.utility.radioGenerator("Kirayə Tipi*:", this.state.rentalAddition?.otagordaire, 0, this.callbacks.rentTypeCallback, "otagordaire", [{ id: 0, name: "Bütöv Sahə" }, { id: 1, name: "Otaq" }]) : null}
+            {this.state.rentingTypeBoxVisibility ? this.utility.radioGenerator("Kirayə Tipi*:", this.state.rentalAddition?.otagordaire, null, this.callbacks.rentTypeCallback, "otagordaire", [{ id: 0, name: "Bütöv Sahə" }, { id: 1, name: "Otaq" }]) : null}
 
             {this.utility.numberGenerator("Qiymət*:", "Daxil Edin", this.callbacks.numberCallback, "price", true, 1, Number.MAX_VALUE, { addonAfterList: this.state.currencyList, addonAfterCallback: this.callbacks.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}
 
-            {this.utility.numberGenerator("Sahə*:", "Daxil Edin", this.callbacks.numberCallback, "areaSize", true, 1, Number.MAX_VALUE, { addonAfterOnlyText: this.state.areaUnit })}
+            {this.utility.numberGenerator("Sahəsi*:", "Daxil Edin", this.callbacks.numberCallback, "areaSize", true, 1, Number.MAX_VALUE, { addonAfterOnlyText: this.state.areaUnit })}
+            {this.utility.numberGenerator("Yalnız Evin Sahəsi*:", "Daxil Edin", this.callbacks.numberCallback, "secondAreaSize", this.state.addition.secondArea, 1, Number.MAX_VALUE, { addonAfterOnlyText: "m²" })}
 
-            {this.utility.selectGenerator("Təmiri*:", this.state.repairList, "temir", this.state.selected.temir, this.callbacks.commonCallback)}
+            {this.utility.selectGenerator("Təmiri*:", this.state.addition.roomAmount ? this.state.repairList : false, "temir", this.state.selected.temir, this.callbacks.commonCallback)}
 
-            {this.utility.numberGenerator("Torpaq Sahəsi*:", "Daxil Edin", this.callbacks.numberCallback, "secondAreaSize", this.state.addition.secondArea, 1, Number.MAX_VALUE, { addonAfterOnlyText: "sot" })}
 
             {this.utility.numberGenerator("Evin Mərtəbə Sayı*:", "Daxil Edin", this.callbacks.numberCallback, "houseFloor", this.state.addition.houseFloor, 0)}
             {this.utility.numberGenerator("Otaq Sayı*:", "Daxil Edin", this.callbacks.numberCallback, "roomAmount", this.state.addition.roomAmount)}
@@ -142,7 +142,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Bina> & Static
                     id: 0,
                     name: "Vastəçi"
                 },
-            ], 1, this.callbacks.ownerCallback, "owner")}
+            ], null, this.callbacks.ownerCallback, "owner")}
 
             {this.utility.inputGenerator("Ad*:", "Daxil Edin", this.callbacks.textAreaCallback, "name")}
 
@@ -270,9 +270,9 @@ export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Bina> & 
 
         {this.utility.rangeİnputGenerator("Sahə:", "minArea", "maxArea", this.callbacks.numberCallback, this.state.selected.category, { addonAfterOnlyText: this.state.areaUnit ?? "m²" })}
 
-        {this.utility.selectGenerator("Təmiri:", this.state.repairList, "temirList", this.state.selected.temirList, this.callbacks.multipleCallback, { multiple: true })}
+        {this.utility.selectGenerator("Təmiri:", this.state.addition.roomAmount ? this.state.repairList : false, "temirList", this.state.selected.temirList, this.callbacks.multipleCallback, { multiple: true })}
 
-        {this.utility.rangeİnputGenerator("Torpaq Sahəsi:", "minLandArea", "maxLandArea", this.callbacks.numberCallback, this.state.addition.secondArea, { addonAfterOnlyText: "sot" })}
+        {this.utility.rangeİnputGenerator("Evin Sahəsi:", "minLandArea", "maxLandArea", this.callbacks.numberCallback, this.state.addition.secondArea, { addonAfterOnlyText: "m²" })}
 
         {this.utility.selectGenerator("Sənəd Növü:", this.state.contractList, "contractList", this.state.selected.contractList, this.callbacks.multipleCallback, { visibility: this.state.sellingTypeBoxVisibility, multiple: true })}
         {this.utility.selectGenerator("Satış Növü:", this.state.propertySellingTypes, "propertySellingTypeList", this.state.selected.propertySellingTypeList, this.callbacks.multipleCallback, { visibility: this.state.sellingTypeBoxVisibility, novalidation: true, multiple: true })}

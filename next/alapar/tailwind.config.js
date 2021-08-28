@@ -4,10 +4,11 @@ module.exports = {
     './pages/**/*.{jsx,js,ts,tsx}',
   ],
   important: true,
+  mode: 'jit',
   darkMode: false, // or 'media' or 'class'
   theme: {
     screens: {
-      'sm': '425px',
+      'sm': '429px',
       // => @media (min-width: 640px) { ... }
 
       'md': '768px',
@@ -64,7 +65,6 @@ module.exports = {
         'unset': 'unset',
         '1px': '1px',
         '2px': '2px',
-        '5': '0.3125rem',
         '20px': '20px',
         '25px': '1.5625rem',
         '30': '1.875rem',
@@ -77,8 +77,6 @@ module.exports = {
         '350px': '21.875rem',
         '500px': '31.25rem',
         '66vw': '66vw',
-        '33vw': '33vw',
-        '75vh': '75vh',
         '3%': '3%',
         '15%': '15%',
         '50': '50px',

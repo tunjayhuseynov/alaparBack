@@ -1,4 +1,4 @@
-import { message, Tabs, Button, Upload, Modal, Select, Radio, Checkbox, InputNumber, Collapse, Input, Tooltip } from 'antd';
+import { message, Button, Upload, Modal, Select, Radio, Checkbox, InputNumber, Input, Tooltip } from 'antd';
 import { DndProvider, useDrag, useDrop, createDndContext } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import React from 'react'
@@ -13,7 +13,6 @@ import { FiRotateCcw, FiRotateCw } from "react-icons/fi"
 import { v4 as uuidv4 } from 'uuid'
 
 import dynamic from 'next/dynamic'
-import { motion } from 'framer-motion';
 
 const MobileSelector = dynamic(() => import('@/mobileUtility').then(w => w.MobileSelector), {
     ssr: false,
@@ -22,14 +21,15 @@ const MobileSelector = dynamic(() => import('@/mobileUtility').then(w => w.Mobil
 const MobileNumberInput = dynamic(() => import('@/mobileUtility').then(w => w.MobileNumberInput), {
     ssr: false,
 });
+const AdvanceTool = dynamic(() => import('@/mobileUtility').then(w => w.AdvanceTool), {
+    ssr: false,
+});
 
 const Device = dynamic(() => import('@/mobileUtility').then(w => w.Device), { ssr: false })
 
 
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
-
-
 
 
 function getBase64(file) {
@@ -57,31 +57,8 @@ class Utilities {
         )
     }
 
-    isOpen = false;
     advancePanel = (list) => {
-        return (
-            <div>
-                <div className={'px-6 py-2 bg-white'} onClick={() => { this.isOpen = !this.isOpen; this.th.setState({}) }}>
-                    Əlavə
-                </div>
-                <motion.div className={'bg-white'}> {this.isOpen ?
-                    <motion.section
-                        key="content"
-                        initial="collapsed"
-                        animate="open"
-                        exit="collapsed"
-                        className={'addition flex flex-col gap-3'}
-                        variants={{
-                            open: { opacity: 1, height: "auto" },
-                            collapsed: { opacity: 0, height: 0 }
-                        }}
-                        transition={{ duration: .5, type: "tween" }}
-                    >
-                        {list}
-                    </motion.section>
-                    : null}</motion.div>
-            </div>
-        )
+        return <AdvanceTool list={list} />
     }
 
     range = (start, end, step = 1) => {
@@ -114,7 +91,7 @@ class Utilities {
             <div className={'separator'}>{text}</div>)
     }
 
-    generateModal = (htmlElements, visible, visibleName, { title = "" } = {}) => {
+    generateModal = (htmlElements, visible, visibleName, { title = "" } = { }) => {
         let handleOk = () => {
             this.th.setState({ [visibleName]: false });
         };
@@ -154,19 +131,19 @@ class Utilities {
 
     visible = false;
 
-    inputGenerator = (title, placeholder, callback, state, { visibility = null, phone = null, mail = null, novalidation = null, tooltiptext = null } = {}) => {
+    inputGenerator = (title, placeholder, callback, state, { visibility = null, phone = null, mail = null, novalidation = null, tooltiptext = null } = { }) => {
         if ((Array.isArray(visibility) && visibility.length < 1) || visibility == false) {
 
             this.th.state.selected[state] = null
 
             return null
         }
-        let val = {}
+        let val = { }
         if (novalidation == null) {
             val.validatename = state;
         }
 
-        let obj = {}
+        let obj = { }
         if (phone) {
             obj.inputMode = "numeric"
             obj.onInput = (v) => {
@@ -199,8 +176,8 @@ class Utilities {
                             allowClear
                             placeholder={placeholder}
                             onKeyUp={callback}
-                            onFocus={() => { if (tooltiptext) { this.visible = true; this.th.setState({}) } }}
-                            onBlur={() => { if (tooltiptext) { this.visible = false; this.th.setState({}) } }}
+                            onFocus={() => { if (tooltiptext) { this.visible = true; this.th.setState({ }) } }}
+                            onBlur={() => { if (tooltiptext) { this.visible = false; this.th.setState({ }) } }}
                         />
                     </Tooltip>
                 </div>
@@ -208,7 +185,7 @@ class Utilities {
         )
     }
 
-    numberGenerator = (title, placeholder, callback, name, visibility, min = 1, max = Number.MAX_VALUE, { addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null, nocommo = false } = {}) => {
+    numberGenerator = (title, placeholder, callback, name, visibility, min = 1, max = Number.MAX_VALUE, { addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null, nocommo = false } = { }) => {
         if (!visibility) {
 
             this.th.state.selected[name] = null
@@ -274,7 +251,7 @@ class Utilities {
         </Device>
     }
 
-    textAreaGeneretor = (title, placeholder, callback, name, { visibility = null } = {}) => {
+    textAreaGeneretor = (title, placeholder, callback, name, { visibility = null } = { }) => {
         if (visibility == false) {
             this.th.state.selected[name] = null
 
@@ -301,7 +278,7 @@ class Utilities {
         )
     }
 
-    rangeİnputGenerator = (title, minName, maxName, callback, visibility, { min = 1, max = Number.MAX_VALUE, step = 1, addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null, nocommo = false } = {}) => {
+    rangeİnputGenerator = (title, minName, maxName, callback, visibility, { min = 1, max = Number.MAX_VALUE, step = 1, addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null, nocommo = false } = { }) => {
         if (!visibility) {
 
             this.th.state.selected[minName] = null
@@ -384,7 +361,7 @@ class Utilities {
         )
     }
 
-    selectGenerator = (title, options, name, selected, callback, { visibility = null, loading = null, search = false, noneed = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null, novalidation = null, filtername = false, multiple = false } = {}) => {
+    selectGenerator = (title, options, name, selected, callback, { visibility = null, loading = null, search = false, noneed = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null, novalidation = null, filtername = false, multiple = false } = { }) => {
         if (visibility != null && visibility == false) {
             if (multiple)
                 this.th.state.selected[name] = [];
@@ -403,7 +380,9 @@ class Utilities {
 
             return null
         }
-
+        if (name.includes("category")) {
+            this.th.state.categoryCallback = callback
+        }
         if (sort) {
             options.sort((a, b) => {
                 let fa = a.name.toLowerCase()
@@ -423,8 +402,8 @@ class Utilities {
             })
         }
 
-        let obj = {}
-        let val = {}
+        let obj = { }
+        let val = { }
         if (loading) {
             obj.loading = true
         }
@@ -439,7 +418,7 @@ class Utilities {
         return <Device>
             {(isMobile) => {
 
-                return (<div className={'subitem selectInput'}>
+                return (<div className={`subitem selectInput`} >
                     <div className={'item'}><label>{title}</label></div>
                     <div className={'item'} {...val} displayname={title.replace(/[^\p{L}]+/gu, "")} >
                         {isMobile & obj?.mode != "multiple" ? <MobileSelector state={name} selected={selected} callback={callback} object={obj}>
@@ -475,7 +454,7 @@ class Utilities {
             }}</Device>
     }
 
-    checkBoxGenerator = (title, callback, name, visible, { multiple = null, makeBlock = null } = {}) => {
+    checkBoxGenerator = (title, callback, name, visible, { multiple = null, makeBlock = null } = { }) => {
         if (!visible) {
             if (multiple) {
                 multiple.forEach(w => {
@@ -493,7 +472,7 @@ class Utilities {
             return (
                 <div className={`radioitem checkInput ${makeBlock ? 'makeBlock' : ''}`} displayname={title.replace(/[^\p{L}]+/gu, "")}>
                     <div className={'item'}><label>{title}</label></div>
-                    <div className={'item'}>
+                    <div className={'item flex flex-wrap justify-around'}>
                         {multiple.map(w => <Checkbox key={uuidv4()} checked={this.th.state.selected[w.name]} state={w.name} name={w.name} onChange={callback}>{w.title}</Checkbox>
                         )}
                     </div>
@@ -509,7 +488,7 @@ class Utilities {
     }
 
 
-    radioGenerator = (title, values, defaultValue, callback, name, secondValues, { filtername = false } = {}) => {
+    radioGenerator = (title, values, defaultValue, callback, name, secondValues, { filtername = false } = { }) => {
         if (!values) return null
         return (
             <div className={"subitem w-full"} validatename={name} displayname={title.replace(/[^\p{L}]+/gu, "")}>
@@ -535,22 +514,22 @@ class Utilities {
                 let text = `Məlumat Doldurulmayıb: ${inputs[index].getAttribute("displayname")}`
                 this.showError(text)
 
-                let ele = inputs[index].querySelector(".ant-input-number-input-wrap") || inputs[index].querySelector(".ant-select-selector") || inputs[index].querySelector("textarea") || inputs[index].querySelector(".ant-input-affix-wrapper") || inputs[index].querySelector("input");
+                let ele = inputs[index].querySelector(".ant-input-number-input-wrap") || inputs[index].querySelector(".ant-select-selector") || inputs[index].querySelector("textarea") || inputs[index].querySelector(".ant-input-affix-wrapper") || inputs[index].querySelector(".ant-radio-group") || inputs[index].querySelector("input");
                 if (ele) {
                     ele.classList.add(...classes);
                     ele.onclick = (e) => { ele.classList.remove(...classes) }
                 }
             }
             else if (this.th.state.selected[inputs[index].getAttribute("isemail") === "true" ? inputs[index].getAttribute("validatename") : null] != null && !this.th.state.selected[inputs[index].getAttribute("validatename")].match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
-                    if (!hasError) { hasError = !hasError; }
-                    this.showError(`E-mail düzgün daxil edilməyib`)
+                if (!hasError) { hasError = !hasError; }
+                this.showError(`E-mail düzgün daxil edilməyib`)
 
-                    let ele = inputs[index].querySelector(".ant-input-number-input-wrap") || inputs[index].querySelector(".ant-select-selector") || inputs[index].querySelector("textarea") || inputs[index].querySelector(".ant-input-affix-wrapper") || inputs[index].querySelector("input");
-                    
-                    if (ele) {
-                        ele.classList.add(...classes);
-                        ele.onclick = (e) => { ele.classList.remove(...classes) }
-                    }
+                let ele = inputs[index].querySelector(".ant-input-number-input-wrap") || inputs[index].querySelector(".ant-select-selector") || inputs[index].querySelector("textarea") || inputs[index].querySelector(".ant-input-affix-wrapper") || inputs[index].querySelector("input");
+
+                if (ele) {
+                    ele.classList.add(...classes);
+                    ele.onclick = (e) => { ele.classList.remove(...classes) }
+                }
             }
         }
 
@@ -578,7 +557,7 @@ class Utilities {
         let header = {
             method: "POST",
             headers: {
-                'Content-Type': 'application/jsonı charset=UTF-16'
+                'Content-Type': 'application/json; charset=UTF-8'
             },
             mode: 'cors',
             body: JSON.stringify(this.th.state.selected)
@@ -612,9 +591,9 @@ class Utilities {
         const [{ isOver, dropClassName }, drop] = useDrop({
             accept: type,
             collect: monitor => {
-                const { index: dragIndex } = monitor.getItem() || {};
+                const { index: dragIndex } = monitor.getItem() || { };
                 if (dragIndex === index) {
-                    return {};
+                    return { };
                 }
                 return {
                     isOver: monitor.isOver(),
@@ -669,7 +648,7 @@ class Utilities {
 
     manager = createDndContext(HTML5Backend);
 
-    imageUploadGenerator = (fileList, previewVisible, previewTitle, previewImage, url, { undertext = null } = {}) => {
+    imageUploadGenerator = (fileList, previewVisible, previewTitle, previewImage, url, { undertext = null } = { }) => {
         return (
             <div className={"subitem"}>
                 <div className={'item'}><label>Şəkil Əlavə Et*:</label></div>
@@ -840,24 +819,19 @@ class Utilities {
 
     googleMap = (lat, lan, callback, title, latName, lanName) => {
         return (
-            <div displayname={title.replace(/[^\p{L}]+/gu, "")} className={"subitem"} style={{ height: '100%', width: '50%' }}>
+            <div displayname={title.replace(/[^\p{L}]+/gu, "")} className={"subitem"} style={{ height: '100%' }}>
                 <div className={'item'}>
                     <label>{title}</label>
                 </div>
                 <div className={'item'}>
-                    <Button type="primary" onClick={() => { this.th.setState({ mapVisible: true }) }}>
-                        Aç
-                    </Button>
-                </div>
-                <Modal title="Xəritə" visible={this.th.state.mapVisible} className={'w-full md:w-3/4 top-3'} footer={null} onCancel={() => { this.th.setState({ mapVisible: false }) }}>
                     <RegularMap
                         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6Vz_IKnktPC_TLl9DAmm_BpxokzQ4fIQ"
                         loadingElement={<div style={loadingElementStyle} />}
-                        containerElement={<div className={'h-75vh'} />}
+                        containerElement={<div className={`${callback == null? 'h-[75vh]' : 'h-[50vh]'} w-full`} />}
                         mapElement={<div className={'h-full'} />}
                         info={{ lat: lat, lan: lan, callback: callback }}
                     />
-                </Modal>
+                </div>
 
             </div>
         )

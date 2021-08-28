@@ -93,9 +93,9 @@ class Card extends Component<Props, State> {
     set3Row = () => {
         if (this.props.bina) {
             const bina = Bina_View_Data(this.props.ad);
-            if (bina.names.roomAmount.value) return <> <FaDoorOpen className="inline" /> {bina.names.roomAmount.value} Otaq</>
-            if (bina.names.floor.value && bina.names.buildingFloor.value) return <><FiLayers className="inline" /> {bina.names.floor.value} / {bina.names.buildingFloor.value} mərtəbə</>
-            if (bina.idlist.contractTypeId.value) return <><RiFilePaper2Line className="inline" /> {bina.names.contractName.value}</>
+            if (bina.nameList.roomAmount.value) return <> <FaDoorOpen className="inline" /> {bina.nameList.roomAmount.value} Otaq</>
+            if (bina.nameList.floor.value && bina.nameList.buildingFloor.value) return <><FiLayers className="inline" /> {bina.nameList.floor.value} / {bina.nameList.buildingFloor.value} mərtəbə</>
+            if (bina.idlist.contractTypeId.value) return <><RiFilePaper2Line className="inline" /> {bina.nameList.contractName.value}</>
         }
     }
 

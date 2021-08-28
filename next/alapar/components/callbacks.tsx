@@ -448,8 +448,8 @@ class Callbacks {
     }
 
     numberCallback = function (value) {
-        const val = +value.target.defaultValue.replace(/[^\-\d]/g, '').slice(0, 14) || +value.target.value.replace(/[^\-\d]/g, '').slice(0, 14) || null;
-        if (val == null) {
+        const val = +value.target.defaultValue.replace(/[^\-\d]/g, '').slice(0, 14) ?? +value.target.value.replace(/[^\-\d]/g, '').slice(0, 14) ?? null;
+        if (val == null || (value.target.defaultValue ?? value.target.value) == "") {
             this.setState({
                 selected: {
                     ...this.state.selected,
@@ -461,7 +461,6 @@ class Callbacks {
         const min = +value.target.min || +value.target.ariaValueMin
         const max = +value.target.max || +value.target.ariaValueMax
         const result = Math.max(min, val) != min ? Math.min(val, max) : min;
-
         this.setState({
             selected: {
                 ...this.state.selected,

@@ -52,6 +52,7 @@ namespace AlApar.Classes
             where Form : class where View : class where Context : DbContext where Currency : class, TCurrency, new();
 
         public Task<object> MainMenuStuffs<Category, View, Context, Photo>(Context context, int adListNumber) where Category : class, TCategory, new() where View : class, TView<Photo>, new() where Context : DbContext;
+        public Task<object> MainMenuStuffs2<Category, View, Context, Photo>(Context context, int adListNumber) where Category : class, TCategory, new() where View : class, TView<Photo>, new() where Context : DbContext;
 
         public Task<object> GetView<Context, View, Photo>(Context context, long id) where Context : DbContext where View : class, TView<Photo>, new();
     }

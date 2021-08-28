@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind variants;
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
+
+
+:root{
+  --light-grey: #e8e8e8
+}
 
 html,
 body {
@@ -37,11 +44,11 @@ a {
 }
 
 .image-gallery-thumbnail{
-  @apply w-50px !important;
+  @apply !w-50px ;
 }
 
 .image-gallery-thumbnail-inner img{
-  @apply object-cover w-50px h-50px !important;
+  @apply object-cover w-50px !h-50px ;
 }
 
 .ant-btn>span {
@@ -49,7 +56,7 @@ a {
 }
 
 .ant-upload-list-picture-card-container {
-  @apply h-126px !important;
+  @apply !h-126px ;
 }
 
 #header .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
@@ -61,11 +68,11 @@ a {
 }
 
 #header .ant-input-search-button {
-  @apply h-9 !important;
+  @apply !h-9 ;
 }
 
 #header .ant-btn-primary {
-  @apply text-white !important bg-black !important border-none !important;
+  @apply !text-white !bg-black !border-none;
 }
 
 #header .ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-item {
@@ -73,41 +80,37 @@ a {
 }
 
 #header .ant-select-selection-item {
-  @apply text-white !important text-lg !important;
+  @apply !text-white  !text-lg ;
 }
 
 .swiper-pagination-bullet-active {
-  @apply bg-pink !important;
+  @apply !bg-pink ;
 }
 
 .imageWrapper > div{
-  @apply max-w-full !important max-h-full !important;
+  @apply !max-w-full  !max-h-full ;
 }
 
 #addSection .subitem, #addSection .radioGroup{
   @apply px-10 py-3 w-full md:w-2/4;
 }
 
-#filter .subitem, #filter div.radioGroup{
+#filter .subitem{
   @apply px-5 py-0 w-full;
 }
 
-#addSection .radioitem{
+#filter .item:has(label){
+  @apply text-left;
+}
 
+#filter label{
+  font-family: 'Merriweather', serif;
 }
 
 #addSection .radioGroup{
   @apply grid grid-cols-2;
 }
 
-#filter .radioGroup{
-  @apply grid grid-cols-1;
-}
-
-#filter .addition .radioGroup{
-  
-}
-
 #filter .radioitem{
-  @apply text-left ml-5 p-5;
+  @apply text-left ml-5 p-2;
 }

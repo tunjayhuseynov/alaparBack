@@ -97,7 +97,7 @@ namespace AlApar.Models
 
                 entity.Property(e => e.Adress)
                     .HasColumnName("adress")
-                    .HasColumnType("text");
+                    .HasColumnType("nvarchar(max)");
 
                 entity.Property(e => e.AreaSize).HasColumnName("areaSize");
 
@@ -195,7 +195,7 @@ namespace AlApar.Models
                 entity.Property(w => w.PropertySellingName).HasColumnName("propertySellingName");
                 entity.Property(w => w.ContractName).HasColumnName("contractName");
                 entity.Property(w => w.ContractTypeId).HasColumnName("contractTypeId");
-                entity.Property(w => w.PropertySellingTypeId).HasColumnName("binasellingTypeId");
+                entity.Property(w => w.BinaSellingTypeId).HasColumnName("binasellingTypeId");
 
                 entity.Property(w => w.NearBusstop).HasColumnName("nearBusstop");
                 entity.Property(w => w.NearHospital).HasColumnName("nearHospital");
@@ -247,7 +247,7 @@ namespace AlApar.Models
 
                 entity.Property(e => e.About)
                     .HasColumnName("about")
-                    .HasColumnType("text");
+                    .HasColumnType("nvarchar(max)").IsUnicode(true);
 
                 entity.Property(e => e.PackageId).HasColumnName("packageId");
 
@@ -255,7 +255,7 @@ namespace AlApar.Models
 
                 entity.Property(e => e.Adress)
                     .HasColumnName("adress")
-                    .HasColumnType("text");
+                    .HasColumnType("nvarchar(max)");
 
                 entity.Property(e => e.AreaSize).HasColumnName("areaSize");
 

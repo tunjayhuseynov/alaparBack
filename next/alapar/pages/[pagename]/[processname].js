@@ -14,30 +14,47 @@ class StaticPages extends Component {
 
         this.utility = new Utilities(this)
         this.callbacks = new Callbacks(this)
-
         this.html = null;
         if (this.props.processname == pageprocess.add)
             stateProcess.bind(this)(this.props.pagename, pageprocess.add);
         else if (this.props.processname == pageprocess.search)
             stateProcess.bind(this)(this.props.pagename, pageprocess.search);
 
+        this.state.progressBar = false
+
+    }
+
+    componentDidMount = () => {
+        this.controller = new AbortController();
+        this.signal = this.controller.signal;
     }
 
     componentDidUpdate = async (prevProps, prevState) => {
-        if (this.props.processname == pageprocess.search && prevState.selected !== this.state.selected ) {
-            let conn = await fetch(`${URL.BINA_SEARCH}?s=${0}&t=${20}`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                mode: 'cors',
-                body: JSON.stringify(this.state.selected)
-            });
-            let res = await conn.json();
-
-            this.setState({ ads: res })
+        if (this.props.processname == pageprocess.search && prevState.selected !== this.state.selected) {
+            if (this.state.progressBar) {
+                this.controller.abort()
+                this.controller = new AbortController();
+                this.signal = this.controller.signal;
+            }
+            await this.searchSendData()
         }
+    }
 
+    searchSendData = async () => {
+        this.setState({ progressBar: true })
+        let conn = await fetch(`${URL.BINA_SEARCH}?s=${0}&t=${20}`, {
+            method: "POST",
+            signal: this.signal,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            body: JSON.stringify(this.state.selected)
+        });
+
+        let res = await conn.json();
+
+        this.setState({ ads: res, progressBar: false })
     }
 
     render() {
@@ -54,7 +71,7 @@ class StaticPages extends Component {
                 <>
                     <Header></Header>
 
-                    <FilterLayout state={this.state} ads={this.state.ads??[]}>
+                    <FilterLayout state={this.state} router={this.props.router} ads={this.state.ads ?? []}>
                         {content}
                     </FilterLayout>
 
@@ -62,6 +79,7 @@ class StaticPages extends Component {
             )
     }
 }
+
 
 export async function getStaticProps(context) {
     let pagename = context.params.pagename.toLowerCase();

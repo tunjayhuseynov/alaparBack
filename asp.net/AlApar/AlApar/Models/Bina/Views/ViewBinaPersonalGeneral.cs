@@ -25,7 +25,7 @@ namespace AlApar.Models.Bina.Views
         public int? RentPaymentTypeId { get; set; }
         public int? CurrencyId { get; set; }
         public int? MetroWayId { get; set; }
-        public int? PropertySellingTypeId { get; set; }
+        public int? BinaSellingTypeId { get; set; }
         public int? ContractTypeId { get; set; }
         public int? LandAppointmentId { get; set; }
         public int? TargetPointId { get; set; }
@@ -60,7 +60,7 @@ namespace AlApar.Models.Bina.Views
         public bool? CabelTv { get; set; }
 
         [Column("pvcWindow")]
-        public bool? PVCWindow { get; set; }
+        public bool? PvcWindow { get; set; }
 
         [Column("combi")]
         public bool? Combi { get; set; }

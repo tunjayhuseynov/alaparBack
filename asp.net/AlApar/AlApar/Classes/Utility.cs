@@ -143,7 +143,7 @@ namespace AlApar.Classes
 
                     EncoderParameters myEncoderParameters = new EncoderParameters(1);
 
-                    EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 1L);
+                    EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, 0L);
                     myEncoderParameters.Param[0] = myEncoderParameter;
 
                     thumbnail.Save($"{mainFolder}/{folderId}/thumb-{item.FileName}");
@@ -202,24 +202,26 @@ namespace AlApar.Classes
 
         public bool CheckFilterProperties<Form, View, Context, Currency>(FilterCheckAttribute attr, Form form, View view, Context db, List<Currency> currencyList) where Form : class where View : class where Context : DbContext where Currency : class, TCurrency, new()
         {
-            object rawValue = form.GetType().GetProperty(attr.SelfName).GetValue(form);
-            object rawModelValue = view.GetType().GetProperty(attr.Target).GetValue(view);
+            object rawValue = form.GetType().GetProperty(attr.SelfName).GetValue(form) ?? null;
+            object rawModelValue = view.GetType().GetProperty(attr.Target).GetValue(view) ?? null;
 
             CurrencyConverterAttribute currencyAttr = GetAttributes<CurrencyConverterAttribute>(form.GetType().GetProperty(attr.SelfName));
 
 
             if (rawValue != null && rawModelValue != null)
             {
-                if (attr.Type == TypeEnum.Text) { 
+                if (attr.Type == TypeEnum.Text)
+                {
                     string textvalue = ((string)rawValue).ToLower();
                     string viewtextvalue = ((string)rawModelValue).ToLower();
                     return viewtextvalue.Contains(textvalue);
                 }
 
-                if (attr.Type == TypeEnum.Multiple) {
+                if (attr.Type == TypeEnum.Multiple)
+                {
                     List<int> multiplevalue = (List<int>)rawValue;
                     int? adValue = Convert.ToInt32(rawModelValue);
-                    return multiplevalue.Count == 0 ? true : multiplevalue.Contains(adValue??0);
+                    return multiplevalue.Count == 0 ? true : multiplevalue.Contains(adValue ?? 0);
                 }
 
                 double? value = Convert.ToDouble(rawValue);
@@ -448,7 +450,7 @@ namespace AlApar.Classes
                 if (result.Count == take)
                     break;
 
-            SkipLoop:
+                SkipLoop:
                 continue;
             }
 
@@ -491,6 +493,30 @@ namespace AlApar.Classes
             return categories.Select(category => new { category, Ads = ads.Where(w => w.CategoryId == category.Id) });
         }
 
+        public async Task<object> MainMenuStuffs2<Category, View, Context, Photo>(Context context, int adListNumber)
+            where Category : class, TCategory, new()
+            where View : class, TView<Photo>, new()
+            where Context : DbContext
+        {
+            var categories = await context.Set<Category>().ToListAsync();
+
+            List<object> ads = new();
+
+            ads.Add(new
+            {
+                Title = "Ən Son Əlavə Olunanlar",
+                List = await context.Set<View>().Include(w => w.Images).OrderByDescending(w => w.ModifiedDate).Skip(0).Take(adListNumber).ToListAsync(),
+            });
+
+            ads.Add(new
+            {
+                Title = "Ən Çox Baxılanlar",
+                List = await context.Set<View>().Include(w => w.Images).OrderByDescending(w => w.Viewed).Skip(0).Take(adListNumber).ToListAsync(),
+            });
+
+            return new { categories, ads };
+        }
+
         public async Task<object> GetView<Context, View, Photo>(Context context, long id)
             where Context : DbContext where View : class, TView<Photo>, new()
         {
@@ -507,6 +533,8 @@ namespace AlApar.Classes
     {
         public long Id { get; set; }
         public int? CategoryId { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+        public int? Viewed { get; set; }
         public ICollection<Image> Images { get; set; }
     }
 

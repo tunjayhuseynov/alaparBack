@@ -53,7 +53,7 @@ namespace AlApar.Models.Job.Views
         public string PhoneNumber4 { get; set; }
         public string Email { get; set; }
 
-        public DateTime ModifiedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
 
 
         public virtual ICollection<JobEmployeePhoto> Images { get; set; }

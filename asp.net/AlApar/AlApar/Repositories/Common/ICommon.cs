@@ -35,5 +35,6 @@ namespace AlApar.Repositories.Common
 
         //Menu
         public Task<object> getMainMenuStuffs(IUtility utility, Context context, int adListNumber);
+        public Task<object> getMainMenuStuffs2(IUtility utility, Context context, int adListNumber);
     }
 }

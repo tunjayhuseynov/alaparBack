@@ -5,7 +5,7 @@ export const BINA_IMAGE = `${base}/api/bina/image`;
 export const BINA_FORM = `${base}/api/bina/Form`;
 export const BINA_GET_FILTER = `${base}/api/bina/filter`
 export const BINA_SEARCH = `${base}/api/bina/search`
-export const BINA_MENU = `${base}/api/bina/mainmenu`
+export const BINA_MENU = `${base}/api/bina/mainmenu2`
 export const BINA_GET = `${base}/api/bina/get/`
 
 export const HOME_SUBMIT = `${base}/api/home/Add`;

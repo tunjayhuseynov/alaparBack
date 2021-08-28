@@ -34,6 +34,7 @@ namespace AlApar.Models.Bina
         public double? AreaSize { get; set; }
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }
+
         public string About { get; set; }
         public int? ContactId { get; set; } // Manual
         public int? LandAppointmentId { get; set; }
