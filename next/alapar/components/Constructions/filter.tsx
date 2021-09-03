@@ -3,6 +3,7 @@ import Card, { General } from '@/Layouts/components/card'
 import { v4 as uuidv4 } from 'uuid'
 import { NextRouter, useRouter } from 'next/router'
 import { Skeleton } from 'antd';
+
 interface Props {
     animal: boolean,
     auto: boolean,
@@ -34,24 +35,24 @@ const FilterLayout = (props: Props) => {
 
 
     return (
-        <div className="container mx-auto">
+        <div className="xl:container mx-auto dasinmaz">
             <div className="text-center block mb-12">
                 <h1 className="text-[2rem]">
-                    <span>Axtarış: </span>
+                    <span style={{ fontFamily: "'Bodoni Moda', serif",  }}>Axtarış</span>
                     <span className={'h-2px w-3% bg-gradient-to-r from-skyblue via-blue to-pink block mx-auto my-0'}></span>
                 </h1>
             </div>
-            <div className={'flex flex-col md:flex-row  min-h-screen gap-4'}>
-                <div className={'flex-grow-0 w-250px self-center md:self-start text-center'}>
+            <div className={'flex flex-col lg:flex-row min-h-screen gap-4 px-2 md:px-16'}>
+                <div className={'flex-grow-0 w-[300px] md:w-auto lg:w-[300px] self-center md:self-start text-center py-4 border'}>
                     <div className={'box'}>
                         <div id={'filter'} className={'mb-5'}>
-                            <div className={'flex flex-col gap-4'}>
+                            <div className={'flex flex-col  md:grid md:grid-cols-3 lg:flex lg:flex-col gap-4'}>
                                 {props.children}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className={'flex-grow-2 flex flex-col gap-5 md:border-l md:pl-3 rounded md:min-h-screen border-t py-5 md:py-0 md:border-t-0'}>
+                <div className={'flex-grow-2 flex flex-col gap-5 md:pl-3 rounded md:min-h-screen border-t py-5 md:py-0 md:border-t-0 bg-gradient-to-b md:bg-gradient-to-r from-[#f7f8fb] to-[#fff] '}>
                     {!props.state.progressBar ? (props.ads.length > 0 ? props.ads.map((ads) => {
 
                         return <div key={uuidv4()}>

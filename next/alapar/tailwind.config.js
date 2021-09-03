@@ -6,6 +6,9 @@ module.exports = {
   important: true,
   mode: 'jit',
   darkMode: false, // or 'media' or 'class'
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+  ],
   theme: {
     screens: {
       'sm': '429px',
@@ -154,7 +157,4 @@ module.exports = {
       },
     },
   },
-  plugins: [
-
-  ],
 }

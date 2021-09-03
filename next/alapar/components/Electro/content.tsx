@@ -53,7 +53,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Electro> & Sta
 export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Electro> & StaticPages) {
     return (<>
 
-        {this.utility.selectGenerator("Kateqoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.electroCategoryCallback)}
+        {this.utility.selectGenerator("Kateqoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.electroCategoryCallback, {categorySave: true })}
 
         {this.utility.selectGenerator("Marka:", this.state.computerMarkList, "computerMarkList", this.state.selected.computerMarkList, this.callbacks.multipleCallback, { multiple: true })}
 

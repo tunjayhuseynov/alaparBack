@@ -103,9 +103,6 @@ class Id extends Component<{ ad: General, pagename: string, id: number }, { ad: 
                     <div className="text-base font-medium" style={this.bina.nameList.metroDuration.value != null ? null : { display: 'none' }}>
                         <label className="text-gray-500">{this.bina.nameList.metroDuration.name}</label>:  <span>{this.bina.nameList.metroWayName.value} {this.bina.nameList.metroDuration.value}</span>
                     </div>
-                    <div className="text-base font-medium" style={this.bina.nameList.hamam.value != null ? null : { display: 'none' }}>
-                        <label className="text-gray-500">{this.bina.nameList.hamam.name}</label>:  <span>{this.bina.nameList.hamam.value}</span>
-                    </div>
                 </>
             )
         }
@@ -233,7 +230,7 @@ class Id extends Component<{ ad: General, pagename: string, id: number }, { ad: 
                             </div>
                         </div>
                         <div className='pt-3 font-normal text-base'>
-                            {`Telefon nömrəsi: ${`0${phone}`.split("").reduce(this.utility.phoneConverter,'')}`}
+                            {`Telefon nömrəsi: ${`${phone}`.split("").reduce(this.utility.phoneConverter,'')}`}
                         </div>
                     </div>
                 </div>

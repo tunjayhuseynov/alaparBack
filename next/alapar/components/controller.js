@@ -2,31 +2,31 @@
 import { ANIMAL_FILTER_CONVERTER } from '@/Animal/object';
 import { HtmlAdd as AnimalHtml, HtmlFilter as AnimalHtmlFilter } from '@/Animal/content';
 import { Animal_State } from '@/Animal/state';
-import { HtmlAdd as AutoHtml, HtmlFilter as AutoHtmlFilter} from '@/Auto/content';
+import { HtmlAdd as AutoHtml, HtmlFilter as AutoHtmlFilter } from '@/Auto/content';
 import { AUTO_FILTER_CONVERTER } from '@/Auto/object';
 import { Auto_State } from '@/Auto/state';
-import { HtmlAdd as BinaHtml, HtmlFilter as BinaHtmlFilter} from '@/Bina/content';
+import { HtmlAdd as BinaHtml, HtmlFilter as BinaHtmlFilter } from '@/Bina/content';
 import { BINA_FILTER_CONVERTER } from '@/Bina/object';
 import { Bina_State } from '@/Bina/state';
-import { HtmlAdd as ElectroHtml, HtmlFilter as ElectroHtmlFilter} from '@/Electro/content';
+import { HtmlAdd as ElectroHtml, HtmlFilter as ElectroHtmlFilter } from '@/Electro/content';
 import { ELECTRO_FILTER_CONVERTER } from '@/Electro/object';
 import { Electro_State } from '@/Electro/state';
-import { HtmlAdd as HobbyHtml, HtmlFilter as HobbyHtmlFilter} from '@/Hobby/content';
+import { HtmlAdd as HobbyHtml, HtmlFilter as HobbyHtmlFilter } from '@/Hobby/content';
 import { HOBBY_FILTER_CONVERTER } from '@/Hobby/object';
 import { Hobby_State } from '@/Hobby/state';
-import { HtmlAdd as HomeHtml, HtmlFilter as HomeHtmlFilter} from '@/Home/content';
+import { HtmlAdd as HomeHtml, HtmlFilter as HomeHtmlFilter } from '@/Home/content';
 import { HOME_FILTER_CONVERTER } from '@/Home/object';
 import { Home_State } from '@/Home/state';
-import { HtmlAdd as JobHtml, HtmlFilter as JobHtmlFilter} from '@/Job/content';
+import { HtmlAdd as JobHtml, HtmlFilter as JobHtmlFilter } from '@/Job/content';
 import { JOB_FILTER_CONVERTER } from '@/Job/object';
 import { Job_State } from '@/Job/state';
-import { HtmlAdd as PrivateHtml, HtmlFilter as PrivateHtmlFilter} from '@/Private/content';
+import { HtmlAdd as PrivateHtml, HtmlFilter as PrivateHtmlFilter } from '@/Private/content';
 import { PRIVATE_FILTER_CONVERTER } from '@/Private/object';
 import { Private_State } from '@/Private/state';
 import { HtmlAdd as ChildHtml, HtmlFilter as ChildHtmlFilter } from '@/Child/content';
 import { CHILD_FILTER_CONVERTER } from '@/Child/object';
 import { Child_State } from '@/Child/state';
-import { HtmlAdd as ServiceHtml, HtmlFilter as ServiceHtmlFilter} from '@/Service/content';
+import { HtmlAdd as ServiceHtml, HtmlFilter as ServiceHtmlFilter } from '@/Service/content';
 import { SERVICE_FILTER_CONVERTER } from '@/Service/object';
 import { Service_State } from '@/Service/state';
 import * as URL from '@/Constructions/const';
@@ -44,6 +44,19 @@ export const pagenames = {
     service: "service"
 }
 
+export const labelNames = {
+    animal: { name: "Heyvan", mainColor: "#ffda23" },
+    auto: { name: "Avtomobil və Maşınlar", mainColor: "#e25656" },
+    dasinmaz: { name: "Daşınmaz Əmlak", mainColor: "#7f00ef" },
+    electro: { name: "Elektronik Əşyalar", mainColor: "#1cd1ff" },
+    hobby: { name: "Hobby və Asudə", mainColor: "#bbff00" },
+    home: { name: "Ev və Bağ Əşyaları", mainColor: "#3fff00" },
+    job: { name: "İş", mainColor: "#ffd400" },
+    private: { name: "Şəxsi Geyim Və Əşyalar", mainColor: "#ff59d5" },
+    child: { name: "Uşaq Geyimi Və Əşyaları", mainColor: "#fedf00" },
+    service: { name: "Xidmətlər Və Biznes", mainColor: "#828cff" }
+}
+
 export const pageprocess = {
     search: "search",
     add: "add",
@@ -51,7 +64,7 @@ export const pageprocess = {
     menu: "menu"
 }
 
-const contentProcess = function contentProcess(comname, addHtml, searchHtml, showHtml, menuHtml){
+const contentProcess = function contentProcess(comname, addHtml, searchHtml, showHtml, menuHtml) {
     switch (comname) {
         case pageprocess.search:
             return searchHtml;
@@ -67,7 +80,7 @@ const contentProcess = function contentProcess(comname, addHtml, searchHtml, sho
 }
 
 
-export const stateProcess = function stateProcess(pagename, comname){
+export const stateProcess = function stateProcess(pagename, comname) {
     switch (pagename) {
         case pagenames.animal:
             this.filter = ANIMAL_FILTER_CONVERTER(this.props.filter)
@@ -126,7 +139,7 @@ export const stateProcess = function stateProcess(pagename, comname){
     }
 };
 
-export const InitFetch = function InitFetch(pagename, comname){
+export const InitFetch = function InitFetch(pagename, comname) {
     switch (pagename) {
         case pagenames.animal:
             return contentProcess(comname, URL.ANIMAL_FORM, URL.ANIMAL_GET_FILTER, URL.ANIMAL_GET, URL.ANIMAL_MENU);

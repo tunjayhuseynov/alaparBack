@@ -45,6 +45,7 @@ class Category extends Component<Props, State> {
         adlist.forEach(element => {
             listArray.push(
                 <Card key={uuidv4()} 
+                mobility={true}
                 ad={element} 
                 animal={this.props.animal}
                 auto={this.props.auto}
@@ -67,10 +68,10 @@ class Category extends Component<Props, State> {
     render() {
         return (
             <div className="py-4 p-2 sm:p-0">
-                <div className="h-30 flex justify-between">
+                <div className="h-30 flex justify-between ml-3 mb-3 lg:ml-0 lg:mb-0">
                     <h2 className="text-2xl">{this.props.category?.["title"] ?? this.props.title}</h2>
                 </div>
-                <div className={'grid grid-cols-1 md:grid-cols-2 md:gap-x-4 md:gap-y-4 gap-y-4 py-4'}>
+                <div className={'grid grid-cols-1 lg:grid-cols-2 md:gap-x-4 md:gap-y-4 gap-y-4 lg:py-4'}>
                     {this.state.adList}
                 </div>
                 <div className={'text-center p-3'}>

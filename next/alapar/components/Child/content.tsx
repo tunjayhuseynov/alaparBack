@@ -35,7 +35,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Child> & Stati
 
 export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Child> & StaticPages) {
     return (<>
-        {this.utility.selectGenerator("Kateqoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.privateCategoryCallback)}
+        {this.utility.selectGenerator("Kateqoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.privateCategoryCallback, {categorySave: true })}
         {this.utility.selectGenerator("Geyim Tipi:", this.state.clothesGendersList, "clothesGender", this.state.selected.clothesGender, this.callbacks.clothesGenderCallback)}
         {this.utility.selectGenerator("Geyim Növü:", this.state.clothesTypesList, "clothesTypesList", this.state.selected.clothesTypesList, this.callbacks.multipleCallback, { multiple: true })}
         {this.utility.selectGenerator("Malın Növü:", this.state.typeList, "typeList", this.state.selected.typeList, this.callbacks.multipleCallback, { multiple: true })}

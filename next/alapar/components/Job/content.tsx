@@ -69,8 +69,7 @@ export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Job> & S
 
         {this.utility.radioGenerator("Cinsiyyət:", newType?.employeeIsGirl, 2, this.callbacks.ownerCallback, "gender", this.state.gender)}
 
-
-        {this.utility.selectGenerator("İş Sahəsi:", this.state.category, "categoryList", this.state.selected.categoryList, this.callbacks.multipleCallback, { subname: this.state.subcategory, subnameTitle: "title", search: true, multiple: true })}
+        {this.utility.selectGenerator("İş Sahəsi:", this.state.category, "categoryList", this.state.selected.categoryList, this.callbacks.multipleCallback, { subname: this.state.subcategory, subnameTitle: "title", search: true, multiple: true, categorySave: true })}
         {this.utility.rangeİnputGenerator("Maaş:", "minWageFilter", "maxWageFilter", this.callbacks.numberCallback, newType?.companyName)}
         {this.utility.rangeİnputGenerator("Yaş aralığı:", "minAgeFilter", "maxAgeFilter", this.callbacks.numberCallback, newType?.companyName, { min: 16, max: 65 })}
         {this.utility.selectGenerator("Təhsil səviyyəsi:", this.state.educationList, "educationLevelList", this.state.selected.educationLevelList, this.callbacks.multipleCallback, { visibility: newType?.educationId, multiple: true})}

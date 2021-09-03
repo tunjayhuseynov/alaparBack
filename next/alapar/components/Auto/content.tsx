@@ -74,7 +74,7 @@ export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Auto> & 
     }
     return (<>
         {this.utility.radioGenerator("Satış Növü:", this.state.sellTypeList, 1, this.callbacks.autoSellTypeCallback, "sellType")}
-        {this.utility.selectGenerator("Marka:", this.state.markList, "mark", this.state.selected.mark, this.callbacks.autoMarkCallback, { search: true })}
+        {this.utility.selectGenerator("Marka:", this.state.markList, "mark", this.state.selected.mark, this.callbacks.autoMarkCallback, { search: true , categorySave: true })}
         {this.utility.selectGenerator("Model:", this.state.modelList, "modelList", this.state.selected.modelList, this.callbacks.multipleCallback, { search: true, subname: this.state.modelSubList, subnameTitle: "title", multiple: true })}
         {this.utility.selectGenerator("Ban növü:", this.state.banList, "banList", this.state.selected.banList, this.callbacks.multipleCallback, { multiple: true })}
         {this.utility.rangeİnputGenerator("Qiymət:", "minPrice", "maxPrice", this.callbacks.numberCallback, this.state.selected.mark, { addonAfterList: this.state.currencyList, addonAfterCallback: this.callbacks.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}

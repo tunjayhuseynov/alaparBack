@@ -6,6 +6,7 @@ export function Device(props) {
     return <div>{props.children(isMobile)}</div>
 }
 import { AiOutlineDown } from "react-icons/ai"
+import {HiOutlineAdjustments} from 'react-icons/hi'
 
 
 export const MobileSelector = function MobileSelector(props) {
@@ -65,9 +66,10 @@ export const AdvanceTool = function AdvanceTool(props) {
     }, [])
 
     return (
-        <div className={'border border-[#cfcfcf]'}>
+        <div className={'border border-[#cfcfcf] mx-5 col-span-3'}>
             <div id={'clickableAddition'} data-ccclickbtn className={'px-6 py-2 bg-white font-semibold'}>
                 <div className={'flex flex-row gap-2 justify-center items-center border-b pb-1 cursor-pointer'}>
+                    <div><HiOutlineAdjustments/></div>
                     <div>Əlavə</div>
                     <div><AiOutlineDown id={'additionIcon'} className={`transition-all`} /></div>
                 </div>

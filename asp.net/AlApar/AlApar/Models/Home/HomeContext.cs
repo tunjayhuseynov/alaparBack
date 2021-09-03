@@ -201,6 +201,10 @@ namespace AlApar.Models.Home
                     .WithMany(p => p.HomePhotos)
                     .HasForeignKey(d => d.AdId)
                     .HasConstraintName("home_photos_ad");
+
+                entity.HasOne(d => d.ViewHomeAd)
+                    .WithMany(p => p.Images)
+                    .HasForeignKey(d => d.AdId);
             });
 
             modelBuilder.Entity<HomeType>(entity =>
@@ -254,7 +258,6 @@ namespace AlApar.Models.Home
 
                 entity.Property(e => e.HasDelivery).HasColumnName("hasDelivery");
 
-                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.IsCall).HasColumnName("isCall");
 
@@ -273,9 +276,9 @@ namespace AlApar.Models.Home
 
                 entity.Property(e => e.ModifiedDate).HasColumnName("modifiedDate");
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.CategoryName)
                     .HasMaxLength(50)
-                    .HasColumnName("name");
+                    .HasColumnName("categoryName");
 
                 entity.Property(e => e.PackageName)
                     .HasMaxLength(255)

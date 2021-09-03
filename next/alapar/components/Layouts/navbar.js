@@ -6,8 +6,8 @@ import Link from 'next/link'
 class Navbar extends Component {
   constructor() {
     super()
-    this.classname = "container px-2 mx-auto bg-white right-0 left-0 transform-gpu transition-all duration-200 ease-linear";
-    this.navidClass = "w-full z-50 bg-white min-h-75 transform-gpu transition-all duration-200 ease-linear"
+    this.classname = "container px-2 mx-auto right-0 left-0 transform-gpu transition-all duration-200 ease-linear";
+    this.navidClass = "w-full z-50 min-h-75 absolute top-0 transform-gpu transition-all duration-200 ease-linear"
   }
 
   componentDidMount() {

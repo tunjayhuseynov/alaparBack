@@ -41,7 +41,7 @@ class Index extends Component {
     render() {
         return (<>
             <Header></Header>
-            <section id={'main'} className={'container mx-auto'}>
+            <section id={'main'} className={'lg:container mx-auto'}>
                 <ScrollableBar categories={this.props.menu?.categories}/>
                 <div className={'text-center block'}>
                     <h1 className={'text-2xl'}>

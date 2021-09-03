@@ -30,7 +30,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Home> & Static
 
 export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Home> & StaticPages) {
     return (<>
-        {this.utility.selectGenerator("Kateqoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.homeCategoryCallback)}
+        {this.utility.selectGenerator("Kateqoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.homeCategoryCallback, {categorySave: true })}
         {this.utility.selectGenerator("Malın Növü:", this.state.typeList, "typeList", this.state.selected.typeList, this.callbacks.multipleCallback, { multiple: true })}
         <div className={'radioGroup'}>
             {this.utility.checkBoxGenerator("Yeni", this.callbacks.checkboxCallback, "isNew", this.state.hasNew, { makeBlock: true })}

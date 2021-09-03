@@ -234,14 +234,14 @@ class Utilities {
                         {selectedInput}
 
                         {!addonAfterList ? null :
-                            <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
+                            <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px' }}>
                                 <Select value={addonValue} onSelect={addonAfterCallback} name={addonName}>
                                     {addonAfterList.map((w, i) => <Option key={uuidv4()} state={addonName} value={w.id}>{w.name}</Option>)}
                                 </Select>
                             </div>
                         }
                         {!addonAfterOnlyText ? null :
-                            <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
+                            <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px' }}>
                                 {addonAfterOnlyText}
                             </div>
                         }
@@ -339,17 +339,17 @@ class Utilities {
                     return (
                         <div className={'subitem rangeInput'} displayname={title.replace(/[^\p{L}]+/gu, "")}>
                             <div className={'item'} ><label>{title}</label></div>
-                            <div className={'item flex'}>
+                            <div className={'item flex items-center'}>
                                 {selectedInput}
                                 {!addonAfterList ? null :
-                                    <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
+                                    <div className="flex items-center bg-[#FAFAFA]" >
                                         <Select value={addonValue} onSelect={addonAfterCallback} name={addonName}>
                                             {addonAfterList.map((w, i) => <Option key={uuidv4()} state={addonName} value={w.id}>{w.name}</Option>)}
                                         </Select>
                                     </div>
                                 }
                                 {!addonAfterOnlyText ? null :
-                                    <div className="ant-input-group-addon" style={{ paddingTop: '2px', verticalAlign: 'middle', display: 'inline-table', lineHeight: '24px', height: '32px' }}>
+                                    <div className="addonSimple flex items-center bg-[#FAFAFA] px-3 border" >
                                         {addonAfterOnlyText}
                                     </div>
                                 }
@@ -361,7 +361,7 @@ class Utilities {
         )
     }
 
-    selectGenerator = (title, options, name, selected, callback, { visibility = null, loading = null, search = false, noneed = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null, novalidation = null, filtername = false, multiple = false } = { }) => {
+    selectGenerator = (title, options, name, selected, callback, { categorySave = false, visibility = null, loading = null, search = false, noneed = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null, novalidation = null, filtername = false, multiple = false } = { }) => {
         if (visibility != null && visibility == false) {
             if (multiple)
                 this.th.state.selected[name] = [];
@@ -380,7 +380,7 @@ class Utilities {
 
             return null
         }
-        if (name.includes("category")) {
+        if (categorySave) {
             this.th.state.categoryCallback = callback
         }
         if (sort) {

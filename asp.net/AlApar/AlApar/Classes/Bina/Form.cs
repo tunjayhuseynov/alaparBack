@@ -160,6 +160,7 @@ namespace AlApar.Classes.Bina
         public int? CurrencyId { get; set; }
 
         [JsonProperty("metroWay")]
+        [Bypass]
         public int? MetroWayId { get; set; }
 
         [JsonProperty("metroDuration")]

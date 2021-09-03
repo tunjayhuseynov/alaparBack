@@ -19,7 +19,7 @@ namespace AlApar.Models.Home.View
         public bool? IsNew { get; set; }
         public double? Price { get; set; }
         public string About { get; set; }
-        public string Name { get; set; }
+        public string CategoryName { get; set; }
         public string ContactNumber { get; set; }
         public bool? IsCall { get; set; }
         public bool? IsWp { get; set; }

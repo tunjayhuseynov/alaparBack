@@ -250,7 +250,7 @@ export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Bina> & 
     return (<>
         {this.utility.radioGenerator("Elanın Növü:", this.state.sellTypeList, 1, this.callbacks.binaSellTypeCallback, "sellType", null, { filtername: true })}
 
-        {this.utility.selectGenerator("Kategoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.binaCategoryCallback, { subname: this.state.subCategory, subnameTitle: "subname" })}
+        {this.utility.selectGenerator("Kategoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.binaCategoryCallback, { subname: this.state.subCategory, subnameTitle: "subname", categorySave: true })}
 
         {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.cityCallback, { sort: true, swapItem: [5] })}
 

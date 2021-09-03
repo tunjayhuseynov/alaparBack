@@ -26,14 +26,12 @@
   },
   "include": [
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.js",
-    "**/*.tsx",
-    "pages/animal.js/add.js",
-    "components/Animal/content.tsx",
-    "components/Private/content.jsx",
-    "pages/animal",
-    "pages/[pagename]/[processname].jsx",
+    "pages/**/*.ts",
+    "pages/**/*.js",
+    "pages/**/*.tsx",
+    "components/**/*.ts",
+    "components/**/*.js",
+    "components/**/*.tsx",
     "babel.config.js"
   ],
   "exclude": [
