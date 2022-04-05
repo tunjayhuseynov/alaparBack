@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Private
 {
-    public interface IPrivateCrud : ICommon<ViewPrivateAd, PrivateContext, Form, PrivateAd, PrivateContact, PrivateLog, PrivateCategory>
+    public interface IPrivateCrud : ICommon<ViewPrivateAd, PrivateContext, Form, PrivateAd, PrivateContact, PrivateLog, PrivateCategory, PrivateStory>
     {
     }
 }

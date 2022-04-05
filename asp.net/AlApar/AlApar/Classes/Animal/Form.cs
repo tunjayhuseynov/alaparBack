@@ -58,15 +58,15 @@ namespace AlApar.Classes.Animal
         //Filter
                                                 
         [JsonProperty("maxPrice")]
-        [FilterCheck(TypeEnum.Max, "Price")]
+        [FilterCheck(Repositories.Status.Type.Max, "Price")]
         public int? MaxPrice { get; set; }  
 
         [JsonProperty("minPrice")]
-        [FilterCheck(TypeEnum.Min, "Price")]
+        [FilterCheck(Repositories.Status.Type.Min, "Price")]
         public int? MinPrice { get; set; }
 
         [JsonProperty("generaList")]
-        [FilterCheck(TypeEnum.Multiple, "GeneraId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "GeneraId")]
         public List<int?> GeneraList { get; set; }
         
         [JsonProperty("sharedDate")]

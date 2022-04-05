@@ -1,20 +1,20 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.View;
 using System;
 using System.Collections.Generic;
 
 
 namespace AlApar.Models.Animal.View
 {
-    public class ViewAnimalAd : TView<AnimalPhoto>
+    public class ViewAnimalAd : CommonViewProperities, TView<AnimalPhoto> 
     {
         public ViewAnimalAd()
         {
             Images = new HashSet<AnimalPhoto>();
         }
-        public long Id { get; set; }
-        public int? Viewed { get; set; }
-        public DateTime? ModifiedDate { get; set; }
-        public string PackageName { get; set; }
+        public long Id { get; set; } 
+        public int? Viewed { get; set; } 
+        public string PackageName { get; set; } 
         public string StatusName { get; set; }
         public string About { get; set; }
         public double? Price { get; set; }
@@ -36,9 +36,8 @@ namespace AlApar.Models.Animal.View
         public int? GeneraId { get; set; }
         public int? TypeId { get; set; }
 
-        public int? LogId { get; set; }
         public int? StatusId { get; set; }
-        public int? PackageId { get; set; }
+        
         public int? CurrencyId { get; set; }
         public int? CityId { get; set; }
         public int? ContactId { get; set; }

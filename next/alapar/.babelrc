@@ -1,4 +1,4 @@
 {
   "presets": ["next/babel"],
-  "plugins": ["@babel/plugin-proposal-unicode-property-regex", "inline-react-svg", ["import", { "libraryName": "antd", "style": true }]],
+  "plugins": ["@babel/plugin-proposal-unicode-property-regex", "inline-react-svg" /*, ["import", { "libraryName": "antd", "style": true }]*/ ],
 }

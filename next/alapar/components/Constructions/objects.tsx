@@ -33,7 +33,11 @@ export interface ImageState {
     previewVisible: boolean,
     previewImage: string,
     previewTitle: string,
-    fileList: Array<any>
+    fileList: Array<any>, 
+}
+
+export interface SelectedImageState{
+    images: string[]
 }
 
 export interface ShoeSize{

@@ -1,4 +1,5 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.View;
 using System;
 using System.Collections.Generic;
 
@@ -6,12 +7,11 @@ using System.Collections.Generic;
 
 namespace AlApar.Models.Hobby.Views
 {
-    public partial class ViewHobbyAd : TView<HobbyPhoto>
+    public partial class ViewHobbyAd : CommonViewProperities, TView<HobbyPhoto>
     {
         public long Id { get; set; }
         public int? Viewed { get; set; }
         public int? StatusId { get; set; }
-        public int? PackageId { get; set; }
         public int? CategoryId { get; set; }
         public int? TypeId { get; set; }
         public string Title { get; set; }
@@ -29,14 +29,11 @@ namespace AlApar.Models.Hobby.Views
         public string Email { get; set; }
         public string ContactName { get; set; }
         public string CategoryName { get; set; }
-        public DateTime? ModifiedDate { get; set; }
         public string TypeName { get; set; }
         public string CityName { get; set; }
         public string StatusName { get; set; }
-        public int? LogId { get; set; }
         public int? ContactId { get; set; }
 
         public virtual ICollection<HobbyPhoto> Images { get; set; }
-
     }
 }

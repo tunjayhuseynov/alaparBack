@@ -1,6 +1,6 @@
 import { City, Currency, ImageState, SharedDate } from "@/Constructions/objects";
 import { Category,  SERVICE_FILTER, Type } from "./object";
-import * as URL from '@/Constructions/const';
+import {Sites} from '@/Constructions/const';
 
 export interface Service_Selection{
     category: number,
@@ -43,8 +43,8 @@ export interface Service extends ImageState{
 export const Service_State = (json: SERVICE_FILTER, th) : Service => {
     return {
         ...th.utility.getImageState,
-        url: URL.SERVICE_IMAGE,
-        submitUrl: URL.SERVICE_SUBMIT,
+        url: Sites.service.image,
+        submitUrl: Sites.service.submit,
         selected: {
             category: null,
             type: null,

@@ -1,17 +1,16 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlApar.Models.Job.Views
 {
-    public class ViewJobAds : TView<JobEmployeePhoto>
+    public class ViewJobAds : CommonViewProperities, TView<JobEmployeePhoto>
     {
         public long Id { get; set; }
         public int? Viewed { get; set; }
         public int? StatusId { get; set; }
-        public int? LogId { get; set; }
-        public int? PackageId { get; set; }
         public int? TypeId { get; set; }
         public int? CategoryId { get; set; }
         public int? ContactId { get; set; }
@@ -53,10 +52,8 @@ namespace AlApar.Models.Job.Views
         public string PhoneNumber4 { get; set; }
         public string Email { get; set; }
 
-        public DateTime? ModifiedDate { get; set; }
 
 
         public virtual ICollection<JobEmployeePhoto> Images { get; set; }
-
     }
 }

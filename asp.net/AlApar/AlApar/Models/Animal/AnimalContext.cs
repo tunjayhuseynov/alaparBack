@@ -30,6 +30,9 @@ namespace AlApar.Models.Animal
         public virtual DbSet<AdStatuses> AdStatuses { get; set; }
         public virtual DbSet<AdPackages> AdPackages { get; set; }
         public virtual DbSet<LastSharedTimes> LastSharedTimes { get; set; }
+
+        public virtual DbSet<AnimalStory> AnimalStories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

@@ -1,6 +1,6 @@
 import { City, ClothesColor, ClothesSize, Currency, ImageState, SharedDate, ShoeSize } from "@/Constructions/objects";
 import { Category, ClothesGender, ClothesType, PRIVATE_FILTER, Type } from "./object";
-import * as URL from '@/Constructions/const';
+import {Sites} from '@/Constructions/const';
 
 export interface Private_Selection{
     category: number,
@@ -57,8 +57,8 @@ export interface Private extends ImageState{
 export const Private_State = (json: PRIVATE_FILTER, th) : Private => {
     return {
         ...th.utility.getImageState,
-        url: URL.PRIVATE_IMAGE,
-        submitUrl: URL.PRIVATE_SUBMIT,
+        url: Sites.private.image,
+        submitUrl: Sites.private.submit,
         selected: {
             category: null,
             clothesGender: null,

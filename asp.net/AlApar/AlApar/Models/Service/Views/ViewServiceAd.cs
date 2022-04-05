@@ -1,4 +1,5 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlApar.Models.Service.Views
 {
-    public partial class ViewServiceAd : TView<ServicePhoto>
+    public partial class ViewServiceAd : CommonViewProperities, TView<ServicePhoto>
     {
         public long Id { get; set; }
         public int? Viewed { get; set; }
@@ -17,8 +18,7 @@ namespace AlApar.Models.Service.Views
         public bool? IsNew { get; set; }
         public bool? HasDelivery { get; set; }
         public double? Price { get; set; }
-        public string Name { get; set; }
-        public DateTime? ModifiedDate { get; set; }
+        public string ServiceTypeName { get; set; }
         public string ContactNumber { get; set; }
         public bool? IsCall { get; set; }
         public bool? IsWp { get; set; }
@@ -30,9 +30,7 @@ namespace AlApar.Models.Service.Views
         public string StatusName { get; set; }
         public string CityName { get; set; }
 
-        public int? LogId { get; set; }
         public int? StatusId { get; set; }
-        public int? PackageId { get; set; }
         public int? CurrencyId { get; set; }
         public int? CityId { get; set; }
         public int? ContactId { get; set; }
@@ -42,6 +40,5 @@ namespace AlApar.Models.Service.Views
         public string LableName { get; set; }
 
         public virtual ICollection<ServicePhoto> Images { get; set; }
-
     }
 }

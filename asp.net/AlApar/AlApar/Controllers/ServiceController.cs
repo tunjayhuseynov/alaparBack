@@ -1,22 +1,15 @@
-﻿using AlApar.Classes;
-using AlApar.Classes.Common;
-using AlApar.Classes.Service;
-using AlApar.Models.Service;
-using AlApar.Models.Service.Views;
-using AlApar.Repositories.Common;
-using AlApar.Repositories.Service;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using AlApar.Classes.Service;
+
 
 namespace AlApar.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]
     [Consumes("application/json")]
-    public class ServiceController : CommonController<IServiceCrud, ServiceContext, ViewServiceAd, Form, Name, ServiceAd, ServiceContact, ServiceLog, ServiceCategory>
+    public class ServiceController : CommonController<IServiceCrud, ServiceContext, ViewServiceAd, Form, ImageName, ServiceAd, ServiceContact, ServiceLog, ServiceCategory, ServicePhoto, ServiceStory>
     {
-        public ServiceController(IServiceCrud serviceCrud, ServiceContext _db, IUtility utility, IWebHostEnvironment webHostEnvironment)
-        : base(serviceCrud, _db, utility, webHostEnvironment)
+        public ServiceController(ITokenService tokenService, IUser user, UserContext userContext, IOptions<Jwt> jwtOption, IServiceCrud serviceCrud, ServiceContext _db, IUtility utility, IWebHostEnvironment webHostEnvironment, IMemoryCache memoryCache)
+        : base(tokenService, user, userContext, jwtOption, serviceCrud, _db, utility, webHostEnvironment, memoryCache)
         {
 
         }

@@ -190,7 +190,6 @@ namespace AlApar.Classes.Bina
         [JsonProperty("nearBusstop")]
         public bool? NearBusstop { get; set; }
 
-
         [JsonProperty("withstuffs")]
         public bool? Withstuffs { get; set; }
 
@@ -221,93 +220,93 @@ namespace AlApar.Classes.Bina
         //Filter Side
 
         [JsonProperty("contractList")]
-        [FilterCheck(TypeEnum.Multiple,"ContractTypeId")]
+        [FilterCheck(Repositories.Status.Type.Multiple,"ContractTypeId")]
         public List<int> ContractList { get; set; }
 
         [JsonProperty("temirList")]
-        [FilterCheck(TypeEnum.Multiple, "RepairId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "RepairId")]
         public List<int> TemirList { get; set; }
 
         [JsonProperty("villageList")]
-        [FilterCheck(TypeEnum.Multiple, "VillageId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "VillageId")]
         public List<int> VillageList { get; set; }
 
         [JsonProperty("targetList")]
-        [FilterCheck(TypeEnum.Multiple, "TargetPointId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "TargetPointId")]
         public List<int> TargetList { get; set; }
         
         [JsonProperty("propertySellingTypeList")]
-        [FilterCheck(TypeEnum.Multiple, "BinaSellingTypeId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "BinaSellingTypeId")]
         public List<int> PropertySellingTypeList { get; set; }
 
         [JsonProperty("landAppointmentList")]
-        [FilterCheck(TypeEnum.Multiple, "LandAppointmentId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "LandAppointmentId")]
         public List<int> LandAppointmentList { get; set; }
 
         [JsonProperty("minApartmentFloor")]
-        [FilterCheck(TypeEnum.Min, "Floor")]
+        [FilterCheck(Repositories.Status.Type.Min, "Floor")]
         public int? MinApartmentFloor { get; set; }
 
         [JsonProperty("maxApartmentFloor")]
-        [FilterCheck(TypeEnum.Max, "Floor")]
+        [FilterCheck(Repositories.Status.Type.Max, "Floor")]
         public int? MaxApartmentFloor { get; set; }
 
         [JsonProperty("minBuildingFloor")]
-        [FilterCheck(TypeEnum.Min, "BuildingFloor")]
+        [FilterCheck(Repositories.Status.Type.Min, "BuildingFloor")]
         public int? MinBuildingFloor { get; set; }
 
         [JsonProperty("maxBuildingFloor")]
-        [FilterCheck(TypeEnum.Max, "BuildingFloor")]
+        [FilterCheck(Repositories.Status.Type.Max, "BuildingFloor")]
         public int? MaxBuildingFloor { get; set; }
 
         [JsonProperty("minPrice")]
-        [FilterCheck(TypeEnum.Min, "Price")]
+        [FilterCheck(Repositories.Status.Type.Min, "Price")]
         [CurrencyConverter("CurrencyId", "CurrencyId")]
         public int? MinPrice { get; set; }
 
         [JsonProperty("maxPrice")]
-        [FilterCheck(TypeEnum.Max, "Price")]
+        [FilterCheck(Repositories.Status.Type.Max, "Price")]
         [CurrencyConverter("CurrencyId", "CurrencyId")]
         public int? MaxPrice { get; set; }
 
         [JsonProperty("minArea")]
-        [FilterCheck(TypeEnum.Min, "AreaSize")]
+        [FilterCheck(Repositories.Status.Type.Min, "AreaSize")]
         public int? MinArea { get; set; }
 
         [JsonProperty("maxArea")]
-        [FilterCheck(TypeEnum.Max, "AreaSize")]
+        [FilterCheck(Repositories.Status.Type.Max, "AreaSize")]
         public int? MaxArea { get; set; }
 
         [JsonProperty("minMetroDuration")]
-        [FilterCheck(TypeEnum.Min, "MetroDuration")]
+        [FilterCheck(Repositories.Status.Type.Min, "MetroDuration")]
         public int? MinMetroDuration { get; set; } 
 
         [JsonProperty("maxMetroDuration")]
-        [FilterCheck(TypeEnum.Max, "MetroDuration")]
+        [FilterCheck(Repositories.Status.Type.Max, "MetroDuration")]
         public int? MaxMetroDuration { get; set; } 
 
         [JsonProperty("minLandArea")]
-        [FilterCheck(TypeEnum.Min, "SecondAreaSize")]
+        [FilterCheck(Repositories.Status.Type.Min, "SecondAreaSize")]
         public int? MinLandArea { get; set; } 
 
         [JsonProperty("maxLandArea")]
-        [FilterCheck(TypeEnum.Max, "SecondAreaSize")]
+        [FilterCheck(Repositories.Status.Type.Max, "SecondAreaSize")]
         public int? MaxLandArea { get; set; }
 
         [JsonProperty("minRoom")]
-        [FilterCheck(TypeEnum.Min, "RoomAmount")]
+        [FilterCheck(Repositories.Status.Type.Min, "RoomAmount")]
         public int? MinRoom { get; set; }
 
         [JsonProperty("maxRoom")]
-        [FilterCheck(TypeEnum.Max, "RoomAmount")]
+        [FilterCheck(Repositories.Status.Type.Max, "RoomAmount")]
         public int? MaxRoom { get; set; }
 
         [JsonProperty("minBath")]
-        [FilterCheck(TypeEnum.Min, "Hamam")]
+        [FilterCheck(Repositories.Status.Type.Min, "Hamam")]
         public int? MinBath { get; set; }
 
         [JsonProperty("maxBath")]
-        [FilterCheck(TypeEnum.Max, "Hamam")]
+        [FilterCheck(Repositories.Status.Type.Max, "Hamam")]
         public int? MaxBath { get; set; }
 
         [JsonProperty("sharedDate")]

@@ -1,8 +1,9 @@
-import { Currency, City, SharedDate, ImageState, Region, Village, Metro } from '@/Constructions/objects'
-import * as URL from '@/Constructions/const';
+import { Currency, City, SharedDate, ImageState, Region, Village, Metro, SelectedImageState } from '@/Constructions/objects'
+import {Sites} from '@/Constructions/const';
 import { SellType, Category, Cities, MetroWays, LandAppointment, Rent, BINA_FILTER, Rental, TargetPoints, PropertySellingType, ContractType, Repair } from './object'
+import {add} from "pages/[pagename]/add/index"
 
-interface Bina_Selection {
+interface Bina_Selection extends SelectedImageState {
     category: number, //numberint
     city: number, //int
     region: number, //int
@@ -70,6 +71,8 @@ interface Bina_Selection {
     pvcWindow: boolean,
     combi: boolean,
     garaj: boolean,
+
+    nometro: boolean,
 
     //Filter
     minRoom: number,
@@ -183,11 +186,11 @@ export interface Bina extends ImageState {
     extraVisible: boolean,
 }
 
-export const Bina_State = (json: BINA_FILTER, th) : Bina => {
+export const Bina_State = (json: BINA_FILTER, th: React.Component<{}, Bina> & InstanceType<typeof add>) : Bina => {
     return {
         ...th.utility.getImageState,
-        url: URL.BINA_IMAGE,
-        submitUrl: URL.BINA_SUBMIT,
+        url: Sites.bina.image,
+        submitUrl: Sites.bina.submit,
         selected: {
             images: null, //list<string>
             category: null, //int
@@ -218,7 +221,7 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             hamam: null,
             eyvan: null,
             lift: null,
-            mebel: null,
+           // mebel: null,
             temir: null,
             hovuz: null,
             qaz: null,
@@ -243,6 +246,24 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             secondAreaSize: null,
             customAdress: null,
             withstuffs: null,
+
+            nearBusstop: false,
+            nearHospital: false,
+            nearShop: false,
+            nearKindigarden: false,
+            nearMall: false,
+            nearSchool: false,
+        
+            madeinHouse: false,
+            centralHeatingSystem: false,
+            parkingArea: false,
+            cabelTv: false,
+            pvcWindow: false,
+            combi: false,
+            garaj: false,
+        
+            
+            nometro: false,
             
             //Filter
             minRoom: null,
@@ -273,6 +294,12 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             propertySellingTypeList: [], 
             landAppointmentList: [], 
         },
+
+        previewVisible: false,
+        previewImage: null,
+        previewTitle: null,
+        fileList: [], 
+
         areaUnit: null,
         sellingTypeBoxVisibility: true,
         rentingTypeBoxVisibility: false,
@@ -305,6 +332,7 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             icare: false,
             belediyye: false,
             barter: true,
+            houseFloor: false,
 
             eyvan: false,
             lift: false,
@@ -326,7 +354,26 @@ export const Bina_State = (json: BINA_FILTER, th) : Bina => {
             kondisoner: false,
             garaj: false,
         },
-        rentalAddition: {},
+        rentalAddition: {
+            metbexM: false,
+            qabY: false,
+            paltarY: false,
+            soyuducu: false,
+            tv: false,
+            kondicioner: false,
+            internet: false,
+            telefon: false,
+            usag: false,
+            heyvan: false,
+            otagordaire: false,
+            
+            centralHeatingSystem: false,
+            parkingArea: false,
+            cabelTv: false,
+            pvcWindow: false,
+            combi: false,
+            garaj: false,
+        },
         extraVisible: false,
         sharedDate: json.sharedDate
     }

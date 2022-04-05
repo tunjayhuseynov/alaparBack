@@ -1,4 +1,5 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.CommonModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,19 +8,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlApar.Models.Child
 {
-    public partial class ChildAd
+    public partial class ChildAd : CommonAds
     {
         public ChildAd()
         {
             ChildPhotos = new HashSet<ChildPhoto>();
+            ChildStories = new HashSet<ChildStory>();
         }
 
-        public long Id { get; set; }
-        public string PrivateId { get; set; }
-        public int? Viewed { get; set; }
-        public int? LogId { get; set; }
-        public int? StatusId { get; set; }
-        public int? PackageId { get; set; }
         public int? CategoryId { get; set; }
         public int? ClothesGenderId { get; set; }
         public int? ClothesTypeId { get; set; }
@@ -27,11 +23,11 @@ namespace AlApar.Models.Child
         public bool? IsNew { get; set; }
         public bool? HasDelivery { get; set; }
         public string Title { get; set; }
-        public int? ContactId { get; set; }
         public int? CityId { get; set; }
         public double? Price { get; set; }
         public int? CurrencyId { get; set; }
         public string About { get; set; }
+
 
         [Column("clothesSizeId")]
         public int? ClothesSizeId { get; set; }
@@ -52,7 +48,6 @@ namespace AlApar.Models.Child
         [ForeignKey("ClothesSizeId")]
         public virtual ClothesSizes ClothesSize { get; set; }
 
-
         public virtual ChildCategory Category { get; set; }
         public virtual ChildClothesGender ClothesGender { get; set; }
         public virtual ChildClothesType ClothesType { get; set; }
@@ -64,5 +59,8 @@ namespace AlApar.Models.Child
         public virtual AdPackages Package { get; set; }
         public virtual AdStatuses Status { get; set; }
         public virtual ICollection<ChildPhoto> ChildPhotos { get; set; }
+
+        [InverseProperty("Ad")]
+        public virtual ICollection<ChildStory> ChildStories { get; set; }
     }
 }

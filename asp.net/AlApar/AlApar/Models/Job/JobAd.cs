@@ -1,4 +1,5 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.CommonModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,21 +8,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlApar.Models.Job
 {
-    public partial class JobAd
+    public partial class JobAd : CommonAds
     {
         public JobAd()
         {
             Images = new HashSet<JobEmployeePhoto>();
+            JobStories = new HashSet<JobStory>();
         }
-        public long Id { get; set; }
-        public string PrivateId { get; set; }
-        public int? Viewed { get; set; }
-        public int? LogId { get; set; }
-        public int? StatusId { get; set; }
-        public int? PackageId { get; set; }
         public int? TypeId { get; set; }
         public int? CategoryId { get; set; }
-        public int? ContactId { get; set; }
         public int? EducationId { get; set; }
         public int? PracticeId { get; set; }
         public int? CityId { get; set; }
@@ -67,5 +62,8 @@ namespace AlApar.Models.Job
         public virtual AdStatuses Status { get; set; }
 
         public virtual ICollection<JobEmployeePhoto> Images { get; set; }
+
+        [InverseProperty("Ad")]
+        public virtual ICollection<JobStory> JobStories { get; set; }
     }
 }

@@ -7,7 +7,8 @@ class Form extends Component {
         this.state = {
             loading: false,
             url: this.props.link,
-            submitClick: this.props.submit
+            submitClick: this.props.submit,
+            photoLen: this.props.photoLen
         };
 
     }
@@ -31,7 +32,7 @@ class Form extends Component {
                                     valid="addSection"
                                     link={this.state.url}
                                     onClick={(e) => {
-                                        this.state.submitClick("addSection", this.state.url);
+                                        this.state.submitClick("addSection", this.state.url, this.state.photoLen);
                                         //this.setState((state)=>state.loading = true);
                                     }}
                                 >

@@ -1,17 +1,7 @@
-﻿using AlApar.Repositories;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Dynamic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using static AlApar.Repositories.Status;
+﻿using AlApar.Models.CommonModel;
+using AlApar.Models.View;
+using AlApar.Repositories;
+
 
 namespace AlApar.Classes
 {
@@ -39,6 +29,21 @@ namespace AlApar.Classes
             };
         }
 
+        public List<string> VideoTypes
+        {
+            get => new List<string> {
+            "video/mp4",
+            "video/AV1",
+            "video/FFV1",
+            "video/H263",
+            "video/x-matroska",
+            "video/H265",
+            "video/mpeg",
+            "video/x-msvideo",
+            "video/3gpp"
+            };
+        }
+
         public List<string> ImageExtensions
         {
             get => new List<string>
@@ -46,6 +51,17 @@ namespace AlApar.Classes
                 ".png",
                 ".jpg",
                 ".jpeg"
+            };
+        }
+
+        public List<string> VideoExtensions
+        {
+            get => new List<string>
+            {
+                ".mp4",
+                ".mkv",
+                ".mpeg",
+                ".avi"
             };
         }
 
@@ -79,7 +95,7 @@ namespace AlApar.Classes
             return new Size((int)(originalWidth * factor), (int)(originalHeight * factor));
         }
 
-        public ImageCodecInfo jpgEncoder;
+        private ImageCodecInfo jpgEncoder;
         public Task ImageSaver(List<ImageStructure> images, string tempFolder, string mainFolder, long folderId, IWebHostEnvironment _webHostEnvironment)
         {
             tempFolder = Path.Combine(_webHostEnvironment.WebRootPath, tempFolder);
@@ -112,7 +128,7 @@ namespace AlApar.Classes
                             break;
                     }
 
-                    orgimg.Save($"{mainFolder}/{folderId}/{item.FileName}");
+                    orgimg.Save($"{mainFolder}/{folderId}/{item.FileName}", ImageFormat.Jpeg);
                     orgimg.Dispose();
 
                     File.SetAttributes($"{tempFolder}/{item.FileName}", FileAttributes.Normal);
@@ -122,12 +138,11 @@ namespace AlApar.Classes
 
 
                     Size tumbSize = GetThumbnailSize(img, 500);
-                    Size blurSize = GetThumbnailSize(img, 10);
+                    Size blurSize = GetThumbnailSize(img, 200);
 
                     Image thumbnail = img.GetThumbnailImage(tumbSize.Width, tumbSize.Height, null, IntPtr.Zero);
-
-
-
+                    Image blur = img.GetThumbnailImage(blurSize.Width, blurSize.Height, null, IntPtr.Zero);
+                    img.Dispose();
 
 
                     if (item.FileName.Contains(".jpg") || item.FileName.Contains(".jpeg"))
@@ -139,7 +154,7 @@ namespace AlApar.Classes
                         jpgEncoder = GetEncoder(ImageFormat.Png);
                     }
 
-                    Encoder myEncoder = Encoder.Quality;
+                    System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
 
                     EncoderParameters myEncoderParameters = new EncoderParameters(1);
 
@@ -147,15 +162,69 @@ namespace AlApar.Classes
                     myEncoderParameters.Param[0] = myEncoderParameter;
 
                     thumbnail.Save($"{mainFolder}/{folderId}/thumb-{item.FileName}");
-                    thumbnail.Save($"{mainFolder}/{folderId}/blur-{item.FileName}", jpgEncoder, myEncoderParameters);
-                }
-                else
-                {
-                    throw new Exception("Image does not exist in the Temp Folder");
+                    blur.Save($"{mainFolder}/{folderId}/blur-{item.FileName}", jpgEncoder, myEncoderParameters);
+                    thumbnail.Dispose();
+                    blur.Dispose();
                 }
             }
 
             return Task.CompletedTask;
+        }
+
+
+        public async Task RotateExistImage<Context, Img>(long id, int rotation, Context db, IWebHostEnvironment _webHostEnvironment)
+        where Context : DbContext
+        where Img : CommonImages, new()
+        {
+            var img = await db.Set<Img>().FindAsync(id);
+            var path = img.ImagePath;
+            var thum = img.Thumbnail;
+
+            if (path[0] == '/')
+            {
+                path = path.Substring(1);
+            }
+            if (thum[0] == '/')
+            {
+                thum = thum.Substring(1);
+            }
+
+            string imgPath = Path.Combine(_webHostEnvironment.WebRootPath, path);
+            string thumPath = Path.Combine(_webHostEnvironment.WebRootPath, thum);
+
+            Image orgimg = Image.FromFile(imgPath);
+            Image thumimg = Image.FromFile(thumPath);
+
+            double rot = Math.Truncate(((double)rotation) / 360.0) - (((double)rotation) / 360.0);
+            switch (rot)
+            {
+                case -0.25 or 0.75:
+                    orgimg.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    thumimg.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                    break;
+                case 0.5 or -0.5:
+                    orgimg.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                    thumimg.RotateFlip(RotateFlipType.Rotate180FlipNone);
+                    break;
+                case 0.25 or -0.75:
+                    orgimg.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    thumimg.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                    break;
+                default:
+                    break;
+            }
+
+            orgimg.Save(imgPath);
+            orgimg.Dispose();
+
+            thumimg.Save(thumPath);
+            thumimg.Dispose();
+
+            string part = imgPath.Split('/')[^1];
+            string blurImg = string.Join('/', imgPath.Split('/')[..^1]) + $"/blur-{part}";
+
+            img.Blur = Convert.ToBase64String(File.ReadAllBytes(blurImg));
+            await db.SaveChangesAsync();
         }
 
         private ImageCodecInfo GetEncoder(ImageFormat format)
@@ -210,14 +279,14 @@ namespace AlApar.Classes
 
             if (rawValue != null && rawModelValue != null)
             {
-                if (attr.Type == TypeEnum.Text)
+                if (attr.Type == Status.Type.Text)
                 {
                     string textvalue = ((string)rawValue).ToLower();
                     string viewtextvalue = ((string)rawModelValue).ToLower();
                     return viewtextvalue.Contains(textvalue);
                 }
 
-                if (attr.Type == TypeEnum.Multiple)
+                if (attr.Type == Status.Type.Multiple)
                 {
                     List<int> multiplevalue = (List<int>)rawValue;
                     int? adValue = Convert.ToInt32(rawModelValue);
@@ -239,11 +308,11 @@ namespace AlApar.Classes
                     }
                 }
 
-                if (attr.Type == TypeEnum.Min)
+                if (attr.Type == Status.Type.Min)
                 {
                     return modelValue >= value;
                 }
-                else if (attr.Type == TypeEnum.Max)
+                else if (attr.Type == Status.Type.Max)
                 {
                     return modelValue <= value;
                 }
@@ -259,12 +328,26 @@ namespace AlApar.Classes
 
             File.SetAttributes(path, FileAttributes.Normal);
             File.Delete(path);
+           
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteExistImage(string path, IWebHostEnvironment webHostEnvironment)
+        {
+            if(path[0] == '/')
+            {
+                path = path.Substring(1);
+            }
+            string imgPath = Path.Combine(webHostEnvironment.WebRootPath, path);
+
+            File.SetAttributes(imgPath, FileAttributes.Normal);
+            File.Delete(imgPath);
 
             return Task.CompletedTask;
         }
 
 
-        public Task loadAdInstance<T>(T adInstance, int logId, int contactId) where T : class
+        public Task loadAdInstance<T>(T adInstance, long logId, int contactId, long userId) where T : class
         {
             adInstance.GetType().GetProperty("PrivateId").SetValue(adInstance, new Random().Next(100000000, 1000000000).ToString("D9"));
             adInstance.GetType().GetProperty("LogId").SetValue(adInstance, logId);
@@ -272,11 +355,12 @@ namespace AlApar.Classes
             adInstance.GetType().GetProperty("StatusId").SetValue(adInstance, (int)Status.AdStatus.Pending);
             adInstance.GetType().GetProperty("PackageId").SetValue(adInstance, (int)Status.AdPackage.Standart);
             adInstance.GetType().GetProperty("ContactId").SetValue(adInstance, contactId);
+            adInstance.GetType().GetProperty("UserId").SetValue(adInstance, userId);
 
             return Task.CompletedTask;
         }
 
-        public async Task add2Db<AdModel, Contact, Log, Context, Form, Photos>(Context db, Form form, string TempFolder, string MainFolder, IWebHostEnvironment _webHostEnvironment, Func<AdModel, Contact, Log, Form, Task> extra = null)
+        public async Task add2Db<AdModel, Contact, Log, Context, Form, Photos>(Context db, Form form, string TempFolder, string MainFolder, long userId, IWebHostEnvironment _webHostEnvironment, Func<AdModel, Contact, Log, Form, Task> extra = null)
             where AdModel : class, new() // Ad Instance
             where Contact : class, new() // Contact
             where Log : class, new() // Logs
@@ -313,8 +397,8 @@ namespace AlApar.Classes
                 await db.AddAsync(logs);
                 await db.SaveChangesAsync();
 
-                await loadAdInstance(adInstance, (int)logs.GetType().GetProperty("Id").GetValue(logs),
-                    (int)contacts.GetType().GetProperty("Id").GetValue(contacts));
+                await loadAdInstance(adInstance, (long)logs.GetType().GetProperty("Id").GetValue(logs),
+                    (int)contacts.GetType().GetProperty("Id").GetValue(contacts), userId);
 
 
                 if (extra != null)
@@ -355,7 +439,7 @@ namespace AlApar.Classes
             }
         }
 
-        public async Task<object> PostFilter<Form, Context, View, A, Currency>(Form res, Context db, string firstSearchBy, int skip, int take, Func<Context, int?, int, int, IAsyncEnumerable<View>> query, Func<View, Form, bool> extra = null)
+        public async Task<object> PostFilter<Form, Context, View, A, Currency>(Form res, Context db, string firstSearchBy, int skip, int take, Func<Context, int?, int, int, IAsyncEnumerable<View>> query, CancellationToken cancellationToken, Func<View, Form, bool> extra = null)
             where Form : class, new()
             where Context : DbContext
             where View : class, new()
@@ -398,7 +482,7 @@ namespace AlApar.Classes
 
             var list = query(db, (int?)res.GetType().GetProperty(firstSearchBy).GetValue(res), skip, take);
 
-            await foreach (var item in getItems(list))
+            await foreach (var item in getItems(list).WithCancellation(cancellationToken))
             {
 
                 foreach (FilterCheckAttribute filter in filters)
@@ -479,7 +563,7 @@ namespace AlApar.Classes
 
             foreach (var item in categories)
             {
-                ads.AddRange(await context.Set<View>().AsNoTracking().Include(s => s.Images).Where((s) => s.CategoryId == item.Id).OrderBy(w => w.Id).Take(adListNumber).ToArrayAsync());
+                ads.AddRange(await context.Set<View>().AsQueryable().AsNoTracking().Include(s => s.Images).Where((s) => s.CategoryId == item.Id).OrderBy(w => w.Id).Take(adListNumber).ToArrayAsync());
             }
 
             for (int i = 0; i < ads.Count; i++)
@@ -505,13 +589,13 @@ namespace AlApar.Classes
             ads.Add(new
             {
                 Title = "Ən Son Əlavə Olunanlar",
-                List = await context.Set<View>().Include(w => w.Images).OrderByDescending(w => w.ModifiedDate).Skip(0).Take(adListNumber).ToListAsync(),
+                List = await context.Set<View>().Include(w => w.Images).AsQueryable().OrderByDescending(w => w.ModifiedDate).Skip(0).Take(adListNumber).ToListAsync(),
             });
 
             ads.Add(new
             {
                 Title = "Ən Çox Baxılanlar",
-                List = await context.Set<View>().Include(w => w.Images).OrderByDescending(w => w.Viewed).Skip(0).Take(adListNumber).ToListAsync(),
+                List = await context.Set<View>().Include(w => w.Images).AsQueryable().OrderByDescending(w => w.Viewed).Skip(0).Take(adListNumber).ToListAsync(),
             });
 
             return new { categories, ads };
@@ -520,7 +604,179 @@ namespace AlApar.Classes
         public async Task<object> GetView<Context, View, Photo>(Context context, long id)
             where Context : DbContext where View : class, TView<Photo>, new()
         {
-            return await context.Set<View>().Include(w => w.Images).FirstOrDefaultAsync(w => w.Id == id);
+            return await context.Set<View>().Include(w => w.Images).Include(w => w.User).Include(w => w.User.BusinessAccount).FirstOrDefaultAsync(w => w.Id == id);
+        }
+
+        public async Task<bool> SetDiscount<Context, Ads>(long id, int discount, Context context) where Context : DbContext where Ads : CommonAds, new()
+        {
+            try
+            {
+                var ad = await context.Set<Ads>().FindAsync(id);
+
+                ad.Discount = discount;
+                context.Set<Ads>().Update(ad);
+                await context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        public async Task update2Db<Ads, Contact, Logs, Context, Form, Images>(long id, Context db, Form form, string TempFolder, string MainFolder, long userId, IWebHostEnvironment _webHostEnvironment, Func<Ads, Contact, Logs, Form, Task> extra = null)
+            where Ads : CommonAds, new()
+            where Contact : class, new()
+            where Logs : CommonLogs, new()
+            where Context : DbContext
+            where Form : commonForm, new()
+            where Images : CommonImages, new()
+        {
+            using var transaction = await db.Database.BeginTransactionAsync();
+            try
+            {
+                var ads = await db.Set<Ads>().FindAsync(id);
+                var contact = await db.Set<Contact>().FindAsync(ads.ContactId);
+                var log = await db.Set<Logs>().FindAsync(ads.LogId);
+                var images = db.Set<Images>().Where(w => w.AdId == id);
+
+                string tempFolder = Path.Combine(_webHostEnvironment.WebRootPath, TempFolder);
+                string mainFolder = Path.Combine(_webHostEnvironment.WebRootPath, MainFolder);
+
+                foreach (var item in new Form().GetType().GetProperties())
+                {
+                    if (item.GetValue(form) != null && typeof(Ads).GetTypeInfo().GetProperty(item.Name) != null)
+                    {
+                        typeof(Ads).GetTypeInfo().GetProperty(item.Name).SetValue(ads, item.GetValue(form));
+                    }
+                    else if (item.GetValue(form) != null && typeof(Contact).GetTypeInfo().GetProperty(item.Name) != null)
+                    {
+                        typeof(Contact).GetTypeInfo().GetProperty(item.Name).SetValue(contact, item.GetValue(form));
+                    }
+                }
+
+                log.ModifiedDate = DateTime.UtcNow;
+
+                db.Set<Ads>().Update(ads);
+                db.Set<Contact>().Update(contact);
+                db.Set<Logs>().Update(log);
+
+                if (form.ImageList.Count > 0)
+                {
+                    var indexable = await images.MaxAsync(w => w.PrimaryImage);
+                    var index = indexable.HasValue ? indexable.Value + 1 : 0;
+
+                    await ImageSaver(form.ImageList, TempFolder, MainFolder, ads.Id, _webHostEnvironment);
+
+                    await db.AddRangeAsync(
+                    form.ImageList
+                     .Select((w, i) =>
+                     {
+                       var imageInstace = new Images();
+                       imageInstace.AdId = ads.Id;
+                       imageInstace.ImagePath = $"/{MainFolder}/{ads.Id}/{w.FileName}";
+                       imageInstace.PrimaryImage = i + index;
+                       imageInstace.Thumbnail = $"/{MainFolder}/{ads.Id}/thumb-{w.FileName}";
+                       imageInstace.Blur = Convert.ToBase64String(File.ReadAllBytes($"{mainFolder}/{ads.Id}/blur-{w.FileName}"));
+                       return imageInstace;
+                     })
+               );}
+
+
+                await db.SaveChangesAsync();
+                await transaction.CommitAsync();
+            }
+            catch (Exception e)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+
+        }
+
+        public async Task<object> SaveTempStory(IFormFile video, string TempFolder, IWebHostEnvironment webHostEnvironment)
+        {
+            if (video != null && VideoTypes.Contains(video.ContentType) && VideoExtensions.Contains(Path.GetExtension(video.FileName)))
+            {
+                string folder = Path.Combine(webHostEnvironment.WebRootPath, TempFolder);
+
+                if (!Directory.Exists($"{folder}/story"))
+                {
+                    Directory.CreateDirectory($"{folder}/story");
+                }
+
+                string uniqueName = $@"{Guid.NewGuid()}{Path.GetExtension(video.FileName)}";
+                string path = Path.Combine($"{folder}/story", uniqueName);
+
+                using var fileStream = new FileStream(path, FileMode.Create);
+                await video.CopyToAsync(fileStream);
+
+                return new { fileName = uniqueName };
+            }
+
+            return null;
+        }
+
+        public async Task<object> SaveStory<StoryModel, Context>(CommonStory story, long id, Context db, string TempFolder, string MainFolder, IWebHostEnvironment _webHostEnvironment)
+        where StoryModel : CommonStory, new()
+        where Context :  DbContext
+        {
+            using var transaction = await db.Database.BeginTransactionAsync();
+            try
+            {
+                var tempFolder = Path.Combine(_webHostEnvironment.WebRootPath, TempFolder);
+                var mainFolder = Path.Combine(_webHostEnvironment.WebRootPath, MainFolder);
+
+                if (File.Exists($"{tempFolder}/story/{story.Video}"))
+                {
+                    StoryModel instance = new()
+                    {
+                        Title = story.Title,
+                        Description = story.Description,
+                        Link = story.Link,
+                        AdId = story.AdId,
+                        UserId = id
+                    };
+
+                    await db.Set<StoryModel>().AddAsync(instance);
+                    await db.SaveChangesAsync();
+
+                    instance.VideoPath = $"/{MainFolder}/story/{instance.Id}/{story.Video}";
+                    db.Update(instance);
+                    await db.SaveChangesAsync();
+
+                    if (!Directory.Exists($"{mainFolder}/story/{instance.Id}"))
+                    {
+                        Directory.CreateDirectory($"{mainFolder}/story/{instance.Id}");
+                    }
+
+                    File.Move($"{tempFolder}/story/{story.Video}", $"{mainFolder}/story/{instance.Id}/{story.Video}");
+
+                    await transaction.CommitAsync();
+                    return instance.Id;
+                }
+                else
+                {
+                    await transaction.RollbackAsync();
+                    return new { message = "Video Does Not Exist" };
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+
+        public async Task<object> getVIPads<Context, View>(Context _db, int num = 8)
+        where Context : DbContext
+        where View : CommonViewProperities, new()
+        {
+            return await _db.Set<View>().Include(w=>w.Images).AsQueryable().Where(w => w.PackageId == (int)Status.AdPackage.Premium && DateTime.Compare(w.TillDate.Value, DateTime.Now) > 0).Take(10).ToListAsync();
         }
     }
 
@@ -532,10 +788,12 @@ namespace AlApar.Classes
     public interface TView<Image>
     {
         public long Id { get; set; }
+        public int? Discount { get; set; }
         public int? CategoryId { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public int? Viewed { get; set; }
         public ICollection<Image> Images { get; set; }
+        public Users User { get; set; }
     }
 
     public interface TCurrency

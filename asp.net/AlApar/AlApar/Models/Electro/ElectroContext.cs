@@ -39,6 +39,8 @@ namespace AlApar.Models.Electro
         public virtual DbSet<AdStatuses> AdStatuses { get; set; } // ++
         public virtual DbSet<AdPackages> AdPackages { get; set; } // ++
 
+        public virtual DbSet<ElectroStory> ElectroStories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             GeneralModels.generateGeneralModels(in modelBuilder);
@@ -73,7 +75,7 @@ namespace AlApar.Models.Electro
                 entity.Property(w => w.PhoneStorage).HasColumnName("phoneStorage");
                 entity.Property(w => w.PhoneType).HasColumnName("phoneType");
                 entity.Property(w => w.Currency).HasColumnName("currency");
-                entity.Property(w => w.City).HasColumnName("city");
+                entity.Property(w => w.CityName).HasColumnName("cityName");
                 entity.Property(w => w.Name).HasColumnName("name");
                 entity.Property(w => w.Email).HasColumnName("email");
                 entity.Property(w => w.PhoneNumber).HasColumnName("phoneNumber");

@@ -1,4 +1,5 @@
 ﻿using AlApar.Models.Auto.View;
+using AlApar.Models.CommonModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,14 +7,9 @@ using System.Threading.Tasks;
 
 namespace AlApar.Models.Auto
 {
-    public class AutoPhotos
+    public class AutoPhotos : CommonImages
     {
-        public int Id { get; set; }
-        public string ImagePath { get; set; }
-        public long? AdId { get; set; }
-        public int? PrimaryImage { get; set; }
-        public string Thumbnail { get; set; }
-        public string Blur { get; set; }
+
         public virtual AutoAds AutoAd { get; set; }
         public virtual ViewAutoAds ViewAutoAd { get; set; }
     }

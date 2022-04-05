@@ -1,6 +1,6 @@
-import { BanType, Color, Fuel, Mark, Model, TransmissionBox, Transmitter, Auto_Filter } from './object'
+import { BanType, Color, Fuel, Mark, Model, TransmissionBox, Transmitter, Type, Auto_Filter } from './object'
 import { Currency, City, SharedDate, ImageState } from '@/Constructions/objects'
-import * as URL from '@/Constructions/const';
+import {Sites} from '@/Constructions/const';
 import { Rent, SellType } from '@/Bina/object';
 
 interface Auto_Selection {
@@ -46,7 +46,7 @@ interface Auto_Selection {
     esp: boolean,
     kruizKontrol: boolean,
     startStopSistemi: boolean,
-
+    type: number,
     //Filter 
     minPrice: number,
     maxPrice: number,
@@ -56,6 +56,7 @@ interface Auto_Selection {
     maxMotorPower: number,
     sharedDate: number,
 
+    
     modelList: Array<number>
     banList: Array<number>
     fuelList: Array<number>
@@ -80,6 +81,7 @@ export interface Auto extends ImageState{
     colorList: Array<Color>,
     fuelList: Array<Fuel>,
     cityList: Array<City>,
+    typeList: Array<Type>,
     capacityList: Array<any>,
     sellTypeList: Array<SellType>,
     rentDurationList: Array<Rent>,
@@ -90,10 +92,21 @@ export interface Auto extends ImageState{
     price: boolean,
     kredit: boolean,
     barter: boolean,
-    power: boolean,
     modelSubList: Array<any>,
     checkboxList: Array<ChechboxObject>,
+    
 
+    markTitle: string,
+    power: boolean,
+    banType: boolean;
+    mileage: boolean;
+    fuel: boolean;
+    transmissionBox: boolean;
+    transmitter: boolean;
+    capacity: boolean;
+    checkboxes: boolean;
+    title: boolean;
+    
     //Filter
     sharedDate: Array<SharedDate>,
 
@@ -103,8 +116,8 @@ export interface Auto extends ImageState{
 export const Auto_State = (json: Auto_Filter, th): Auto => {
     return {
         ...th.utility.getImageState,
-        url: URL.AUTO_IMAGE,
-        submitUrl: URL.AUTO_SUBMIT,
+        url: Sites.auto.image,
+        submitUrl: Sites.auto.submit,
         selected: {
             sellType: json.sellTypes[0].id, //int
             mark: null,
@@ -147,6 +160,7 @@ export const Auto_State = (json: Auto_Filter, th): Auto => {
             esp: null,
             kruizKontrol: null,
             startStopSistemi: null,
+            type: null,
 
             minPrice: null,
             maxPrice: null,
@@ -164,7 +178,7 @@ export const Auto_State = (json: Auto_Filter, th): Auto => {
             colorList: [],
             capacityList: [],
         },
-        markList: json.mark,
+        markList: json.type.find(w=>w.id == 1).marks,
         modelList: null,
         currencyList: json.currencies,
         banList: json.banTypes,
@@ -172,12 +186,24 @@ export const Auto_State = (json: Auto_Filter, th): Auto => {
         sellTypeList: json.sellTypes,
         fuelList: json.fuels,
         cityList: json.cities,
+        typeList: json.type,
         //end
         about: true,
         price: null,
         kredit: true,
         barter: true,
         power: true,
+        banType: false,
+        mileage: false,
+        fuel: false,
+        transmissionBox: false,
+        transmitter: false,
+        capacity: false,
+        checkboxes: false,
+        title: false,
+
+        markTitle: null,
+
         capacityList: [
             ...th.utility.range(50, 500, 50).map(w => { return { id: w, name: w } }),
             ...th.utility.range(600, 6500, 100).map(w => { return { id: w, name: w } }),

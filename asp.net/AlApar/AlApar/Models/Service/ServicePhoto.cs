@@ -1,4 +1,5 @@
-﻿using AlApar.Models.Service.Views;
+﻿using AlApar.Models.CommonModel;
+using AlApar.Models.Service.Views;
 using System;
 using System.Collections.Generic;
 
@@ -6,14 +7,8 @@ using System.Collections.Generic;
 
 namespace AlApar.Models.Service
 {
-    public partial class ServicePhoto
+    public partial class ServicePhoto : CommonImages
     {
-        public int Id { get; set; }
-        public string ImagePath { get; set; }
-        public long? AdId { get; set; }
-        public int? PrimaryImage { get; set; }
-        public string Thumbnail { get; set; }
-        public string Blur { get; set; }
 
         public virtual ServiceAd Ad { get; set; }
         public virtual ViewServiceAd ViewServiceAd { get; set; }

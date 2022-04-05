@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using AlApar.Classes;
+using Microsoft.Extensions.Options;
 
 namespace AlApar.Middleware
 {
@@ -9,22 +11,29 @@ namespace AlApar.Middleware
     public class Auth
     {
         private readonly RequestDelegate _next;
+        private readonly ITokenService tokenService;
+        private readonly Jwt jwt;
 
-        public Auth(RequestDelegate next)
+        public Auth(RequestDelegate next, IOptions<Jwt> option)
         {
             _next = next;
+            jwt = option.Value;
+            tokenService = new TokenService();
         }
 
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Path.Value.Contains("AdminPanel") && context.Session.GetInt32("Logged") != 1)
-            {
-                    //context.Response.Redirect("/AdminPanel/Sign");
-            }
+            var user = tokenService.IsTokenValid(jwt.Key, jwt.Issuer, jwt.Audience, context.Request.Cookies["access_token"]);
            
+            if (user.isValid)
+            {
+                context.Items["userToken"] = user;
+                await _next.Invoke(context);
+                return;
+            }
 
-            await _next.Invoke(context); 
-
+            context.Response.StatusCode = 401;
+            await context.Response.WriteAsJsonAsync(new { message = "unauthorized" });
         }
     }
 }

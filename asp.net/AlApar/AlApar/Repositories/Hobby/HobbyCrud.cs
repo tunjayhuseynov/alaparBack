@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Hobby
 {
-    public class HobbyCrud : Common<ViewHobbyAd, HobbyContext, Form, HobbyAd, HobbyLog, HobbyContact, HobbyPhoto, HobbyCategory>, IHobbyCrud
+    public class HobbyCrud : Common<ViewHobbyAd, HobbyContext, Form, HobbyAd, HobbyLog, HobbyContact, HobbyPhoto, HobbyCategory, HobbyStory>, IHobbyCrud
     {
         public override string TempFolder => "images/hobby/temporarily";
         public override string MainFolder => "images/hobby/personal";
 
-        public override Func<HobbyContext, int?, int, int, IAsyncEnumerable<ViewHobbyAd>> FilterQuery => EF.CompileAsyncQuery((HobbyContext db, int? id, int skip, int take) => db.ViewHobbyAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
+        public override Func<HobbyContext, int?, int, int, IAsyncEnumerable<ViewHobbyAd>> FilterQuery => EF.CompileAsyncQuery((HobbyContext db, int? id, int skip, int take) => db.ViewHobbyAds.Include(w => w.Images).AsNoTracking().AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
 
         public override async Task<object> getForm(HobbyContext db)
         {

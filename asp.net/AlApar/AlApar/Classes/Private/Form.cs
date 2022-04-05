@@ -69,12 +69,12 @@ namespace AlApar.Classes.Private
 
 
         [JsonProperty("minPrice")]
-        [FilterCheck(TypeEnum.Min, "Price")]
+        [FilterCheck(Repositories.Status.Type.Min, "Price")]
         [CurrencyConverter("CurrencyId", "CurrencyId")]
         public int? MinPrice { get; set; }
 
         [JsonProperty("maxPrice")]
-        [FilterCheck(TypeEnum.Max, "Price")]
+        [FilterCheck(Repositories.Status.Type.Max, "Price")]
         [CurrencyConverter("CurrencyId", "CurrencyId")]
         public int? MaxPrice { get; set; }
 
@@ -82,27 +82,27 @@ namespace AlApar.Classes.Private
         public int? SharedDate { get; set; }
 
         [JsonProperty("typeList")]
-        [FilterCheck(TypeEnum.Multiple, "TypeId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "TypeId")]
         public List<int> TypeList { get; set; }
 
 
         [JsonProperty("clothesSizeList")]
-        [FilterCheck(TypeEnum.Multiple, "ClothesSizeId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "ClothesSizeId")]
         public List<int> ClothesSizeList { get; set; }
 
 
         [JsonProperty("clothesTypesList")]
-        [FilterCheck(TypeEnum.Multiple, "ClothesTypeId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "ClothesTypeId")]
         public List<int> ClothesTypesList { get; set; }
 
 
         [JsonProperty("clothesColorList")]
-        [FilterCheck(TypeEnum.Multiple, "ColorId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "ColorId")]
         public List<int> ClothesColorList { get; set; }
 
 
         [JsonProperty("shoesSizeList")]
-        [FilterCheck(TypeEnum.Multiple, "ShoesSizeId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "ShoesSizeId")]
         public List<int> ShoesSizeList { get; set; }
     }
 }

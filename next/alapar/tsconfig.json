@@ -3,8 +3,12 @@
     "baseUrl": ".",
     "paths": {
       "@/*": [
-        "components/*"
-      ]
+        "components/*",
+      ],
+      "context/*": [
+        "context/*"
+      ],
+      "fb/*": ["firebase/*"]
     },
     "target": "es6",
     "lib": [
@@ -13,7 +17,8 @@
       "esnext"
     ],
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
+    "strictNullChecks": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -22,9 +27,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "allowJs": true
+    "allowJs": true,
+    "incremental": true
   },
   "include": [
+    "context/**/*",
+    "hooks/**/*",
+    "inputs/**/*",
     "next-env.d.ts",
     "pages/**/*.ts",
     "pages/**/*.js",
@@ -32,7 +41,13 @@
     "components/**/*.ts",
     "components/**/*.js",
     "components/**/*.tsx",
-    "babel.config.js"
+    "babel.config.js",
+    "pages/[pagename]/edit/[id].jsx",
+    "pages/[pagename]/add/index.jsxx",
+    "pages/profile/chat.jsx",
+    "pages/[pagename]/add/index.js",
+    "pages/business.tsx",
+    "pages/profile/business/index.jsx", "pages/[pagename]/index.jsx", "pages/[pagename]/search.jsx", "components/Layouts/header.jsx", "pages/[pagename]/search.jsx"
   ],
   "exclude": [
     "node_modules"

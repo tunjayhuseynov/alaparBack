@@ -1,6 +1,6 @@
 import { City, ClothesColor, ClothesSize, Currency, ImageState, SharedDate, ShoeSize } from "@/Constructions/objects";
 import { Category, ClothesGender, ClothesType, CHILD_FILTER, Type } from "./object";
-import * as URL from '@/Constructions/const';
+import {Sites} from '@/Constructions/const';
 
 export interface Child_Selection{
     category: number,
@@ -57,8 +57,8 @@ export interface Child extends ImageState{
 export const Child_State = (json: CHILD_FILTER, th) : Child => {
     return {
         ...th.utility.getImageState,
-        url: URL.CHILD_IMAGE,
-        submitUrl: URL.CHILD_SUBMIT,
+        url: Sites.child.image,
+        submitUrl: Sites.child.submit,
         selected: {
             category: null,
             clothesGender: null,

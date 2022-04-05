@@ -55,17 +55,17 @@ namespace AlApar.Classes.Home
 
 
         [JsonProperty("minPrice")]
-        [FilterCheck(TypeEnum.Min, "Price")]
+        [FilterCheck(Repositories.Status.Type.Min, "Price")]
         [CurrencyConverter("CurrencyId", "CurrencyId")]
         public int? MinPrice { get; set; }
 
         [JsonProperty("maxPrice")]
-        [FilterCheck(TypeEnum.Max, "Price")]
+        [FilterCheck(Repositories.Status.Type.Max, "Price")]
         [CurrencyConverter("CurrencyId", "CurrencyId")]
         public int? MaxPrice { get; set; }
 
         [JsonProperty("typeList")]
-        [FilterCheck(TypeEnum.Multiple, "TypeId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "TypeId")]
         public List<int> TypeList { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 import { City, Currency, ImageState, SharedDate } from "@/Constructions/objects";
 import { Category, HOBBY_FORM, Type } from "./object";
-import * as URL from '@/Constructions/const';
+import {Sites} from '@/Constructions/const';
 
 
 interface Hobby_Selection{
@@ -44,8 +44,8 @@ export interface Hobby extends ImageState{
 export const Hobby_State = (json: HOBBY_FORM, th) : Hobby => {
     return {
         ...th.utility.getImageState,
-        url: URL.HOBBY_FORM,
-        submitUrl: URL.HOBBY_SUBMIT,
+        url: Sites.hobby.image,
+        submitUrl: Sites.hobby.submit,
         selected: {
             category: null,
             type: null,

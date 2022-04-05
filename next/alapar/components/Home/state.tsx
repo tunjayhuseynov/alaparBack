@@ -1,6 +1,6 @@
 import { Currency, City, SharedDate, ImageState, Region, Village, Metro } from '@/Constructions/objects'
 import { Category, HOME_FILTER, Type } from './object';
-import * as URL from '@/Constructions/const';
+import {Sites} from '@/Constructions/const';
 
 interface Home_Selection{
     category: number,
@@ -42,8 +42,8 @@ export interface Home extends ImageState{
 export const Home_State = (json: HOME_FILTER, th) : Home => {
     return {
         ...th.utility.getImageState,
-        url: URL.HOME_IMAGE,
-        submitUrl: URL.HOME_SUBMIT,
+        url: Sites.home.image,
+        submitUrl: Sites.home.submit,
         selected: {
             category: null,
             type: null,

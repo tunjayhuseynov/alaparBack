@@ -32,7 +32,7 @@ namespace AlApar.Models.Home
         public virtual DbSet<AdPackages> Packages { get; set; }
         public virtual DbSet<LastSharedTimes> LastSharedTimes { get; set; }
 
-
+        public virtual DbSet<HomeStory> HomeStories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,7 +1,7 @@
-import StaticPages from "pages/[pagename]/[processname]"
+import {add} from "pages/[pagename]/add/index"
 import { Private } from "./state"
 
-export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Private> & StaticPages) {
+export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Private> & InstanceType<typeof add>) {
     return (<>
         <div className={'part'}>
             {this.utility.selectGenerator("Kateqoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.privateCategoryCallback)}
@@ -40,7 +40,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Private> & Sta
     </>)
 }
 
-export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Private> & StaticPages) {
+export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Private> & InstanceType<typeof add>) {
     return (<>
         {this.utility.selectGenerator("Kateqoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.privateCategoryCallback, {categorySave: true })}
         {this.utility.selectGenerator("Geyim Tipi:", this.state.clothesGendersList, "clothesGender", this.state.selected.clothesGender, this.callbacks.clothesGenderCallback)}

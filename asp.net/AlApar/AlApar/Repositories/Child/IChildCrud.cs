@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Child
 {
-    public interface IChildCrud : ICommon<ViewChildAd, ChildContext, Form, ChildAd, ChildContact, ChildLog, ChildCategory>
+    public interface IChildCrud : ICommon<ViewChildAd, ChildContext, Form, ChildAd, ChildContact, ChildLog, ChildCategory, ChildStory>
     {
     }
 }

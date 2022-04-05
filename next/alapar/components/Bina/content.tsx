@@ -1,7 +1,7 @@
-import StaticPages from "pages/[pagename]/[processname]"
+import {add} from "pages/[pagename]/add/index"
 import { Bina } from "./state"
 
-export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Bina> & StaticPages) {
+export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Bina> & InstanceType<typeof add>) {
 
     let sellingBox = <div className={'sellingTypeBox'}>
 
@@ -13,7 +13,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Bina> & Static
 
     return (<>
         <div className={'part'}>
-
+            
             {this.utility.header("Ilkin", "basliq")}
 
             {this.utility.radioGenerator("Elanın Növü*:", this.state.sellTypeList, 1, this.callbacks.binaSellTypeCallback, "sellType")}
@@ -28,7 +28,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Bina> & Static
 
             {this.utility.selectGenerator("Nişangah:", this.state.targetPointList, "target", this.state.selected.target, this.callbacks.commonCallback, { sort: true, novalidation: true, search: true, noneed: true })}
 
-            {this.utility.inputGenerator("Ünvan (Küçə, Ev, Mənzil və s.):", "Daxil Edin", this.callbacks.textAreaCallback, "customAdress", { tooltiptext: "Doen" })}
+            {this.utility.inputGenerator("Ünvan (Küçə, Ev, Mənzil və s.):", "Daxil Edin", this.callbacks.textAreaCallback, "customAdress")}
 
             {this.utility.selectGenerator("Metro:", this.state.metroList, "metro", this.state.selected.metro, this.callbacks.commonCallback, { sort: true, novalidation: true })}
 
@@ -162,7 +162,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Bina> & Static
 }
 
 
-export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Bina> & StaticPages) {
+export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Bina> & InstanceType<typeof add>) {
     let extras = () => {
 
 
@@ -261,7 +261,6 @@ export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Bina> & 
         {this.utility.selectGenerator("Nişangah:", this.state.targetPointList, "targetList", this.state.selected.targetList, this.callbacks.multipleCallback, { sort: true, multiple: true, search: true })}
 
         {this.utility.selectGenerator("Metro:", this.state.metroList, "metro", this.state.selected.metro, this.callbacks.commonCallback, { sort: true, selectAll: true })}
-
 
         {this.utility.selectGenerator("Kirayə müddəti:", this.state.rentDurationList, "rentDuration", this.state.selected.rentDuration, this.callbacks.commonCallback, { sort: true })}
 

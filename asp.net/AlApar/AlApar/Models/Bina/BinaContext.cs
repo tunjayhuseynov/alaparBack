@@ -18,11 +18,11 @@ namespace AlApar.Models
 
         public virtual DbSet<AdPackages> AdPackages { get; set; }
         public virtual DbSet<AdStatuses> AdStatuses { get; set; }
-        public virtual DbSet<BinaAdsPersonal> BinaAdsPersonal { get; set; }
-        public virtual DbSet<BinaAdsPersonalLogs> BinaAdsPersonalLogs { get; set; }
+        public virtual DbSet<BinaAds> BinaAdsPersonal { get; set; }
+        public virtual DbSet<BinaAdsLogs> BinaAdsPersonalLogs { get; set; }
         public virtual DbSet<BinaCategories> BinaCategories { get; set; }
         public virtual DbSet<BinaLandAppointments> BinaLandAppointments { get; set; }
-        public virtual DbSet<BinaPersonalPhotos> BinaPersonalPhotos { get; set; }
+        public virtual DbSet<BinaPhotos> BinaPersonalPhotos { get; set; }
         public virtual DbSet<BinaRentPaymentTypes> BinaRentPaymentTypes { get; set; }
         public virtual DbSet<BinaRentalProps> BinaRentalPros { get; set; }
         public virtual DbSet<BinaTargetPoints> BinaTargetPoints { get; set; }
@@ -32,13 +32,14 @@ namespace AlApar.Models
         public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<Currency> Currency { get; set; }
         public virtual DbSet<Metros> Metros { get; set; }
-        public virtual DbSet<BinaPersonalContacts> PersonalContacts { get; set; }
+        public virtual DbSet<BinaContacts> PersonalContacts { get; set; }
         public virtual DbSet<Regions> Regions { get; set; }
         public virtual DbSet<Villages> Villages { get; set; }
         public virtual DbSet<SellTypes> SellTypes { get; set; }
         public virtual DbSet<MetroWays> MetroWays { get; set; }
         public virtual DbSet<LastSharedTimes> LastSharedTimes { get; set; }
         public virtual DbSet<ViewBinaPersonalGeneral> ViewBinaPersonalGenerals { get; set; }
+        public virtual DbSet<BinaStory> BinaStories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -215,7 +216,7 @@ namespace AlApar.Models
 
 
 
-            modelBuilder.Entity<BinaAdsPersonalLogs>(entity =>
+            modelBuilder.Entity<BinaAdsLogs>(entity =>
             {
 
                 entity.ToTable("bina_ads_personal_logs");
@@ -232,7 +233,7 @@ namespace AlApar.Models
 
             });
 
-            modelBuilder.Entity<BinaAdsPersonal>(entity =>
+            modelBuilder.Entity<BinaAds>(entity =>
             {
                 entity.ToTable("bina_ads_personal");
 
@@ -525,7 +526,7 @@ namespace AlApar.Models
                     .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<BinaPersonalPhotos>(entity =>
+            modelBuilder.Entity<BinaPhotos>(entity =>
             {
                 
                 entity.ToTable("bina_personal_photos");
@@ -588,7 +589,7 @@ namespace AlApar.Models
                 .HasConstraintName("FK_metros_city");
             });
 
-            modelBuilder.Entity<BinaPersonalContacts>(entity =>
+            modelBuilder.Entity<BinaContacts>(entity =>
             {
                 entity.ToTable("bina_personal_Contacts");
 

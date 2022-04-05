@@ -1,21 +1,18 @@
-﻿using System;
+﻿using AlApar.Models.CommonModel;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlApar.Models.Animal
 {
-    public partial class AnimalAd
+    public partial class AnimalAd : CommonAds
     {
         public AnimalAd()
         {
             AnimalPhotos = new HashSet<AnimalPhoto>();
+            AnimalStories = new HashSet<AnimalStory>();
         }
 
-        public long Id { get; set; }
-        public string PrivateId { get; set; }
-        public int? Viewed { get; set; }
-        public int? LogId { get; set; }
-        public int? StatusId { get; set; }
-        public int? PackageId { get; set; }
         public int? CategoryId { get; set; }
         public int? GeneraId { get; set; }
         public int? TypeId { get; set; }
@@ -25,7 +22,7 @@ namespace AlApar.Models.Animal
         public int? CurrencyId { get; set; }
         public int? CityId { get; set; }
         public string About { get; set; }
-        public int? ContactId { get; set; }
+
 
         public virtual AnimalCategory Category { get; set; }
         public virtual AnimalContact Contact { get; set; }
@@ -36,6 +33,9 @@ namespace AlApar.Models.Animal
         public virtual Currency Currency { get; set; }
         public virtual AdPackages Package { get; set; }
         public virtual AdStatuses Status { get; set; }
+
+        [InverseProperty("Ad")]
+        public virtual ICollection<AnimalStory> AnimalStories { get; set; }
         public virtual ICollection<AnimalPhoto> AnimalPhotos { get; set; }
     }
 }

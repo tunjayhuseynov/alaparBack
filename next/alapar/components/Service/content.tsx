@@ -1,11 +1,11 @@
-import StaticPages from "pages/[pagename]/[processname]"
+import { add } from "pages/[pagename]/add/index"
 import { Service } from "./state"
 
-export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Service> & StaticPages) {
+export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Service> & InstanceType<typeof add>) {
     return (<>
         <div className={'part'}>
             {this.utility.selectGenerator("Kateqoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.homeCategoryCallback)}
-            {this.utility.selectGenerator(`${this.state.categoryList.find(w=>w.id == this.state.selected.category)?.labelName}:`, this.state.typeList, "type", this.state.selected.type, this.callbacks.commonCallback)}
+            {this.utility.selectGenerator(`${this.state.categoryList.find(w => w.id == this.state.selected.category)?.labelName}:`, this.state.typeList, "type", this.state.selected.type, this.callbacks.commonCallback)}
             <div className={'radioGroup'}>
                 {this.utility.checkBoxGenerator("Yeni", this.callbacks.checkboxCallback, "isNew", this.state.hasNew, { makeBlock: true })}
                 {this.utility.checkBoxGenerator("Çatdırılma var", this.callbacks.checkboxCallback, "hasDelivery", this.state.hasDelivery, { makeBlock: true })}
@@ -31,16 +31,16 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Service> & Sta
     </>)
 }
 
-export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Service> & StaticPages) {
+export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Service> & InstanceType<typeof add>) {
     return (<>
-        {this.utility.selectGenerator("Kateqoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.homeCategoryCallback, {categorySave: true })}
-        {this.utility.selectGenerator(`${this.state.categoryList.find(w=>w.id == this.state.selected.category)?.labelName}:`, this.state.typeList, "typeList", this.state.selected.typeList, this.callbacks.multipleCallback, {multiple: true})}
+        {this.utility.selectGenerator("Kateqoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.homeCategoryCallback, { categorySave: true })}
+        {this.utility.selectGenerator(`${this.state.categoryList.find(w => w.id == this.state.selected.category)?.labelName}:`, this.state.typeList, "typeList", this.state.selected.typeList, this.callbacks.multipleCallback, { multiple: true })}
         <div className={'radioGroup'}>
             {this.utility.checkBoxGenerator("Yeni", this.callbacks.checkboxCallback, "isNew", this.state.hasNew, { makeBlock: true })}
             {this.utility.checkBoxGenerator("Çatdırılma var", this.callbacks.checkboxCallback, "hasDelivery", this.state.hasDelivery, { makeBlock: true })}
         </div>
-        {this.utility.rangeİnputGenerator("Qiymət:", "minPrice", "maxPrice", this.callbacks.numberCallback, true, {addonAfterList: this.state.currencyList, addonAfterCallback: this.callbacks.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}
-        {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.commonCallback, { sort: true, swapItem: [5], selectAll: true})}
+        {this.utility.rangeİnputGenerator("Qiymət:", "minPrice", "maxPrice", this.callbacks.numberCallback, true, { addonAfterList: this.state.currencyList, addonAfterCallback: this.callbacks.commonCallback, addonName: "currency", addonValue: this.state.selected.currency })}
+        {this.utility.selectGenerator("Şəhər:", this.state.cityList, "city", this.state.selected.city, this.callbacks.commonCallback, { sort: true, swapItem: [5], selectAll: true })}
         {this.utility.selectGenerator("Paylaşma Tarixi:", this.state.sharedDate, "sharedDate", this.state.selected.sharedDate, this.callbacks.commonCallback, { selectAll: true })}
 
     </>)

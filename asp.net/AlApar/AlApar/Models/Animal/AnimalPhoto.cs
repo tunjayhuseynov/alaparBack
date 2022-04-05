@@ -1,17 +1,12 @@
 ﻿using AlApar.Models.Animal.View;
+using AlApar.Models.CommonModel;
 using System;
 using System.Collections.Generic;
 
 namespace AlApar.Models.Animal
 {
-    public partial class AnimalPhoto
+    public partial class AnimalPhoto : CommonImages
     {
-        public int Id { get; set; }
-        public string ImagePath { get; set; }
-        public long? AdId { get; set; }
-        public int? PrimaryImage { get; set; }
-        public string Thumbnail { get; set; }
-        public string Blur { get; set; }
 
         public virtual AnimalAd Ad { get; set; }
 

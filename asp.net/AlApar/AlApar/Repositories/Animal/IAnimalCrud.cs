@@ -5,7 +5,7 @@ using AlApar.Repositories.Common;
 
 namespace AlApar.Repositories.Animal
 {
-    public interface IAnimalCrud : ICommon<ViewAnimalAd, AnimalContext, Form, AnimalAd, AnimalContact, AnimalLog, AnimalCategory>
+    public interface IAnimalCrud : ICommon<ViewAnimalAd, AnimalContext, Form, AnimalAd, AnimalContact, AnimalLog, AnimalCategory, AnimalStory>
     {
     }
 }

@@ -9,11 +9,11 @@ namespace AlApar.Classes
 {
     public class FilterCheckAttribute : Attribute
     {
-        public TypeEnum Type { get; }
+        public Repositories.Status.Type Type { get; }
         public string Target { get; }
         public string SelfName { get; }
 
-        public FilterCheckAttribute(TypeEnum type, string target, [CallerMemberName] string selfName = null)
+        public FilterCheckAttribute(Repositories.Status.Type type, string target, [CallerMemberName] string selfName = null)
         {
             Type = type;
             Target = target;

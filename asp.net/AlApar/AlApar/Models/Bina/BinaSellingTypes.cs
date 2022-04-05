@@ -8,11 +8,11 @@ namespace AlApar.Models.Bina
     public class BinaSellingTypes
     {
         public BinaSellingTypes() {
-            BinaAdsPersonals = new HashSet<BinaAdsPersonal>();
+            BinaAdsPersonals = new HashSet<BinaAds>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<BinaAdsPersonal> BinaAdsPersonals { get; set; }
+        public virtual ICollection<BinaAds> BinaAdsPersonals { get; set; }
     }
 }

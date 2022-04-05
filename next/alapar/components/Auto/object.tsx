@@ -26,6 +26,22 @@ export interface Transmitter{
     name: string,
 }
 
+export interface Type{
+    id: number,
+    name: string,
+    marks: Array<Mark>,
+    banType: boolean;
+    mileage: boolean;
+    fuel: boolean;
+    transmissionBox: boolean;
+    transmitter: boolean;
+    power: boolean;
+    capacity: boolean;
+    checkboxes: boolean;
+    label: string,
+    title: boolean;
+}
+
 export interface Model{
     id: number,
     name: string,
@@ -36,7 +52,8 @@ export interface Model{
 export interface Mark{
     id: number,
     name: string,
-    models: Array<Model>
+    models: Array<Model>,
+    typeId: number,
 }
 
 
@@ -49,19 +66,19 @@ export interface Auto_Filter{
     transmitters: Array<Transmitter>;
     sellTypes: Array<SellType>;
     currencies: Array<Currency>;
-    mark: Array<Mark>;
+    type: Array<Type>;
     sharedDate: Array<SharedDate>;
 }
 
 export const AUTO_FILTER_CONVERTER = (json : Auto_Filter) => ({
     banTypes: json.banTypes,
+    type: json.type,
     colors: json.colors,
     fuels: json.fuels,
     transmissionBoxs: json.transmissionBoxs,
     transmitters: json.transmitters,
     sellTypes: json.sellTypes,
     cities: json.cities,
-    mark: json.mark,
     currencies: json.currencies,
     sharedDate: json.sharedDate
 })

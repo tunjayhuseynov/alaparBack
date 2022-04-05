@@ -1,4 +1,5 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.CommonModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,21 +8,17 @@ using System.Threading.Tasks;
 
 namespace AlApar.Models.Auto
 {
-    public class AutoAds
+    public class AutoAds : CommonAds
     {
         public AutoAds()
         {
             AutoPhotos = new HashSet<AutoPhotos>();
+            AutoStories = new HashSet<AutoStory>();
         }
 
-        public long Id { get; set; }
-        public string PrivateId { get; set; }
-        public int? Viewed { get; set; }
         public string Title { get; set; }
-        public int? LogId { get; set; } // +
-        public int? StatusId { get; set; } // +
-        public int? PackageId { get; set; } // +
         public int? CategoryId { get; set; } // +
+        public int? TypeId { get; set; }
         public int? ModelId { get; set; } // +
         public int? BanTypeId { get; set; } // +
         public int? CurrencyId { get; set; } // +
@@ -29,7 +26,6 @@ namespace AlApar.Models.Auto
         public int? FuelId { get; set; } // +
         public int? TransmitterId { get; set; } // +
         public int? TransmissionBoxId { get; set; } // +
-        public int? ContactId { get; set; }
         public int? RentPaymentTypeId { get; set; }
         public int? SellTypeId { get; set; }
         public int? CarYear { get; set; }
@@ -62,6 +58,7 @@ namespace AlApar.Models.Auto
         public bool? KruizKontrol { get; set; }
         public bool? StartStopSistem { get; set; }
 
+
         public virtual AutoAdLogs Log { get; set; }
         public virtual AutoRentPaymentTypes RentPaymentType { get; set; }
         public virtual SellTypes SellType { get; set; }
@@ -77,9 +74,15 @@ namespace AlApar.Models.Auto
         public virtual AutoTransmissionBoxs TransmissionBox { get; set; }
         public virtual AutoContacts Contact { get; set; }
 
+        [ForeignKey("TypeId")]
+        public virtual AutoTypes Types { get; set; }
+
         [ForeignKey("CityId")]
         public virtual Cities City { get; set; }
 
         public virtual ICollection<AutoPhotos> AutoPhotos { get; set; }
+
+        [InverseProperty("Ad")]
+        public virtual ICollection<AutoStory> AutoStories { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AlApar.Models.Auto.View
 {
-    public class ViewAutoAds : TView<AutoPhotos>
+    public class ViewAutoAds : CommonViewProperities, TView<AutoPhotos>
     {
         public ViewAutoAds()
         {
@@ -15,11 +16,9 @@ namespace AlApar.Models.Auto.View
         }
 
         public long Id { get; set; }
-        public DateTime? ModifiedDate { get; set; }
         public int? Viewed { get; set; }
         public string Title { get; set; }
         public int? StatusId { get; set; } // +
-        public int? PackageId { get; set; } // +
         public int? CategoryId { get; set; } // +
         public string Mark { get; set; }
         public int? ModelId { get; set; } // +
@@ -51,10 +50,9 @@ namespace AlApar.Models.Auto.View
         public bool? IsWp { get; set; }
         public bool? IsCall { get; set; }
 
-        public string City { get; set; }
+        public string CityName { get; set; }
         public int? CityId { get; set; }
 
-        public int? LogId { get; set; }
 
         public bool? Abs { get; set; }
         public bool? YungulDisk { get; set; }
@@ -71,7 +69,7 @@ namespace AlApar.Models.Auto.View
         public bool? ArxaKamera { get; set; }
         public bool? BortKomputer { get; set; }
         public bool? Esp { get; set; }
-        public bool? KruizKontrol { get; set; }
+        public bool? KruizKontrol { get; set; }     
         public bool? StartStopSistem { get; set; }
 
         [Column("sellTypeName")]
@@ -89,6 +87,12 @@ namespace AlApar.Models.Auto.View
         [Column("statusName")]
         public string StatusName { get; set; }
 
-        public virtual ICollection<AutoPhotos> Images { get; set; }
+        [Column("currencyName")]
+        public string CurrencyName { get; set; }
+
+        
+
+        public int? RentPaymentTypeId { get; set; }
+        public int? SellTypeId { get; set; }
     }
 }

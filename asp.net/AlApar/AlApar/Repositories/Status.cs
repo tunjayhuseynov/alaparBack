@@ -22,12 +22,39 @@ namespace AlApar.Repositories
             Premium = 3
         }
 
-        public enum TypeEnum
+        public enum Type
         {
             Min = 1,
             Max = 2,
             Multiple = 3,
             Text = 4
+        }
+
+        public enum Roles
+        {
+            Admin,
+            Moderater,
+            User
+        }
+
+        public enum AccountType
+        {
+            Standart,
+            Business
+        }
+        public enum UserStatus
+        {
+            Waiting,
+            Active,
+            Blocked,
+            UnderAttack
+        }
+
+        public enum Prices  
+        {
+            Premium = 10,
+            Renew = 1,
+            Limitless = 10,
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Electro
 {
-    public interface IElectroCrud : ICommon<ViewElectroAds, ElectroContext, Form, ElectroAds, ElectroContacts, ElectroLogs, ElectroCategories>
+    public interface IElectroCrud : ICommon<ViewElectroAds, ElectroContext, Form, ElectroAds, ElectroContacts, ElectroLogs, ElectroCategories, ElectroStory>
     {
         public Task<IEnumerable<ElectroPhoneColors>> getColors(ElectroContext db, int modelId);
         public Task<IEnumerable<ElectroPhoneStorages>> getStorages(ElectroContext db, int modelId);

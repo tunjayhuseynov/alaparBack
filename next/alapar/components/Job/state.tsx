@@ -1,6 +1,6 @@
 import { Currency, City, SharedDate, ImageState, Region, Village, Metro } from '@/Constructions/objects'
 import { Category, Cities, Education, JOB_FILTER, Practice, Type } from './object';
-import * as URL from '@/Constructions/const';
+import {Sites} from '@/Constructions/const';
 
 interface Job_Selection {
     type: number, //
@@ -65,8 +65,8 @@ export interface Job extends ImageState{
 export const Job_State = (json: JOB_FILTER, th) : Job => {
     return {
         ...th.utility.getImageState,
-        url: URL.JOB_IMAGE,
-        submitUrl: URL.JOB_SUBMIT,
+        url: Sites.job.image,
+        submitUrl: Sites.job.submit,
         selected: {
             type: 1,
             educationLevel: null,

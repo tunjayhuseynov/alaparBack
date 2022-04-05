@@ -104,36 +104,36 @@ namespace AlApar.Classes.Job
         public int? SharedDate { get; set; }
 
         [JsonProperty("minAgeFilter")]
-        [FilterCheck(TypeEnum.Min, "MinAge")]
+        [FilterCheck(Repositories.Status.Type.Min, "MinAge")]
         public int? MinAgeFilter { get; set; }
 
         [JsonProperty("maxAgeFilter")]
-        [FilterCheck(TypeEnum.Max, "MaxAge")]
+        [FilterCheck(Repositories.Status.Type.Max, "MaxAge")]
         public int? MaxAgeFilter { get; set; }
 
         [JsonProperty("minWageFilter")]
-        [FilterCheck(TypeEnum.Min, "MinWage")]
+        [FilterCheck(Repositories.Status.Type.Min, "MinWage")]
         public int? MinWageFilter { get; set; }
 
         [JsonProperty("maxWageFilter")]
-        [FilterCheck(TypeEnum.Max, "MaxWage")]
+        [FilterCheck(Repositories.Status.Type.Max, "MaxWage")]
         public int? MaxWageFilter { get; set; }
 
 
         [JsonProperty("educationLevelList")]
-        [FilterCheck(TypeEnum.Multiple, "EducationId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "EducationId")]
         public List<int> EducationLevelList { get; set; }
 
         [JsonProperty("practiceDurationList")]
-        [FilterCheck(TypeEnum.Multiple, "PracticeId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "PracticeId")]
         public List<int> PracticeDurationList { get; set; }
 
         [JsonProperty("categoryList")]
-        [FilterCheck(TypeEnum.Multiple, "CategoryId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "CategoryId")]
         public List<int> CategoryList { get; set; }
 
         [JsonProperty("villageList")]
-        [FilterCheck(TypeEnum.Multiple, "VillageId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "VillageId")]
         public List<int> VillageList { get; set; }
     }
 }

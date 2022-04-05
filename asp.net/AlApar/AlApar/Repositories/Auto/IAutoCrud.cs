@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Auto
 {
-    public interface IAutoCrud : ICommon<ViewAutoAds, AutoContext, Form, AutoAds, AutoContacts, AutoAdLogs, AutoMarks>
+    public interface IAutoCrud : ICommon<ViewAutoAds, AutoContext, Form, AutoAds, AutoContacts, AutoAdLogs, AutoTypes, AutoStory>
     {
 
 

@@ -6,13 +6,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@600&display=swap');
 
+@font-face{
+  font-family: Family;
+  src: url("../public/fonts/family.otf") format("opentype");
+}
+
+.familyFont{
+  font-family: Family;
+}
+
 :root{
-  --light-grey: #e8e8e8
+  --light-grey: #e8e8e8;
+  --bg-color: rgb(248, 248, 248);
+  --header-select-bg: red;
 }
 
 html,
 body {
-  background-color: rgb(248, 248, 248);
+  background-color: var(--bg-color);
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -29,8 +40,10 @@ a {
 }
 
 #__next{
-  background-color: white;
-  /*background-color: rgb(248, 248, 248);*/
+  /*background-color: white;*/
+  width: 100%;
+  height: 100%;
+  background-color: rgb(248, 248, 248);
 }
 
 .image-gallery-slide img {
@@ -62,7 +75,8 @@ a {
 }
 
 #header .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
-  @apply bg-[#ff5959] h-9;
+  @apply h-9;
+  background-color: var(--header-select-bg);
   /*bg-gradient-to-r from-skyblue via-blue to-pink*/
 }
 
@@ -99,7 +113,7 @@ a {
 }
 
 #filter .subitem{
-  @apply px-5 py-0 w-full;
+  @apply px-5 py-0 w-full text-sm;
 }
 
 #filter .item:has(label){
@@ -118,4 +132,7 @@ a {
   @apply text-left ml-5 p-2;
 }
 
+.ant-input-number-handler-wrap{
+  display: none;
+}
 

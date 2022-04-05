@@ -1,6 +1,6 @@
 import { Currency, City, SharedDate, ImageState } from '@/Constructions/objects'
 import { Genera, Type, Category, Animal_Filter } from './object';
-import * as URL from '@/Constructions/const';
+import {Sites} from '@/Constructions/const';
 
 interface Animal_Selection {
     category: number,
@@ -43,8 +43,8 @@ export const Animal_State = (json : Animal_Filter, th) : Animal => {
 
     return {
         ...th.utility.getImageState,
-        url: URL.ANIMAL_IMAGE,
-        submitUrl: URL.ANIMAL_SUBMIT,
+        url: Sites.animal.image,
+        submitUrl: Sites.animal.submit,
         selected: {
             category: null,
             type: null,

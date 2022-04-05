@@ -1,57 +1,217 @@
-declare class Utilities{
-    constructor(th: any);
+declare class Utilities {
+	constructor(th: any);
 
-    constructor();
+	constructor();
 
-    header(title: string, classname: string) : ReactNode;
+	header(title: string, classname: string): ReactNode;
 
-    range(start : number, end : number, step : number) : Array<number>;
+	range(start: number, end: number, step: number): Array<number>;
 
-    convertCategory2Sub(list : Array<object>, keyName: string) : Array<object>;
+	convertCategory2Sub(list: Array<object>, keyName: string): Array<object>;
 
-    divider(text: string, side: string): ReactNode;
+	divider(text: string, side: string): ReactNode;
 
-    generateModal(htmlElements : ReactNode, visible : boolean, visibleName : string, { title }? : {title?: string}) : ReactNode;
-    
-    showError(text : string) : any; 
+	generateModal(
+		htmlElements: ReactNode,
+		visible: boolean,
+		visibleName: string,
+		{ title, additionButtonList }?: { title?: string; additionButtonList?: Array<ReactNode> }
+	): ReactNode;
 
-    advancePanel(list : ReactNode) : ReactNode; 
+	showError(text: string): any;
 
-    phoneConverter(a, c, i) : any;
+	advancePanel(list: ReactNode): ReactNode;
 
-    inputGenerator(title : string, placeholder : string, callback : Function, state : string, { visibility, phone, mail, novalidation, tooltiptext }? : {visibility? : boolean | Array<any>, phone? : boolean, mail? : boolean, novalidation? : boolean, tooltiptext?: string}): ReactNode;
+	phoneConverter(a, c, i): any;
 
-    numberGenerator(title : string, placeholder : string, callback : Function, name, visibility : boolean | number | string | Array<object>, min? : number, max? : number, { addonAfterList, addonAfterCallback, addonName, addonValue, addonAfterOnlyText, nocommo }? : {addonAfterList? : Array<any>, addonAfterCallback? : Function, addonName? : string, addonValue? : string | number, addonAfterOnlyText?: string, nocommo? : boolean}): ReactNode;
+	inputGenerator(
+		title: string,
+		placeholder: string,
+		callback: Function,
+		state: string,
+		{
+			visibility,
+			phone,
+			mail,
+			novalidation,
+			tooltiptext
+		}?: {
+			visibility?: boolean | Array<any>;
+			phone?: boolean;
+			mail?: boolean;
+			novalidation?: boolean;
+			tooltiptext?: string;
+		}
+	): ReactNode;
 
-    textAreaGeneretor(title : string, placeholder : string, callback : Function, name : string, { visibility }? : {visibility? : boolean}) : ReactNode;
+	numberGenerator(
+		title: string,
+		placeholder: string,
+		callback: Function,
+		name,
+		visibility: boolean | number | string | Array<object>,
+		min?: number,
+		max?: number,
+		{
+			addonAfterList,
+			addonAfterCallback,
+			addonName,
+			addonValue,
+			addonAfterOnlyText,
+			nocommo
+		}?: {
+			addonAfterList?: Array<any>;
+			addonAfterCallback?: Function;
+			addonName?: string;
+			addonValue?: string | number;
+			addonAfterOnlyText?: string;
+			nocommo?: boolean;
+		}
+	): ReactNode;
 
-    rangeİnputGenerator(title : string, minName : string, maxName : string, callback : Function, visibility : boolean | number, { min, max, step, addonAfterList, addonAfterCallback, addonName, addonValue, addonAfterOnlyText, nocommo }? : {min?: number, max?: number, step? : number, addonAfterList? : Array<any>, addonAfterCallback? : Function, addonName? : string, addonValue? : string | number, addonAfterOnlyText?: string, nocommo?: boolean }) : ReactNode;
+	textAreaGeneretor(
+		title: string,
+		placeholder: string,
+		callback: Function,
+		name: string,
+		{ visibility }?: { visibility?: boolean }
+	): ReactNode;
 
-    selectGenerator(title : string, options : Array<object | string> | boolean, name : string, selected : any, callback : Function, { visibility, loading, search, noneed, sort, selectAll, subname, subnameTitle, swapItem, novalidation, filtername, multiple, categorySave }? : {visibility? : boolean, loading? : boolean, search? : boolean, noneed? : boolean, sort? : boolean, selectAll? : boolean, subname? : Array<any>, subnameTitle? : string, swapItem? : Array<number>, novalidation? : boolean, filtername? : boolean, multiple?: boolean, categorySave? : boolean}) : ReactNode;
+	rangeİnputGenerator(
+		title: string,
+		minName: string,
+		maxName: string,
+		callback: Function,
+		visibility: boolean | number,
+		{
+			min,
+			max,
+			step,
+			addonAfterList,
+			addonAfterCallback,
+			addonName,
+			addonValue,
+			addonAfterOnlyText,
+			nocommo
+		}?: {
+			min?: number;
+			max?: number;
+			step?: number;
+			addonAfterList?: Array<any>;
+			addonAfterCallback?: Function;
+			addonName?: string;
+			addonValue?: string | number;
+			addonAfterOnlyText?: string;
+			nocommo?: boolean;
+		}
+	): ReactNode;
 
-    checkBoxGenerator(title : string, callback : Function, name : string, visible : boolean, { multiple, makeBlock }? : {multiple? : Array<any>, makeBlock?: boolean}) : ReactNode;
+	selectGenerator(
+		title: string,
+		options: Array<object | string> | boolean,
+		name: string,
+		selected: any,
+		callback: Function,
+		{
+			visibility,
+			loading,
+			search,
+			noneed,
+			sort,
+			selectAll,
+			subname,
+			subnameTitle,
+			swapItem,
+			novalidation,
+			filtername,
+			multiple,
+			categorySave,
+			typeFirstSave
+		}?: {
+			visibility?: boolean;
+			loading?: boolean;
+			search?: boolean;
+			noneed?: boolean;
+			sort?: boolean;
+			selectAll?: boolean;
+			subname?: Array<any>;
+			subnameTitle?: string;
+			swapItem?: Array<number>;
+			novalidation?: boolean;
+			filtername?: boolean;
+			multiple?: boolean;
+			categorySave?: boolean;
+			typeFirstSave?: boolean;
+		}
+	): ReactNode;
 
-    radioGenerator(title : string, values : Array<object> | boolean, defaultValue : number, callback : Function, name : string, secondValues? : Array<object>, {filtername}? : {filtername?: boolean}) : ReactNode;
+	checkBoxGenerator(
+		title: string,
+		callback: Function,
+		name: string | null,
+		visible: boolean,
+		{ multiple, makeBlock }?: { multiple?: Array<any>; makeBlock?: boolean }
+	): ReactNode;
 
-    validation(id: string | number) : boolean;
+	radioGenerator(
+		title: string,
+		values: Array<object> | boolean,
+		defaultValue: number | null,
+		callback: Function,
+		name: string,
+		secondValues?: Array<object> | null,
+		{ filtername }?: { filtername?: boolean }
+	): ReactNode;
 
-    async submitClick(e : object) : void;
+	validation(id: string | number): boolean;
 
-    imageUploadGenerator(fileList : Array<any>, previewVisible : boolean, previewTitle : string, previewImage : string, url : string, {undertext}? : {undertext?: string}) : ReactNode;
+	async submitClick(e: object, link: string, photoLen?: number): void;
 
-    getImageState : object;
+	imageUploadGenerator(
+		fileList: Array<any>,
+		previewVisible: boolean,
+		previewTitle: string,
+		previewImage: string,
+		url: string,
+		{ undertext }?: { undertext?: string }
+	): ReactNode;
 
-    handleCancel() : void;
+	getImageState: object;
 
-    async handlePreview(file : object) : void;
+	handleCancel(): void;
 
-    async handleChange({ fileList, file } : {fileList : Array<object>, file : any}) : void;
+	async handlePreview(file: object): void;
 
-    handleRotation(file : object, rotation : number) : void;
+	async handleChange({ fileList, file }: { fileList: Array<object>; file: any }): void;
 
-    async handleRemove (file : object) : void;
+	handleRotation(file: object, rotation: number): void;
 
-    googleMap(lat : number, lon : number, callback : Function, title : string, latName? : string, lanName? : string) : ReactNode;
+	async handleRemove(file: object): void;
+
+	googleMap(
+		lat: number,
+		lon: number,
+		callback: Function,
+		title: string,
+		latName?: string,
+		lanName?: string
+	): ReactNode;
 }
 
 export default Utilities;
+
+export declare function RegularMap({
+	googleMapURL,
+	containerElement,
+	info,
+	loadingElement,
+	mapElement
+}: {
+	googleMapURL: string;
+	loadingElement: JSX.Element;
+	containerElement: JSX.Element;
+	mapElement: JSX.Element;
+	info: { lat: any; lan: any; callback: (w: any) => void };
+}): JSX.Element
+
+export declare function phoneConverter(): string

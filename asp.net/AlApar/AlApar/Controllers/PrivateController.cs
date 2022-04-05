@@ -1,28 +1,15 @@
-﻿using AlApar.Repositories.Common;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AlApar.Models.Private.View;
-using AlApar.Models.Private;
+﻿using AlApar.Models.Private.View;
 using AlApar.Classes.Private;
-using AlApar.Classes.Common;
-using AlApar.Repositories.Private;
-using AlApar.Classes;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 
 namespace AlApar.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]
     [Consumes("application/json")]
-    public class PrivateController : CommonController<IPrivateCrud, PrivateContext, ViewPrivateAd, Form, Name, PrivateAd, PrivateContact, PrivateLog, PrivateCategory>
+    public class PrivateController : CommonController<IPrivateCrud, PrivateContext, ViewPrivateAd, Form, ImageName, PrivateAd, PrivateContact, PrivateLog, PrivateCategory, PrivatePhoto, PrivateStory>
     {
-        public PrivateController(IPrivateCrud privateCrud, PrivateContext _db, IUtility utility, IWebHostEnvironment webHostEnvironment)
-        : base(privateCrud, _db, utility, webHostEnvironment)
+        public PrivateController(ITokenService tokenService, IUser user, UserContext userContext, IOptions<Jwt> jwtOption, IPrivateCrud privateCrud, PrivateContext _db, IUtility utility, IWebHostEnvironment webHostEnvironment, IMemoryCache memoryCache)
+        : base(tokenService, user, userContext, jwtOption, privateCrud, _db, utility, webHostEnvironment, memoryCache)
         {
 
         }

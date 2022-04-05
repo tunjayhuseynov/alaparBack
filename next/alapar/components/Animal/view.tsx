@@ -1,8 +1,6 @@
-import { ImageView } from "@/Constructions/objects";
+import { CommonView } from "@/Constructions/view";
 
-export interface Animal_View {
-    viewed: number;
-    modifiedDate: string;
+export interface Animal_View extends CommonView {
     packageName: string;
     statusName: string;
     about: string;
@@ -13,30 +11,26 @@ export interface Animal_View {
     typeName: string;
     currencyName: string;
     cityName: string;
-
+    
     genera: boolean;
     type: boolean;
     hasDelivery: boolean;
-
+    
     contactNumber: string;
     isCall: boolean;
     isWp: boolean;
     email: string;
     contactName: string;
-
-
-    id: number;
+    
     statusId: number;
     packageId: number;
     currencyId: number;
     categoryId: number;
-    logId: number;
     cityId: number;
     generaId: number;
     typeId: number;
     contactId: number;
 
-    images: Array<ImageView>
 }
 
 

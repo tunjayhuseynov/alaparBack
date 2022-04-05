@@ -5,7 +5,7 @@ using AlApar.Repositories.Common;
 
 namespace AlApar.Repositories.Hobby
 {
-    public interface IHobbyCrud : ICommon<ViewHobbyAd, HobbyContext, Form, HobbyAd, HobbyContact, HobbyLog, HobbyCategory>
+    public interface IHobbyCrud : ICommon<ViewHobbyAd, HobbyContext, Form, HobbyAd, HobbyContact, HobbyLog, HobbyCategory, HobbyStory>
     {
     }
 }

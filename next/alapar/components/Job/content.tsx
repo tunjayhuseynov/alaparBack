@@ -1,7 +1,7 @@
-import StaticPages from "pages/[pagename]/[processname]";
+import {add} from "pages/[pagename]/add/index"
 import { Job } from "./state";
 
-export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Job> & StaticPages) {
+export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Job> & InstanceType<typeof add>) {
     let newType = this.state.types.find(w => w.id == this.state.selected.type);
     return (<>
             {this.utility.header("Əsas", "basliq")}
@@ -10,7 +10,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Job> & StaticP
 
             {this.utility.inputGenerator("Ad:", "Daxil Edin", this.callbacks.textAreaCallback, "employeeName", { visibility: newType?.employeeName })}
             {this.utility.inputGenerator("Soyad:", "Daxil Edin", this.callbacks.textAreaCallback, "employeeSurname", { visibility: this.state.types.find(w => w.id == this.state.selected.type)?.employeeSurname })}
-            {this.utility.radioGenerator("Cinsiyyət:", newType?.employeeIsGirl, 2, this.callbacks.ownerCallback, "gender", this.state.gender)}
+            {this.utility.radioGenerator("Cinsiyyət:", newType?.employeeIsGirl, 2, this.callbacks.genderCallback, "gender", this.state.gender)}
             {this.utility.numberGenerator("Yaşınız:", "Daxil edin", this.callbacks.numberCallback, "minAge", newType?.employeeName, 16, 65)}
 
 
@@ -60,14 +60,14 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Job> & StaticP
 }
 
 
-export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Job> & StaticPages) {
+export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Job> & InstanceType<typeof add>) {
     let newType = this.state.types.find(w => w.id == this.state.selected.type);
 
     return (<>
 
         {this.utility.selectGenerator("Elan Növü:", this.state.types, "type", this.state.selected.type, this.callbacks.commonCallback, { filtername: true })}
 
-        {this.utility.radioGenerator("Cinsiyyət:", newType?.employeeIsGirl, 2, this.callbacks.ownerCallback, "gender", this.state.gender)}
+        {this.utility.radioGenerator("Cinsiyyət:", newType?.employeeIsGirl, 2, this.callbacks.genderCallback, "gender", this.state.gender)}
 
         {this.utility.selectGenerator("İş Sahəsi:", this.state.category, "categoryList", this.state.selected.categoryList, this.callbacks.multipleCallback, { subname: this.state.subcategory, subnameTitle: "title", search: true, multiple: true, categorySave: true })}
         {this.utility.rangeİnputGenerator("Maaş:", "minWageFilter", "maxWageFilter", this.callbacks.numberCallback, newType?.companyName)}

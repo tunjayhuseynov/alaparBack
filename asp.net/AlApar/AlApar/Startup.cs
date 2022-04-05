@@ -1,34 +1,3 @@
-using AlApar.Classes;
-using AlApar.Middleware;
-using AlApar.Models;
-using AlApar.Models.Animal;
-using AlApar.Models.Auto;
-using AlApar.Models.Electro;
-using AlApar.Models.Hobby;
-using AlApar.Models.Job;
-using AlApar.Repositories.Auto;
-using AlApar.Repositories.Bina;
-using AlApar.Repositories.Hobby;
-using AlApar.Repositories.Electro;
-using AlApar.Repositories.Job;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using AlApar.Repositories.Animal;
-using AlApar.Models.Home;
-using AlApar.Repositories.Home;
-using AlApar.Repositories.Private;
-using AlApar.Models.Private;
-using AlApar.Repositories.Service;
-using AlApar.Models.Service;
-using Microsoft.AspNetCore.HttpOverrides;
-using System.Net;
-using AlApar.Repositories.Child;
-using AlApar.Models.Child;
 
 namespace AlApar
 {
@@ -39,27 +8,34 @@ namespace AlApar
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, MailService>();
 
             services.AddDistributedMemoryCache();
-
             services.AddMemoryCache();
-            services.AddSingleton<IBinaCrud,BinaCrud>();
-            services.AddSingleton<IUtility,Utility>();
-            services.AddSingleton<IAutoCrud, AutoCrud>();
-            services.AddSingleton<IElectroCrud, ElectroCrud>();
-            services.AddSingleton<IJobCrud, JobCrud>();
-            services.AddSingleton<IAnimalCrud, AnimalCrud>();
-            services.AddSingleton<IHobbyCrud, HobbyCrud>();
-            services.AddSingleton<IHomeCrud, HomeCrud>();
-            services.AddSingleton<IPrivateCrud, PrivateCrud>();
-            services.AddSingleton<IChildCrud, ChildCrud>();
-            services.AddSingleton<IServiceCrud, ServiceCrud>();
+            services.AddScoped<IBinaCrud, BinaCrud>();
+            services.AddScoped<IUtility, Classes.Utility>();
+            services.AddScoped<IAutoCrud, AutoCrud>();
+            services.AddScoped<IElectroCrud, ElectroCrud>();
+            services.AddScoped<IJobCrud, JobCrud>();
+            services.AddScoped<IAnimalCrud, AnimalCrud>();
+            services.AddScoped<IHobbyCrud, HobbyCrud>();
+            services.AddScoped<IHomeCrud, HomeCrud>();
+            services.AddScoped<IPrivateCrud, PrivateCrud>();
+            services.AddScoped<IChildCrud, ChildCrud>();
+            services.AddScoped<IServiceCrud, ServiceCrud>();
+            services.AddScoped<IUser, User>();
+            services.AddSignalR();
+
+            services.Configure<Jwt>(Configuration.GetSection("Jwt"));
+            services.AddTransient<ITokenService, TokenService>();
+            services.AddSingleton<IUserIdProvider, IdBasedUserIdProvider>();
 
             services.AddDbContext<BinaContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:AlApar")));
             services.AddDbContext<AutoContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:AlApar")));
@@ -71,16 +47,75 @@ namespace AlApar
             services.AddDbContext<PrivateContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:AlApar")));
             services.AddDbContext<ChildContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:AlApar")));
             services.AddDbContext<ServiceContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:AlApar")));
-            
+            services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetValue<string>("ConnectionStrings:AlApar")));
+            services.AddAuthentication(options =>
+            {
+                // Identity made Cookie authentication the default.
+                // However, we want JWT Bearer Auth to be the default.
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var user = new TokenService().IsTokenValid(Configuration["Jwt:Key"], Configuration["Jwt:Issuer"], Configuration["Jwt:Audience"], context.Request.Cookies["access_token"]);
+
+                        if (user.isValid)
+                        {
+                            context.HttpContext.Items["userToken"] = user;
+                            context.Token = context.Request.Cookies["access_token"];
+                        }
+                        
+
+                        var accessToken = context.Request.Query["access_token"];
+                        // If the request is for our hub...
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            (path.StartsWithSegments("/socket/chat")))
+                        {
+                            // Read the token out of the query string
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new
+                    SymmetricSecurityKey
+                    (Encoding.UTF8.GetBytes
+                    (Configuration["Jwt:Key"]))
+                };
+
+
+            });
+
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyMethod().AllowAnyHeader().AllowCredentials());
             });
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(10);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+            });
+
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
             });
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddRazorPages();
@@ -109,36 +144,35 @@ namespace AlApar
             }
             //app.UseHttpsRedirection();
 
-           app.UseCors(x => x
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .SetIsOriginAllowed(origin => true) // allow any origin
-                    .AllowCredentials()); // allow credentials*/
+
+            app.UseCors(x => x
+                     .AllowAnyMethod()
+                     .AllowAnyHeader()
+                     .SetIsOriginAllowed(origin => true) // allow any origin
+                     .AllowCredentials()); // allow credentials*/
 
             app.UseStaticFiles();
-
+            app.UseCookiePolicy();
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseSession();
 
-            app.UseMiddleware<Auth>();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<SocketHub>("/socket/chat");
+
                 endpoints.MapRazorPages();
-                app.UseMvc(routes => {
-                    routes.MapRoute(
-                    name: "Admins",
-                    template: "AdminPanel/{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                });
 
-                    endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                
+
             });
 
         }

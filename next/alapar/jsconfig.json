@@ -1,8 +1,12 @@
 {
-    "compilerOptions": {
-      "baseUrl": ".",
-      "paths": {
-        "@/*": ["components/*"]
-      }
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["components/*"],
+      "inpts/*": ["inputs/*"],
+      "context/*": ["context/*"],
+      "fb/*": ["firebase/*"],
+      "hooks/*": ["hooks/*"],
     }
   }
+}

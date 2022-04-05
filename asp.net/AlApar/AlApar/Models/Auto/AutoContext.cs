@@ -39,6 +39,10 @@ namespace AlApar.Models.Auto
         public virtual DbSet<SellTypes> SellTypes { get; set; }
         public virtual DbSet<AutoRentPaymentTypes> AutoRentPaymentTypes { get; set; }
 
+        public virtual DbSet<AutoTypes> AutoTypes { get; set; }
+
+        public virtual DbSet<AutoStory> AutoStories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             GeneralModels.generateGeneralModels(in modelBuilder);
@@ -198,6 +202,7 @@ namespace AlApar.Models.Auto
                 entity.Property(w => w.Esp).HasColumnName("esp");
                 entity.Property(w => w.KruizKontrol).HasColumnName("kruizKontrol");
                 entity.Property(w => w.StartStopSistem).HasColumnName("startStopSistem");
+                entity.Property(w => w.TypeId).HasColumnName("typeId");
 
 
                 entity.HasOne(w => w.BanType).WithMany(w => w.AutoAds)
@@ -303,7 +308,7 @@ namespace AlApar.Models.Auto
                 entity.Property(w => w.IsWp).HasColumnName("isWp");
                 entity.Property(w => w.IsCall).HasColumnName("isCall");
 
-                entity.Property(w => w.City).HasColumnName("City");
+                entity.Property(w => w.CityName).HasColumnName("cityName");
                 entity.Property(w => w.CityId).HasColumnName("CityId");
                 entity.Property(w => w.LogId).HasColumnName("logId");
                 entity.Property(w => w.ModifiedDate).HasColumnName("modifiedDate");

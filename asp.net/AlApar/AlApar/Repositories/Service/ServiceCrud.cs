@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Service
 {
-    public class ServiceCrud : Common<ViewServiceAd, ServiceContext, Form, ServiceAd, ServiceLog, ServiceContact, ServicePhoto, ServiceCategory>, IServiceCrud
+    public class ServiceCrud : Common<ViewServiceAd, ServiceContext, Form, ServiceAd, ServiceLog, ServiceContact, ServicePhoto, ServiceCategory, ServiceStory>, IServiceCrud
     {
         public override string TempFolder => "images/service/temporarily";
         public override string MainFolder => "images/service/personal";

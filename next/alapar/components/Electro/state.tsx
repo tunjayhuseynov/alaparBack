@@ -1,6 +1,6 @@
 import { Currency, City, SharedDate, ImageState, Region, Village, Metro } from '@/Constructions/objects'
 import { Category, Color, ComputerMark, ELECTRO_FORM, Mark, Model, Operator, Storage, Type } from './object';
-import * as URL from '@/Constructions/const';
+import {Sites} from '@/Constructions/const';
 
 
 interface Electro_Selection {
@@ -68,10 +68,10 @@ export interface Electro extends ImageState{
 export const Electro_State = (json: ELECTRO_FORM, th) : Electro => {
     return {
         ...th.utility.getImageState,
-        url: URL.ELECTRO_IMAGE,
-        submitUrl: URL.ELECTRO_SUBMIT,
-        colorUrl: URL.ELECTRO_COLOR,
-        storageUrl: URL.ELECTRO_STORAGE,
+        url: Sites.electro.image,
+        submitUrl: Sites.electro.submit,
+        colorUrl: Sites.electro.color,
+        storageUrl: Sites.electro.storage,
         selected: {
             category: null,
             type: null,

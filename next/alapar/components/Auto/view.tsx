@@ -1,14 +1,9 @@
 import { ImageView } from "@/Constructions/objects";
+import { CommonView } from "@/Constructions/view";
 
-export interface Auto_View {
-    id: number,
-    modifiedDate: string,
-    viewed: number,
+export interface Auto_View extends CommonView {
     title: string,
-    statusId: number,
-    packageId: number,
-    packageName: string,
-    statusName: string,
+
     categoryId: number,
     mark: string,
     modelId: number,
@@ -40,7 +35,6 @@ export interface Auto_View {
     isCall: boolean,
     city: string,
     cityId: number,
-    logId: number,
     abs: boolean,
     yungulDisk: boolean,
     lyuk: boolean,
@@ -61,7 +55,11 @@ export interface Auto_View {
     sellTypeName: string,
     rentPaymentName: string,
     sellTypeFilterName: string,
-    images: Array<ImageView>
+
+    rentPaymentTypeId: number;
+    sellTypeId: number;
+
+    userId: number
 }
 
 
@@ -122,6 +120,10 @@ export const Auto_View_Data = (ad: Auto_View) => {
             },
         },
         nameList: {
+            discount: {
+                value: ad.discount,
+                name: "Endirim"
+            },
             viewed: {
                 value: ad.viewed,
                 name: "Baxış"

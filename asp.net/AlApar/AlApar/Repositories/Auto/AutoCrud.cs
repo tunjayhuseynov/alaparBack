@@ -15,11 +15,11 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Auto
 {
-    public class AutoCrud : Common<ViewAutoAds, AutoContext, Form, AutoAds, AutoAdLogs, AutoContacts, AutoPhotos, AutoMarks>, IAutoCrud
+    public class AutoCrud : Common<ViewAutoAds, AutoContext, Form, AutoAds, AutoAdLogs, AutoContacts, AutoPhotos, AutoTypes, AutoStory>, IAutoCrud
     {
         public override string TempFolder => "images/auto/temporarily";
         public override string MainFolder => "images/auto/personal";
-        public override Func<AutoContext, int?, int, int, IAsyncEnumerable<ViewAutoAds>> FilterQuery => EF.CompileAsyncQuery((AutoContext db, int? id, int skip, int take) => db.ViewAutoAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
+        public override Func<AutoContext, int?, int, int, IAsyncEnumerable<ViewAutoAds>> FilterQuery => EF.CompileAsyncQuery((AutoContext db, int? id, int skip, int take) => db.ViewAutoAds.Include(w => w.Images).AsQueryable().AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
         public override async Task<object> getForm(AutoContext db)
         {
             var banTypes = await db.AutoBanTypes.AsNoTracking().ToListAsync();
@@ -31,6 +31,8 @@ namespace AlApar.Repositories.Auto
             var marks = await db.AutoMarks.AsNoTracking().ToListAsync();
 
             var models = await db.AutoModels.AsNoTracking().ToListAsync();
+
+            var types = await db.AutoTypes.AsNoTracking().ToListAsync();
 
             var transmissionBoxs = await db.AutoTransmissionBoxs.AsNoTracking().ToListAsync();
 
@@ -57,8 +59,8 @@ namespace AlApar.Repositories.Auto
                 Cities = cities,
                 SellTypes = sellType.Select(w => new { Id = w.Id, Name = w.Name, Rent = durationRentType.Where(s => s.RentId == w.Id) }),
                 Currencies = currencies,
-                Mark = marks.Select(w=> new { id = w.Id, name = w.Name, models = models.Where(s => s.MarkId == w.Id) }),
                 SharedDate = sharedDate,
+                Type = types.Select(s=> new { id = s.Id, name = s.Name, marks = marks.Where(d=>d.TypeId == s.Id).Select(w => new { id = w.Id, name = w.Name, typeId = s.Id, models = models.Where(s => s.MarkId == w.Id) }), s.BanType, s.Capacity, s.Checkboxes, s.Fuel, s.Mileage, s.Power, s.TransmissionBox, s.Transmitter, s.Title, s.Label })
             };
         }
 

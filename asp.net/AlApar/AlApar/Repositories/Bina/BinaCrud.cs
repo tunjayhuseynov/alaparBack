@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Bina
 {
-    public class BinaCrud : Common<ViewBinaPersonalGeneral, BinaContext, Form, BinaAdsPersonal, BinaAdsPersonalLogs, BinaPersonalContacts, BinaPersonalPhotos, BinaCategories>, IBinaCrud
+    public class BinaCrud : Common<ViewBinaPersonalGeneral, BinaContext, Form, BinaAds, BinaAdsLogs, BinaContacts, BinaPhotos, BinaCategories, BinaStory>, IBinaCrud
     {
 
         public override string TempFolder => "images/bina/temporarily";
         public override string MainFolder => "images/bina/personal";
-        public override Func<BinaContext, int?, int, int, IAsyncEnumerable<ViewBinaPersonalGeneral>> FilterQuery => EF.CompileAsyncQuery((BinaContext db, int? id, int skip, int take) => db.ViewBinaPersonalGenerals.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
+        public override Func<BinaContext, int?, int, int, IAsyncEnumerable<ViewBinaPersonalGeneral>> FilterQuery => EF.CompileAsyncQuery((BinaContext db, int? id, int skip, int take) => db.ViewBinaPersonalGenerals.Include(w => w.Images).AsNoTracking().AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
 
         sbyte floorDetection = new sbyte();
         public override Func<ViewBinaPersonalGeneral, Form, bool> extra => (ViewBinaPersonalGeneral ad, Form form) =>

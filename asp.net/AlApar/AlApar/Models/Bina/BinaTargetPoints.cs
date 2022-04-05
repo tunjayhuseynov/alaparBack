@@ -9,13 +9,13 @@ namespace AlApar.Models.Bina
     {
         public BinaTargetPoints() {
 
-            BinaAdsPersonals = new HashSet<BinaAdsPersonal>();
+            BinaAdsPersonals = new HashSet<BinaAds>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
         public int? CityId { get; set; }
 
-        public virtual ICollection<BinaAdsPersonal> BinaAdsPersonals { get; set; }
+        public virtual ICollection<BinaAds> BinaAdsPersonals { get; set; }
         public virtual Cities City { get; set; }
     }
 }

@@ -1,7 +1,7 @@
-import StaticPages from "pages/[pagename]/[processname]"
+import {add} from "pages/[pagename]/add/index"
 import { Electro } from "./state"
 
-export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Electro> & StaticPages) {
+export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Electro> & InstanceType<typeof add>) {
     return (<>
         {this.utility.header("Əsas", "basliq")}
 
@@ -50,7 +50,7 @@ export const HtmlAdd = function HtmlAdd(this: React.Component<{}, Electro> & Sta
 }
 
 
-export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Electro> & StaticPages) {
+export const HtmlFilter = function HtmlFilter(this: React.Component<{}, Electro> & InstanceType<typeof add>) {
     return (<>
 
         {this.utility.selectGenerator("Kateqoriya:", this.state.categoryList, "category", this.state.selected.category, this.callbacks.electroCategoryCallback, {categorySave: true })}

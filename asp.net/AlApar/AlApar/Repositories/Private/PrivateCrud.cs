@@ -11,7 +11,7 @@ using static AlApar.Classes.Utility;
 
 namespace AlApar.Repositories.Private
 {
-    public class PrivateCrud : Common<ViewPrivateAd, PrivateContext, Form, PrivateAd, PrivateLog, PrivateContact, PrivatePhoto, PrivateCategory>, IPrivateCrud
+    public class PrivateCrud : Common<ViewPrivateAd, PrivateContext, Form, PrivateAd, PrivateLog, PrivateContact, PrivatePhoto, PrivateCategory, PrivateStory>, IPrivateCrud
     {
 
         public override string TempFolder => "images/private/temporarily";

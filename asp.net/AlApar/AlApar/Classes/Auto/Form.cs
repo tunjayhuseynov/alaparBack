@@ -12,6 +12,9 @@ namespace AlApar.Classes.Auto
         [JsonProperty("mark")]
         public int? MarkId { get; set; }
 
+        [JsonProperty("type")]
+        public int? TypeId { get; set; }
+
         [JsonProperty("model")]
         public int? ModelId { get; set; }
 
@@ -139,27 +142,27 @@ namespace AlApar.Classes.Auto
 
         //Filter
         [JsonProperty("minPrice")]
-        [FilterCheck(TypeEnum.Min, "Price")]
+        [FilterCheck(Repositories.Status.Type.Min, "Price")]
         public int? MinPrice { get; set; }
 
         [JsonProperty("maxPrice")]
-        [FilterCheck(TypeEnum.Max, "Price")]
+        [FilterCheck(Repositories.Status.Type.Max, "Price")]
         public int? MaxPrice { get; set; }
 
         [JsonProperty("minYear")]
-        [FilterCheck(TypeEnum.Min, "CarYear")]
+        [FilterCheck(Repositories.Status.Type.Min, "CarYear")]
         public int? MinYear { get; set; }
 
         [JsonProperty("maxYear")]
-        [FilterCheck(TypeEnum.Max, "CarYear")]
+        [FilterCheck(Repositories.Status.Type.Max, "CarYear")]
         public int? MaxYear { get; set; }
 
         [JsonProperty("minMotorPower")]
-        [FilterCheck(TypeEnum.Min, "MotorPower")]
+        [FilterCheck(Repositories.Status.Type.Min, "MotorPower")]
         public int? MinMotorPower { get; set; }
 
         [JsonProperty("maxMotorPower")]
-        [FilterCheck(TypeEnum.Max, "MotorPower")]
+        [FilterCheck(Repositories.Status.Type.Max, "MotorPower")]
         public int? MaxMotorPower { get; set; }
 
         [JsonProperty("sharedDate")]
@@ -168,27 +171,27 @@ namespace AlApar.Classes.Auto
 
 
         [JsonProperty("modelList")]
-        [FilterCheck(TypeEnum.Multiple, "ModelId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "ModelId")]
         public List<int?> ModelList { get; set; }
 
         [JsonProperty("banList")]
-        [FilterCheck(TypeEnum.Multiple, "BanTypeId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "BanTypeId")]
         public List<int?> BanList { get; set; }
 
         [JsonProperty("fuelList")]
-        [FilterCheck(TypeEnum.Multiple, "FuelId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "FuelId")]
         public List<int?> FuelList { get; set; }
 
         [JsonProperty("transmissionBoxList")]
-        [FilterCheck(TypeEnum.Multiple, "TransmissionBoxId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "TransmissionBoxId")]
         public List<int?> TransmissionBoxList { get; set; }
 
         [JsonProperty("colorList")]
-        [FilterCheck(TypeEnum.Multiple, "ColorId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "ColorId")]
         public List<int?> ColorList { get; set; }
 
         [JsonProperty("capacityList")]
-        [FilterCheck(TypeEnum.Multiple, "MotorCapacity")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "MotorCapacity")]
         public List<int?> CapacityList { get; set; }
     }
 }

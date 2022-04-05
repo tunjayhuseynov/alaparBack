@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Job
 {
-    public class JobCrud : Common<ViewJobAds, JobContext, Form, JobAd, JobLog, JobContact, JobEmployeePhoto, JobCategory>, IJobCrud
+    public class JobCrud : Common<ViewJobAds, JobContext, Form, JobAd, JobLog, JobContact, JobEmployeePhoto, JobCategory, JobStory>, IJobCrud
     {
         public override string TempFolder => "images/job/temporarily";
         public override string MainFolder => "images/job/personal";
 
-        public override Func<JobContext, int?, int, int, IAsyncEnumerable<ViewJobAds>> FilterQuery => EF.CompileAsyncQuery((JobContext db, int? id, int skip, int take) => db.ViewJobAds.Include(w => w.Images).AsNoTracking().Where(w => w.TypeId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
+        public override Func<JobContext, int?, int, int, IAsyncEnumerable<ViewJobAds>> FilterQuery => EF.CompileAsyncQuery((JobContext db, int? id, int skip, int take) => db.ViewJobAds.Include(w => w.Images).AsNoTracking().AsNoTracking().Where(w => w.TypeId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
         public override async Task<object> getForm(JobContext db)
         {
             var types = await db.JobAdTypes.AsNoTracking().ToListAsync();

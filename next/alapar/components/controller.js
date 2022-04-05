@@ -29,51 +29,81 @@ import { Child_State } from '@/Child/state';
 import { HtmlAdd as ServiceHtml, HtmlFilter as ServiceHtmlFilter } from '@/Service/content';
 import { SERVICE_FILTER_CONVERTER } from '@/Service/object';
 import { Service_State } from '@/Service/state';
-import * as URL from '@/Constructions/const';
+import {Sites} from '@/Constructions/const';
 
 export const pagenames = {
-    animal: "animal",
-    auto: "auto",
     bina: "dasinmaz",
-    electro: "electro",
-    hobby: "hobby",
-    home: "home",
-    job: "job",
     private: "private",
+    auto: "auto",
+    electro: "electro",
+    job: "job",
     child: "child",
-    service: "service"
+    service: "service",
+    home: "home",
+    animal: "animal",
+    hobby: "hobby",
 }
 
-export const labelNames = {
-    animal: { name: "Heyvan", mainColor: "#ffda23" },
-    auto: { name: "Avtomobil və Maşınlar", mainColor: "#e25656" },
-    dasinmaz: { name: "Daşınmaz Əmlak", mainColor: "#7f00ef" },
-    electro: { name: "Elektronik Əşyalar", mainColor: "#1cd1ff" },
-    hobby: { name: "Hobby və Asudə", mainColor: "#bbff00" },
-    home: { name: "Ev və Bağ Əşyaları", mainColor: "#3fff00" },
-    job: { name: "İş", mainColor: "#ffd400" },
-    private: { name: "Şəxsi Geyim Və Əşyalar", mainColor: "#ff59d5" },
-    child: { name: "Uşaq Geyimi Və Əşyaları", mainColor: "#fedf00" },
-    service: { name: "Xidmətlər Və Biznes", mainColor: "#828cff" }
+export const realNames = {
+    bina: "Daşınmaz Əmlak",
+    private: "Şəxsi Geyim və Əşyalar",
+    auto: "Avtomobil və Maşınlar",
+    electro: "Elektronik Əşyalar",
+    job: "İş",
+    child: "Uşaq Geyimi Və Əşyaları",
+    service: "Xidmətlər Və Biznes Avadanlığı",
+    home: "Ev və Bağ Əşyaları",
+    animal: "Heyvan",
+    hobby: "Hobby və Asudə",
+}
+
+export const labelNames = { 
+    animal: { name: "Heyvanlar", mainColor: "#cc711f", colorName: "darkgreen", bg: "bg_animal.jpg", position: "0 50%", size: "cover" },
+    auto: { name: "Nəqliyyat\nVasitələri", mainColor: "#fe2923", colorName: "darkred", bg: "bg_car.jpg", position: "0 68%", size: "cover" },
+    dasinmaz: { name: "Daşınmaz\nƏmlak", mainColor: "#a16539", colorName: "brown", bg: "bg_dasinmaz.jpg", position: "0 15%", size: "cover" },
+    electro: { name: "Elektronik", mainColor: "#2650ff", colorName: "", bg: "bg_electro.jpg", position: "0 60%", size: "cover" },
+    hobby: { name: "Hobby və Asudə", mainColor: "#cf168c", colorName: "", bg: "bg_hobby.jpg", position: "0 55%", size: "cover" },
+    home: { name: "Ev və Bağ Əşyaları", mainColor: "#2ab24e", colorName: "", bg: "bg_home.jpg", position: "0 70%", size: "cover" },
+    job: { name: "İş Elanları", mainColor: "#069880", colorName: "", bg: "bg_job.jpg", position: "0 45%", size: "cover" },
+    private: { name: "Şəxsi Geyim\nVə Əşyalar", mainColor: "#9924ff", colorName: "", bg: "bg_private.jpg", position: "0 30%", size: "cover" },
+    child: { name: "Uşaq Aləmi", mainColor: "#f2a700", colorName: "", bg: "bg_child.jpg", position: "0 57%", size: "cover" },
+    service: { name: "Xidmətlər\nVə Biznes\nAvadanlığı", mainColor: "#5479a3", colorName: "", bg: "bg_service.jpg", position: "0 45%", size: "cover" },
 }
 
 export const pageprocess = {
-    search: "search",
+    filter: "filter",
     add: "add",
     show: "show",
-    menu: "menu"
+    menu: "menu",
+    edit: "edit",
+    search: "search",
 }
 
-const contentProcess = function contentProcess(comname, addHtml, searchHtml, showHtml, menuHtml) {
+export const PackageAd = {
+    Standart: 1,
+    VIP: 2,
+    Premium: 3,
+}
+
+export const StatusAd = {
+    Pending: 1,
+    Online: 2,
+    Cancelled: 3,
+    Closed: 4
+}
+
+const contentProcess = function contentProcess(comname, addHtml, filterHtml, showHtml, menuHtml, searchURL) {
     switch (comname) {
-        case pageprocess.search:
-            return searchHtml;
+        case pageprocess.filter:
+            return filterHtml;
         case pageprocess.add:
             return addHtml;
         case pageprocess.show:
             return showHtml;
         case pageprocess.menu:
             return menuHtml;
+        case pageprocess.search:
+            return searchURL;
         default:
             break;
     }
@@ -140,27 +170,28 @@ export const stateProcess = function stateProcess(pagename, comname) {
 };
 
 export const InitFetch = function InitFetch(pagename, comname) {
+    console.log(pagename, comname)
     switch (pagename) {
         case pagenames.animal:
-            return contentProcess(comname, URL.ANIMAL_FORM, URL.ANIMAL_GET_FILTER, URL.ANIMAL_GET, URL.ANIMAL_MENU);
+            return contentProcess(comname, Sites.animal.form, Sites.animal.getFilter, Sites.animal.get, Sites.animal.menu, Sites.animal.search);
         case pagenames.auto:
-            return contentProcess(comname, URL.AUTO_FORM, URL.AUTO_GET_FILTER, URL.AUTO_GET, URL.AUTO_MENU)
+            return contentProcess(comname, Sites.auto.form, Sites.auto.getFilter, Sites.auto.get, Sites.auto.menu, Sites.auto.search)
         case pagenames.bina:
-            return contentProcess(comname, URL.BINA_FORM, URL.BINA_GET_FILTER, URL.BINA_GET, URL.BINA_MENU)
+            return contentProcess(comname, Sites.bina.form, Sites.bina.getFilter, Sites.bina.get, Sites.bina.menu, Sites.bina.search)
         case pagenames.electro:
-            return contentProcess(comname, URL.ELECTRO_FORM, URL.ELECTRO_GET_FILTER, URL.ELECTRO_GET, URL.ELECTRO_MENU)
+            return contentProcess(comname, Sites.electro.form, Sites.electro.getFilter, Sites.electro.get, Sites.electro.menu, Sites.electro.search)
         case pagenames.hobby:
-            return contentProcess(comname, URL.HOBBY_FORM, URL.HOBBY_GET_FILTER, URL.HOBBY_GET, URL.HOBBY_MENU)
+            return contentProcess(comname, Sites.hobby.form, Sites.hobby.getFilter, Sites.hobby.get, Sites.hobby.menu, Sites.hobby.search)
         case pagenames.home:
-            return contentProcess(comname, URL.HOME_FORM, URL.HOME_GET_FILTER, URL.HOME_GET, URL.HOME_MENU)
+            return contentProcess(comname, Sites.home.form, Sites.home.getFilter, Sites.home.get, Sites.home.menu, Sites.home.search)
         case pagenames.job:
-            return contentProcess(comname, URL.JOB_FORM, URL.JOB_GET_FILTER, URL.JOB_GET, URL.JOB_MENU)
+            return contentProcess(comname, Sites.job.form, Sites.job.getFilter, Sites.job.get, Sites.job.menu, Sites.job.search)
         case pagenames.private:
-            return contentProcess(comname, URL.PRIVATE_FORM, URL.PRIVATE_GET_FILTER, URL.PRIVATE_GET, URL.PRIVATE_MENU)
+            return contentProcess(comname, Sites.private.form, Sites.private.getFilter, Sites.private.get, Sites.private.menu, Sites.private.search)
         case pagenames.child:
-            return contentProcess(comname, URL.CHILD_FORM, URL.CHILD_GET_FILTER, URL.CHILD_GET, URL.CHILD_MENU)
+            return contentProcess(comname, Sites.child.form, Sites.child.getFilter, Sites.child.get, Sites.child.menu, Sites.child.search)
         case pagenames.service:
-            return contentProcess(comname, URL.SERVICE_FORM, URL.SERVICE_GET_FILTER, URL.SERVICE_GET, URL.SERVICE_MENU)
+            return contentProcess(comname, Sites.service.form, Sites.service.getFilter, Sites.service.get, Sites.service.menu, Sites.service.search)
         default:
             break;
     }

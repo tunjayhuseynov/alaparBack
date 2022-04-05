@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Bina
 {
-    public interface IBinaCrud : ICommon<ViewBinaPersonalGeneral, BinaContext, Form, BinaAdsPersonal, BinaPersonalContacts, BinaAdsPersonalLogs, BinaCategories>
+    public interface IBinaCrud : ICommon<ViewBinaPersonalGeneral, BinaContext, Form, BinaAds, BinaContacts, BinaAdsLogs, BinaCategories, BinaStory>
     {
 
     }

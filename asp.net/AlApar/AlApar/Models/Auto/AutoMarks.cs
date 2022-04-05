@@ -1,8 +1,6 @@
 ﻿using AlApar.Classes;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlApar.Models.Auto
 {
@@ -17,7 +15,16 @@ namespace AlApar.Models.Auto
         public int Id { get; set; }
         public string Name { get; set; }
 
+        [Column("typeId")]
+        public int? TypeId { get; set; }
+
+
+
+
         public virtual ICollection<AutoAds> AutoAds { get; set; }
         public virtual ICollection<AutoModels> AutoModels { get; set; }
+
+        [ForeignKey("TypeId")]
+        public virtual AutoTypes Type { get; set; }
     }
 }

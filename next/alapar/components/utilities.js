@@ -13,6 +13,7 @@ import { FiRotateCcw, FiRotateCw } from "react-icons/fi"
 import { v4 as uuidv4 } from 'uuid'
 
 import dynamic from 'next/dynamic'
+import { pageprocess } from './controller';
 
 const MobileSelector = dynamic(() => import('@/mobileUtility').then(w => w.MobileSelector), {
     ssr: false,
@@ -91,7 +92,7 @@ class Utilities {
             <div className={'separator'}>{text}</div>)
     }
 
-    generateModal = (htmlElements, visible, visibleName, { title = "" } = { }) => {
+    generateModal = (htmlElements, visible, visibleName, { title = "", additionButtonList = [] } = {}) => {
         let handleOk = () => {
             this.th.setState({ [visibleName]: false });
         };
@@ -107,9 +108,7 @@ class Utilities {
                 onOk={this.handleOk}
                 onCancel={handleCancel}
                 footer={[
-                    <Button key="submit" type="primary" onClick={handleOk}>
-                        Tamam
-                    </Button>,
+                    ...additionButtonList,
                 ]}>
                 {htmlElements}
             </Modal>
@@ -131,19 +130,19 @@ class Utilities {
 
     visible = false;
 
-    inputGenerator = (title, placeholder, callback, state, { visibility = null, phone = null, mail = null, novalidation = null, tooltiptext = null } = { }) => {
+    inputGenerator = (title, placeholder, callback, state, { visibility = null, phone = null, mail = null, novalidation = null, tooltiptext = null } = {}) => {
         if ((Array.isArray(visibility) && visibility.length < 1) || visibility == false) {
 
             this.th.state.selected[state] = null
 
             return null
         }
-        let val = { }
+        let val = {}
         if (novalidation == null) {
             val.validatename = state;
         }
 
-        let obj = { }
+        let obj = {}
         if (phone) {
             obj.inputMode = "numeric"
             obj.onInput = (v) => {
@@ -174,10 +173,11 @@ class Utilities {
                             {...obj}
                             name={state}
                             allowClear
+                            defaultValue={this.th?.state?.selected[state]}
                             placeholder={placeholder}
                             onKeyUp={callback}
-                            onFocus={() => { if (tooltiptext) { this.visible = true; this.th.setState({ }) } }}
-                            onBlur={() => { if (tooltiptext) { this.visible = false; this.th.setState({ }) } }}
+                            onFocus={() => { if (tooltiptext) { this.visible = true; this.th.setState({}) } }}
+                            onBlur={() => { if (tooltiptext) { this.visible = false; this.th.setState({}) } }}
                         />
                     </Tooltip>
                 </div>
@@ -185,7 +185,7 @@ class Utilities {
         )
     }
 
-    numberGenerator = (title, placeholder, callback, name, visibility, min = 1, max = Number.MAX_VALUE, { addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null, nocommo = false } = { }) => {
+    numberGenerator = (title, placeholder, callback, name, visibility, min = 1, max = Number.MAX_VALUE, { addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null, nocommo = false } = {}) => {
         if (!visibility) {
 
             this.th.state.selected[name] = null
@@ -211,6 +211,7 @@ class Utilities {
                     name={name}
                     min={min}
                     max={max}
+                    defaultValue={this.th?.state?.selected[name]}
                     inputMode="decimal"
                     className={'flex-grow inputnumber'}
                     placeholder={placeholder}
@@ -251,7 +252,7 @@ class Utilities {
         </Device>
     }
 
-    textAreaGeneretor = (title, placeholder, callback, name, { visibility = null } = { }) => {
+    textAreaGeneretor = (title, placeholder, callback, name, { visibility = null } = {}) => {
         if (visibility == false) {
             this.th.state.selected[name] = null
 
@@ -267,6 +268,7 @@ class Utilities {
                     <TextArea
                         className={'width inputarea'}
                         name={name}
+                        defaultValue={this.th?.state?.selected[name]}
                         placeholder={placeholder}
                         autoSize={{ minRows: 5, maxRows: 12 }}
                         onKeyUp={callback}
@@ -278,7 +280,7 @@ class Utilities {
         )
     }
 
-    rangeİnputGenerator = (title, minName, maxName, callback, visibility, { min = 1, max = Number.MAX_VALUE, step = 1, addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null, nocommo = false } = { }) => {
+    rangeİnputGenerator = (title, minName, maxName, callback, visibility, { min = 1, max = Number.MAX_VALUE, step = 1, addonAfterList = null, addonAfterCallback = null, addonName = null, addonValue = null, addonAfterOnlyText = null, nocommo = false } = {}) => {
         if (!visibility) {
 
             this.th.state.selected[minName] = null
@@ -319,6 +321,7 @@ class Utilities {
                                 min={min} max={this.th.state.selected[maxName] ?? max} step={step} name={minName}
                                 formatter={formatter}
                                 parser={parser}
+                                defaultValue={this.th?.state?.selected[minName]}
                             />
                             -
                             <InputNumber
@@ -330,6 +333,7 @@ class Utilities {
                                 min={this.th.state.selected[minName] ?? min} max={max} step={step} name={maxName}
                                 formatter={formatter}
                                 parser={parser}
+                                defaultValue={this.th?.state?.selected[maxName]}
                             />
                         </>
                     )
@@ -361,7 +365,7 @@ class Utilities {
         )
     }
 
-    selectGenerator = (title, options, name, selected, callback, { categorySave = false, visibility = null, loading = null, search = false, noneed = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null, novalidation = null, filtername = false, multiple = false } = { }) => {
+    selectGenerator = (title, options, name, selected, callback, { categorySave = false, typeFirstSave = false, visibility = null, loading = null, search = false, noneed = false, sort = false, selectAll = false, subname = null, subnameTitle = null, swapItem = null, novalidation = null, filtername = false, multiple = false } = {}) => {
         if (visibility != null && visibility == false) {
             if (multiple)
                 this.th.state.selected[name] = [];
@@ -379,6 +383,10 @@ class Utilities {
                 this.th.state.selected[name] = null
 
             return null
+        }
+        
+        if(typeFirstSave){
+            this.th.state.typeFirstCallback = callback;
         }
         if (categorySave) {
             this.th.state.categoryCallback = callback
@@ -402,8 +410,8 @@ class Utilities {
             })
         }
 
-        let obj = { }
-        let val = { }
+        let obj = {}
+        let val = {}
         if (loading) {
             obj.loading = true
         }
@@ -436,7 +444,7 @@ class Utilities {
                             }
                         </MobileSelector>
                             :
-                            <Select {...obj} filterOption={(input, option) => option?.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} virtual={false} onSelect={callback} onDeselect={callback} placeholder={"Seçin"} value={selected} name={name} className={'w-full'}>
+                            <Select {...obj} filterOption={(input, option) => option?.children?.toLowerCase().indexOf(input.toLowerCase()) >= 0} showSearch={search} onSelect={callback} onDeselect={callback} placeholder={"Seçin"} value={selected} name={name} className={'w-full'}>
                                 {selectAll ? <Option key={uuidv4()} state={name} value={null}>Hamısı</Option> : null}
                                 {noneed ? <Option key={uuidv4()} state={name} value={""}>Heç Biri</Option> : null}
                                 {subname ? options?.filter(w => !(w[subnameTitle]))?.map((w, i) => <Option state={name} key={uuidv4()} value={w.id}>{w.name}</Option>) : null}
@@ -454,7 +462,7 @@ class Utilities {
             }}</Device>
     }
 
-    checkBoxGenerator = (title, callback, name, visible, { multiple = null, makeBlock = null } = { }) => {
+    checkBoxGenerator = (title, callback, name, visible, { multiple = null, makeBlock = null } = {}) => {
         if (!visible) {
             if (multiple) {
                 multiple.forEach(w => {
@@ -467,33 +475,38 @@ class Utilities {
             this.th.state.selected[name] = null
             return null
         }
-
+        
         if (multiple) {
             return (
                 <div className={`radioitem checkInput ${makeBlock ? 'makeBlock' : ''}`} displayname={title.replace(/[^\p{L}]+/gu, "")}>
                     <div className={'item'}><label>{title}</label></div>
                     <div className={'item flex flex-wrap justify-around'}>
-                        {multiple.map(w => <Checkbox key={uuidv4()} checked={this.th.state.selected[w.name]} state={w.name} name={w.name} onChange={callback}>{w.title}</Checkbox>
+                        {multiple.map(w => <Checkbox key={uuidv4()} checked={this.th?.state?.selected[w.name]} state={w.name} name={w.name} onChange={callback}>{w.title}</Checkbox>
                         )}
                     </div>
                 </div>
             )
         }
-
+    
         return (
             <div className={`radioitem checkInput ${makeBlock ? 'makeBlock' : ''}`} displayname={title.replace(/[^\p{L}]+/gu, "")}>
-                <Checkbox state={name} name={name} onChange={callback}>{title}</Checkbox>
+                <Checkbox checked={this.th?.state?.selected[name]} state={name} name={name} onChange={callback}>{title}</Checkbox>
             </div>
         )
     }
 
 
-    radioGenerator = (title, values, defaultValue, callback, name, secondValues, { filtername = false } = { }) => {
+    radioGenerator = (title, values, defaultValue, callback, name, secondValues, { filtername = false } = {}) => {
         if (!values) return null
+        let val = this.th?.state?.selected[name];
+        if (typeof val === 'boolean') {
+            val = val ? 1 : 0;
+        }
+        
         return (
             <div className={"subitem w-full"} validatename={name} displayname={title.replace(/[^\p{L}]+/gu, "")}>
                 <label>{title}</label> <br />
-                <Radio.Group onChange={callback} name={name} defaultValue={defaultValue} buttonStyle="solid">
+                <Radio.Group onChange={callback} value={val} name={name} defaultValue={defaultValue} buttonStyle="solid">
                     {!secondValues ?
                         values.map((w, i) => <Radio.Button key={new Date().getTime() + i} value={w.id}>{filtername ? w.filtername : w.name}</Radio.Button>) :
                         secondValues.map((w, i) => <Radio.Button key={new Date().getTime() + i} value={w.id}>{filtername ? w.filtername : w.name}</Radio.Button>)}
@@ -504,7 +517,7 @@ class Utilities {
 
     //Validation 
 
-    validation = (id) => {
+    validation = (id, photoLen) => {
         let inputs = document.querySelectorAll(`#${id} [validatename]`);
         let classes = ["border", "border-red"];
         let hasError = false
@@ -533,11 +546,11 @@ class Utilities {
             }
         }
 
-        if (this.th.state.selected.images == null || this.th.state.selected.images.length == 0) {
+        if ((this.th.state.selected.images == null || this.th.state.selected.images.length < photoLen) && this.th.state?.fileList.length < photoLen) {
             let ele = document.querySelector(`#${id} .ant-upload`)
             ele.classList.add(...classes);
             ele.onclick = (e) => { ele.classList.remove(...classes) }
-            let text = `Məlumat Doldurulmayıb: Şəkillər`
+            let text = `Məlumat Doldurulmayıb: Şəkillər (Min. ${photoLen})`
             this.showError(text)
             if (!hasError) { hasError = !hasError; }
         }
@@ -548,9 +561,8 @@ class Utilities {
 
     // Submit 
 
-    submitClick = (valid, link) => {
-
-        if (this.validation(valid)) {
+    submitClick = (valid, link, photoLen = 1) => {
+        if (this.validation(valid, photoLen)) {
             return false;
         }
 
@@ -591,9 +603,9 @@ class Utilities {
         const [{ isOver, dropClassName }, drop] = useDrop({
             accept: type,
             collect: monitor => {
-                const { index: dragIndex } = monitor.getItem() || { };
+                const { index: dragIndex } = monitor.getItem() || {};
                 if (dragIndex === index) {
-                    return { };
+                    return {};
                 }
                 return {
                     isOver: monitor.isOver(),
@@ -648,7 +660,7 @@ class Utilities {
 
     manager = createDndContext(HTML5Backend);
 
-    imageUploadGenerator = (fileList, previewVisible, previewTitle, previewImage, url, { undertext = null } = { }) => {
+    imageUploadGenerator = (fileList, previewVisible, previewTitle, previewImage, url, { undertext = null } = {}) => {
         return (
             <div className={"subitem"}>
                 <div className={'item'}><label>Şəkil Əlavə Et*:</label></div>
@@ -658,8 +670,13 @@ class Utilities {
                             action={url}
                             beforeUpload={
                                 (file, list) => {
+                                    if (file.size > 3145728) {
+                                        message.warning("Şəkil 3 MB`dan Az Olmalıdır")
+                                        return false;
+                                    }
                                     for (let index = 0; index < list.length; index++) {
                                         if (this.th.state.fileList.find(w => w.name == list[index].name)) {
+                                            this.showError("Eyni fayl birdən çox yüklənə bilməz.")
                                             return false;
                                         }
                                     }
@@ -718,7 +735,11 @@ class Utilities {
 
     handlePreview = async (file) => {
         if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
+            if (file?.thumbUrl) {
+                file.preview = file.thumbUrl
+            } else {
+                file.preview = await getBase64(file.originFileObj);
+            }
         }
         this.rotate(file.preview, file["rotation"]).then((base) => {
             this.th.setState({
@@ -732,11 +753,12 @@ class Utilities {
     };
 
     handleChange = async ({ fileList, file }) => {
-        if (file?.status == undefined && file != undefined) {
-            this.showError("Eyni fayl birdən çox yüklənə bilməz.")
-            return;
-        }
+        console.log(file)
         if (file?.error?.status == 415) {
+            this.th.setState({
+                ...this.th.state,
+                fileList: [...fileList].filter(w => w?.originFileObj != file.originFileObj),
+            })
             this.showError("Fayl Tipi Dəstəklənmir. PNG, JPG və ya JPEG tipli fayl yükləyin")
             return;
         }
@@ -751,13 +773,43 @@ class Utilities {
             selected:
             {
                 ...this.th.state.selected,
-                images: [...fileList].filter(w => w?.response).map(w => ({ filename: w.response.fileName, rotation: w["rotation"], }))
+                images: [...fileList].filter(w => w?.response && !w?.userImage).map(w => ({ filename: w.response.fileName, rotation: w["rotation"], }))
 
             }
         })
     };
 
-    handleRotation = (file, rotation) => {
+    handleRotation = async (file, rotation) => {
+        if (file?.userImage) {
+            try {
+                let req = await fetch(`${this.th.state.url}/rotate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    mode: 'cors',
+                    body: JSON.stringify({ id: file.id, adId: file.adId, rotate: rotation })
+                })
+
+                if (req.ok) {
+                    console.log(`Rotated`)
+                    //await this.handleChange({ fileList: this.th.state.fileList.filter(w => w !== file), file: file })
+                    message.success("Şəkil Döndərildi")
+                }
+            } catch (error) {
+                message.error("Xəta! Şəkil Döndörilə Bilmədi")
+            }
+
+            let img = document.querySelector(`img[src="${file.thumbUrl}"]`);
+            console.log(img.style.transform)
+            if(img.style.transform.includes('rotate')){
+                img.style.transform = `rotate(${parseInt(img.style.transform.replace(/\D/g, "")) + rotation}deg)`
+            }
+            else{
+                img.style.transform = `rotate(${rotation}deg)`
+            }
+            return
+        }
         let imageList = this.th.state.selected.images;
 
         let value = imageList.find(w => w.filename == file.response.fileName);
@@ -777,17 +829,49 @@ class Utilities {
     }
 
     handleRemove = async (file) => {
-        await this.handleChange({ fileList: this.th.state.fileList.filter(w => w !== file), file: file })
-        let req = await fetch(this.th.state.url, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            mode: 'cors',
-            body: JSON.stringify({ name: file.response.fileName })
-        })
+        if (file?.userImage != true) {
+            try {
+                let req = await fetch(this.th.state.url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    mode: 'cors',
+                    body: JSON.stringify({ name: file.response.fileName })
+                })
 
-        if (req.ok) console.log(`${file.response.fileName} Deleted`)
+                if (req.ok) {
+                    console.log(`Deleted`)
+                    await this.handleChange({ fileList: this.th.state.fileList.filter(w => w !== file), file: file })
+                    message.success("Şəkil Silindi")
+                }
+            } catch (error) {
+                message.error("Xəta! Şəkil Silinmədi")
+            }
+        } else if (file?.userImage) {
+            const ans = confirm("Şəkil Həmişəlik Silinmək Üzrədir. Silinsin?");
+            if (ans) {
+                try {
+                    let req = await fetch(`${this.th.state.url}/exist`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        mode: 'cors',
+                        body: JSON.stringify({ name: file.imagePath, adId: file.adId, id: file.id })
+                    })
+
+                    if (req.ok) {
+                        console.log(`Deleted`)
+                        await this.handleChange({ fileList: this.th.state.fileList.filter(w => w !== file), file: file })
+                        message.success("Şəkil Silindi")
+                    }
+                } catch (error) {
+                    console.log(error)
+                    message.error("Xəta! Şəkil Silinmədi")
+                }
+            }
+        }
     }
 
     rotate = (srcBase64, degrees) => new Promise((resolve, reject) => {
@@ -827,12 +911,11 @@ class Utilities {
                     <RegularMap
                         googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6Vz_IKnktPC_TLl9DAmm_BpxokzQ4fIQ"
                         loadingElement={<div style={loadingElementStyle} />}
-                        containerElement={<div className={`${callback == null? 'h-[75vh]' : 'h-[50vh]'} w-full`} />}
+                        containerElement={<div className={`${callback == null ? 'h-[75vh]' : 'h-[50vh]'} w-full`} />}
                         mapElement={<div className={'h-full'} />}
-                        info={{ lat: lat, lan: lan, callback: callback }}
+                        info={{ lat: (this.th?.state.selected?.lat ?? lat), lan: (this.th?.state.selected?.lng ?? lan), callback: callback }}
                     />
                 </div>
-
             </div>
         )
     }
@@ -844,7 +927,7 @@ export default Utilities;
 
 const defaultOptions = { scrollwheel: false };
 
-const RegularMap = withScriptjs(
+export const RegularMap = withScriptjs(
     withGoogleMap(props => (
         <GoogleMap
             defaultZoom={12}
@@ -862,3 +945,12 @@ const RegularMap = withScriptjs(
 const loadingElementStyle = { height: '100%' };
 const containerElementStyle = { height: '500px' };
 const mapElementStyle = { height: '100%' };
+
+
+export const phoneConverter = (a, c, i) => {
+    if (i == 0) a += '('
+    if (i == 2) return a + c + ') '
+    if (i == 5) return a + c + '-'
+    if (i == 7) return a + c + '-'
+    return a + c
+}

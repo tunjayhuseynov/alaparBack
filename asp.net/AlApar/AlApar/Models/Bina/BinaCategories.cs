@@ -9,7 +9,7 @@ namespace AlApar.Models.Bina
     {
         public BinaCategories()
         {
-            BinaAdsPersonal = new HashSet<BinaAdsPersonal>();
+            BinaAdsPersonal = new HashSet<BinaAds>();
         }
 
         public int Id { get; set; }
@@ -61,7 +61,7 @@ namespace AlApar.Models.Bina
         [Column("garaj")]
         public bool? Garaj { get; set; }
 
-        public virtual ICollection<BinaAdsPersonal> BinaAdsPersonal { get; set; }
+        public virtual ICollection<BinaAds> BinaAdsPersonal { get; set; }
         public virtual BinaRentalProps RentalPros { get; set; }
     }
 }

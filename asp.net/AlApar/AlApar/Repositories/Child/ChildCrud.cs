@@ -11,12 +11,12 @@ using static AlApar.Classes.Utility;
 
 namespace AlApar.Repositories.Child
 {
-    public class ChildCrud : Common<ViewChildAd, ChildContext, Form, ChildAd, ChildLog, ChildContact, ChildPhoto, ChildCategory>, IChildCrud
+    public class ChildCrud : Common<ViewChildAd, ChildContext, Form, ChildAd, ChildLog, ChildContact, ChildPhoto, ChildCategory, ChildStory>, IChildCrud
     {
         public override string TempFolder => "images/child/temporarily";
         public override string MainFolder => "images/child/personal";
 
-        public override Func<ChildContext, int?, int, int, IAsyncEnumerable<ViewChildAd>> FilterQuery => EF.CompileAsyncQuery((ChildContext db, int? id, int skip, int take) => db.ViewChildAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
+        public override Func<ChildContext, int?, int, int, IAsyncEnumerable<ViewChildAd>> FilterQuery => EF.CompileAsyncQuery((ChildContext db, int? id, int skip, int take) => db.ViewChildAds.Include(w => w.Images).AsNoTracking().AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
 
         public override async Task<object> getForm(ChildContext db)
         {

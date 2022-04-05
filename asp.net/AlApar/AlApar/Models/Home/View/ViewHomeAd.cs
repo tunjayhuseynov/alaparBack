@@ -1,4 +1,5 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.View;
 using System;
 using System.Collections.Generic;
 
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 
 namespace AlApar.Models.Home.View
 {
-    public partial class ViewHomeAd : TView<HomePhoto>
+    public partial class ViewHomeAd : CommonViewProperities, TView<HomePhoto>
     {
         public ViewHomeAd()
         {
@@ -25,16 +26,13 @@ namespace AlApar.Models.Home.View
         public bool? IsWp { get; set; }
         public string Email { get; set; }
         public string ContactName { get; set; }
-        public DateTime? ModifiedDate { get; set; }
         public string StatusName { get; set; }
         public string CityName { get; set; }
         public string CurrencyName { get; set; }
         public string PackageName { get; set; }
         public string TypeName { get; set; }
         public int? CategoryId { get; set; }
-        public int? LogId { get; set; }
         public int? StatusId { get; set; }
-        public int? PackageId { get; set; }
         public int? CurrencyId { get; set; }
         public int? CityId { get; set; }
         public int? ContactId { get; set; }

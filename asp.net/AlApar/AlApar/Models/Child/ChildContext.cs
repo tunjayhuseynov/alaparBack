@@ -36,6 +36,7 @@ namespace AlApar.Models.Child
         public virtual DbSet<AdStatuses> AdStatuses { get; set; }
         public virtual DbSet<AdPackages> AdPackages { get; set; }
         public virtual DbSet<LastSharedTimes> LastSharedTimes { get; set; }
+        public virtual DbSet<ChildStory> ChildStories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -325,9 +326,9 @@ namespace AlApar.Models.Child
 
                 entity.Property(e => e.ModifiedDate).HasColumnName("modifiedDate");
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.PackageName)
                     .HasMaxLength(255)
-                    .HasColumnName("name");
+                    .HasColumnName("packageName");
 
                 entity.Property(e => e.Price).HasColumnName("price");
 

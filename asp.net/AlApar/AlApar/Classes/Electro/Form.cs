@@ -82,12 +82,12 @@ namespace AlApar.Classes.Electro
         //Filter
 
         [JsonProperty("minPrice")]
-        [FilterCheck(TypeEnum.Min, "Price")]
+        [FilterCheck(Repositories.Status.Type.Min, "Price")]
         [CurrencyConverter("CurrencyId", "CurrencyId")]
         public int? MinPrice { get; set; }
 
         [JsonProperty("maxPrice")]
-        [FilterCheck(TypeEnum.Max, "Price")]
+        [FilterCheck(Repositories.Status.Type.Max, "Price")]
         [CurrencyConverter("CurrencyId", "CurrencyId")]
         public int? MaxPrice { get; set; }
 
@@ -96,23 +96,23 @@ namespace AlApar.Classes.Electro
 
 
         [JsonProperty("typeList")]
-        [FilterCheck(TypeEnum.Multiple, "TypeId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "TypeId")]
         public List<int> TypeList { get; set; }
 
         [JsonProperty("computerMarkList")]
-        [FilterCheck(TypeEnum.Multiple, "ComputerMarkId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "ComputerMarkId")]
         public List<int> ComputerMarkList { get; set; }
 
         [JsonProperty("operatorList")]
-        [FilterCheck(TypeEnum.Multiple, "OperatorId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "OperatorId")]
         public List<int> OperatorList { get; set; }
 
         [JsonProperty("colorList")]
-        [FilterCheck(TypeEnum.Multiple, "ColorId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "ColorId")]
         public List<int> ColorList { get; set; }
 
         [JsonProperty("storageList")]
-        [FilterCheck(TypeEnum.Multiple, "StorageId")]
+        [FilterCheck(Repositories.Status.Type.Multiple, "StorageId")]
         public List<int> StorageList { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.CommonModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,19 +8,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlApar.Models.Private
 {
-    public partial class PrivateAd
+    public partial class PrivateAd : CommonAds
     {
         public PrivateAd()
         {
             PrivatePhotos = new HashSet<PrivatePhoto>();
+            PrivateStories = new HashSet<PrivateStory>();
         }
 
-        public long Id { get; set; }
-        public string PrivateId { get; set; }
-        public int? Viewed { get; set; }
-        public int? LogId { get; set; }
-        public int? StatusId { get; set; }
-        public int? PackageId { get; set; }
         public int? CategoryId { get; set; }
         public int? ClothesGenderId { get; set; }
         public int? ClothesTypeId { get; set; }
@@ -27,11 +23,11 @@ namespace AlApar.Models.Private
         public bool? IsNew { get; set; }
         public bool? HasDelivery { get; set; }
         public string Title { get; set; }
-        public int? ContactId { get; set; }
         public int? CityId { get; set; }
         public double? Price { get; set; }
         public int? CurrencyId { get; set; }
         public string About { get; set; }
+
 
         [Column("colorId")]
         public int? ColorId { get; set; }
@@ -60,5 +56,8 @@ namespace AlApar.Models.Private
         public virtual AdPackages Package { get; set; }
         public virtual AdStatuses Status { get; set; }
         public virtual ICollection<PrivatePhoto> PrivatePhotos { get; set; }
+
+        [InverseProperty("Ad")]
+        public virtual ICollection<PrivateStory> PrivateStories { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.CommonModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,18 +8,13 @@ using System.Threading.Tasks;
 
 namespace AlApar.Models.Electro
 {
-    public class ElectroAds
+    public class ElectroAds : CommonAds
     {
         public ElectroAds()
         {
             Photos = new HashSet<ElectroPhotos>();
+            ElectroStories = new HashSet<ElectroStory>();
         }
-        public long Id { get; set; }
-        public string PrivateId { get; set; }
-        public int? LogId { get; set; }
-        public int? StatusId { get; set; }
-        public int? PackageId { get; set; }
-        public int? Viewed { get; set; }
         public int? CateogryId { get; set; }
         public int? TypeId { get; set; }
         public string Title { get; set; }
@@ -26,7 +22,6 @@ namespace AlApar.Models.Electro
         public bool? HasDelivery { get; set; }
         public double? Price { get; set; }
         public int? CurrencyId { get; set; }
-        public int? ContactId { get; set; }
         public string About { get; set; }
         public int? OperatorId { get; set; }
         public string OperatorPhoneNumber { get; set; }
@@ -35,6 +30,7 @@ namespace AlApar.Models.Electro
         public int? ComputerMarkId { get; set; }
         public int? ColorId { get; set; }
         public int? StorageId { get; set; }
+
 
         [Column("guarantee")]
         public bool? Guarantee { get; set; }
@@ -63,5 +59,8 @@ namespace AlApar.Models.Electro
         public virtual Cities City { get; set; }
 
         public virtual ICollection<ElectroPhotos> Photos { get; set; }
+
+        [InverseProperty("Ad")]
+        public virtual ICollection<ElectroStory> ElectroStories { get; set; }
     }
 }

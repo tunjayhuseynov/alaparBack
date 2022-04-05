@@ -42,8 +42,9 @@ class Callbacks {
         this.autoSellTypeCallback = this.autoSellTypeCallback.bind(th) // 25 
         this.multipleCallback = this.multipleCallback.bind(th) // 26 
         this.jobCityCallback = this.jobCityCallback.bind(th) // 27 
+        this.autoTypeCallback = this.autoTypeCallback.bind(th) // 28 
+        this.genderCallback = this.genderCallback.bind(th) // 29 
     }
-
 
     //Job
     jobCityCallback = function (this: React.Component<{}, Job>, value) {
@@ -58,6 +59,18 @@ class Callbacks {
             },
             regionList: regions || null,
             villageList: null,
+        })
+    }
+
+    //Job
+    genderCallback = function (this: React.Component<{}, Job>, value) {
+        console.log(value)
+        this.setState({
+            ...this.state,
+            selected: {
+                ...this.state.selected,
+                gender: value.target.value != 2 ? value.target.value ? 1 : 0 : null
+            }
         })
     }
 
@@ -167,8 +180,42 @@ class Callbacks {
         })
     }
 
+    //AUTO
+    autoTypeCallback = function (this: React.Component<{}, Auto>, value) {
+        const type = this.state.typeList.find(w => w.id == value)
+        console.log(type)
+        this.setState({
+            ...this.state,
+            markList: type.marks,
+            modelList: null,
+            selected: {
+                ...this.state.selected,
+                type: value,
+                mark: null,
+                model: null,
+                modelList: [],
+                banList: [],
+                fuelList: [],
+                transmissionBoxList: [],
+                colorList: [],
+                capacityList: [],
+            },
+            markTitle: type.label,
+            banType: type.banType,
+            mileage: type.mileage,
+            fuel: type.fuel,
+            transmissionBox: type.transmissionBox,
+            transmitter: type.transmitter,
+            power: type.power,
+            title: type.title,
+            capacity: type.capacity,
+            checkboxes: type.checkboxes
+        })
+    }
+
     // Auto
     autoMarkCallback = function (this: React.Component<{}, Auto>, value) {
+        const mark = this.state.markList.find(w => w.id == value);
         this.setState({
             ...this.state,
             selected: {
@@ -182,7 +229,8 @@ class Callbacks {
                 colorList: [],
                 capacityList: [],
             },
-            modelList: this.state.markList.find(w => w.id == value).models,
+
+            modelList: mark.models,
             modelSubList: utility.convertCategory2Sub(this.state.markList.find(w => w.id == value).models, "title")
         })
     }
@@ -390,15 +438,24 @@ class Callbacks {
 
     isMetroCallback = function (this: React.Component<{}, Bina>, value) {
         let city = this.state.cityList.find(w => w.id == this.state.selected.city) || false;
+
         if (!value.target.checked && city) {
             this.setState({
                 ...this.state,
-                metroList: city.metros
+                metroList: city.metros,
+                selected: {
+                    ...this.state.selected,
+                    nometro: value.target.checked
+                }
             })
         } else {
             this.setState({
                 ...this.state,
-                metroList: null
+                metroList: null,
+                selected: {
+                    ...this.state.selected,
+                    nometro: value.target.checked
+                }
             })
         }
     }
@@ -448,8 +505,8 @@ class Callbacks {
     }
 
     numberCallback = function (value) {
-        const val = +value.target.defaultValue.replace(/[^\-\d]/g, '').slice(0, 14) ?? +value.target.value.replace(/[^\-\d]/g, '').slice(0, 14) ?? null;
-        if (val == null || (value.target.defaultValue ?? value.target.value) == "") {
+        const val = +value.target?.defaultValue.replace(/[^\-\d]/g, '').slice(0, 14) ?? +value.target?.value.replace(/[^\-\d]/g, '').slice(0, 14) ?? null;
+        if (val == null || (value.target?.defaultValue ?? value.target?.value) == "") {
             this.setState({
                 selected: {
                     ...this.state.selected,

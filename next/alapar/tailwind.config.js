@@ -75,7 +75,7 @@ module.exports = {
         '50px': '3.125rem',
         '100px': '6.25rem',
         '126px': '126px',
-        '220px':'13.75rem',
+        '220px': '13.75rem',
         '250px': '15.625rem',
         '350px': '21.875rem',
         '500px': '31.25rem',
@@ -137,7 +137,8 @@ module.exports = {
         'full': '100%',
       },
       boxShadow: {
-        custom: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px"
+        custom: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+        customSec: "0px 2px 7px 0px #dad8d8"
       },
       flexGrow: {
         '1': '1',
@@ -145,16 +146,22 @@ module.exports = {
       },
       colors: {
         transparent: "transparent",
-        skyblue: "#92fff4",//"#DEFCF9",
-        blue: "#a3c8ff",//"#CADEFC",
+        skyblue: "#6fbfb7",//"#DEFCF9",
+        blue: "#7a96bf",//"#CADEFC",
         darkblue: "#145BC7",
         purple: "#C3BEF0",
-        pink: "#CCA8E9",
+        pink: "#9a7fb0",
         white: "#FFFFFF",
         black: "#000000",
-        red: "#FF390F",
-        blackred: "#db0000"
+        blackred: "#db0000",
+        primary: "#e77328",
+        secondary: "#333f48",
       },
     },
   },
+  variants: {
+    extend: {
+      backgroundColor: ['first'],
+    }
+  }
 }

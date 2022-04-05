@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace AlApar.Repositories.Animal
 {
-    public class AnimalCrud : Common<ViewAnimalAd, AnimalContext, Form, AnimalAd, AnimalLog, AnimalContact, AnimalPhoto, AnimalCategory>, IAnimalCrud
+    public class AnimalCrud : Common<ViewAnimalAd, AnimalContext, Form, AnimalAd, AnimalLog, AnimalContact, AnimalPhoto, AnimalCategory, AnimalStory>, IAnimalCrud
     {
         public override string TempFolder => "images/animal/temporarily";
         public override string MainFolder => "images/animal/personal";
 
-        public override Func<AnimalContext, int?, int, int, IAsyncEnumerable<ViewAnimalAd>> FilterQuery => EF.CompileAsyncQuery((AnimalContext db, int? id, int skip, int take) => db.ViewAnimalAds.Include(w => w.Images).AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
+        public override Func<AnimalContext, int?, int, int, IAsyncEnumerable<ViewAnimalAd>> FilterQuery => EF.CompileAsyncQuery((AnimalContext db, int? id, int skip, int take) => db.ViewAnimalAds.Include(w => w.Images).AsNoTracking().AsNoTracking().Where(w => w.CategoryId == id).OrderBy(w => w.ModifiedDate).Skip(skip));
 
         public override async Task<object> getForm(AnimalContext db)
         {

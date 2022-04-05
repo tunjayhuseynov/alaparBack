@@ -1,4 +1,5 @@
-﻿using AlApar.Models.Home.View;
+﻿using AlApar.Models.CommonModel;
+using AlApar.Models.Home.View;
 using System;
 using System.Collections.Generic;
 
@@ -6,14 +7,8 @@ using System.Collections.Generic;
 
 namespace AlApar.Models.Home
 {
-    public partial class HomePhoto
+    public partial class HomePhoto : CommonImages
     {
-        public int Id { get; set; }
-        public string ImagePath { get; set; }
-        public long? AdId { get; set; }
-        public int? PrimaryImage { get; set; }
-        public string Thumbnail { get; set; }
-        public string Blur { get; set; }
 
         public virtual HomeAd Ad { get; set; }
         public virtual ViewHomeAd ViewHomeAd { get; set; }

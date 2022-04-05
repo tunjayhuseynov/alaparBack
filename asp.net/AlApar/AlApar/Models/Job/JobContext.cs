@@ -35,7 +35,9 @@ namespace AlApar.Models.Job
         public virtual DbSet<Villages> Villages { get; set; }
         public virtual DbSet<Currency> Currency { get; set; }
         public virtual DbSet<AdStatuses> AdStatuses { get; set; } 
-        public virtual DbSet<AdPackages> AdPackages { get; set; } 
+        public virtual DbSet<AdPackages> AdPackages { get; set; }
+
+        public virtual DbSet<JobStory> JobStories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

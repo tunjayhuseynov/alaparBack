@@ -32,6 +32,7 @@ namespace AlApar.Models.Service
         public virtual DbSet<AdPackages> AdPackages { get; set; }
         public virtual DbSet<LastSharedTimes> LastSharedTimes { get; set; }
 
+        public virtual DbSet<ServiceStory> ServiceStories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -275,9 +276,9 @@ namespace AlApar.Models.Service
 
                 entity.Property(e => e.ModifiedDate).HasColumnName("modifiedDate");
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.ServiceTypeName)
                     .HasMaxLength(50)
-                    .HasColumnName("name");
+                    .HasColumnName("serviceTypeName");
 
                 entity.Property(e => e.PackageName)
                     .HasMaxLength(255)

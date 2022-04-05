@@ -1,4 +1,5 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,16 +8,13 @@ using System.Threading.Tasks;
 
 namespace AlApar.Models.Bina.Views
 {
-    public class ViewBinaPersonalGeneral : TView<BinaPersonalPhotos>
+    public class ViewBinaPersonalGeneral : CommonViewProperities, TView<BinaPhotos>
     {
         public long Id { get; set; }
-        public DateTime? ModifiedDate { get; set; }
         public int? Viewed { get; set; }
         public int? StatusId { get; set; } //Manual
-        public int? PackageId { get; set; } //Manual
         public int? CategoryId { get; set; }
         public int? CityId { get; set; }
-        public int? LogId { get; set; }
         public int? ContactId { get; set; }
         public int? RegionId { get; set; }
         public int? VillageId { get; set; }
@@ -119,7 +117,6 @@ namespace AlApar.Models.Bina.Views
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }
         
-
-        public virtual ICollection<BinaPersonalPhotos> Images { get; set; }
+        public virtual ICollection<BinaPhotos> Images { get; set; }
     }
 }

@@ -32,6 +32,8 @@ namespace AlApar.Models.Hobby
         public virtual DbSet<ViewHobbyAd> ViewHobbyAds { get; set; }
         public virtual DbSet<LastSharedTimes> LastSharedTimes { get; set; }
 
+        public virtual DbSet<HobbyStory> HobbyStories { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

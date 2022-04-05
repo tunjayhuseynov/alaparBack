@@ -1,4 +1,5 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,13 +8,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlApar.Models.Child.Views
 {
-    public partial class ViewChildAd : TView<ChildPhoto>
+    public partial class ViewChildAd : CommonViewProperities, TView<ChildPhoto>
     {
         public long Id { get; set; }
-        public string Name { get; set; }
+        public string PackageName { get; set; }
         public string StatusName { get; set; }
         public string CategoryName { get; set; }
-
+            
         [Column("colorId")]
         public int? ColorId { get; set; }
         
@@ -27,13 +28,13 @@ namespace AlApar.Models.Child.Views
         public string ShoesSizeName { get; set; }
         
         [Column("clothesSizeId")]
-        public string ClothesSizeId { get; set; }
+        public int? ClothesSizeId { get; set; }
         
         [Column("clothesSizeName")]
         public string ClothesSizeName { get; set; }
 
-        [Column("city")]
-        public string City { get; set; }
+        [Column("cityName")]
+        public string CityName { get; set; }
 
 
 
@@ -41,7 +42,6 @@ namespace AlApar.Models.Child.Views
         public int? Viewed { get; set; }
         public int? CategoryId { get; set; }
         public string CurrencyName { get; set; }
-        public DateTime? ModifiedDate { get; set; }
         public string TypeName { get; set; }
         public string ClothesTypeName { get; set; }
         public string ContactName { get; set; }
@@ -56,9 +56,7 @@ namespace AlApar.Models.Child.Views
         public bool? HasDelivery { get; set; }
         public bool? IsNew { get; set; }
 
-        public int? LogId { get; set; }
         public int? StatusId { get; set; }
-        public int? PackageId { get; set; }
         public int? CurrencyId { get; set; }
         public int? CityId { get; set; }
         public int? ContactId { get; set; }

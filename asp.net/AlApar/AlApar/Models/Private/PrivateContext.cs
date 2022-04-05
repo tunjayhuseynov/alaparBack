@@ -38,6 +38,8 @@ namespace AlApar.Models.Private
         public virtual DbSet<AdPackages> AdPackages { get; set; }
         public virtual DbSet<LastSharedTimes> LastSharedTimes { get; set; }
 
+        public virtual DbSet<PrivateStory> PrivateStories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
@@ -329,9 +331,9 @@ namespace AlApar.Models.Private
                 entity.Property(e => e.ClothesTypeId).HasColumnName("clothesTypeId");
                 entity.Property(e => e.CurrencyId).HasColumnName("currencyId");
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.PackageName)
                     .HasMaxLength(255)
-                    .HasColumnName("name");
+                    .HasColumnName("packageName");
 
                 entity.Property(e => e.Price).HasColumnName("price");
 

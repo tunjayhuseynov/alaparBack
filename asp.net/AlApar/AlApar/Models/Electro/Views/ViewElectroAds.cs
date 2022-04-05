@@ -1,4 +1,5 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,11 +8,10 @@ using System.Threading.Tasks;
 
 namespace AlApar.Models.Electro.Views
 {
-    public class ViewElectroAds : TView<ElectroPhotos>
+    public class ViewElectroAds : CommonViewProperities, TView<ElectroPhotos>
     {
         public long Id { get; set; }
         public int? StatusId { get; set; }
-        public int? PackageId { get; set; }
         public int? Viewed { get; set; }
         public int? CategoryId { get; set; }
         public int? ContactId { get; set; }
@@ -30,7 +30,6 @@ namespace AlApar.Models.Electro.Views
         public int? ComputerMarkId { get; set; }
         public int? ColorId { get; set; }
         public int? StorageId { get; set; }
-        public DateTime? ModifiedDate { get; set; }
 
         [Column("guarantee")]
         public bool? Guarantee { get; set; }
@@ -46,14 +45,14 @@ namespace AlApar.Models.Electro.Views
         public string PhoneStorage { get; set; }
         public string PhoneType { get; set; }
         public string Currency { get; set; }
-        public string City { get; set; }
+        public string CityName { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public bool? IsWp { get; set; }
         public bool? IsCall { get; set; }
-        public int? LogId { get; set; }
 
+        public int? CityId { get; set; }
         public virtual ICollection<ElectroPhotos> Images { get; set; }
     }
 }

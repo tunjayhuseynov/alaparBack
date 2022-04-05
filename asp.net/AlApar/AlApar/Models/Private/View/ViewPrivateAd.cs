@@ -1,4 +1,5 @@
 ﻿using AlApar.Classes;
+using AlApar.Models.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,16 +8,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AlApar.Models.Private.View
 {
-    public partial class ViewPrivateAd : TView<PrivatePhoto>
+    public partial class ViewPrivateAd : CommonViewProperities, TView<PrivatePhoto>
     {
         public long Id { get; set; }
-        public string Name { get; set; }
+        public string PackageName { get; set; }
         public string StatusName { get; set; }
         public string CategoryName { get; set; }
         public int? Viewed { get; set; }
         public int? CategoryId { get; set; }
         public string CurrencyName { get; set; }
-        public DateTime? ModifiedDate { get; set; }
         public string TypeName { get; set; }
         public string ClothesTypeName { get; set; }
         public string ContactName { get; set; }
@@ -39,8 +39,8 @@ namespace AlApar.Models.Private.View
         public string ShoesSizeName { get; set; }
 
         [Column("clothesSizeId")]
-        public string ClothesSizeId { get; set; }
-
+        public int? ClothesSizeId { get; set; }
+         
         [Column("clothesSizeName")]
         public string ClothesSizeName { get; set; }
 
@@ -51,9 +51,7 @@ namespace AlApar.Models.Private.View
         public bool? HasDelivery { get; set; }
         public bool? IsNew { get; set; }
 
-        public int? LogId { get; set; }
         public int? StatusId { get; set; }
-        public int? PackageId { get; set; }
         public int? CurrencyId { get; set; }
         public int? CityId { get; set; }
         public int? ContactId { get; set; }
@@ -62,6 +60,5 @@ namespace AlApar.Models.Private.View
         public int? ClothesGenderId { get; set; }
 
         public virtual ICollection<PrivatePhoto> Images { get; set; }
-
     }
 }

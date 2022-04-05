@@ -1,14 +1,8 @@
-import { ImageView } from "@/Constructions/objects";
+import { CommonView } from "@/Constructions/view";
 
-export interface Bina_View {
-    id: number,
-    modifiedDate: string,
-    viewed: number,
-    statusId: number,
-    packageId: number,
+export interface Bina_View extends CommonView{
     categoryId: number,
     cityId: number,
-    logId: number,
     contactId: number,
     regionId: number,
     villageId: number,
@@ -34,14 +28,12 @@ export interface Bina_View {
     propertySellingName: string,
     contractName: string,
     categoryName: string,
-    packageName: string,
     cityName: string,
     regionName: string,
     villageName: string,
     metroName: string,
     sellTypeName: string,
     currencyName: string,
-    statusName: string,
     metroWayName: string,
     contactNumber: string,
     areaUnit: string,
@@ -83,6 +75,7 @@ export interface Bina_View {
     nearBusstop: boolean,
     longitude: number,
     latitude: number,
+    discount: number,
 
     withstuffs: boolean,
     madeinHouse: boolean,
@@ -92,8 +85,9 @@ export interface Bina_View {
     pvcWindow: boolean,
     combi: boolean,
     garaj: boolean,
-    
-    images: Array<ImageView>
+
+    userId: number,
+
 }
 
 export const Bina_View_Data = (ad: Bina_View) => {
@@ -177,6 +171,10 @@ export const Bina_View_Data = (ad: Bina_View) => {
             },
         },
         nameList: {
+            discount: {
+                value: ad.discount,
+                name: "Endirim"
+            },
             modifiedDate: {
                 value: ad.modifiedDate,
                 name: "Yenilənmə Tarixi"

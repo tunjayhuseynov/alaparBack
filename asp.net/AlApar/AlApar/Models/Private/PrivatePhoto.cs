@@ -1,4 +1,5 @@
-﻿using AlApar.Models.Private.View;
+﻿using AlApar.Models.CommonModel;
+using AlApar.Models.Private.View;
 using System;
 using System.Collections.Generic;
 
@@ -6,14 +7,8 @@ using System.Collections.Generic;
 
 namespace AlApar.Models.Private
 {
-    public partial class PrivatePhoto
+    public partial class PrivatePhoto : CommonImages
     {
-        public int Id { get; set; }
-        public string ImagePath { get; set; }
-        public long? AdId { get; set; }
-        public int? PrimaryImage { get; set; }
-        public string Thumbnail { get; set; }
-        public string Blur { get; set; }
 
         public virtual PrivateAd Ad { get; set; }
         public virtual ViewPrivateAd ViewPrivateAd { get; set; }
